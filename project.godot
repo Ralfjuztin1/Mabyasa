@@ -13,8 +13,14 @@ config_version=5
 config/name="MABYASA"
 config/features=PackedStringArray("4.7", "Mobile")
 
+[autoload]
+
+SupabaseManager="*uid://bgsvuf0ko0l67"
+
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

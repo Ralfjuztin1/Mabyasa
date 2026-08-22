@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bgsvuf0ko0l67"]
+
+[ext_resource type="Script" uid="uid://bbq3sjiw34x48" path="res://Scripts/Network/SupabaseManager.gd" id="1_hvoth"]
+
+[node name="SupabaseManager" type="Node" unique_id=2047861871]
+script = ExtResource("1_hvoth")
+
+[node name="SupabaseRequest" type="HTTPRequest" parent="." unique_id=1711441816]
+
+[node name="AuthRequest" type="HTTPRequest" parent="." unique_id=1730549251]

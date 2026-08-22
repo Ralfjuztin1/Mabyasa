@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://c27kaowi6h0gw"]
+
+[ext_resource type="Script" uid="uid://bki0w5bsr630i" path="res://Scenes/UI/MainMenu.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_WoodPanel"]
+bg_color = Color(0.24, 0.14, 0.08, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.1, 0.05, 0.02, 1)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Input"]
+bg_color = Color(0.12, 0.07, 0.04, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.18, 0.1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
+bg_color = Color(0.42, 0.24, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18, 0.09, 0.04, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
+bg_color = Color(0.28, 0.15, 0.07, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.05, 0.02, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
+bg_color = Color(0.55, 0.32, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.92, 0.72, 0.25, 1)
+
+[node name="MainMenu" type="Control" unique_id=1531872894]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="." unique_id=855736341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.093417816, 0.020966468, 0.013022674, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=608311785]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=221249326]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_WoodPanel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=200347423]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=78020409]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderTitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1870410298]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.35, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.02, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+text = "❖ LOGIN ❖"
+horizontal_alignment = 1
+
+[node name="LoginBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=713190584]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LoginEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=321165319]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+placeholder_text = "Email Address"
+
+[node name="LoginPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1205203109]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+placeholder_text = "Password"
+secret = true
+
+[node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1025739782]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+text = "Login"
+
+[node name="SwitchToRegister" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=88481749]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.6, 0.45, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.78, 0.35, 1)
+text = "New Adventurer? Register"
+flat = true
+
+[node name="RegisterBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1159984278]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RegUsername" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1257502311]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+placeholder_text = "Adventurer Name"
+
+[node name="RegEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=722484509]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+placeholder_text = "Email Address"
+
+[node name="RegPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1327827692]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+placeholder_text = "Password (Min 6 chars)"
+secret = true
+
+[node name="RegisterButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1148927108]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+text = "Register"
+
+[node name="SwitchToLogin" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1790851975]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.6, 0.45, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.78, 0.35, 1)
+text = "Back to Login"
+flat = true
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=2143531663]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
