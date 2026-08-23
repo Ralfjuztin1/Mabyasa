@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MarchingSquaresTool" format=3 uid="uid://c3rtgj17vcsk6"]
+
+[ext_resource type="Script" uid="uid://b6jopat61dbd3" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool_attribute_settings.gd" id="1_5nwur"]
+[ext_resource type="Texture2D" uid="uid://cbfssdnyx4epd" path="res://addons/MarchingSquaresTerrain/editor/icons/grass_mask_tool.svg" id="1_74wds"]
+[ext_resource type="Script" uid="uid://brkjbcthwswel" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool.gd" id="1_m4ay5"]
+
+[sub_resource type="Resource" id="Resource_w0hx0"]
+script = ExtResource("1_5nwur")
+brush_type = true
+size = true
+mask_mode = true
+metadata/_custom_type_script = "uid://b6jopat61dbd3"
+
+[resource]
+script = ExtResource("1_m4ay5")
+icon = ExtResource("1_74wds")
+label = "Grass Mask"
+tooltip = "Grass Mask Tool
+
+Used to control where grass gets placed."
+attributes = SubResource("Resource_w0hx0")
+metadata/_custom_type_script = "uid://brkjbcthwswel"

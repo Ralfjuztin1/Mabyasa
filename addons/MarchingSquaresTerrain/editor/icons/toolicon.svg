@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="13.975465"
+   height="14.02459"
+   viewBox="0 0 3.697675 3.7106726"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect33">
+      <path
+         id="mask-powermask-path-effect33_box"
+         style="fill:#ffffff;fill-opacity:1"
+         d="m -5.6475338,-4.1996491 h 4.210943 v 4.21094323 h -4.210943 z" />
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.10547;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+         id="path33"
+         d="M 2.2094716,4.5865389 3.1537986,3.6422118 4.4437735,3.9878595 4.7894212,5.2778343 3.8450941,6.2221614 2.5551193,5.8765138 Z"
+         transform="matrix(-0.54628307,0.31340822,-0.31340818,-0.54628305,-0.52548474,-0.93760055)" />
+    </mask>
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect34">
+      <path
+         id="mask-powermask-path-effect34_box"
+         style="fill:#ffffff;fill-opacity:1"
+         d="m -5.1621732,-0.47809505 h 7.694465 V 2.5387732 h -7.694465 z" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.10548;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+         id="rect34"
+         width="1.4368916"
+         height="0.95017421"
+         x="-4.2700572"
+         y="-2.5842154"
+         transform="rotate(-45)"
+         d="m -4.2700572,-2.5842154 h 1.4368916 v 0.9501742 h -1.4368916 z" />
+    </mask>
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect34-2">
+      <path
+         id="mask-powermask-path-effect34-2_box"
+         style="fill:#ffffff;fill-opacity:1"
+         d="m -5.1621732,-0.47809505 h 7.694465 V 2.5387732 h -7.694465 z" />
+      <path
+         id="path34"
+         style="fill:#ffffff;fill-opacity:1"
+         d="m -5.1621732,-0.47809505 h 7.694465 V 2.5387732 h -7.694465 z" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.10548;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+         id="rect35"
+         width="1.4368916"
+         height="0.95017421"
+         x="-4.2700572"
+         y="-2.5842154"
+         transform="rotate(-45)"
+         d="m -4.2700572,-2.5842154 h 1.4368916 v 0.9501742 h -1.4368916 z" />
+    </mask>
+  </defs>
+  <g
+     id="layer1"
+     transform="matrix(-0.67471754,0.24557707,-0.2455771,-0.67471747,3.3370194,2.2974099)"
+     style="fill:#f9f9f9;stroke:none;stroke-opacity:1">
+    <path
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#ffffff;stroke-width:1.01137;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+       id="rect28"
+       width="4.683095"
+       height="0.0054983399"
+       x="-3.6564882"
+       y="1.0275899"
+       transform="matrix(-0.20745516,-0.44797412,0.44687209,-0.20981848,0.1026608,-1.0237089)"
+       mask="url(#mask-powermask-path-effect34)"
+       d="m -3.6564882,1.0275899 h 4.683095 v 0.0055 h -4.683095 z" />
+    <path
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#ffffff;stroke-width:1.01137;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+       id="rect28-8"
+       width="4.683095"
+       height="0.0054983399"
+       x="-3.6564882"
+       y="1.0275899"
+       transform="matrix(-0.20745516,-0.44797412,0.44687209,-0.20981848,1.0373151,0.99207487)"
+       mask="url(#mask-powermask-path-effect34-2)"
+       d="m -3.6564882,1.0275899 h 4.683095 v 0.0055 h -4.683095 z" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.96188;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:7.1298;stroke-opacity:1;paint-order:normal"
+       id="path28"
+       transform="rotate(-160)"
+       mask="url(#mask-powermask-path-effect33)"
+       d="m -2.4365908,-2.0941775 a 1.1054715,1.1054716 0 0 1 -1.1054715,1.10547163 1.1054715,1.1054716 0 0 1 -1.1054715,-1.10547163 1.1054715,1.1054716 0 0 1 1.1054715,-1.1054716 1.1054715,1.1054716 0 0 1 1.1054715,1.1054716 z" />
+  </g>
+</svg>

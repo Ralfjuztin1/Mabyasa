@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MarchingSquaresTool" format=3 uid="uid://s20yvwyymlxn"]
+
+[ext_resource type="Script" uid="uid://b6jopat61dbd3" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool_attribute_settings.gd" id="1_io60i"]
+[ext_resource type="Texture2D" uid="uid://dwrp76jdust7l" path="res://addons/MarchingSquaresTerrain/editor/icons/level_tool.svg" id="1_q142h"]
+[ext_resource type="Script" uid="uid://brkjbcthwswel" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool.gd" id="1_qrcvc"]
+
+[sub_resource type="Resource" id="Resource_5ton1"]
+script = ExtResource("1_io60i")
+brush_type = true
+size = true
+height = true
+falloff = true
+quick_paint_selection = true
+metadata/_custom_type_script = "uid://b6jopat61dbd3"
+
+[resource]
+script = ExtResource("1_qrcvc")
+icon = ExtResource("1_q142h")
+label = "Level"
+tooltip = "Level Tool
+
+Used to level terrain to a certain height.
+
+[SHORTCUTS]
+• Ctrl+LMB: Set the terrain level height to the hovered cell's Y value."
+attributes = SubResource("Resource_5ton1")
+metadata/_custom_type_script = "uid://brkjbcthwswel"

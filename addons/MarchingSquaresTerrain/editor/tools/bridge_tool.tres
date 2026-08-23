@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MarchingSquaresTool" format=3 uid="uid://b0bj3ba8e7y17"]
+
+[ext_resource type="Script" uid="uid://b6jopat61dbd3" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool_attribute_settings.gd" id="1_nb1fd"]
+[ext_resource type="Texture2D" uid="uid://bj357vtgiklw" path="res://addons/MarchingSquaresTerrain/editor/icons/bridge_tool.svg" id="1_xvlk8"]
+[ext_resource type="Script" uid="uid://brkjbcthwswel" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool.gd" id="1_xy6if"]
+
+[sub_resource type="Resource" id="Resource_l6yvy"]
+script = ExtResource("1_nb1fd")
+brush_type = true
+size = true
+ease_value = true
+quick_paint_selection = true
+metadata/_custom_type_script = "uid://b6jopat61dbd3"
+
+[resource]
+script = ExtResource("1_xy6if")
+icon = ExtResource("1_xvlk8")
+label = "Bridge"
+tooltip = "Bridge Tool
+
+Used to create a bridge between two points.
+
+[INFO]
+The bridge curve falloff can be set via the \"ease value\" attribute. 
+For reference see the ease value cheatsheet in the documentation+ folder."
+attributes = SubResource("Resource_l6yvy")
+metadata/_custom_type_script = "uid://brkjbcthwswel"

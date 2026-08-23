@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="MarchingSquaresTool" format=3 uid="uid://bhf01bmk6l3gv"]
+
+[ext_resource type="Script" uid="uid://brkjbcthwswel" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool.gd" id="1_7okwl"]
+[ext_resource type="Script" uid="uid://b6jopat61dbd3" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_tool_attribute_settings.gd" id="1_rbatu"]
+[ext_resource type="Texture2D" uid="uid://c3b5pjfl1dn1k" path="res://addons/MarchingSquaresTerrain/editor/icons/vertex_paint_tool.svg" id="2_rbatu"]
+
+[sub_resource type="Resource" id="Resource_2cita"]
+script = ExtResource("1_rbatu")
+brush_type = true
+size = true
+material = true
+texture_name = true
+texture_preset = true
+paint_walls = true
+metadata/_custom_type_script = "uid://b6jopat61dbd3"
+
+[resource]
+script = ExtResource("1_7okwl")
+icon = ExtResource("2_rbatu")
+label = "Vertex Painting"
+tooltip = "Vertex Paint Tool
+
+Used to paint textures onto the terrain.
+
+[INFO]
+• There are 16 available textures.
+    • 1 through 6 have grass sprites attached to them.
+    • 16 is a void material making terrain invisible.
+• Texture presets can be used to quickly swap between texture pallets.
+    • They can be exported via the right hand panel at the bottom.
+• \"Quick Paints\" are a way to quickly set textures while moddeling the terrain.
+    • You can make global or texture preset specific ones. 
+        • → Create a MarchingSquaresQuickPaint resource in their dedicated folders in the parent plugin folder."
+attributes = SubResource("Resource_2cita")
+metadata/_custom_type_script = "uid://brkjbcthwswel"

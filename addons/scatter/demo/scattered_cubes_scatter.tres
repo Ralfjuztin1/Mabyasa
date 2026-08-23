@@ -1,0 +1,486 @@
+[gd_resource type="Resource" script_class="ScatterGraph" format=3 uid="uid://d2vctpqovm5ux"]
+
+[ext_resource type="Script" uid="uid://bitupconrfvlx" path="res://addons/scatter/core/graph/scatter_graph.gd" id="1"]
+[ext_resource type="Script" uid="uid://dy5xdenyow6vo" path="res://addons/scatter/core/graph/scatter_connection.gd" id="2"]
+[ext_resource type="Script" uid="uid://dsmt0b3gpkxpu" path="res://addons/scatter/core/nodes/base/scatter_node.gd" id="3"]
+[ext_resource type="Script" uid="uid://d3ghbysrqhgh0" path="res://addons/scatter/core/nodes/region/scatter_box_node.gd" id="4"]
+[ext_resource type="Script" uid="uid://b0r6iuq0u3mqs" path="res://addons/scatter/core/nodes/transform/scatter_scale_node.gd" id="7"]
+[ext_resource type="Script" uid="uid://cff6mcfyq4pt8" path="res://addons/scatter/core/nodes/region/scatter_path_node.gd" id="7_3vaxa"]
+[ext_resource type="Script" uid="uid://baijd8v2v6uoh" path="res://addons/scatter/core/nodes/output/scatter_final_output_node.gd" id="8"]
+[ext_resource type="Script" uid="uid://cn175tybncbx6" path="res://addons/scatter/core/nodes/transform/scatter_look_at_node.gd" id="8_bnepf"]
+[ext_resource type="Script" uid="uid://bd8dje24l0w5b" path="res://addons/scatter/core/nodes/data/scatter_random_color_node.gd" id="9_cf6nt"]
+[ext_resource type="Script" uid="uid://c2j1ve7p7a7xc" path="res://addons/scatter/core/nodes/placement/scatter_edge_continuous_node.gd" id="9_uiucd"]
+[ext_resource type="Script" uid="uid://dy5ts7sslar" path="res://addons/scatter/core/nodes/placement/scatter_poisson_node.gd" id="11_r3kxb"]
+[ext_resource type="Script" uid="uid://cpjndap5gj5vi" path="res://addons/scatter/core/nodes/transform/scatter_project_node.gd" id="12_7r0qy"]
+[ext_resource type="Script" uid="uid://ica4iip26fn8" path="res://addons/scatter/core/nodes/transform/scatter_array_node.gd" id="12_cf6nt"]
+[ext_resource type="Script" uid="uid://bdieerhxa06ie" path="res://addons/scatter/core/nodes/region/scatter_subtract_node.gd" id="13_r3kxb"]
+[ext_resource type="Script" uid="uid://de07tbdufekdh" path="res://addons/scatter/core/nodes/placement/scatter_grid_node.gd" id="14_7r0qy"]
+[ext_resource type="Script" uid="uid://bt5j0l7ebluek" path="res://addons/scatter/core/nodes/region/scatter_shape_transform_node.gd" id="15_7r0qy"]
+[ext_resource type="Script" uid="uid://bxkw5g5vdla0s" path="res://addons/scatter/core/nodes/region/scatter_path_tube_node.gd" id="16_woth3"]
+[ext_resource type="Script" uid="uid://krl6fs1ujjgm" path="res://addons/scatter/core/nodes/region/scatter_union_node.gd" id="17_mlwl4"]
+[ext_resource type="Script" uid="uid://cvw35djbi88oq" path="res://addons/scatter/core/nodes/region/scatter_path_extrude_node.gd" id="18_mlwl4"]
+[ext_resource type="Script" uid="uid://djnycniucx2av" path="res://addons/scatter/core/nodes/data/scatter_set_color_node.gd" id="19_82xxo"]
+
+[sub_resource type="Resource" id="Resource_82xxo"]
+script = ExtResource("2")
+from_node_id = 24
+from_port_id = &"instances"
+to_node_id = 25
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_arqv2"]
+script = ExtResource("2")
+from_node_id = 25
+from_port_id = &"instances"
+to_node_id = 30
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_6imvf"]
+script = ExtResource("2")
+from_node_id = 33
+from_port_id = &"instances"
+to_node_id = 24
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_mrk44"]
+script = ExtResource("2")
+from_node_id = 36
+from_port_id = &"instances"
+to_node_id = 18
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_xby7h"]
+script = ExtResource("2")
+from_node_id = 21
+from_port_id = &"instances"
+to_node_id = 5
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_1ahdl"]
+script = ExtResource("2")
+from_node_id = 19
+from_port_id = &"instances"
+to_node_id = 5
+to_port_id = &"instances"
+order = 1
+
+[sub_resource type="Resource" id="Resource_rxiw2"]
+script = ExtResource("2")
+from_node_id = 37
+from_port_id = &"instances"
+to_node_id = 19
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_vrpv2"]
+script = ExtResource("2")
+from_node_id = 18
+from_port_id = &"instances"
+to_node_id = 37
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_42fja"]
+script = ExtResource("2")
+from_node_id = 20
+from_port_id = &"instances"
+to_node_id = 21
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_e08n3"]
+script = ExtResource("2")
+from_node_id = 34
+from_port_id = &"shape"
+to_node_id = 41
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_dwg6a"]
+script = ExtResource("2")
+from_node_id = 46
+from_port_id = &"region"
+to_node_id = 47
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_x3ahd"]
+script = ExtResource("2")
+from_node_id = 48
+from_port_id = &"instances"
+to_node_id = 50
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_iged6"]
+script = ExtResource("2")
+from_node_id = 41
+from_port_id = &"geometry"
+to_node_id = 36
+to_port_id = &"shape"
+
+[sub_resource type="Resource" id="Resource_7i80s"]
+script = ExtResource("2")
+from_node_id = 52
+from_port_id = &"path"
+to_node_id = 46
+to_port_id = &"path"
+
+[sub_resource type="Resource" id="Resource_3xf6u"]
+script = ExtResource("2")
+from_node_id = 46
+from_port_id = &"region"
+to_node_id = 54
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_yxgrf"]
+script = ExtResource("2")
+from_node_id = 55
+from_port_id = &"shape"
+to_node_id = 34
+to_port_id = &"b"
+
+[sub_resource type="Resource" id="Resource_qm454"]
+script = ExtResource("2")
+from_node_id = 55
+from_port_id = &"shape"
+to_node_id = 53
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_6yy5d"]
+script = ExtResource("2")
+from_node_id = 15
+from_port_id = &"path"
+to_node_id = 40
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_qcx7n"]
+script = ExtResource("2")
+from_node_id = 40
+from_port_id = &"geometry"
+to_node_id = 20
+to_port_id = &"path"
+
+[sub_resource type="Resource" id="Resource_piovh"]
+script = ExtResource("2")
+from_node_id = 53
+from_port_id = &"geometry"
+to_node_id = 48
+to_port_id = &"shape"
+
+[sub_resource type="Resource" id="Resource_qoh3i"]
+script = ExtResource("2")
+from_node_id = 22
+from_port_id = &"region"
+to_node_id = 33
+to_port_id = &"shape"
+
+[sub_resource type="Resource" id="Resource_dl86w"]
+script = ExtResource("2")
+from_node_id = 54
+from_port_id = &"geometry"
+to_node_id = 55
+to_port_id = &"b"
+
+[sub_resource type="Resource" id="Resource_ybrwp"]
+script = ExtResource("2")
+from_node_id = 47
+from_port_id = &"geometry"
+to_node_id = 55
+to_port_id = &"a"
+
+[sub_resource type="Resource" id="Resource_4gj4e"]
+script = ExtResource("2")
+from_node_id = 1
+from_port_id = &"region"
+to_node_id = 34
+to_port_id = &"a"
+
+[sub_resource type="Resource" id="Resource_meryo"]
+script = ExtResource("2")
+from_node_id = 61
+from_port_id = &"path"
+to_node_id = 62
+to_port_id = &"path"
+
+[sub_resource type="Resource" id="Resource_komsr"]
+script = ExtResource("2")
+from_node_id = 62
+from_port_id = &"region"
+to_node_id = 70
+to_port_id = &"geometry"
+
+[sub_resource type="Resource" id="Resource_fglg8"]
+script = ExtResource("2")
+from_node_id = 70
+from_port_id = &"geometry"
+to_node_id = 69
+to_port_id = &"shape"
+
+[sub_resource type="Resource" id="Resource_04ml6"]
+script = ExtResource("2")
+from_node_id = 69
+from_port_id = &"instances"
+to_node_id = 71
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_2wvhd"]
+script = ExtResource("2")
+from_node_id = 71
+from_port_id = &"instances"
+to_node_id = 64
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_s3syr"]
+script = ExtResource("2")
+from_node_id = 64
+from_port_id = &"instances"
+to_node_id = 73
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_edrxp"]
+script = ExtResource("2")
+from_node_id = 50
+from_port_id = &"instances"
+to_node_id = 75
+to_port_id = &"instances"
+
+[sub_resource type="Resource" id="Resource_d1ua6"]
+script = ExtResource("2")
+from_node_id = 75
+from_port_id = &"instances"
+to_node_id = 5
+to_port_id = &"instances"
+order = 2
+
+[sub_resource type="Resource" id="Resource_voc7j"]
+script = ExtResource("2")
+from_node_id = 30
+from_port_id = &"instances"
+to_node_id = 5
+to_port_id = &"instances"
+order = 3
+
+[sub_resource type="Resource" id="Resource_wplii"]
+script = ExtResource("2")
+from_node_id = 73
+from_port_id = &"instances"
+to_node_id = 5
+to_port_id = &"instances"
+order = 4
+
+[sub_resource type="Resource" id="Resource_yfgmf"]
+script = ExtResource("4")
+center = Vector3(0, 10, 0)
+size = Vector3(10, 10, 10)
+node_id = 1
+graph_position = Vector2(-260, -660)
+
+[sub_resource type="Resource" id="Resource_y5vgf"]
+script = ExtResource("8")
+node_id = 5
+graph_position = Vector2(5460, -340)
+
+[sub_resource type="Resource" id="Resource_t0pu3"]
+script = ExtResource("7_3vaxa")
+points = PackedVector3Array(-9.977931, -0.6288252, 12.267117, -18.660679, -1.1056271, 0.7727337, -11.304711, 0, 1.9807825, -7.248438, -1.9073486e-06, -9.716318, 2.8015585, -1.9073486e-06, -13.5346365, 14.597794, 0, -8.658011, 10.487839, -1.9073486e-06, 7.481697, 2.348853, 0, 17.822733)
+closed = true
+node_id = 15
+graph_position = Vector2(640, -880)
+
+[sub_resource type="Resource" id="Resource_0rd23"]
+script = ExtResource("8_bnepf")
+target = Vector3(0, 10, 0)
+node_id = 18
+graph_position = Vector2(2780, -260)
+
+[sub_resource type="Resource" id="Resource_qemmf"]
+script = ExtResource("9_cf6nt")
+from_color = Color(1, 0, 0, 1)
+to_color = Color(0, 0.03911972, 1, 1)
+node_id = 19
+graph_position = Vector2(4160, -260)
+
+[sub_resource type="Resource" id="Resource_a6f5n"]
+script = ExtResource("9_uiucd")
+node_id = 20
+graph_position = Vector2(2020, -780)
+
+[sub_resource type="Resource" id="Resource_jsw7w"]
+script = ExtResource("7")
+scale = Vector3(1, 1, 2)
+node_id = 21
+graph_position = Vector2(2540, -740)
+
+[sub_resource type="Resource" id="Resource_1iprn"]
+script = ExtResource("4")
+center = Vector3(25, 5, 0)
+node_id = 22
+graph_position = Vector2(260, 620)
+
+[sub_resource type="Resource" id="Resource_fpl2y"]
+script = ExtResource("12_7r0qy")
+ray_length = 100.0
+align_with_collision_normal = true
+node_id = 24
+graph_position = Vector2(1740, 560)
+
+[sub_resource type="Resource" id="Resource_jd3gq"]
+script = ExtResource("9_cf6nt")
+from_color = Color(0.6381418, 0.07283197, 0.046807483, 1)
+to_color = Color(0.8801956, 0.6744356, 0, 1)
+node_id = 25
+graph_position = Vector2(2700, 560)
+
+[sub_resource type="Resource" id="Resource_fhyqu"]
+script = ExtResource("12_cf6nt")
+amount = 5
+offset = Vector3(10, 2, 0)
+rotation = Vector3(0, 15, 0)
+node_id = 30
+graph_position = Vector2(3300, 560)
+
+[sub_resource type="Resource" id="Resource_l6nb5"]
+script = ExtResource("11_r3kxb")
+node_id = 33
+graph_position = Vector2(1100, 560)
+
+[sub_resource type="Resource" id="Resource_axgix"]
+script = ExtResource("13_r3kxb")
+node_id = 34
+graph_position = Vector2(760, -400)
+
+[sub_resource type="Resource" id="Resource_5av5j"]
+script = ExtResource("14_7r0qy")
+spacing = Vector3(1, 1, 1)
+space = 2
+node_id = 36
+graph_position = Vector2(2020, -320)
+
+[sub_resource type="Resource" id="Resource_j080x"]
+script = ExtResource("7")
+operation = 2
+scale = Vector3(0.5, 0.5, 0.5)
+node_id = 37
+graph_position = Vector2(3500, -260)
+
+[sub_resource type="Resource" id="Resource_sos5r"]
+script = ExtResource("15_7r0qy")
+rotation = Vector3(0, 60, 0)
+geometry_type = &"path"
+node_id = 40
+graph_position = Vector2(1240, -880)
+
+[sub_resource type="Resource" id="Resource_axao0"]
+script = ExtResource("15_7r0qy")
+geometry_type = &"shape"
+node_id = 41
+graph_position = Vector2(1240, -400)
+
+[sub_resource type="Resource" id="Resource_df85k"]
+script = ExtResource("16_woth3")
+radius = 2.501
+node_id = 46
+graph_position = Vector2(-1300, -80)
+
+[sub_resource type="Resource" id="Resource_ld6sy"]
+script = ExtResource("15_7r0qy")
+position = Vector3(0, 10, 0)
+rotation = Vector3(0, 45, 0)
+scale = Vector3(2, 1, 1)
+geometry_type = &"region"
+node_id = 47
+graph_position = Vector2(-700, -220)
+
+[sub_resource type="Resource" id="Resource_ga5cv"]
+script = ExtResource("14_7r0qy")
+spacing = Vector3(1, 1, 1)
+node_id = 48
+graph_position = Vector2(2060, 100)
+
+[sub_resource type="Resource" id="Resource_gg1av"]
+script = ExtResource("7")
+operation = 2
+scale = Vector3(0.25, 0.25, 0.25)
+node_id = 50
+graph_position = Vector2(2860, 120)
+
+[sub_resource type="Resource" id="Resource_fl314"]
+script = ExtResource("7_3vaxa")
+points = PackedVector3Array(-5, 0, 0, 5, 0, 0)
+node_id = 52
+graph_position = Vector2(-1780, -80)
+
+[sub_resource type="Resource" id="Resource_w7ei8"]
+script = ExtResource("15_7r0qy")
+geometry_type = &"shape"
+node_id = 53
+graph_position = Vector2(1240, 0)
+
+[sub_resource type="Resource" id="Resource_8p8fm"]
+script = ExtResource("15_7r0qy")
+position = Vector3(0, 10, 0)
+rotation = Vector3(0, 0, 90)
+scale = Vector3(2, 1, 1)
+geometry_type = &"region"
+node_id = 54
+graph_position = Vector2(-700, 160)
+
+[sub_resource type="Resource" id="Resource_8nmgm"]
+script = ExtResource("17_mlwl4")
+node_id = 55
+graph_position = Vector2(180, -120)
+
+[sub_resource type="Resource" id="Resource_k6tv7"]
+script = ExtResource("7_3vaxa")
+points = PackedVector3Array(-8.221024, -1.8252468, -24.286324, 9.417502, -0.68250465, -28.050095, 14.984569, -0.9802246, -42.240532, 1.3079655, -0.98010254, -47.897346, -10.189968, -0.9801636, -49.208298, -20.102001, -0.98010254, -41.739296, -17.786764, -0.98010254, -30.306324)
+closed = true
+node_id = 61
+graph_position = Vector2(-180, 1440)
+
+[sub_resource type="Resource" id="Resource_styda"]
+script = ExtResource("18_mlwl4")
+node_id = 62
+graph_position = Vector2(300, 1440)
+
+[sub_resource type="Resource" id="Resource_r1qfw"]
+script = ExtResource("7")
+operation = 2
+scale = Vector3(0.25, 0.25, 0.25)
+node_id = 64
+graph_position = Vector2(3540, 1440)
+
+[sub_resource type="Resource" id="Resource_87wb2"]
+script = ExtResource("11_r3kxb")
+radius = 0.751
+max_points = 5000
+node_id = 69
+graph_position = Vector2(1940, 1440)
+
+[sub_resource type="Resource" id="Resource_qoop4"]
+script = ExtResource("15_7r0qy")
+position = Vector3(0, 5, -4)
+geometry_type = &"region"
+node_id = 70
+graph_position = Vector2(1120, 1500)
+
+[sub_resource type="Resource" id="Resource_i10ml"]
+script = ExtResource("12_7r0qy")
+ray_direction = Vector3(1, -1, 0)
+ray_length = 100.0
+align_with_collision_normal = true
+node_id = 71
+graph_position = Vector2(2620, 1440)
+
+[sub_resource type="Resource" id="Resource_na481"]
+script = ExtResource("19_82xxo")
+color = Color(1, 0.8948655, 0, 1)
+node_id = 73
+graph_position = Vector2(4300, 1440)
+
+[sub_resource type="Resource" id="Resource_h5l4g"]
+script = ExtResource("19_82xxo")
+color = Color(0.13691938, 1, 0, 1)
+node_id = 75
+graph_position = Vector2(3870.3367, 161.80801)
+
+[resource]
+script = ExtResource("1")
+seed = -844082688
+nodes = Array[ExtResource("3")]([SubResource("Resource_yfgmf"), SubResource("Resource_y5vgf"), SubResource("Resource_t0pu3"), SubResource("Resource_0rd23"), SubResource("Resource_qemmf"), SubResource("Resource_a6f5n"), SubResource("Resource_jsw7w"), SubResource("Resource_1iprn"), SubResource("Resource_fpl2y"), SubResource("Resource_jd3gq"), SubResource("Resource_fhyqu"), SubResource("Resource_l6nb5"), SubResource("Resource_axgix"), SubResource("Resource_5av5j"), SubResource("Resource_j080x"), SubResource("Resource_sos5r"), SubResource("Resource_axao0"), SubResource("Resource_df85k"), SubResource("Resource_ld6sy"), SubResource("Resource_ga5cv"), SubResource("Resource_gg1av"), SubResource("Resource_fl314"), SubResource("Resource_w7ei8"), SubResource("Resource_8p8fm"), SubResource("Resource_8nmgm"), SubResource("Resource_k6tv7"), SubResource("Resource_styda"), SubResource("Resource_r1qfw"), SubResource("Resource_87wb2"), SubResource("Resource_qoop4"), SubResource("Resource_i10ml"), SubResource("Resource_na481"), SubResource("Resource_h5l4g")])
+connections = Array[ExtResource("2")]([SubResource("Resource_82xxo"), SubResource("Resource_arqv2"), SubResource("Resource_6imvf"), SubResource("Resource_mrk44"), SubResource("Resource_xby7h"), SubResource("Resource_1ahdl"), SubResource("Resource_rxiw2"), SubResource("Resource_vrpv2"), SubResource("Resource_42fja"), SubResource("Resource_e08n3"), SubResource("Resource_dwg6a"), SubResource("Resource_x3ahd"), SubResource("Resource_iged6"), SubResource("Resource_7i80s"), SubResource("Resource_3xf6u"), SubResource("Resource_yxgrf"), SubResource("Resource_qm454"), SubResource("Resource_6yy5d"), SubResource("Resource_qcx7n"), SubResource("Resource_piovh"), SubResource("Resource_qoh3i"), SubResource("Resource_dl86w"), SubResource("Resource_ybrwp"), SubResource("Resource_4gj4e"), SubResource("Resource_meryo"), SubResource("Resource_komsr"), SubResource("Resource_fglg8"), SubResource("Resource_04ml6"), SubResource("Resource_2wvhd"), SubResource("Resource_s3syr"), SubResource("Resource_edrxp"), SubResource("Resource_d1ua6"), SubResource("Resource_voc7j"), SubResource("Resource_wplii")])
+next_node_id = 76

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="16"
+   height="16"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="BoxShape3D.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="16"
+       height="16"
+       id="page7"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <ellipse
+     style="fill:#d1d1d1;fill-opacity:1;stroke:#d1d1d1;stroke-width:1.08733;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dashoffset:7.1298;stroke-opacity:1"
+     id="path4"
+     ry="2.4563363"
+     rx="6.4563332"
+     cy="3.9803696"
+     cx="8" />
+  <path
+     fill="#2998ff"
+     d="M 8,1 1,4 v 8 l 7,3 7,-3 V 4 Z"
+     id="path1"
+     style="fill:#949494;fill-opacity:1" />
+  <path
+     fill="#5fb2ff"
+     d="M 8,15 1,12 V 4 l 7,3 z"
+     id="path2"
+     style="fill:#afafaf;fill-opacity:1" />
+  <path
+     fill="#a2d2ff"
+     d="m 1,3.9803681 7,3 7,-3 -7,-3 z"
+     id="path3"
+     style="fill:#d1d1d1;fill-opacity:1" />
+</svg>

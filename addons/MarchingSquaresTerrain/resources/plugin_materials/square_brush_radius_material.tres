@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://daofaifmtbyak"]
+
+[ext_resource type="Shader" uid="uid://05bc22hmv5vn" path="res://addons/MarchingSquaresTerrain/resources/shaders/square_brush_radius_visual.gdshader" id="1_x5cba"]
+
+[resource]
+render_priority = 11
+shader = ExtResource("1_x5cba")
+shader_parameter/falloff_visible = true

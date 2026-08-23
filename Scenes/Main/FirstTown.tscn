@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://dudb76t4kewws"]
+
+[ext_resource type="Shader" uid="uid://v6gda6oqxkp0" path="res://Assets/Shaders/Water.gdshader" id="4_b2kth"]
+[ext_resource type="ArrayMesh" uid="uid://npf0afhh3cgd" path="res://Assets/Environment/stylized nature gltf/CommonTree1.tres" id="5_rxw54"]
+[ext_resource type="Resource" uid="uid://h8ljyds2vpwy" path="res://Assets/ScatterTreesTres/common_tree_1_scatter.tres" id="6_lauo3"]
+[ext_resource type="ArrayMesh" uid="uid://ub5p53xabogh" path="res://Assets/Environment/stylized nature gltf/CommonTree2.tres" id="7_5eqbr"]
+[ext_resource type="Resource" uid="uid://jdoey7rl3qs8" path="res://Assets/ScatterTreesTres/common_tree_2_scatter.tres" id="8_8k2fn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
+sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
+sky_horizon_color = Color(0.7919941, 0.6286258, 0.568827, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_b2kth"]
+sky_material = SubResource("ProceduralSkyMaterial_j2cfa")
+
+[sub_resource type="Environment" id="Environment_rxw54"]
+background_mode = 2
+sky = SubResource("Sky_b2kth")
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kgegj"]
+lightmap_size_hint = Vector2i(12, 12)
+
+[sub_resource type="Gradient" id="Gradient_o0aej"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_opipp"]
+seed = 3
+frequency = 0.1357
+fractal_type = 2
+fractal_octaves = 4
+fractal_lacunarity = 1.89
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_m6u13"]
+noise = SubResource("FastNoiseLite_opipp")
+color_ramp = SubResource("Gradient_o0aej")
+seamless = true
+in_3d_space = true
+seamless_blend_skirt = 0.824
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x341u"]
+transparency = 4
+blend_mode = 2
+cull_mode = 1
+depth_draw_mode = 1
+albedo_texture = SubResource("NoiseTexture2D_m6u13")
+grow_amount = 16.0
+proximity_fade_enabled = true
+proximity_fade_distance = 2250.55
+distance_fade_max_distance = 0.0
+stencil_flags = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l04sm"]
+render_priority = 0
+shader = ExtResource("4_b2kth")
+shader_parameter/absorptioncolour = Color(0.115088515, 0.3517746, 0.9999972, 1)
+shader_parameter/absorptionmultiplier = 0.115
+shader_parameter/AirIOR = 1.02
+shader_parameter/IOR = 0.485
+shader_parameter/sampler1speed = Vector2(0.02, 0)
+shader_parameter/sampler2speed = Vector2(0, 0.02)
+shader_parameter/samplermix = 0.5
+shader_parameter/samplerscale = Vector2(0.1, 0.1)
+shader_parameter/normalstrength = 0.0
+shader_parameter/heightstrength = 1.56999996490736
+shader_parameter/pixel_resolution = 48.0
+shader_parameter/refraction_type = 1
+shader_parameter/simple_refraction_amount = 0.1
+shader_parameter/edge_size = 0.00999999977648
+shader_parameter/foam_or_fade = false
+shader_parameter/ssr_type = 0
+shader_parameter/ssr_screen_fade = 0.00999999977648
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b66by"]
+material = SubResource("ShaderMaterial_l04sm")
+size = Vector2(10000, 10000)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kgegj"]
+frequency = 0.0003
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gmdo7"]
+noise = SubResource("FastNoiseLite_kgegj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uykmb"]
+albedo_color = Color(0.22352941, 0.38039216, 0.29411766, 1)
+albedo_texture = SubResource("NoiseTexture2D_gmdo7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l04sm"]
+material = SubResource("StandardMaterial3D_uykmb")
+
+[sub_resource type="MultiMesh" id="MultiMesh_tx8nu"]
+resource_local_to_scene = true
+transform_format = 1
+use_colors = true
+use_custom_data = true
+instance_count = 20
+mesh = ExtResource("5_rxw54")
+buffer = PackedFloat32Array(-1.0973928, 0, 0.2989952, 6.665384, 0, 1, 0, -0.4134749, -0.34384447, 0, -0.9542546, 63.021862, 1, 1, 1, 1, 0, 0, 0, 0, -1.1498475, 0, 0.01628509, 69.48507, 0, 1, 0, -0.14413992, -0.018727852, 0, -0.9998674, -90.338005, 1, 1, 1, 1, 0, 0, 0, 0, 1.0152453, 0, -0.46970764, -110.27945, 0, 1, 0, 0.23252942, 0.54016376, 0, 0.88282204, -33.45426, 1, 1, 1, 1, 0, 0, 0, 0, -0.21868722, 0, 0.9817526, 30.172754, 0, 1, 0, 0.49536982, -1.1290154, 0, -0.19016281, 90.30232, 1, 1, 1, 1, 0, 0, 0, 0, -0.9108383, 0, -0.61047786, -78.188225, 0, 1, 0, -0.48812112, 0.70204955, 0, -0.7920333, 21.352774, 1, 1, 1, 1, 0, 0, 0, 0, -0.02585366, 0, -0.9997473, -17.416288, 0, 1, 0, -0.19765145, 1.1497093, 0, -0.022481443, -0.24463613, 1, 1, 1, 1, 0, 0, 0, 0, 1.137146, 0, 0.14909674, -105.06986, 0, 1, 0, -0.39157358, -0.17146125, 0, 0.98882264, -25.707615, 1, 1, 1, 1, 0, 0, 0, 0, -0.65788, 0, 0.8202051, -13.679051, 0, 1, 0, -0.018407397, -0.9432358, 0, -0.5720696, -62.607555, 1, 1, 1, 1, 0, 0, 0, 0, 1.0549746, 0, -0.39803728, -6.315662, 0, 1, 0, 0.44174877, 0.45774287, 0, 0.91736925, -24.502308, 1, 1, 1, 1, 0, 0, 0, 0, -0.05911703, 0, -0.99867785, 71.15009, 0, 1, 0, -0.06333523, 1.1484795, 0, -0.051406115, -94.74645, 1, 1, 1, 1, 0, 0, 0, 0, 0.26764268, 0, -0.97254074, 20.278084, 0, 1, 0, 0.047468446, 1.1184218, 0, 0.23273276, -19.956135, 1, 1, 1, 1, 0, 0, 0, 0, 1.1225144, 0, -0.21732453, 1.2834824, 0, 1, 0, -0.2674419, 0.2499232, 0, 0.97609943, 4.8188796, 1, 1, 1, 1, 0, 0, 0, 0, -0.4054531, 0, -0.93578625, 34.31037, 0, 1, 0, 0.2576946, 1.0761541, 0, -0.3525679, -61.992897, 1, 1, 1, 1, 0, 0, 0, 0, -0.9340021, 0, -0.5834128, -10.439687, 0, 1, 0, 0.053387288, 0.6709247, 0, -0.81217575, 99.8656, 1, 1, 1, 1, 0, 0, 0, 0, 1.1121961, 0, -0.25429347, -20.01631, 0, 1, 0, 0.21980955, 0.2924375, 0, 0.9671271, 99.02838, 1, 1, 1, 1, 0, 0, 0, 0, -0.879594, 0, 0.6441913, -108.00007, 0, 1, 0, 0.37403738, -0.74082, 0, -0.7648644, 54.381813, 1, 1, 1, 1, 0, 0, 0, 0, -0.061255455, 0, -0.9985804, -103.14544, 0, 1, 0, -0.47061774, 1.1483674, 0, -0.053265613, -12.617223, 1, 1, 1, 1, 0, 0, 0, 0, 1.1080037, 0, -0.26777476, -95.80847, 0, 1, 0, 0.17585202, 0.30794096, 0, 0.96348155, 46.445927, 1, 1, 1, 1, 0, 0, 0, 0, 0.9525152, 0, 0.56032324, -61.0245, 0, 1, 0, -0.06601097, -0.6443717, 0, 0.8282741, -51.10778, 1, 1, 1, 1, 0, 0, 0, 0, -0.5382799, 0, -0.88369167, -106.95067, 0, 1, 0, -0.38679716, 1.0162454, 0, -0.46806946, 66.122345, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="MultiMesh" id="MultiMesh_bm7lg"]
+resource_local_to_scene = true
+transform_format = 1
+use_colors = true
+use_custom_data = true
+instance_count = 10
+mesh = ExtResource("7_5eqbr")
+buffer = PackedFloat32Array(-0.98287064, 0, 0.1842969, -20.894865, 0, 1, 0, -0.24703151, -0.1842969, 0, -0.98287064, -20.551092, 1, 1, 1, 1, 0, 0, 0, 0, 0.34361207, 0, -0.93911165, -38.399303, 0, 1, 0, 0.06737391, 0.93911165, 0, 0.34361207, -26.755888, 1, 1, 1, 1, 0, 0, 0, 0, -0.22646944, 0, -0.9740183, -45.44733, 0, 1, 0, 0.09599126, 0.9740183, 0, -0.22646944, 6.4711676, 1, 1, 1, 1, 0, 0, 0, 0, -0.99885535, 0, -0.047832977, 56.15171, 0, 1, 0, 0.44797364, 0.047832977, 0, -0.99885535, 28.095406, 1, 1, 1, 1, 0, 0, 0, 0, 0.54404384, 0, -0.8390568, 58.1755, 0, 1, 0, 0.29698884, 0.8390568, 0, 0.54404384, -13.906021, 1, 1, 1, 1, 0, 0, 0, 0, -0.7132434, 0, -0.7009164, -6.1498957, 0, 1, 0, -0.23174256, 0.7009164, 0, -0.7132434, -30.64886, 1, 1, 1, 1, 0, 0, 0, 0, -0.86439073, 0, -0.50282073, 36.613037, 0, 1, 0, -0.408204, 0.50282073, 0, -0.86439073, 45.326855, 1, 1, 1, 1, 0, 0, 0, 0, -0.763927, 0, 0.6453027, -9.015354, 0, 1, 0, 0.27580118, -0.6453027, 0, -0.763927, -3.743087, 1, 1, 1, 1, 0, 0, 0, 0, -0.006800166, 0, 0.9999769, 13.701354, 0, 1, 0, 0.069069564, -0.9999769, 0, -0.006800166, 5.879374, 1, 1, 1, 1, 0, 0, 0, 0, -0.73656166, 0, 0.67637044, -52.7323, 0, 1, 0, -0.48415703, -0.67637044, 0, -0.73656166, -48.06725, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[node name="FirstTown" type="Node3D" unique_id=524938763]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=264678677]
+environment = SubResource("Environment_rxw54")
+
+[node name="Clouds" type="MeshInstance3D" parent="WorldEnvironment" unique_id=1863686360]
+transform = Transform3D(10000, 0, 0, 0, 10000, 0, 0, 0, 10000, 0, 186.00075, 0)
+mesh = SubResource("PlaneMesh_kgegj")
+surface_material_override/0 = SubResource("StandardMaterial3D_x341u")
+
+[node name="Water" type="MeshInstance3D" parent="WorldEnvironment" unique_id=489567674]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9097481, 0)
+mesh = SubResource("PlaneMesh_b66by")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment" unique_id=1340582996]
+transform = Transform3D(5000, 0, 0, 0, 5000, 0, 0, 0, 5000, 0, -7.8073654, 0)
+mesh = SubResource("PlaneMesh_l04sm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1516713651]
+transform = Transform3D(-0.74267226, -0.066657625, -0.66632915, -0.24272728, 0.9541639, 0.17508543, 0.62411636, 0.29176736, -0.72481066, 0, 0, 0)
+light_color = Color(0.9387965, 0.82748735, 0.75933355, 1)
+shadow_enabled = true
+
+[node name="TreesManager" type="Node3D" parent="." unique_id=872289235]
+
+[node name="CommonTree1" type="MultiMeshInstance3D" parent="TreesManager" unique_id=919839661]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -16, 0, 27)
+lod_bias = 128.0
+multimesh = SubResource("MultiMesh_tx8nu")
+metadata/_scatter_graph = ExtResource("6_lauo3")
+
+[node name="CommonTree2" type="MultiMeshInstance3D" parent="TreesManager" unique_id=1128006036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -33)
+multimesh = SubResource("MultiMesh_bm7lg")
+metadata/_scatter_graph = ExtResource("8_8k2fn")
+
+[node name="npc" type="Node3D" parent="." unique_id=540821247]
+
+[node name="Houses" type="Node3D" parent="." unique_id=282204192]

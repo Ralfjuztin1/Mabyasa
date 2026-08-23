@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://crl4dujp2yhm4"]
+
+[ext_resource type="Script" uid="uid://b5i1jcr0s2eut" path="res://Scenes/Characters/Player/player.gd" id="1_27cb7"]
+[ext_resource type="Texture2D" uid="uid://5c6rl0h5gcly" path="res://Assets/Characters/orc1_walk_without_shadow.png" id="2_lyjr2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xnph"]
+radius = 0.23187256
+height = 0.46374512
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lyjr2"]
+atlas = ExtResource("2_lyjr2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7xnph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lyjr2")
+}],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody3D" unique_id=877630363]
+transform = Transform3D(12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0, 0)
+script = ExtResource("1_27cb7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=170960580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09380317, 0)
+shape = SubResource("CapsuleShape3D_7xnph")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=351322556]
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_7xnph")
+animation = &"idle_front"
+
+[node name="Head" type="Node3D" parent="." unique_id=1708558644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07538235, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Head" unique_id=1613350522]
+transform = Transform3D(1.2, 0, 0, 0, 1.1927427, 0.13177517, 0, -0.13177517, 1.1927427, 0, 0, 0)
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="Head/SpringArm3D" unique_id=152253725]
+transform = Transform3D(0.083333336, 0, 0, 0, 0.07134059, 0.04306931, 0, -0.04306931, 0.07134059, 0, 0.54927206, 0.7876196)

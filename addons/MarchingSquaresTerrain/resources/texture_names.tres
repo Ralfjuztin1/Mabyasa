@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MarchingSquaresTextureNames" format=3 uid="uid://dd7fens03aosa"]
+
+[ext_resource type="Script" uid="uid://dqeuj3gddfm65" path="res://addons/MarchingSquaresTerrain/editor/tools/scripts/marching_squares_texture_names.gd" id="1_vxqys"]
+
+[resource]
+script = ExtResource("1_vxqys")
+metadata/_custom_type_script = "uid://dqeuj3gddfm65"
