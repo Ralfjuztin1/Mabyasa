@@ -475,6 +475,10 @@ func _validate_property(property: Dictionary) -> void:
 		if storage_mode != StorageMode.BAKED:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 
+func _ready() -> void:
+	# Instantly push all textures and settings to the shader the moment it enters the tree
+	call_deferred("force_batch_update")
+
 func _init() -> void:
 	terrain_material = preload("uid://bahbybbjwkhlg").duplicate(true)
 	var base_grass_mesh := preload("uid://h41fuxldpf1u")
@@ -509,6 +513,7 @@ func _deferred_enter_tree() -> void:
 		if chunk is MarchingSquaresTerrainChunk:
 			if chunk._data_dirty:
 				return
+				
 	chunks.clear()
 	for chunk in get_children():
 		if chunk is MarchingSquaresTerrainChunk:
@@ -521,10 +526,13 @@ func _deferred_enter_tree() -> void:
 	elif EngineWrapper.instance.is_editor() and MSTDataHandler.needs_migration(self):
 		MSTDataHandler.migrate_to_external_storage(self)
 	
-	for chunk : MarchingSquaresTerrainChunk in chunks.values():
-		chunk.initialize_terrain(true)
+	for chunk in chunks.values():
+		if chunk: chunk.initialize_terrain(true)
 		
+	# --- FIX: FORCE TEXTURES TO APPLY AFTER CHUNKS INITIALIZE ---
 	force_batch_update()
+	# -----------------------------------------------------------
+	
 	grass_size = grass_size
 	
 	load_finished.emit()

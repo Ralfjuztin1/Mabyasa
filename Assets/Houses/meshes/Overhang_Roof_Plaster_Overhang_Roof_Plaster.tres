@@ -1,0 +1,87 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://d0bx1c4qnjncg"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://asset2/T_WoodTrim_BaseColor.png" id="1_h5hbk"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://asset2/T_WoodTrim_Roughness.png" id="2_2badn"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://asset2/T_WoodTrim_Normal.png" id="3_t4b13"]
+[ext_resource type="Texture2D" uid="uid://bhvjuebwolgit" path="res://asset2/T_Plaster_BaseColor.png" id="4_y46yk"]
+[ext_resource type="Texture2D" uid="uid://clnuvwwkb0dku" path="res://asset2/T_Plaster_ORM.png" id="5_qgbff"]
+[ext_resource type="Texture2D" uid="uid://nlptamb4m4ah" path="res://asset2/T_Plaster_Normal.png" id="6_ljtgw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h0d7u"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_h5hbk")
+metallic_texture = ExtResource("2_2badn")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_2badn")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_t4b13")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40qw6"]
+resource_name = "MI_Plaster"
+cull_mode = 2
+albedo_texture = ExtResource("4_y46yk")
+metallic = 1.0
+metallic_texture = ExtResource("5_qgbff")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_qgbff")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("6_ljtgw")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_e1aak"]
+_surfaces = [{
+"aabb": AABB(-1, -0.32443213, -1.021612, 2, 0.26586527, 2.0216122),
+"format": 34896613377,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAAEAAEAAgADAAUAAgAFAAAAAAAGAAQAAAAFAAYABAAHAAEAAQAHAAMABAAGAAcABQADAAcABQAHAAYACAAJAAoACQALAAoACAAKAAsACQAMAAsACAANAAkADQAMAAkACAALAA4ADQAPAAwACAAPAA0ACwAMAA8ACAAOAA8ACwAPAA4AEAARABIAEQATABIAEAASABMAEQAUABMAEAAVABEAFQAUABEAEAATABYAFQAXABQAEAAXABUAEwAUABcAEAAWABcAEwAXABYA"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("3IcP4bwCAAAKeAAAvAIAANyHAAC8AgAA3IcAAP//AAAKeA/hvAIAANyHD+H//wAACngP4f//AAAKeAAA//8AAP////8AAAAAAACLkQAAAAD//4uRAAAAAP//i5H3DgAAAACLkfcOAAAAAP7/AAAAAP/////3DgAAAAD+//cOAAD/////4nkAAAAAi5HieQAA//+LkeJ5AAD//4uR2YgAAAAAi5HZiAAAAAD+/+J5AAD/////2YgAAAAA/v/ZiAAA")
+}, {
+"aabb": AABB(-1, -0.0754681, -1, 2, 1e-05, 2),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"name": "MI_Plaster",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AACfA///AAD//5cQAAAAAAAAAAAAAAAA//83FP//AAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Overhang_Roof_Plaster_Cube_067"
+_surfaces = [{
+"aabb": AABB(-1, -0.32443213, -1.021612, 2, 0.26586527, 2.0216122),
+"attribute_data": PackedByteArray("ZI8D5ZqI6/5kj+v+mogD5WSPA+WaiOv+mogD5WSP6/5w4g2y/394qHDieKj/fw2ycOJYk/9/j4Bw4o+A/39Yk3DieKj/fw2ycOINsv9/eKhw4o+A/39Yk3DiWJP/f4+A///8sf9/d6j//3eo/3/8sf//d6j/f/yx/393qP///LH/f3eo///8sf//d6j/f/yx///8sf9/d6j//3eo/3/8seWw4+WSoP7/kqDj5eWw/v/lsOPlkqD//+Ww//+SoOPl///8sf9/d6j//3eo/3/8sf//d6j/f/yx/393qP///LH/f3eo///8sf//d6j/f/yx///8sf9/d6j//3eo/3/8seWw4+WSoP7/kqDj5eWw/v/lsOPlkqD//+Ww//+SoOPl"),
+"format": 34896613399,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0AMAAxADIAMAAzADEANAA1ADYANAA3ADUAOAA5ADoAOAA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUA"),
+"material": SubResource("StandardMaterial3D_h0d7u"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(2.600446, 1.5779926, 0, 0),
+"vertex_count": 72,
+"vertex_data": PackedByteArray("3IcP4bwCAAAKeAAAvAIAANyHAAC8AgAACngP4bwCAADchw/h//8AgAp4AAD//wCACngP4f//AIDchwAA//8AgNyHD+G8AlTVCngP4f//VNUKeA/hvAJU1dyHD+H//1TVCngP4bwC//8KeAAA/////wp4AAC8Av//CngP4f////8KeAAAvAKqKtyHAAD//6oq3IcAALwCqioKeAAA//+qKtyHAAC8Av8/3IcP4f///z/chw/hvAL/P9yHAAD///8//////wAA//8AAIuRAAD/////i5EAAP//AAD+/wAA//8AAIuRAAD/////i5H3Dv////+LkQAA//8AAIuR9w7///////8AAAAAAAD+//cOAAAAAP7/AAAAAP/////3DgAA//+LkfcOAIAAAP7/9w4AgP/////3DgCAAACLkfcOAID/////AAD/v///i5H3Dv+///////cO/7///4uRAAD/vwAA/v8AAAAAAACLkfcOAAAAAIuRAAAAAAAA/v/3DgAA/////+J5//8AAIuR4nn/////i5Hief//AAD+/+J5//8AAIuR4nn/////i5HZiP////+LkeJ5//8AAIuR2Yj////////ieQAAAAD+/9mIAAAAAP7/4nkAAP/////ZiAAA//+LkdmIAIAAAP7/2YgAgP/////ZiACAAACLkdmIAID/////4nn/v///i5HZiP+//////9mI/7///4uR4nn/vwAA/v/ieQAAAACLkdmIAAAAAIuR4nkAAAAA/v/ZiAAA////f////3////9/////f/9/////f////3////9///9U1aoqVNWqKlTVqipU1aoq/z//f/8//3//P/9//z//f1RVVFVUVVRVVFVUVVRVVFX/fwAA/38AAP9/AAD/fwAA/v//f/7//3/+//9//v//f/9//z//f/8//3//P/9//z//f/+//3//v/9//7//f/+//3////9/////f////3////9/AAD/fwAA/38AAP9/AAD/P/9//z//f/8//3//P/9//v//f/7//3/+//9//v//f/9//z//f/8//3//P/9//z//f/+//3//v/9//7//f/+//3////9/////f////3////9/AAD/fwAA/38AAP9/AAD/P/9//z//f/8//3//P/9/")
+}, {
+"aabb": AABB(-1, -0.0754681, -1, 2, 1e-05, 2),
+"attribute_data": PackedByteArray("BgAGAPj/+P8GAPj/+P8GAA=="),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"material": SubResource("StandardMaterial3D_40qw6"),
+"name": "MI_Plaster",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AACfA////7///5cQAAD/vwAAAAAAAP+///83FP///78AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_e1aak")

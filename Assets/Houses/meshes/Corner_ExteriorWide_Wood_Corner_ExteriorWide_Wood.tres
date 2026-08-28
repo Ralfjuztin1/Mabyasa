@@ -1,0 +1,51 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://sie28plc1bi6"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://Assets/Environment/medieval gltf/T_WoodTrim_BaseColor.png" id="1_jee12"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Roughness.png" id="2_q76j2"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Normal.png" id="3_iuo85"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yql7n"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_jee12")
+metallic_texture = ExtResource("2_q76j2")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_q76j2")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_iuo85")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_nklee"]
+_surfaces = [{
+"aabb": AABB(-0.14522837, -1.6249024e-07, -0.16558872, 0.290455, 3, 0.3311777),
+"format": 34896613377,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAAEAAEAAgABAAsACwABAAQAAgAMAAAABAAAAAwAAgANAAwAAgALAA0ABAAMAA4ACwAEAA4ADgAMAAgADQAIAAwACgALAA4ADgAIAAoACQANAAsADQAJAAgACQALAA8ACgAPAAsACQAQAAgACgAIABAACQAPABEAEQAPAAoACQARABIACQASABAAEQAKABMACgAQABMAEgARAAcABwARABMAEgAHAAUABwATAAYABQAHAAYAEwAQAAMAEgADABAAEwADAAYAEgAFAAMABQAGAAMA"),
+"lods": [0.021719616, PackedByteArray("AAABAAIAAAAEAAEAAgAIAAAABAAAAAgACQACAAEAAgAJAAgACgABAAQABAAIAAoACQABAAcACgAHAAEACQAHAAUABwAKAAYABQAHAAYACgAIAAMACQADAAgACgADAAYACQAFAAMABQAGAAMA"), 0.032579422, PackedByteArray("AAABAAIAAgADAAAABAAAAAMAAAAEAAEAAgAFAAMABQACAAEABAADAAYABQAGAAMABgABAAQABQABAAcABgAHAAEABQAHAAYA")],
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("ntz//53cAABhI///YCMAAJ7c//9gIwAA//8AAP//AABhI///ndwAAP7/AAAAAAAAAAAAAP//AAAAAAAAAAAAAAj1vxUI9QAACPW/FfYKAAD2Cr8VCPUAAGEjYKtgIwAAntxgq53cAACe3GCrYCMAAGEjYKue3AAA9gq/FfYKAADW/icG1v4AACgBJwYoAQAA1v4nBigBAAAoAScG1v4AAA==")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Corner_ExteriorWide_Wood_Cube_028"
+_surfaces = [{
+"aabb": AABB(-0.14522837, -1.6249024e-07, -0.16558872, 0.290455, 3, 0.3311777),
+"attribute_data": PackedByteArray("HlV2yYV9XaCFfXbJHlVdoIV9dskeVV2gHlV2yYV9XaD//xE+AADlIQAAET7//+Uh//8EHgAA+wAAAAQe///7AAAA5SH//xE+AAARPv//5SEAAAQe///7AAAA+wD//wQeP+oRPr8V+wC/FQQeP+oRPj/q5SG/FQQeJwYEHicG+wBgqwQeYKv7AJ5U5SGeVBE+P+rlIdf55SHX+RE+JwYEHicG+wC/FfsAYKv7AGCrBB7X+eUh1/kRPp5U5SGeVBE+"),
+"format": 34896613399,
+"index_count": 108,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUAHgANAA4AHgAfAA0AGgAfAB4AGgAZAB8AIAAZABoAIAAhABkADAAhACAADAAPACEAIgAKACMAIgAJAAoAGAAiACMAGAAkACIAJQAkABgAJQAYACYACwAlACYACwAmAAgAJwAWABQAJwAoABYAHQAoACcAHQApACgAHQAqACkAHQArACoAFwAqACsAFwAVACoALAARAC0ALAATABEAHAAsAC0AHAAtABsALgAcABsALgAbAC8AEAAuAC8AEAAvABIA"),
+"lods": [0.021719616, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUAGAAJAAoAGAALAAkACwAYAAgADAAZABoADAAPABkAGgAZAA0AGgANAA4AEAAbABIAEAAcABsAHAARABsAHAATABEAHQAVABYAHQAXABUAHQAWABQA"), 0.032579422, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA")],
+"material": SubResource("StandardMaterial3D_yql7n"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("ntz//53cVNVhI///YCNU1Z7c//9gI1TVYSP//53cVNX+/wAAAACqKgAAAAD//6oq//8AAP//qioAAAAAAACqKgAAAAD//7kqYSP//2AjqiphI///ndyqKgAAAAAAAOEpYSP//53c/z///wAA//98PwAAAAD//7xAntz//53c/z+e3P//YCNU1f//AAD//0HVntz//53cVNX+/wAAAABr1P7/AAAAAJcAYSP//2AjAAAAAAAAAACZAJ7c//9gIwAA9gq/FQj14CkI9b8VCPX6PvYKvxUI9aZACPW/FQj1FNUI9b8V9grs0wj1vxX2CkYBKAEnBtb+ckHW/icG1v5TP2EjYKue3Lw/ntxgq53crD9hI2CrYCOlKmEjYKue3LEq9gq/FfYKrigoAScGKAE/KSgBJwbW/rkq1v4nBigBQQEoAScGKAFKAfYKvxX2Ck0BYSNgq2AjQgCe3GCrYCNCANb+JwYoAXfT1v4nBtb+59Se3GCrYCNP1Z7cYKud3FvVVNWqKlTVqipU1aoqVNWqKlVVVFVVVVRVVVVUVVRVVFUlVoKrVFWqqlRVqqqiVX+q/////7L+SAGy/lIB/////6qqVFVkqwRWqqpUVeSq/1QVvz7A/7//vxDARb//v/+/g1Zeq0f9pgJH/cICK6yzVnqrRFU5v12/Rv3RAkX9rgJr/5IAa/+SAKhV+qqvVQirylX6qSFWoqoKV2KsJL5swM6/yr6JwBS+pb8OwJm/GsAzq7BUEKx8Vv2qpVUEq7NV")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_nklee")

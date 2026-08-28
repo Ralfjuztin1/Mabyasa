@@ -1,0 +1,49 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://dd8tjh50hpuxl"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://Assets/Environment/medieval gltf/T_WoodTrim_BaseColor.png" id="1_5mqfa"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Roughness.png" id="2_qfnyf"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Normal.png" id="3_lxpqm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwf2q"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_5mqfa")
+metallic_texture = ExtResource("2_qfnyf")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_qfnyf")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_lxpqm")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_80dr5"]
+_surfaces = [{
+"aabb": AABB(0.19491267, -1.5052728e-07, -0.41982007, 0.21017444, 3, 0.23964013),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEAAgABAAQABAABAAMAAgAFAAAAAwAAAAUAAgAEAAYAAgAGAAUABAADAAcABgAEAAcAAwAFAAcABgAHAAUA"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("//////7/AAAAAP//AAAAAP7///8AAAAAAAD///7/AAAAAAAAAAAAAP7/AAD//wAA/v8AAAAAAAAAAAAA/v8AAA==")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Corner_Interior_Small_Cube_091"
+_surfaces = [{
+"aabb": AABB(0.19491267, -1.5052728e-07, -0.41982007, 0.21017444, 3, 0.23964013),
+"attribute_data": PackedByteArray("HlV2yYV9XaCFfXbJHlVdoIV9dskeVV2gHlV2yYV9XaD//wQeAAD7AAAABB7///sA///lIQAAET7//xE+AADlIQAA5SH//xE+AAARPv//5SH//wQeAAD7AAAABB7///sA"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_rwf2q"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("//////7/VNUAAP//AABU1f7///8AAFTVAAD///7/VNX+/wAAAACqKgAAAAD+/6oq/v8AAP//qioAAAAAAACqKv7///8AAAAAAAAAAAAAAAD+/wAAAAAAAAAA//8AAAAAAAAAAAAAqioAAP///v+qKgAAAAD+/6oqAAD//wAAqir+////AABU1f7/AAD//1TV//////7/VNX+/wAAAABU1QAA///+//8//v8AAP///z8AAAAA/v//P//////+//8/VNWqKlTVqipU1aoqVNWqKlVVVFVVVVRVVVVUVVRVVFX/v/+//7//v/+//7//v/+/VFWqqlRVqqpUVaqqVFWqqqqqVFWqqlRVqqpUVaqqVFX/////////////////////")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_80dr5")

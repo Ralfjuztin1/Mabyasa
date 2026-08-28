@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://co3qmcfrabvxk"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1244612764]
+visible = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1963660496]
+color = Color(1, 1, 1, 0)
+
+[node name="ResizeContainer" type="VBoxContainer" parent="CanvasModulate" unique_id=891668743]
+offset_right = 60.0
+offset_bottom = 63.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="EncloseContainer" type="MarginContainer" parent="CanvasModulate/ResizeContainer" unique_id=452446913]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="BubblePicLeft" type="NinePatchRect" parent="CanvasModulate/ResizeContainer/EncloseContainer" unique_id=1731547318]
+layout_mode = 2
+patch_margin_left = 40
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 40
+
+[node name="BubblePicRight" type="NinePatchRect" parent="CanvasModulate/ResizeContainer/EncloseContainer" unique_id=146276324]
+visible = false
+layout_mode = 2
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 40
+patch_margin_bottom = 40
+
+[node name="TextMargin" type="MarginContainer" parent="CanvasModulate/ResizeContainer/EncloseContainer" unique_id=468826071]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 30
+
+[node name="Text" type="Label" parent="CanvasModulate/ResizeContainer/EncloseContainer/TextMargin" unique_id=1706122691]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+justification_flags = 161

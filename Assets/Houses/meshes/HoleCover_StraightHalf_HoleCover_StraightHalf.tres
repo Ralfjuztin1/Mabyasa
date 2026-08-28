@@ -1,0 +1,49 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://42ajmvgjj0xa"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://asset2/T_WoodTrim_BaseColor.png" id="1_yqwi5"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://asset2/T_WoodTrim_Roughness.png" id="2_cljvs"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://asset2/T_WoodTrim_Normal.png" id="3_3121c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_koylp"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_yqwi5")
+metallic_texture = ExtResource("2_cljvs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_cljvs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_3121c")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3vuls"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.10508604, -1.11982, 1, 0.2101737, 0.23964006),
+"format": 34896613377,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAwACAAEABAACAAMABAAAAAIAAwABAAUABgAAAAQAAAAHAAEABgAHAAAABwAFAAEABwAGAAUA"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAAAAAAAAAP7///8AAAAAAAD//wAA//8AAP7/AAD//wAAAAAAAP///v/+/wAA/v///wAAAAAAAP//AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "HoleCover_StraightHalf_Cube_081"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.10508604, -1.11982, 1, 0.2101737, 0.23964006),
+"attribute_data": PackedByteArray("pb7//3uq4uV7qv//pb7i5cT/iJXEf26nxP9up8R/iJXEf4iVxP9up8R/bqfE/4iV//+egP9/EZP//xGT/3+egP//noD/fxGT//8Rk/9/noA="),
+"format": 34896613399,
+"index_count": 30,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEA"),
+"material": SubResource("StandardMaterial3D_koylp"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(2.003602, 1.5739626, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAAAAAAAAAAP7///8AAAAAAAD//wAAAAD//wAAAAAAAP//AAAAAP///v/+/wAAAAD+////AAD+////AAAAAP//AAAAAP//AAAAAP///////wAA/v///wAAAAAAAP////8AAP7//n8AAP7////+f////v/+//5/AAAAAP///n/+////AAAAAAAAAAAAAAAA//8AAAAAAAAAAP//AAAAAP8//3//P/9//z//f/8//3//f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9////+//9//v//f////3/+//9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_3vuls")

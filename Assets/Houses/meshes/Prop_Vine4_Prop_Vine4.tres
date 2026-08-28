@@ -1,0 +1,48 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://du65mhvdkngqe"]
+
+[ext_resource type="Texture2D" uid="uid://6leoit53mvkr" path="res://Assets/Environment/medieval gltf/T_VineLeaf_png.png" id="1_uwtgd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bsks"]
+resource_name = "MI_Vine"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(0.35313797, 0.62507975, 0, 1)
+albedo_texture = ExtResource("1_uwtgd")
+roughness = 0.5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_1biqi"]
+_surfaces = [{
+"aabb": AABB(-0.7181262, -1.0138828, -0.026776586, 1.0165728, 1.5881727, 0.15001652),
+"format": 34896613377,
+"index_count": 93,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAALAAgADAANAAsADgANAAwADgAPAA0AEAARABIAEAATABEAFAATABAAFAAVABMAFgAVABQAFgAXABUAGAAZABoAGAAbABkAHAAbABgAHAAdABsAHgAdABwAHgAfAB0AIAAhACIAIQAjACIAIQAkACMAJQAmACcAJgAoACcAJgApACgAKgArACwAKwAtACwAKwAuAC0A"),
+"lods": [0.24678132, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA")],
+"name": "MI_Vine",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 47,
+"vertex_data": PackedByteArray("//+RXWaOAAAITkC2Q2wAAEns4sKKgwAAvWHvUB93AAChkzJ9ndoAAFA2//+sTgAA8ski3f//AAAAAA6gSykAAEKS2GosywAAvGgcgvNhAACFf1KCKZsAAKdWS2p3NQAAiJzuXIflAAAmQRVcAAAAAPuENDunqwAAa2bsOuNeAAAisal7FtcAANyE7ZLV5gAAIZ0jk7DeAACkcRx7auwAABm8v23g0gAAw1rmbJjzAAASowVMF9oAAIOCvUsH5QAA+KVnTSzLAAByfKtk82EAADuT4WQpmwAAXWraTHc1AAA+sH0/h+UAANxUpD4AAAAAsZjEHaerAAAhensd414AANCBzCPfqQAAYWWdHBtdAACkdWM2cqYAAGtoQjdriAAAlFXVK2hMAADurGoX36kAAGWOVxgbXQAAxK2QK3KmAABEotUva4gAAMGJXipoTAAAE50DCt+pAADQggAAG10AAGWMHBtypgAAIH+bGmuIAABlb2QNaEwAAA==")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Prop_Vine4_Plane_020"
+_surfaces = [{
+"aabb": AABB(-0.7181262, -1.0138828, -0.026776586, 1.0165728, 1.5881727, 0.15001652),
+"attribute_data": PackedByteArray("AAD/////AAAAAAAA/////wAA/////wAAAAAAAP////8+gfg1QsEAAMOdAAAa3vk1Qpdpov//8lWlcfJV4MZpoqVx8lUa3vk1PoH4Nf//8lU+gfg1QsEAAMOdAAAa3vk1Qpdpov//8lWlcfJV4MZpoqVx8lUa3vk1PoH4Nf//8lU+gfg1QsEAAMOdAAAa3vk1pXHyVf//8lU+gfg1Qpdpov//8lXgxmmiQpdpouDGaaJamGp04MZposaqe2tP0KF5QpdpouDGaaJamGp04MZposaqe2tP0KF5QpdpouDGaaJamGp04MZposaqe2tamGp0T9CheQ=="),
+"format": 34896613399,
+"index_count": 93,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACMAJAAjACYAJwAoACQAJwApACgAKgArACwALQAuACwALQAvAC4AMAAxADIAMwA0ADIAMwA1ADQANgA3ADgAOQA6ADsAOQA8ADoA"),
+"lods": [0.24678132, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA")],
+"material": SubResource("StandardMaterial3D_1bsks"),
+"name": "MI_Vine",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 61,
+"vertex_data": PackedByteArray("//+RXWaO2gAITkC2Q2zkAUns4sKKg/oAvWHvUB93vgGhkzJ9ndopBVA2//+sTrwF8ski3f//2gQAAA6gSykFBkKS2Gosy/r0vGgcgvNht/SFf1KCKZvb9KdWS2p3NZ70+4Q0O6er6PQmQRVcAAB/9Iic7lyH5Qr1a2bsOuNeuvSInO5ch+UK9adWS2p3NZ70QpLYaizL+fQmQRVcAAB+9CKxqXsW1z7/3ITtktXmgf8hnSOTsN5d/6RxHHtq7Jv/EqMFTBfaT//DWuZsmPO6/xm8v23g0i7/g4K9Swflfv8ZvL9t4NIu/6RxHHtq7Jr/IrGpexbXPv/DWuZsmPO7//ilZ00syxf1cnyrZPNh1/Q7k+FkKZv69F1q2kx3Nb30PrB9P4flKPXcVKQ+AACd9PilZ00syxj1sZjEHaerBvXcVKQ+AACd9CF6ex3jXtn00IHMI9+pDvRhZZ0cG13j86R1YzZypvbzYWWdHBtd3/NraEI3a4jh85RV1StoTMTz7qxqF9+pzgpljlcYG10HC8StkCtyptoKZY5XGBtdCwtEotUva4jsCsGJXipoTBQLE50DCt+pW/PQggAAG10082WMHBtypj3z0IIAABtdL/Mgf5saa4gk82WMHBtypjrzZW9kDWhMDfMiwHYAuz+vABPAUwDSP4QAZsIlBS/CkgSNwnkFCcJDBJfExgmExIgJjsSpCX7EcAmUxLYJdcRSCZ3E1gmHxIoJncTVCX3EcAmYxMYJdMRRCUiC/r6Pgtu+aYLuvqyCzb5cgvS+zYK+vjiCBb+Ngtu+N4IEv6uCzr5Igv2+zoK9vqvE4QmZxKUJo8TFCZHEjQmxxPEJicRuCazE4gmoxNIJicRuCZvEpgn6xIgK78RgCvHEewrwxGUK6sRqCubEUQq9xPQJrMS+CbzE7QmvxMQJt8TcCa3EvAl9xYQLdMVfC3DFcgt1xWQLbMVlC3HFdQtpxU8L")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_1biqi")

@@ -1,0 +1,49 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://qdurwc78o3qw"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://asset2/T_WoodTrim_BaseColor.png" id="1_bs3n4"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://asset2/T_WoodTrim_Roughness.png" id="2_6f8j0"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://asset2/T_WoodTrim_Normal.png" id="3_mir5n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kq4hh"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_bs3n4")
+metallic_texture = ExtResource("2_6f8j0")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_6f8j0")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_mir5n")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ck4nj"]
+_surfaces = [{
+"aabb": AABB(-2.9012833e-07, -0.10508651, -1.1198205, 1.1198206, 0.21017426, 1.1198205),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAACAAMAAAAEAAEAAAADAAUAAQAEAAYABgAFAAMAAQAGAAcABgADAAcACAAJAAoACQALAAoACAAMAAkACQANAAsACAAOAAwACwANAA4ACAAPAA4ACwAOAA8A"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/v8AAAAAAAAAAP7/AAAAAAAAAAAAAAAAAAAAAMg2AAD+////AAAAADbJAADINgAANsn+/8g2AAAAAP7/yDYAAP//AAAAAAAA/v//////AAD/////AAAAADbJ/v/INgAA/v8AAP7/AAA2yf7///8AADbJAAD+/wAANskAAMg2AAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "HoleCover_90Half_Cube_071"
+_surfaces = [{
+"aabb": AABB(-2.9012833e-07, -0.10508651, -1.1198205, 1.1198206, 0.21017426, 1.1198205),
+"attribute_data": PackedByteArray("///nvf9/BYL/f+e9//8Fgp3D5sX/f///DqT///9/5sX//+e9/38Fgv9/573//wWC/3/mxQ6k////f///ncPmxf//573/fwWC//8Fgv9/572dw+bF/3////9/5sUOpP/////nvf9/BYL//wWC/3/nvf9/5sUOpP//ncPmxf9///8="),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0A"),
+"material": SubResource("StandardMaterial3D_kq4hh"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(2, 0.4849031, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("/v8AAAAAAAAAAP7/AAAAAAAAAAAAAAAA/v///wAAAAD+/wAAAAD/PwAAAADINv8/NskAAMg2/z8AAAAAAAD/PzbJ/v/INv5/AAAAAMg2/n8AAP7/yDb+fzbJAADINv5/AAD+/wAA/782yf7/yDb/vwAA/v/INv+//v///wAA/7///wAAAAD/v/7///////+//////wAA/7/+/wAA/v//v///AAAAAFTVNskAAP7/VNX+/wAA/v9U1TbJAADINlTVNsn+/8g2//82yQAA/v///zbJAADINv//Nsn+///////+//////+qKjbJ/v/INqoq/////wAAqio2yf7///+qKv7//3/+//9//v//f/7//38AAP9/AAD/fwAA/38AAP9//3////9/////f////3////7//3/+//9//v//f/7//3//fwAA/38AAP9/AAD/fwAAVFVUVVRVVVVUVVVVVFVUVf8//3//P/9//z//f/8//39U1aoqVNWqKlTVqipU1aoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ck4nj")

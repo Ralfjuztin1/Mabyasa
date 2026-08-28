@@ -1,0 +1,87 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://dfpywcaef53am"]
+
+[ext_resource type="Texture2D" uid="uid://d4gpj8is1d1il" path="res://asset2/T_RockTrim_BaseColor.png" id="1_2pck7"]
+[ext_resource type="Texture2D" uid="uid://p86lf1qwlpse" path="res://asset2/T_RockTrim_ORM.png" id="2_rv65l"]
+[ext_resource type="Texture2D" uid="uid://oughk27p0xcc" path="res://asset2/T_RockTrim_Normal.png" id="3_2i74y"]
+[ext_resource type="Texture2D" uid="uid://bdw26v0ueocfa" path="res://asset2/T_Brick_BaseColor.png" id="4_kr0t1"]
+[ext_resource type="Texture2D" uid="uid://pxo1hn7xl4bn" path="res://asset2/T_Brick_Roughness.png" id="5_y0hyo"]
+[ext_resource type="Texture2D" uid="uid://d07e51htu48k3" path="res://asset2/T_Brick_Normal.png" id="6_whj68"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa40v"]
+resource_name = "MI_RockTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_2pck7")
+metallic = 1.0
+metallic_texture = ExtResource("2_rv65l")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_rv65l")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_2i74y")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2td7f"]
+resource_name = "MI_Brick"
+cull_mode = 2
+albedo_texture = ExtResource("4_kr0t1")
+metallic_texture = ExtResource("5_y0hyo")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_y0hyo")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("6_whj68")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_2bnv4"]
+_surfaces = [{
+"aabb": AABB(-0.81261307, 0.7817402, -1.0006714, 1.6252263, 0.20691198, 2.0013428),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEAAgADAAUABAAAAAYABQADAAcABAAGAAgABQAHAAkACAAGAAoACQAHAAsACAAKAAwACQALAA0ADgAMAAoADQALAA8ADgAPAAwADQAPAA4A"),
+"name": "MI_RockTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAAAAAAAAAD//+nvAAAAAAAA6e8AAAAA/////8ACAAD//wAAAAAAAAAA///AAgAAAAAAAP9/AAD//////38AAP//AAD/fwAAAAD///9/AAAAAAAA//8AAP////8+/QAA//8AAP//AAAAAP//Pv0AAAAA6e///wAA///p7///AAA=")
+}, {
+"aabb": AABB(-1.0000002, -3.8206755e-16, -1, 2.0000005, 1, 2),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAwAAAAIAAAAEAAEAAwAFAAAAAQAEAAYAAwAGAAUAAQAGAAcAAwAHAAYACAAJAAoACQALAAoACAAMAAkACQANAAsADgAMAAgADgALAA0ADgAIAA8ADgAPAAsA"),
+"name": "MI_Brick",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("//8AAP//AAD+////AAAAAP7/AAAAAAAAZeYAAAAAAAD///////8AAGXmAAD//wAAZeb/////AABl5v//AAAAAAAAAAD//wAAAAD//wAAAAAAAP////8AAJkZ/////wAAAAAAAAAAAACZGf//AAAAAJkZAAAAAAAAmRkAAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Stairs_Exterior_Platform_Cube_090"
+_surfaces = [{
+"aabb": AABB(-0.81261307, 0.7817402, -1.0006714, 1.6252263, 0.20691198, 2.0013428),
+"attribute_data": PackedByteArray("AwCz7wXu/v8DAP//Be6z7wcAUMoB7gnNBwAJzQHuUMoAAIPMv+2Z7wAAme+/7YPMBwAJzQHuB+4HAAfuAe4JzQHuB+4B7gnNBwAJzQMA//8F7rPvAwCz7wXu/v8HAAnNAe5QygcAUMoB7gnNAACZ77/tg8wAAIPMv+2Z7w=="),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0ADgAQABEADgARABIAEwAUABUAEwAWABQAFwAYABkAFwAaABgAGwAcAB0AGwAeABwA"),
+"material": SubResource("StandardMaterial3D_wa40v"),
+"name": "MI_RockTrim",
+"primitive": 3,
+"uv_scale": Vector4(0.9711458, 1.1598856, 0, 0),
+"vertex_count": 31,
+"vertex_data": PackedByteArray("AAAAAAAA/////+nvAAD//wAA6e8AAP////8AAAAA//8AAOnvAAAk1v/////AAhLLAAD//8ACEsv//+nvAAAk1v//AAAAAP//AAAAAP9//////wAA/3///wAAAAAAAP//AAD//8ACEsv//////3//vwAA////f/8//////8ACEsv//////3//P/////8+/RJLAAD//z79EksAAOnv///+f///AAD///5/AAAAAP///n///+nv///+fwAA//8+/RJL///p7///JVYAAOnv//8lVv////8+/RJL//8AAP9/AAAAAAAA//8AAP//AAD//wAAAAAAAP9/AAD+//9//v//f/7//3/+//9/////f////3////9/////f/9//z//f/8//3//P/9//z/+//9//v//f/7//3////9//v//f/7//3/+//9//3////9/////f////3///////3////9/////f////3//f/8//3//P/9//z//f/8/")
+}, {
+"aabb": AABB(-1.0000002, -3.8206755e-16, -1, 2.0000005, 1, 2),
+"attribute_data": PackedByteArray("AAD+/////5f/////AAD/l6XaQRNVF6VsVRdBE6XapWyl2s78VRdg4KXaYOBVF878AADryv//z+UAAM/l///rygAA/v////+XAAD/l/////+l2kETVRelbKXapWxVF0ETpdrO/FUXYOBVF878pdpg4AAAz+X//+vK///P5QAA68o="),
+"format": 34896613399,
+"index_count": 48,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0A"),
+"material": SubResource("StandardMaterial3D_2td7f"),
+"name": "MI_Brick",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("//8AAP///7/+////AAD/v/7/AAAAAP+//////////79l5gAAAAD//2Xm////////ZeYAAP////9l5v//AAD//2XmAAAAAFTV//8AAP//VNX+/wAAAABU1WXmAAD//1TV/v///wAAVNVl5v////9U1WXm//8AAFTV////////VNUAAAAA//8AAAAA//8AAAAAAAD/////AAAAAAAAAAAAAJkZAAAAAP8/mRn//////z+ZGf//AAD/P5kZAAD///8/mRkAAAAAqioAAAAA//+qKpkZAAD//6oqAAAAAAAAqioAAP//AABU1ZkZ/////1TVAAD/////VNWZGf//AABU1f9/AAD/fwAA/38AAP9/AAD/P/9//z//f/8//3//P/9/VVVUVVVVVFVVVVRVVVVUVaqqqaqqqqmqqqqpqqqqqar/P/9//z//f/8//3//P/9//38AAP9/AAD/fwAA/38AAFRVVVVUVVVVVFVVVVRVVVWqqqqqqaqqqqmqqqqqqqqq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_2bnv4")

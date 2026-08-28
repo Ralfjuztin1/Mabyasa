@@ -1,0 +1,50 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://dcird6suowl4g"]
+
+[ext_resource type="Texture2D" uid="uid://d4gpj8is1d1il" path="res://Assets/Environment/medieval gltf/T_RockTrim_BaseColor.png" id="1_sp2k4"]
+[ext_resource type="Texture2D" uid="uid://p86lf1qwlpse" path="res://Assets/Environment/medieval gltf/T_RockTrim_ORM.png" id="2_up7pl"]
+[ext_resource type="Texture2D" uid="uid://oughk27p0xcc" path="res://Assets/Environment/medieval gltf/T_RockTrim_Normal.png" id="3_p3y3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i88bs"]
+resource_name = "MI_RockTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_sp2k4")
+metallic = 1.0
+metallic_texture = ExtResource("2_up7pl")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_up7pl")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_p3y3x")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_flmx3"]
+_surfaces = [{
+"aabb": AABB(-0.7, 2.7015695e-08, -7.683411e-09, 0.7000001, 0.13401799, 0.7),
+"format": 34896613377,
+"index_count": 54,
+"index_data": PackedByteArray("AAABAAIAAwACAAEAAwAAAAIAAAAEAAEAAAAFAAQABAAGAAEABAAFAAYAAwABAAYAAwAHAAAAAAAIAAUACAAGAAUACAAAAAcACQADAAYACAAJAAYACQAKAAMACgAJAAgABwADAAoACgAIAAcA"),
+"name": "MI_RockTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 11,
+"vertex_data": PackedByteArray("/////wAAAABQB///rvgAAFAH//8AAAAAAAB95AAAAAD/////rvgAAP//feT//wAAAAB95P//AAD//wAAAAAAAP//AAD//wAAAAAAAP//AAAAAAAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Prop_ExteriorBorder_Corner_Cube_001"
+_surfaces = [{
+"aabb": AABB(-0.7, 2.7015695e-08, -7.683411e-09, 0.7000001, 0.13401799, 0.7),
+"attribute_data": PackedByteArray("x4IaVv3GjIH9xhpWx4KMgTaBloFBPLiTQTyWgTaB55VBPOeVF4LqlCHIVYMXguSCIcjqlEE8loE2gT9WNoGWgUE8P1YSPOqUlYGvg5WB6pQSPBmFQz2vg5eAjIGHPNSChzyMgZeA1IKXgLuVhzzUgpeA1IKHPLuVIchVgxeCe4EXguSCIch7gQ=="),
+"format": 34896613399,
+"index_count": 54,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABQAEAAcABQAHAAgACQAKAAsACQAMAAoADQAOAA8ADQAQAA4AEQASABMAEgARABQAEgAUABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8A"),
+"material": SubResource("StandardMaterial3D_i88bs"),
+"name": "MI_RockTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 34,
+"vertex_data": PackedByteArray("/////wAAAABQB///rvj9BVAH//8AAPgI/////674AAD//wAAAAD//wAAfeQAAP//AAAAAAAA////////AAD//1AH//8AAP//AAAAAP//GwAAAH3kAAAAAAAAfeT//x4AAAAAAAAAAAAAAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////v///AAD///+//////wAA/7///wAAAAD/v///feT///+//////674/7//////rvhIswAAfeT//3CzUAf//674sbb//33k//+Spv//AAD//wCAAAB95P//AID//33k//8AgAAAAAD//wCAAAB95AAAwRpQB///rvhqKQAAfeT///UnUAf//wAA+yL/f/+/5HeDtKp2VLv/f+61////f////3////9/////f////3/g/w7A/P8AwN3/EMD/P/9/AAD/fwAA/38AAP9/AAD/f2Z/TADsfwkA/38AAIF/PgD/fwAA////f43qg6R+8JSb////f/9/////f////3////9////m5fQyd98tKhzjlCnV3eou")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_flmx3")

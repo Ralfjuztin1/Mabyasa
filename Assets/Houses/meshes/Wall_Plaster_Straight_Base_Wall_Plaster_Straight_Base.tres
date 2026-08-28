@@ -1,0 +1,126 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://srryhinbb4ru"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://Assets/Environment/medieval gltf/T_WoodTrim_BaseColor.png" id="1_skd6o"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Roughness.png" id="2_j7w22"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Normal.png" id="3_0yy7q"]
+[ext_resource type="Texture2D" uid="uid://bhvjuebwolgit" path="res://Assets/Environment/medieval gltf/T_Plaster_BaseColor.png" id="4_87cmg"]
+[ext_resource type="Texture2D" uid="uid://clnuvwwkb0dku" path="res://Assets/Environment/medieval gltf/T_Plaster_ORM.png" id="5_1bu8c"]
+[ext_resource type="Texture2D" uid="uid://nlptamb4m4ah" path="res://Assets/Environment/medieval gltf/T_Plaster_Normal.png" id="6_83is1"]
+[ext_resource type="Texture2D" uid="uid://bdw26v0ueocfa" path="res://Assets/Environment/medieval gltf/T_Brick_BaseColor.png" id="7_q6wef"]
+[ext_resource type="Texture2D" uid="uid://pxo1hn7xl4bn" path="res://Assets/Environment/medieval gltf/T_Brick_Roughness.png" id="8_djai0"]
+[ext_resource type="Texture2D" uid="uid://d07e51htu48k3" path="res://Assets/Environment/medieval gltf/T_Brick_Normal.png" id="9_dg34s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwqkt"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_skd6o")
+metallic_texture = ExtResource("2_j7w22")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_j7w22")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_0yy7q")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_krx5m"]
+resource_name = "MI_Plaster"
+cull_mode = 2
+albedo_texture = ExtResource("4_87cmg")
+metallic = 1.0
+metallic_texture = ExtResource("5_1bu8c")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_1bu8c")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("6_83is1")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vr668"]
+resource_name = "MI_Brick"
+cull_mode = 2
+albedo_texture = ExtResource("7_q6wef")
+metallic_texture = ExtResource("8_djai0")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("8_djai0")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("9_dg34s")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_x54du"]
+_surfaces = [{
+"aabb": AABB(-1.0000001, 0.6495776, -0.31403533, 2, 2.4731112, 0.40648204),
+"format": 34896613377,
+"index_count": 174,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAAAEAAEAAQAFAAMAAAAGAAQAAwAFAAYAAAAHAAYAAwAGAAcACAAJAAoACQALAAoACAAMAAkACQANAAsACAAOAAwACwANAA4ACAAPAA4ACwAOAA8AEAARABIAEAAkABEAJQARACQAJQAbABEAIwAbACUAIwAlACIAJQAhACIAJQAmACEAJAAmACUAJgAgACEAEAAnACQAJAAnACYAEAATACcAJgAoACAAJwAoACYAHwAgACgAEwApACcAJwApACgAEwAUACkAHwAoACoAKQAqACgAHgAfACoAFAArACkAKQArACoAFAAWACsAHgAqACwALAAqACsAHAAeACwALQArABYALAArAC0ALQAWABcAHAAsAC4ALgAsAC0AHAAuABoAHAAaAB0ALgAtAC8ALwAtABcAGgAuAC8ALwAXABgAGgAvABUAGQAvABgAGQAVAC8A"),
+"lods": [0.02641766, PackedByteArray("AAABAAIAAQADAAIAAAAEAAEAAQAFAAMAAAAGAAQAAwAFAAYAAAAHAAYAAwAGAAcACAAJAAoACQALAAoACAAMAAkACQANAAsACAAOAAwACwANAA4ACAAPAA4ACwAOAA8AEAARABIAEAATABEAEwAUABEAFAAVABEAFAAWABUAFQAWABcAFQAXABgAGQAVABgAEQAVABoAEQAaABsAHAAaAB0AHAAeABoAHgAfABoAHwAbABoAHwAgABsAGwAgACEAGwAhACIAIwAbACIA")],
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("//8sGOS9AAAAAAAA5L0AAP//AADkvQAA//8AAP7/AAAAACwY5L0AAAAAAAD+/wAAAAAsGP//AAD//ywY/v8AAP//Yv/pxAAAAAA15+nEAAD//zXn6cQAAP//Nef+/wAAAABh/+nEAAAAADXn/v8AAAAAYf/+/wAA//9i//7/AADB8GH/6EoAAP//Yf8AAAAA//9h/+hKAAA+3///6EoAAJHAYf/oSgAAAABi/wAAAAB5LmL/6EoAAMAge/7oSgAABxNi/+hKAAAAAGL/6EoAAAAANecAAAAA//815wAAAAAHEzXn6EoAAAAANefoSgAAwCAc6OhKAAB5LjXn6EoAAJHANefoSgAAPt+Y5uhKAADB8DXn6EoAAP//NefoSgAAwfBh/wAAAADB8DXnAAAAAD7fmOYAAAAAPt///wAAAACRwDXnAAAAAJHAYf8AAAAAeS415wAAAAB5LmL/AAAAAMAgHOgAAAAAwCB7/gAAAAAHEzXnAAAAAAcTYv8AAAAA")
+}, {
+"aabb": AABB(-1, 0, -0.20000009, 2, 3, 0.20000023),
+"format": 34896613377,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA"),
+"name": "MI_Plaster",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAXS/7/AAD///////8AAP//F0v+/wAAAAD/////AAD/////AAAAAAAAAAAAAAAA//8AAAAAAAAAAP//AAAAAA==")
+}, {
+"aabb": AABB(-1, 0, 0, 2, 0.88, 1e-05),
+"format": 34359742465,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"name": "MI_Brick",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AACAvwAAAAAAAACAAACAP65HYT8uvTszAACAPwAAAAAAAACAAACAv65HYT8tvTsz")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "Wall_Plaster_Straight_Base_Cube_006"
+_surfaces = [{
+"aabb": AABB(-1.0000001, 0.6495776, -0.31403533, 2, 2.4731112, 0.40648204),
+"attribute_data": PackedByteArray("//8EHgAA//8AAPsAAAD/////+wAAAP//AAAEHgAA/////4RAAAD//wAAsE4AAP//AACEQAAA/////7BOAAD//wAAhEAAAP////+wTgAA/////4RAAAD//wAAsE4AAP////8EHgAA//8AAPsAAAD/////+wAAAP//AAAEHgAA/////wQeAAD//wAA+wAAAP/////7AAAA//8AAAQeAAD/////hEAAAP//AACwTgAA//8AAIRAAAD/////sE4AAP//AACEQAAA/////7BOAAD/////hEAAAP//AACwTgAA/////wQeAAD//wAA+wAAAP/////7AAAA//8AAAQeAAD//8HwhEAAAP////+wTgAA/////4RAAAD//z7fhEAAAP//kcCEQAAA//8AALBOAAD//3kuhEAAAP//wCCEQAAA//8HE4RAAAD//wAAhEAAAP//AAD7AAAA/////wQeAAD//wAABB4AAP/////7AAAA/////4RAAAD/////sE4AAP//wfCEQAAA//8+34RAAAD//5HAhEAAAP//eS6EQAAA//8AALBOAAD//8AghEAAAP//BxOEQAAA//8AAIRAAAD//8HwsE4AAP//Pt+wTgAA//+RwLBOAAD//3kusE4AAP//wCCwTgAA//8HE7BOAAD//20/+wAAAP//hdEEHgAA//9tPwQeAAD//4XR+wAAAP//wCD7AAAA//8+3wQeAAD//8AgBB4AAP//Pt/7AAAA//89D/sAAAD///fsBB4AAP//PQ8EHgAA///37PsAAAD//8HwsE4AAP//Pt+wTgAA//+RwLBOAAD//3kusE4AAP//wCCwTgAA//8HE7BOAAD//w=="),
+"format": 34896613431,
+"index_count": 174,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAA4ACEAIAA5ADgAIAAjADkAIwA6ADkAIwAkADoAJAA7ADoAJAAmADsAPAA7ACYAPAAmACcAPQA8ACcAPQAnACgAKQA9ACgAKQAlAD0APgA/AEAAPgBBAD8AQgA+AEAAQwA/AEEAQgBAAEQAQwBBAEUARgBCAEQARwBDAEUARgBEAEgASAAqAEYASAAsACoARwBFAEkAKwBHAEkAKwBJAC0ALgBKADAALgAvAEoASgAxADAASgBLADEASwAyADEASwBMADIAMwAyAEwAMwBMAE0ANQAzAE0ANQBNAE4ANgA1AE4ANgBOAE8ANgBPADQANgA0ADcA"),
+"lods": [0.02641766, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAIwAkACEAJAAlACEAJAAmACUAJQAmACcAJQAnACgAKQAlACgAKgArACwAKgAtACsALgAvADAALwAxADAALwAyADEAMwAyAC8AMwAvADQANQAzADQANgA1ADQANgA0ADcA")],
+"material": SubResource("StandardMaterial3D_iwqkt"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 80,
+"vertex_data": PackedByteArray("//8sGOS9//8AAAAA5L3/////AADkvf//AAAsGOS9//8AAAAA5L3/////AAD+//////8AAOS9//8AAAAA/v//////LBjkvQAAAAAsGP//AAAAACwY5L0AAP//LBj+/wAA//8AAP7/AIAAACwY//8AgP//LBj+/wCAAAAAAP7/AID//2L/6cT//wAANefpxP////815+nE//8AAGH/6cT//wAANefpxP////815/7//////zXn6cT//wAANef+//////9i/+nEAAAAAGH//v8AAAAAYf/pxAAA//9i//7/AAD//zXn/v8AgAAAYf/+/wCA//9i//7/AIAAADXn/v8AgMHwYf/oSv4///9h/wAA/z///2H/6Er/Pz7f///oSv8/kcBh/+hK/z8AAGL/AAD/P3kuYv/oSvs/wCB7/uhK/z8HE2L/6Er7PwAAYv/oSv8///9h/wAA//8AADXnAAD/////NecAAP//AABi/wAA/////zXn6Er/v///NecAAP+/wfA15+hKAMA+35jm6Er/v5HANefoSv+/eS415+hKA8AAADXnAAD/v8AgHOjoSv+/BxM15+hKA8AAADXn6Er/v8HwYf8AAP4/Pt///wAA/z+RwGH/AAD/P3kuYv8AAPs/wCB7/gAA/z8HE2L/AAD7P5HAYf8AAP//eS415wAA//+RwDXnAAD//3kuYv8AAP//Pt///wAA///AIBzoAAD//z7fmOYAAP//wCB7/gAA///B8GH/AAD//wcTNecAAP//wfA15wAA//8HE2L/AAD//8HwNecAAADAPt+Y5gAA/7+RwDXnAAD/v3kuNecAAAPAwCAc6AAA/78HEzXnAAADwP7//3/+//9//v//f/7//3//f/8//3//P/9//z//f/8//3//v/9//7//f/+//3//v/9/////f////3////9////+//9//v//f/7//3/+//9//3//P/9//z//f/8//3//P/9//7//f/+//3//v/9//7//f////3////9/////f///Sv2lfv7//3/+//9/0f5ofzb/kIH+//9/gf37hP7//38D+4F9/v//f/9//v//f/7//3/+//9//v8AAP9/AAD/f1oBSn2WANF+kQHIgPsEfYIAAP9/AAD/f30CA3sAAP9/Sv2lftH+aH82/5CBgf37hP7//38D+4F9NH80/3mChP0CgPv//X78/l+Bnv6cfpz+WoCk/5x+nP5/gH///X78/pt+m/55goT9WgFKfZYA0X6RAciA+wR9ggAA/399AgN7")
+}, {
+"aabb": AABB(-1, 0, -0.20000009, 2, 3, 0.20000023),
+"attribute_data": PackedByteArray("/39l5gAA//////9/AAD/////ZeYAAP///3//fwAA/////wGAAAD//wKA//8AAP///////wAA//8CgAGAAAD//w=="),
+"format": 34896613431,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUA"),
+"material": SubResource("StandardMaterial3D_krx5m"),
+"name": "MI_Plaster",
+"primitive": 3,
+"uv_scale": Vector4(2, 2.5, 0, 2),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAXS/7/AID///////8AgP//F0v+/wCAAAD/////AID/////AAAAAAAAAAAAAAAA//8AAAAAAAAAAP//AAAAAP9/////f////3////9///////9/////f////3////9/")
+}, {
+"aabb": AABB(-1, 0, 0, 2, 0.88, 1e-05),
+"attribute_data": PackedByteArray("AECUOJRXfz8AAAAAAACAP177fz8AThQ/AAAAAAAAgD9e+38/lVd/PwAAAAAAAIA/AGCUOABOFD8AAAAAAACAPw=="),
+"format": 34359742519,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"material": SubResource("StandardMaterial3D_vr668"),
+"name": "MI_Brick",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AACAvwAAAAAAAACAAACAP65HYT8uvTszAACAPwAAAAAAAACAAACAv65HYT8tvTsz/3//f////7//f/9/////v/9//3/+//+//3//f////78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_x54du")

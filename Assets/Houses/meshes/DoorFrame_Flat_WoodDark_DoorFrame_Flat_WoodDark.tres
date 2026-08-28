@@ -1,0 +1,51 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://cwmiqe1y8jrql"]
+
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://Assets/Environment/medieval gltf/T_WoodTrim_BaseColor.png" id="1_02hl0"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Roughness.png" id="2_r8bwf"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Normal.png" id="3_2f20a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnu7a"]
+resource_name = "MI_WoodTrim"
+cull_mode = 2
+albedo_texture = ExtResource("1_02hl0")
+metallic_texture = ExtResource("2_r8bwf")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_r8bwf")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_2f20a")
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4s7nv"]
+_surfaces = [{
+"aabb": AABB(-0.7862095, -0.008544829, -0.24328981, 1.573992, 2.3122594, 0.38845217),
+"format": 34896613377,
+"index_count": 168,
+"index_data": PackedByteArray("AAABAAIAAAADAAEAAgABAAQABAABAAMAAgAFAAAAAwAAAAUAAgAEAAYAAgAGAAUABAADAAcABgAEAAcAAwAFAAcABgAHAAUACAAJAAoACAALAAkADAAKAAkACwAMAAkACgANAAgACwAIAA0ADAAOAAoACgAOAA0ACwAPAAwADwAOAAwACwANAA8ADwANAA4AEAARABIAEAATABEAEwAUABEAFAASABEAEAAVABMAEwAVABQAEgAWABAAEgAXABYAEgAYABcAGAAWABcAFAAYABIAGQAQABYAFQAQABkAGAAZABYAFQAZABoAGgAZABgAGgAUABUAGAAUABsAGgAbABQAGgAYABsAHAAdAB4AHAAfAB0AHgAdACAAIAAdAB8AHgAhABwAHwAcACEAHgAgACIAHgAiACEAIAAfACMAIgAgACMAHwAhACMAIgAjACEA"),
+"lods": [0.83126503, PackedByteArray("AAABAAIAAAADAAEAAgABAAQABAABAAMAAgAFAAAAAwAAAAUAAgAEAAYAAgAGAAUABAADAAcABgAEAAcAAwAFAAcABgAHAAUACAAJAAoACAALAAkADAAKAAkACwAMAAkACgANAAgACwAIAA0ADAAOAAoACgAOAA0ACwAPAAwADwAOAAwACwANAA8ADwANAA4A")],
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("CiWk+ZHqAADUCqT5ZgsAAAolpPlmCwAA1Aqk+ZHqAADUCvIAZgsAAAol8gCR6gAACiXyAGYLAADUCvIAkeoAALPapPmR6gAA6fSk+WYLAADp9KT5keoAALPapPlmCwAA6fTyAGYLAACz2vIAkeoAAOn08gCR6gAAs9ryAGYLAAC9/4j+/v8AAAAAne///wAAAACI/v7/AAC9/53v/v8AAAAAJ+5V9gAAvf8n7lX2AAC9//7/VfYAAAAA//9V9gAAQQDR/wAAAAD//9H/AAAAAP//+e0AAAAAQQD57QAAAAAR7AAAp9sAABHsmgTqCQAAEewAAOoJAAAR7JoEp9sAAKsTmgTqCQAAqxMAAKfbAACrEwAA6gkAAKsTmgSn2wAA")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "DoorFrame_Flat_WoodDark_Cube_034"
+_surfaces = [{
+"aabb": AABB(-0.7862095, -0.008544829, -0.24328981, 1.573992, 2.3122594, 0.38845217),
+"attribute_data": PackedByteArray("QKBc/4+vYOWPr1z/QKBg5Y+vXP9AoGDlQKBc/4+vYOX/4DvF/3/gsv9/O8X/4OCy/+Bgxv9/z9j/4M/Y/39gxv9/YMb/4M/Y/3/P2P/gYMb/4DvF/3/gsv9/O8X/4OCyQKBc/4+vYOVAoGDlj69c/4+vXP9AoGDlj69g5UCgXP//4DvF/3/gsv/g4LL/fzvF/+Bgxv9/z9j/f2DG/+DP2P9/YMb/4M/Y/+Bgxv9/z9j/4DvF/3/gsv/g4LL/fzvFXv26w3i5YbR4ubrDXv1htHPSO8WMjuCyjI47xXPS4LJ1sJXkdaH//3Ww//9MoNXmdaGV5Eygv/1MoNXmdaH//0ygv/11sJXkdaGV5HWw/////2DGGLx81///fNcYvGDG6pvP2NHffNfR38/Y6pt81///z9gYvHzXGLzP2P//fNfqm2DG0d981+qbfNfR32DGQKDt64+vYOWPr+3rQKBg5Y+v7etAoGDlQKDt64+vYOX/4AW4/39ks/9/Bbj/4GSz/+AzyP9/Atr/4ALa/38zyP9/M8j/4ALa/38C2v/gM8j/4MDF/38fwf9/wMX/4B/B"),
+"format": 34896613399,
+"index_count": 168,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0AMAAxADIAMAAzADEANAA1ADYANAA3ADUAOAA5ADoAOQA4ADsAOwA4ADwAOQA7AD0APgA/AEAAPwA+AEEAQQA+AEIAPwBBAEMARABFAEYARABHAEUASABJAEoASABLAEkATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUAaABpAGoAaABrAGkA"),
+"lods": [0.83126503, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0A")],
+"material": SubResource("StandardMaterial3D_wnu7a"),
+"name": "MI_WoodTrim",
+"primitive": 3,
+"uv_scale": Vector4(2.6390917, 1.5818095, 0, 0),
+"vertex_count": 108,
+"vertex_data": PackedByteArray("CiWk+ZHqVNXUCqT5ZgtU1QolpPlmC1TV1Aqk+ZHqVNUKJfIAZguqKtQK8gCR6qoqCiXyAJHqqirUCvIAZguqKgolpPlmCwAA1AryAGYLAAAKJfIAZgsAANQKpPlmCwAA1AryAGYLqirUCqT5keqqKtQK8gCR6qoq1Aqk+WYLqioKJaT5ZgtU1Qol8gCR6lTVCiWk+ZHqVNUKJfIAZgtU1dQKpPmR6v8/CiXyAJHq/z/UCvIAker/PwolpPmR6v8/s9qk+ZHqqirp9KT5ZguqKun0pPmR6qoqs9qk+WYLqiqz2vIAZgtU1en08gCR6lTV6fTyAGYLVNWz2vIAkepU1bPapPlmC///6fTyAGYL///p9KT5Zgv//7Pa8gBmC///6fTyAGYLVNXp9KT5kepU1en0pPlmC1TV6fTyAJHqVNWz2qT5ZguqKrPa8gCR6qoqs9ryAGYLqiqz2qT5keqqKun0pPmR6v+/s9ryAJHq/7+z2qT5ker/v+n08gCR6v+/vf+I/v7//n8AAJ3v///+fwAAiP7+//5/vf+d7/7//n////ntAAAAAEEA0f8AAAAAQQD57QAAAAD//9H/AAAAAEEA0f8AAB8AAAAn7lX2FQBBAPntAAAfAAAAiP7+/x0AAAD//1X2HwAAAJ3v//8AAL3/iP7+/9S/vf8n7lX21L+9/53v/v/Uv///0f8AANS/vf/+/1X21L////ntAADUv0EA0f8AAAAAvf/+/1X2AAAAAP//VfYAAP//0f8AAAAAvf+d7/7///8AACfuVfb//wAAne//////vf8n7lX2//8AAIj+/v8AAL3//v9V9gAAvf+I/v7/AAAAAP//VfYAAP//+e0AAP//AAAn7lX2//+9/yfuVfb//0EA+e0AAP//EewAAKfb/78R7JoE6gn/vxHsAADqCf+/EeyaBKfb/7+rEwAA6gkAAKsTmgSn2wAAqxMAAKfbAACrE5oE6gkAABHsAADqCQAAqxOaBOoJAACrEwAA6gkAABHsmgTqCQAAqxOaBOoJAAAR7JoEp9sAAKsTmgSn2wAAEeyaBOoJAAAR7AAA6gn//6sTAACn2///EewAAKfb//+rEwAA6gn//xHsmgSn2/5/qxMAAKfb/n+rE5oEp9v+fxHsAACn2/5/VNWqKlTVqipU1aoqVNWqKlRVVFVVVVRVVVVUVVRVVFX/v/+//7//v/+//7//v/+/VFWqqlRVqqpUVaqqVFWqqqqqVVWqqlRVqqpVVaqqVFX/////////////////////VNWqKlTVqipU1aoqVNWqKlRVVFVUVVRVVFVUVVRVVFX/v/+//7//v/+//7//v/+/qqpUVaqqVFWqqlRVqqpUVVRVqqpUVaqqVFWqqlRVqqr//////////////////////3////9/////f////3////7//3/+//9//v//f/7//3/vPyKA6j8XgO8/IoDuPyCA8D8jgP//3b9BgIMAL4BfAP5/AABFgIwARoCNAEaAjQD/fyLA/38iwP9/IsD/fyLA/3+VWP9/lVj/f5VY/3+VWP9/aaf/f2mn/39pp/9/aaf/fyJA/38iQP9/IkD/fyJA/38AAP9/AAD/fwAA/38AAP8//3//P/9//z//f/8//3/+//9//v//f/7//3/+//9//3//v/9//7//f/+//3//v/9//z//f/8//3//P/9//z//f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_4s7nv")
