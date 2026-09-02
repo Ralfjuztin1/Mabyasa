@@ -8,11 +8,21 @@ func _get_save_path() -> String:
 	
 	return "user://save_" + user_id + ".json"
 
-func save_game(player: CharacterBody3D, current_scene_path: String) -> void:
+func save_game(player: CharacterBody3D, current_scene_path: String, tutorial_done: bool = false) -> void:
 	if not is_instance_valid(player):
 		return
 
+	# Load existing data first so we don't overwrite flags like tutorial_completed
+	var existing_data = load_game()
+	var final_tutorial_status = tutorial_done
+	
+	if not existing_data.is_empty():
+		# Once tutorial_completed is true, it stays true forever (prevents false overwrites)
+		var previous_status = existing_data.get("tutorial_completed", false)
+		final_tutorial_status = previous_status or tutorial_done
+
 	var game_data = {
+		"tutorial_completed": final_tutorial_status,
 		"player_position": {
 			"x": player.global_position.x,
 			"y": player.global_position.y,
@@ -27,11 +37,11 @@ func save_game(player: CharacterBody3D, current_scene_path: String) -> void:
 		var json_string = JSON.stringify(game_data)
 		file.store_string(json_string)
 		
-		# --- DEBUG CONSOLE LOG ---
 		print("💾 [SAVE MANAGER] Game successfully saved!")
-		print("   ├── Target User File: ", file_path)
-		print("   ├── Saved Scene Path: ", current_scene_path)
-		print("   └── Saved Position:   ", player.global_position)
+		print("   ├── Target User File:     ", file_path)
+		print("   ├── Tutorial Completed?:  ", final_tutorial_status)
+		print("   ├── Saved Scene Path:     ", current_scene_path)
+		print("   └── Saved Position:       ", player.global_position)
 	else:
 		push_error("Failed to open save file for writing: " + file_path)
 

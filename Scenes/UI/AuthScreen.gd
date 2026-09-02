@@ -31,12 +31,24 @@ func _ready():
 	_setup_button_animations(login_button)
 	_setup_button_animations(register_button)
 	
+	# --- Email Autocomplete & Auto-Tab Hooks ---
+	login_email.text_changed.connect(_on_email_text_changed.bind(login_email, login_password))
+	reg_email.text_changed.connect(_on_email_text_changed.bind(reg_email, reg_password))
+	
 	# Connect Supabase Signals
 	SupabaseManager.login_completed.connect(_on_login_completed)
 	SupabaseManager.registration_completed.connect(_on_registration_completed)
 	
 	# Play initial panel pop-in animation
 	_animate_panel_pop_in()
+
+# --- Email Autocomplete & Auto-Tab Helper ---
+func _on_email_text_changed(new_text: String, line_edit: LineEdit, password_node: LineEdit):
+	if new_text.ends_with("@") and not "gmail.com" in new_text:
+		line_edit.text = new_text + "gmail.com"
+		line_edit.caret_column = new_text.length() 
+		# Automatically focus/tab to the password field for lightning-fast typing!
+		password_node.grab_focus()
 
 # --- Animated Transitions ---
 func _animate_panel_pop_in():
@@ -117,8 +129,6 @@ func _on_register_pressed():
 func _set_status(message: String, color: Color):
 	status_label.text = message
 	status_label.modulate = color
-
-# Inside AuthScreen.gd
 
 func _on_login_completed(success: bool, message: String):
 	if success:

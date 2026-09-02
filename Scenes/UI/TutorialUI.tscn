@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://dxvpt3rxexyja"]
+
+[ext_resource type="Script" uid="uid://buc73a5selp34" path="res://Scenes/UI/TutorialUI.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_retro"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.1, 0.08, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.9, 0.7, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.2, 0.15, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.9, 0.7, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.05, 0.05, 0.08, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
+bg_color = Color(0.9, 0.7, 0.2, 1)
+
+[node name="TutorialUI" type="CanvasLayer" unique_id=215205986]
+script = ExtResource("1_script")
+
+[node name="WelcomeBox" type="Control" parent="." unique_id=1407532358]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="WelcomeBox" unique_id=306753136]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -120.0
+offset_right = 220.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_retro")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WelcomeBox/PanelContainer" unique_id=903956402]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=292758955]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "WELCOME TO MABIYASA"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=478386946]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "Before exploring the world, complete your system calibration."
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=836705138]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "Start Calibration"
+
+[node name="SidebarBox" type="PanelContainer" parent="." unique_id=512364908]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 330.0
+offset_bottom = 180.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_retro")
+
+[node name="MarginContainer" type="MarginContainer" parent="SidebarBox" unique_id=504981854]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SidebarBox/MarginContainer" unique_id=188420520]
+layout_mode = 2
+
+[node name="TaskTitle" type="Label" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=202928305]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "1. Basic Mobility"
+
+[node name="TaskDesc" type="Label" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=1389129761]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "Walk 25 meters..."
+autowrap_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=35002047]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+max_value = 25.0

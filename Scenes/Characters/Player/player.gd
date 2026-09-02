@@ -1,7 +1,8 @@
 extends CharacterBody3D
 
 @export var speed: float = 12.0
-@export var gravity_multiplier: float = 3.0 # Increase this in the Inspector to fall faster
+@export var sprint_multiplier: float = 1.7
+@export var gravity_multiplier: float = 3.0 
 @export var mouse_sensitivity: float = 0.003
 @export var camera_distance: float = 4.0
 @export_range(-89.0, 0.0, 1.0) var min_pitch: float = -65.0  
@@ -15,10 +16,8 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var camera_yaw: float = 0.0
 var camera_pitch: float = 0.0
 
-# Track the character's absolute 3D direction instead of 2D inputs
 var last_movement_direction := Vector3(0, 0, 1) 
 
-# --- Abyss / Out-of-Bounds Protection ---
 const FALL_THRESHOLD: float = -15.0
 var is_respawning: bool = false
 
@@ -29,44 +28,69 @@ func _ready() -> void:
 	camera_yaw = rotation.y
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_ALT and event.pressed:
-		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# Alt-to-Free Mouse toggle
+	if event is InputEventKey and event.keycode == KEY_ALT:
+		if TutorialManager.current_active_step == "alt_mouse":
+			if event.pressed:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				TutorialManager.complete_step("alt_mouse")
+				TutorialManager.current_active_step = "finished"
+				TutorialManager.save_tutorial_to_json()
+				TutorialManager.step_changed.emit("finished")
+		elif TutorialManager.current_active_step == "finished":
+			if event.pressed:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			else:
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		camera_yaw -= event.relative.x * mouse_sensitivity
-		camera_pitch -= event.relative.y * mouse_sensitivity
-		camera_pitch = clamp(camera_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
+			if TutorialManager.camera_allowed:
+				camera_yaw -= event.relative.x * mouse_sensitivity
+				camera_pitch -= event.relative.y * mouse_sensitivity
+				camera_pitch = clamp(camera_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
+				
+				# --- SLOWER ENVIRONMENT SCAN PROGRESS TRACKER ---
+				var look_amount = event.relative.length() * 0.5 # Scaled down for a natural panning feel
+				TutorialManager.record_camera_turn(look_amount)
 
 func _physics_process(delta: float) -> void:
-	# --- Check if player fell below the map ---
 	if global_position.y < FALL_THRESHOLD and not is_respawning:
 		_respawn_at_checkpoint()
 		return
 
-	# 1. Apply Camera Orbit
 	head.rotation.y = camera_yaw
 	head.rotation.x = camera_pitch
 
-	# 2. Handle Gravity
 	if not is_on_floor():
 		velocity.y -= (gravity * gravity_multiplier) * delta
 
-	# 3. Handle Camera-Relative Movement
+	if not TutorialManager.movement_allowed:
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
+		move_and_slide()
+		_update_animation(false)
+		return
+
 	var input = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (head.transform.basis * Vector3(input.x, 0, input.y))
 	direction.y = 0 
 	direction = direction.normalized()
 
+	var current_speed = speed
 	var is_moving = false
 
 	if direction:
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		if Input.is_action_pressed("sprint") and TutorialManager.sprint_allowed:
+			current_speed *= sprint_multiplier
+			TutorialManager.record_sprint() 
+
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
 		last_movement_direction = direction 
 		is_moving = true
+		
+		var distance_traveled = Vector2(velocity.x, velocity.z).length() * delta
+		TutorialManager.record_walk(distance_traveled)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -75,20 +99,16 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_animation(is_moving)
 
-
 func _respawn_at_checkpoint() -> void:
 	is_respawning = true
 	print("❖ Player fell below the world bounds! Respawning...")
 
-	# 1. Smooth fade to black
 	if TransitionManager:
 		await TransitionManager.fade_out(0.3)
 
-	# 2. Stop motion and disable physics temporarily
 	velocity = Vector3.ZERO
 	set_physics_process(false)
 
-	# 3. Locate the current active level's spawn point
 	var current_level = get_tree().current_scene.find_child("LevelContainer", true, false)
 	var spawn_point = null
 	
@@ -99,18 +119,14 @@ func _respawn_at_checkpoint() -> void:
 		global_position = spawn_point.global_position
 	else:
 		global_position = Vector3(0, 5, 0)
-		push_warning("Spawn point 'DefaultSpawn' not found for respawn. Using default coordinates.")
 
-	# 4. Wait a frame, then re-enable physics
 	await get_tree().process_frame
 	set_physics_process(true)
 
-	# 5. Fade back in
 	if TransitionManager:
 		await TransitionManager.fade_in(0.4)
 		
 	is_respawning = false
-
 
 func _update_animation(is_moving: bool) -> void:
 	var state = "walk" if is_moving else "idle"

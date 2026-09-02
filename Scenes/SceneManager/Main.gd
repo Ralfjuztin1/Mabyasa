@@ -14,11 +14,24 @@ var is_loading := false
 
 var pending_saved_position: Vector3 = Vector3.ZERO
 var has_pending_save := false
+var tutorial_instance: Node = null # Tracks the spawned overlay reference
 
 func _ready() -> void:
 	set_process(false) 
 	player.visible = false
 	player.set_physics_process(false)
+	
+	# --- AUTO-SPAWN TUTORIAL UI OVERLAY ---
+	var tutorial_ui_path = "res://Scenes/UI/TutorialUI.tscn"
+	if ResourceLoader.exists(tutorial_ui_path):
+		var tutorial_packed = load(tutorial_ui_path)
+		if tutorial_packed and ui_layer:
+			tutorial_instance = tutorial_packed.instantiate()
+			ui_layer.add_child(tutorial_instance)
+			print("🎓 [TUTORIAL] TutorialUI overlay successfully spawned (waiting for load).")
+	else:
+		push_warning("TutorialUI.tscn not found at path: " + tutorial_ui_path)
+	# ---------------------------------------
 	
 	var level_to_load = "res://Scenes/Main/FirstTown.tscn"
 	var spawn_name = "DefaultSpawn"
@@ -34,6 +47,10 @@ func _ready() -> void:
 				pending_saved_position = Vector3(pos["x"], pos["y"], pos["z"])
 				has_pending_save = true
 				print("❖ Queued save state restore for scene: ", level_to_load)
+	else:
+		print("✨ [RPG FLOW] Brand new user! Loading world.")
+		await get_tree().process_frame
+		SaveManager.save_game(player, level_to_load, false)
 
 	load_new_level_async(level_to_load, spawn_name)
 
@@ -81,6 +98,11 @@ func _process(_delta: float) -> void:
 			_instantiate_level(packed_level)
 			
 			await TransitionManager.fade_in(0.5)
+			
+			# --- TRIGGER WELCOME BOX AFTER LEVEL IS FULLY LOADED & FADED IN ---
+			if tutorial_instance and tutorial_instance.has_method("show_welcome"):
+				if TutorialManager.current_active_step == "intro":
+					tutorial_instance.show_welcome()
 
 		ResourceLoader.THREAD_LOAD_FAILED, ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
 			push_error("Async loading failed for: " + target_level_path)
@@ -98,10 +120,7 @@ func _instantiate_level(packed_level: PackedScene) -> void:
 
 	level_container.add_child(current_level_node)
 	
-	# Update active tracker
 	GameManager.current_level_path = target_level_path
-
-	# --- DEBUG CONSOLE LOG ---
 	print("🗺️ [MAIN WORLD] Active Scene Successfully Loaded & Instantiated: ", target_level_path)
 
 	await get_tree().process_frame
