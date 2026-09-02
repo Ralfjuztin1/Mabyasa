@@ -16,8 +16,11 @@ var camera_yaw: float = 0.0
 var camera_pitch: float = 0.0
 
 # Track the character's absolute 3D direction instead of 2D inputs
-# Vector3(0, 0, 1) means facing toward the camera natively
 var last_movement_direction := Vector3(0, 0, 1) 
+
+# --- Abyss / Out-of-Bounds Protection ---
+const FALL_THRESHOLD: float = -15.0
+var is_respawning: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
@@ -38,13 +41,17 @@ func _input(event: InputEvent) -> void:
 		camera_pitch = clamp(camera_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
 
 func _physics_process(delta: float) -> void:
+	# --- Check if player fell below the map ---
+	if global_position.y < FALL_THRESHOLD and not is_respawning:
+		_respawn_at_checkpoint()
+		return
+
 	# 1. Apply Camera Orbit
 	head.rotation.y = camera_yaw
 	head.rotation.x = camera_pitch
 
 	# 2. Handle Gravity
 	if not is_on_floor():
-		# Multiplies the default gravity so you drop much faster
 		velocity.y -= (gravity * gravity_multiplier) * delta
 
 	# 3. Handle Camera-Relative Movement
@@ -58,8 +65,6 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		
-		# Lock the true 3D direction the character is moving in the world
 		last_movement_direction = direction 
 		is_moving = true
 	else:
@@ -71,20 +76,51 @@ func _physics_process(delta: float) -> void:
 	_update_animation(is_moving)
 
 
+func _respawn_at_checkpoint() -> void:
+	is_respawning = true
+	print("❖ Player fell below the world bounds! Respawning...")
+
+	# 1. Smooth fade to black
+	if TransitionManager:
+		await TransitionManager.fade_out(0.3)
+
+	# 2. Stop motion and disable physics temporarily
+	velocity = Vector3.ZERO
+	set_physics_process(false)
+
+	# 3. Locate the current active level's spawn point
+	var current_level = get_tree().current_scene.find_child("LevelContainer", true, false)
+	var spawn_point = null
+	
+	if current_level and current_level.get_child_count() > 0:
+		spawn_point = current_level.get_child(0).find_child("DefaultSpawn", true, false)
+
+	if spawn_point and spawn_point is Node3D:
+		global_position = spawn_point.global_position
+	else:
+		global_position = Vector3(0, 5, 0)
+		push_warning("Spawn point 'DefaultSpawn' not found for respawn. Using default coordinates.")
+
+	# 4. Wait a frame, then re-enable physics
+	await get_tree().process_frame
+	set_physics_process(true)
+
+	# 5. Fade back in
+	if TransitionManager:
+		await TransitionManager.fade_in(0.4)
+		
+	is_respawning = false
+
+
 func _update_animation(is_moving: bool) -> void:
 	var state = "walk" if is_moving else "idle"
 	
-	# MATH MAGIC: Convert the player's world direction into the camera's local space
 	var local_dir = head.global_transform.basis.inverse() * last_movement_direction
-	
 	var dir = ""
 	
-	# Determine which side of the player the camera is currently looking at
 	if abs(local_dir.x) > abs(local_dir.z):
-		# Looking mostly at the sides
 		dir = "right" if local_dir.x > 0 else "left"
 	else:
-		# Looking mostly at the front or back
 		dir = "front" if local_dir.z > 0 else "back"
 		
 	var anim_name = state + "_" + dir

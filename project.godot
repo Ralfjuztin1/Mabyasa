@@ -17,6 +17,9 @@ config/features=PackedStringArray("4.7", "Mobile")
 [autoload]
 
 SupabaseManager="*uid://bgsvuf0ko0l67"
+GameManager="*uid://c0g2g73lnjsd0"
+TransitionManager="*uid://ddqj11m4lwktm"
+SaveManager="*uid://b5q4pq0a7jrnb"
 
 [display]
 
@@ -28,6 +31,15 @@ window/stretch/aspect="expand"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/MarchingSquaresTerrain/plugin.cfg", "res://addons/scatter/plugin.cfg", "res://addons/speechbubble3d/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "blue",
+"res://Scenes/": "green",
+"res://Scripts/": "orange",
+"res://addons/": "gray"
+}
 
 [input]
 

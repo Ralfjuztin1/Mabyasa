@@ -11,12 +11,12 @@ var base_headers = [
 	"apikey: " + SUPABASE_KEY,
 	"Authorization: Bearer " + SUPABASE_KEY,
 	"Content-Type: application/json",
-    "Prefer: return=representation"
+	"Prefer: return=representation"
 ]
 
 var auth_headers = [
 	"apikey: " + SUPABASE_KEY,
-    "Content-Type: application/json"
+	"Content-Type: application/json"
 ]
 
 # --- Nodes & Variables ---
@@ -27,6 +27,7 @@ signal registration_completed(success: bool, message: String)
 signal login_completed(success: bool, message: String)
 
 var session_token: String = ""
+var current_user_email: String = "guest" # Tracks who is currently logged in for local saves
 
 # --- Initialization ---
 func _ready():
@@ -50,6 +51,9 @@ func register_user(email: String, password: String, username: String):
 		registration_completed.emit(false, "Network error.")
 
 func login_user(email: String, password: String):
+	# Save the user email locally so the SaveManager knows whose file to use
+	current_user_email = email.strip_edges().to_lower()
+	
 	var body = JSON.stringify({
 		"email": email,
 		"password": password

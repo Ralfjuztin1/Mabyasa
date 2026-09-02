@@ -1,15 +1,18 @@
 [gd_scene format=3 uid="uid://bqs63drra6vin"]
 
-[ext_resource type="Script" uid="uid://g4m2dc7h55qs" path="res://Scenes/SceneManager/Main.gd" id="1_ticht"]
-[ext_resource type="PackedScene" uid="uid://crl4dujp2yhm4" path="res://Scenes/Characters/Player/player.tscn" id="2_jrpmo"]
+[ext_resource type="Script" uid="uid://g4m2dc7h55qs" path="res://Scenes/SceneManager/Main.gd" id="1_d2boy"]
+[ext_resource type="PackedScene" uid="uid://crl4dujp2yhm4" path="res://Scenes/Characters/Player/player.tscn" id="2_8w6v0"]
+[ext_resource type="PackedScene" uid="uid://0axw3ppda6w7" path="res://Scenes/UI/PauseMenu.tscn" id="2_jrpmo"]
 
 [node name="Main" type="Node" unique_id=1964064950]
-script = ExtResource("1_ticht")
+script = ExtResource("1_d2boy")
 
 [node name="LevelContainer" type="Node3D" parent="." unique_id=1901319559]
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=751941855]
 layer = 10
 
-[node name="Player" parent="." unique_id=877630363 instance=ExtResource("2_jrpmo")]
+[node name="PauseMenu" parent="UILayer" unique_id=2059153811 instance=ExtResource("2_jrpmo")]
+
+[node name="Player" parent="." unique_id=877630363 instance=ExtResource("2_8w6v0")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 5.8369637, 0)

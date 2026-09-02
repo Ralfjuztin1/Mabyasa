@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dudb76t4kewws"]
 
 [ext_resource type="Script" uid="uid://dw0i0uy38iot0" path="res://Scenes/Main/first_town.gd" id="1_8k2fn"]
+[ext_resource type="Script" uid="uid://cq0lmxxgiherr" path="res://Scenes/Main/trees_manager.gd" id="3_tx8nu"]
 [ext_resource type="Shader" uid="uid://v6gda6oqxkp0" path="res://Assets/Shaders/Water.gdshader" id="4_b2kth"]
 [ext_resource type="ArrayMesh" uid="uid://npf0afhh3cgd" path="res://Assets/Environment/stylized nature gltf/CommonTree1.tres" id="5_rxw54"]
 [ext_resource type="Script" uid="uid://cddg1xr5hye1d" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain.gd" id="6_5eqbr"]
@@ -9,6 +10,7 @@
 [ext_resource type="ArrayMesh" uid="uid://ub5p53xabogh" path="res://Assets/Environment/stylized nature gltf/CommonTree2.tres" id="7_5eqbr"]
 [ext_resource type="Script" uid="uid://cql4d8s5t5xcx" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain_chunk.gd" id="7_8k2fn"]
 [ext_resource type="Resource" uid="uid://jdoey7rl3qs8" path="res://Assets/ScatterTreesTres/common_tree_2_scatter.tres" id="8_8k2fn"]
+[ext_resource type="Script" uid="uid://cjeb0trji0kbd" path="res://Scenes/Main/house_manager.gd" id="8_bm7lg"]
 [ext_resource type="Script" uid="uid://22l7ysgniux3" path="res://addons/MarchingSquaresTerrain/algorithm/grass/marching_squares_grass_planter.gd" id="8_tx8nu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
@@ -138,6 +140,7 @@ shadow_enabled = true
 
 [node name="TreesManager" type="Node3D" parent="." unique_id=872289235]
 transform = Transform3D(1.085, 0, 0, 0, 1.085, 0, 0, 0, 1.085, 14, 0, -12)
+script = ExtResource("3_tx8nu")
 
 [node name="CommonTree1" type="MultiMeshInstance3D" parent="TreesManager" unique_id=919839661]
 transform = Transform3D(-0.26321894, 0, 0.98234683, 0, 1.0170004, 0, -0.98234683, 0, -0.26321894, -12.90323, 0, -33.179733)
@@ -153,6 +156,7 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 [node name="npc" type="Node3D" parent="." unique_id=540821247]
 
 [node name="Houses" type="Node3D" parent="." unique_id=282204192]
+script = ExtResource("8_bm7lg")
 
 [node name="House1" type="MeshInstance3D" parent="Houses" unique_id=1583407640]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -26, 0, -65)

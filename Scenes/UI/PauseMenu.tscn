@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://0axw3ppda6w7"]
+
+[ext_resource type="Script" uid="uid://cqy4cq4few4h5" path="res://Scenes/UI/PauseMenu.gd" id="1_eod5q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidebar"]
+bg_color = Color(0.06, 0.06, 0.09, 0.92)
+border_width_left = 3
+border_color = Color(0.75, 0.65, 0.4, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_separator"]
+color = Color(0.75, 0.65, 0.4, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+bg_color = Color(0.15, 0.15, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.35, 0.25, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
+bg_color = Color(0.08, 0.08, 0.11, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.25, 0.15, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(0.25, 0.25, 0.33, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.85, 0.5, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=2059153811]
+layer = 50
+script = ExtResource("1_eod5q")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=405575369]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.02, 0.02, 0.05, 0.4)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=622016997]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Spacer" type="Control" parent="HBoxContainer" unique_id=1017877906]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SidebarPanel" type="PanelContainer" parent="HBoxContainer" unique_id=227650948]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/SidebarPanel" unique_id=1813474206]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/SidebarPanel/MarginContainer" unique_id=2103352509]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=547939672]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+text = "❖ SYSTEM MENU ❖"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=873079590]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_separator")
+
+[node name="ControlSpacer" type="Control" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=623763498]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=1834299729]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hover")
+text = "Resume Journey"
+
+[node name="SpacerBottom" type="Control" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=20737544]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="QuitButton" type="Button" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=32590597]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hover")
+text = "Save & Return to Menu"

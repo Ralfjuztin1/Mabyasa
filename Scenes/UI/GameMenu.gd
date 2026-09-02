@@ -41,9 +41,24 @@ func _setup_button_animations(button: Button):
 		tween.tween_property(button, "scale", Vector2(1.0, 1.0), 0.1)
 	)
 
-func _on_play_pressed():
-	print("Loading the 2.5D Game World...")
+# Inside GameMenu.gd
+
+# Inside GameMenu.gd
+
+func _on_play_pressed() -> void:
+	print("Loading game world...")
+	
+	# Check dynamically using the active user's account file
+	if SaveManager.has_save():
+		GameManager.should_load_save = true
+		print("Found user save file! Loading position...")
+	else:
+		GameManager.should_load_save = false
+		print("No save file found for this user. Starting fresh.")
+	
+	await TransitionManager.fade_out(0.5)
 	get_tree().change_scene_to_file("res://Scenes/SceneManager/Main.tscn")
+	TransitionManager.fade_in(0.5)
 
 func _on_settings_pressed():
 	print("Opening Settings...")

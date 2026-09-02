@@ -118,13 +118,22 @@ func _set_status(message: String, color: Color):
 	status_label.text = message
 	status_label.modulate = color
 
+# Inside AuthScreen.gd
+
 func _on_login_completed(success: bool, message: String):
-	login_button.disabled = false
 	if success:
 		_set_status("Welcome, Adventurer!", Color(0.3, 0.9, 0.4))
-		# Add this line to load the new menu!
+		
+		# Fade to black
+		await TransitionManager.fade_out(0.5)
+		
+		# Swap to the Game Menu
 		get_tree().change_scene_to_file("res://Scenes/UI/GameMenu.tscn")
+		
+		# Fade back in once the menu is loaded
+		TransitionManager.fade_in(0.5)
 	else:
+		login_button.disabled = false
 		_set_status(message, Color(1, 0.3, 0.3))
 		_shake_panel()
 
