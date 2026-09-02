@@ -1,8 +1,8 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://dpnr3ffv4a0cb"]
 
-[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://asset2/T_WoodTrim_BaseColor.png" id="1_8wxnc"]
-[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://asset2/T_WoodTrim_Roughness.png" id="2_egaj3"]
-[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://asset2/T_WoodTrim_Normal.png" id="3_igtl3"]
+[ext_resource type="Texture2D" uid="uid://cb233us02as86" path="res://Assets/Environment/medieval gltf/T_WoodTrim_BaseColor.png" id="1_8wxnc"]
+[ext_resource type="Texture2D" uid="uid://dlvag0xgbctch" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Roughness.png" id="2_egaj3"]
+[ext_resource type="Texture2D" uid="uid://c2krmaxvoogu4" path="res://Assets/Environment/medieval gltf/T_WoodTrim_Normal.png" id="3_igtl3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8rfph"]
 resource_name = "MI_WoodTrim"

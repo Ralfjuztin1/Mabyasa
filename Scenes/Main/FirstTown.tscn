@@ -12,6 +12,8 @@
 [ext_resource type="Resource" uid="uid://jdoey7rl3qs8" path="res://Assets/ScatterTreesTres/common_tree_2_scatter.tres" id="8_8k2fn"]
 [ext_resource type="Script" uid="uid://cjeb0trji0kbd" path="res://Scenes/Main/house_manager.gd" id="8_bm7lg"]
 [ext_resource type="Script" uid="uid://22l7ysgniux3" path="res://addons/MarchingSquaresTerrain/algorithm/grass/marching_squares_grass_planter.gd" id="8_tx8nu"]
+[ext_resource type="ArrayMesh" uid="uid://d3636xxtm0ybq" path="res://Assets/Houses/house2.tres" id="10_rpreu"]
+[ext_resource type="ArrayMesh" uid="uid://ddw6tgqpoupy5" path="res://Assets/Houses/house3.tres" id="11_fbikn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -155,16 +157,32 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 
 [node name="npc" type="Node3D" parent="." unique_id=540821247]
 
-[node name="Houses" type="Node3D" parent="." unique_id=282204192]
+[node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
 script = ExtResource("8_bm7lg")
 
-[node name="House1" type="MeshInstance3D" parent="Houses" unique_id=1583407640]
+[node name="House1" type="MeshInstance3D" parent="HousesAndProps" unique_id=1583407640]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -26, 0, -65)
 mesh = ExtResource("6_8k2fn")
 
-[node name="House2" type="MeshInstance3D" parent="Houses" unique_id=1309290031]
+[node name="House2" type="MeshInstance3D" parent="HousesAndProps" unique_id=1309290031]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 33, 0, -62)
 mesh = ExtResource("6_8k2fn")
+
+[node name="House3" type="MeshInstance3D" parent="HousesAndProps" unique_id=2076034032]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -30, 0, -46)
+mesh = ExtResource("10_rpreu")
+
+[node name="House5" type="MeshInstance3D" parent="HousesAndProps" unique_id=925518912]
+transform = Transform3D(0.25881907, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881907, 41, 0, -41)
+mesh = ExtResource("10_rpreu")
+
+[node name="House6" type="MeshInstance3D" parent="HousesAndProps" unique_id=1959354283]
+transform = Transform3D(-0.8660254, 0, -0.50000006, 0, 1, 0, 0.50000006, 0, -0.8660254, 25, 0, -25)
+mesh = ExtResource("11_fbikn")
+
+[node name="House7" type="MeshInstance3D" parent="HousesAndProps" unique_id=751607103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -67)
+mesh = ExtResource("11_fbikn")
 
 [node name="MarchingSquaresTerrain" type="Node3D" parent="." unique_id=288680709]
 script = ExtResource("6_5eqbr")
@@ -172,7 +190,8 @@ data_directory = "res://Scenes/Main/FirstTown_TerrainData/MarchingSquaresTerrain
 polygon_texture_resolution = 12
 _storage_initialized = true
 cell_size = Vector2(1, 1)
-texture_albedo_2 = Color(0.58431375, 0.48235294, 0.38431373, 1)
+tex2_has_grass = false
+texture_albedo_2 = Color(0.69803923, 0.58431375, 0.44313726, 1)
 metadata/_custom_type_script = "uid://cddg1xr5hye1d"
 
 [node name="Chunk (-1, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=1507031163 node_paths=PackedStringArray("terrain_system")]

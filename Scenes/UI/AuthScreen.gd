@@ -21,6 +21,9 @@ extends Control
 @onready var switch_to_login_btn = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/SwitchToLogin
 
 func _ready():
+	# --- Ensure mouse cursor is visible and free on the Auth screen ---
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 	# Connect Button Presses
 	login_button.pressed.connect(_on_login_pressed)
 	register_button.pressed.connect(_on_register_pressed)

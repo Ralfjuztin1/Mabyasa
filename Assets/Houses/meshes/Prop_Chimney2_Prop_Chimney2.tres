@@ -1,8 +1,8 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://ckq2bskkdcqdn"]
 
-[ext_resource type="Texture2D" uid="uid://pfcqfhsfpste" path="res://asset2/T_UnevenBrick_BaseColor.png" id="1_b0eak"]
-[ext_resource type="Texture2D" uid="uid://c1bhe4f0jatrb" path="res://asset2/T_UnevenBrick_Roughness.png" id="2_lqwh7"]
-[ext_resource type="Texture2D" uid="uid://bgv0v7nwrtjhx" path="res://asset2/T_UnevenBrick_Normal.png" id="3_e43ax"]
+[ext_resource type="Texture2D" uid="uid://pfcqfhsfpste" path="res://Assets/Environment/medieval gltf/T_UnevenBrick_BaseColor.png" id="1_b0eak"]
+[ext_resource type="Texture2D" uid="uid://c1bhe4f0jatrb" path="res://Assets/Environment/medieval gltf/T_UnevenBrick_Roughness.png" id="2_lqwh7"]
+[ext_resource type="Texture2D" uid="uid://bgv0v7nwrtjhx" path="res://Assets/Environment/medieval gltf/T_UnevenBrick_Normal.png" id="3_e43ax"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bakc3"]
 resource_name = "MI_UnevenBrick"

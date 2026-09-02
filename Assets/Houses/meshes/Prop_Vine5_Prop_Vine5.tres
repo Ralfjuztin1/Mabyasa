@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://ba2xd4dpdo5n7"]
 
-[ext_resource type="Texture2D" uid="uid://6leoit53mvkr" path="res://asset2/T_VineLeaf_png.png" id="1_cxooh"]
+[ext_resource type="Texture2D" uid="uid://6leoit53mvkr" path="res://Assets/Environment/medieval gltf/T_VineLeaf_png.png" id="1_cxooh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktj5v"]
 resource_name = "MI_Vine"
