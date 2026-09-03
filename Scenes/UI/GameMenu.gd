@@ -3,17 +3,20 @@ extends Control
 @onready var panel_container = $CenterContainer/PanelContainer
 @onready var play_button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox/PlayButton
 @onready var settings_button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox/SettingsButton
+@onready var logout_button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox/LogoutButton
 @onready var quit_button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox/QuitButton
 
 func _ready():
-	# Connect buttons
+	# Connect buttons safely
 	play_button.pressed.connect(_on_play_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
+	logout_button.pressed.connect(_on_logout_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	
-	# Add hover animations
+	# Add hover animations to all interactive buttons
 	_setup_button_animations(play_button)
 	_setup_button_animations(settings_button)
+	_setup_button_animations(logout_button)
 	_setup_button_animations(quit_button)
 	
 	# Animate menu pop-in
@@ -41,10 +44,6 @@ func _setup_button_animations(button: Button):
 		tween.tween_property(button, "scale", Vector2(1.0, 1.0), 0.1)
 	)
 
-# Inside GameMenu.gd
-
-# Inside GameMenu.gd
-
 func _on_play_pressed() -> void:
 	print("Loading game world...")
 	
@@ -63,6 +62,14 @@ func _on_play_pressed() -> void:
 func _on_settings_pressed():
 	print("Opening Settings...")
 	# TODO: Open a settings panel here later
+
+func _on_logout_pressed() -> void:
+	print("Logging out, returning to Auth screen...")
+	if TransitionManager:
+		await TransitionManager.fade_out(0.3)
+	get_tree().change_scene_to_file("res://Scenes/UI/AuthScreen.tscn")
+	if TransitionManager:
+		TransitionManager.fade_in(0.3)
 
 func _on_quit_pressed():
 	# Safely close the game

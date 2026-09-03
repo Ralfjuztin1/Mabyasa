@@ -1,126 +1,380 @@
 [gd_scene format=3 uid="uid://0axw3ppda6w7"]
 
 [ext_resource type="Script" uid="uid://cqy4cq4few4h5" path="res://Scenes/UI/PauseMenu.gd" id="1_eod5q"]
+[ext_resource type="Texture2D" uid="uid://dbjgc5q1n5mp8" path="res://Assets/UI/UI Assets pack_v.1_st/UI.png" id="2_n4i8v"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidebar"]
-bg_color = Color(0.06, 0.06, 0.09, 0.92)
-border_width_left = 3
-border_color = Color(0.75, 0.65, 0.4, 1)
-corner_detail = 1
-anti_aliasing = false
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkoqs"]
+atlas = ExtResource("2_n4i8v")
+region = Rect2(209, 82, 46, 45)
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_separator"]
-color = Color(0.75, 0.65, 0.4, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = SubResource("AtlasTexture_xkoqs")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_GoldSep"]
+color = Color(0.85, 0.75, 0.45, 0.4)
 thickness = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
-bg_color = Color(0.15, 0.15, 0.2, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.4, 0.35, 0.25, 1)
-corner_detail = 1
-anti_aliasing = false
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_avatar"]
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
-bg_color = Color(0.08, 0.08, 0.11, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.3, 0.25, 0.15, 1)
-corner_detail = 1
-anti_aliasing = false
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xp_bg"]
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
-bg_color = Color(0.25, 0.25, 0.33, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.85, 0.5, 1)
-corner_detail = 1
-anti_aliasing = false
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xp_fill"]
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 
-[node name="PauseMenu" type="CanvasLayer" unique_id=2059153811]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_n"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_p"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_h"]
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1552715194]
+process_mode = 3
 layer = 50
 script = ExtResource("1_eod5q")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=405575369]
+[node name="Overlay" type="ColorRect" parent="." unique_id=1487501929]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
-color = Color(0.02, 0.02, 0.05, 0.4)
+color = Color(0.02, 0.02, 0.05, 0.6)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=622016997]
+[node name="LayoutWrapper" type="HBoxContainer" parent="." unique_id=1210070847]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 
-[node name="Spacer" type="Control" parent="HBoxContainer" unique_id=1017877906]
+[node name="LeftSpacer" type="Control" parent="LayoutWrapper" unique_id=220763358]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SidebarPanel" type="PanelContainer" parent="HBoxContainer" unique_id=227650948]
-custom_minimum_size = Vector2(360, 0)
+[node name="RightPanel" type="PanelContainer" parent="LayoutWrapper" unique_id=470818395]
+texture_filter = 1
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
+
+[node name="Margin" type="MarginContainer" parent="LayoutWrapper/RightPanel" unique_id=1732097672]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 44
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="LayoutWrapper/RightPanel/Margin" unique_id=1417108137]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="HeaderRow" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=1161558120]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="HeaderLineLeft" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=2097557436]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_GoldSep")
+
+[node name="HeaderLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=1613044962]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "P A U S E D"
+
+[node name="HeaderLineRight" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=1977381059]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_GoldSep")
+
+[node name="ProfileSection" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=1972466088]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="AvatarPanel" type="PanelContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection" unique_id=185707667]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_avatar")
+
+[node name="Icon" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/AvatarPanel" unique_id=165774220]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "👤"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection" unique_id=494409147]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1009424513]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Trailblazer"
+
+[node name="LevelUID" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1564251317]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 13
+text = "Lv. 60  |  UID: 800012345"
+
+[node name="XPBar" type="ProgressBar" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=217665015]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_xp_bg")
+theme_override_styles/fill = SubResource("StyleBoxTexture_xp_fill")
+value = 65.0
+show_percentage = false
+
+[node name="XPLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=695597973]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "EXP  6500 / 10000"
+
+[node name="MidSeparator" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=2117323226]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_GoldSep")
+
+[node name="MenuGrid" type="GridContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=776126724]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="GridBtn1" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620957481]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_store_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_store_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_store_h")
+text = "Store"
+
+[node name="GridBtn2" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1198096072]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_party_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_party_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_party_h")
+text = "Party"
+
+[node name="GridBtn3" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=627869675]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_wish_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_wish_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wish_h")
+text = "Wish"
+
+[node name="GridBtn4" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1362457227]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_missions_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_missions_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_missions_h")
+text = "Missions"
+
+[node name="GridBtn5" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1475755962]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_inv_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_inv_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_inv_h")
+text = "Inventory"
+
+[node name="GridBtn6" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620785726]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_settings_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_settings_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_settings_h")
+text = "Settings"
+
+[node name="VerticalSpacer" type="Control" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=986409493]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/SidebarPanel" unique_id=1813474206]
-layout_mode = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 40
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/SidebarPanel/MarginContainer" unique_id=2103352509]
+[node name="BottomBar" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=1165923221]
 layout_mode = 2
 theme_override_constants/separation = 16
+alignment = 2
 
-[node name="Title" type="Label" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=547939672]
+[node name="QuitButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=1812516780]
+custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.85, 0.5, 1)
-theme_override_font_sizes/font_size = 22
-text = "❖ SYSTEM MENU ❖"
+theme_override_styles/normal = SubResource("StyleBoxTexture_quit_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_quit_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_quit_h")
+text = "Quit Game"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=873079590]
+[node name="ResumeButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=1689735471]
+custom_minimum_size = Vector2(160, 50)
 layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_separator")
-
-[node name="ControlSpacer" type="Control" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=623763498]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="ResumeButton" type="Button" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=1834299729]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_hover")
-text = "Resume Journey"
-
-[node name="SpacerBottom" type="Control" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=20737544]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="QuitButton" type="Button" parent="HBoxContainer/SidebarPanel/MarginContainer/VBoxContainer" unique_id=32590597]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_hover")
-text = "Save & Return to Menu"
+theme_override_styles/normal = SubResource("StyleBoxTexture_resume_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_resume_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_resume_h")
+text = "Resume"

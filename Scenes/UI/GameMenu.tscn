@@ -1,41 +1,57 @@
 [gd_scene format=3 uid="uid://dann62fk5ba2p"]
 
 [ext_resource type="Script" uid="uid://d3jbvh7tc26qr" path="res://Scenes/UI/GameMenu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
+[ext_resource type="Texture2D" uid="uid://dwftyq0c3hm2a" path="res://Assets/UI/MabyasaUI/Better Text Area 2.png" id="3_no6tp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_WoodPanel"]
-bg_color = Color(0.24, 0.14, 0.08, 0.96)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.1, 0.05, 0.02, 1)
-shadow_size = 8
+[sub_resource type="AtlasTexture" id="AtlasTexture_quh2r"]
+atlas = ExtResource("3_no6tp")
+region = Rect2(82, 0, 46, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmk2x"]
+texture = SubResource("AtlasTexture_quh2r")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
-bg_color = Color(0.42, 0.24, 0.12, 1)
+bg_color = Color(0.8117647, 0.61960787, 0.5372549, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.18, 0.09, 0.04, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.85, 0.75, 0.45, 0.25)
+shadow_size = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
-bg_color = Color(0.28, 0.15, 0.07, 1)
+bg_color = Color(0.7, 0.6, 0.32, 1)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.1, 0.05, 0.02, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.55, 0.32, 0.15, 1)
+bg_color = Color(0.95, 0.85, 0.55, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.92, 0.72, 0.25, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.85, 0.75, 0.45, 0.45)
+shadow_size = 18
 
-[node name="GameMenu" type="Control" unique_id=1151661718]
+[node name="GameMenu" type="Control" unique_id=26290056]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,78 +60,145 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="." unique_id=219999773]
+[node name="Background" type="TextureRect" parent="." unique_id=1319065629]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.06, 0.04, 0.03, 1)
+texture = ExtResource("2_u55fw")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=550557814]
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=1915380897]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.7)
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1568182379]
-custom_minimum_size = Vector2(280, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_WoodPanel")
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1710019761]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -151.0
+offset_right = 160.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1076030213]
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1099985729]
+texture_filter = 1
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 32
+offset_transform_scale = Vector2(0.875, 0.75)
+offset_transform_visual_only = false
+theme_override_styles/panel = SubResource("StyleBoxTexture_vmk2x")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=69881154]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1896043242]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 36
 
-[node name="GameTitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=211795297]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=2074523984]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.78, 0.35, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.02, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-text = "❖ MABYASA ❖"
+theme_override_constants/separation = 24
+
+[node name="GameTitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=460845314]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 24
+text = "❖ MAIN MENU ❖"
 horizontal_alignment = 1
 
-[node name="ButtonBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1838359617]
+[node name="ButtonBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=902570761]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="PlayButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=574235587]
-custom_minimum_size = Vector2(0, 40)
+[node name="PlayButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=643762441]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
-text = "Start"
+text = "Start Game"
 
-[node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=89099279]
-custom_minimum_size = Vector2(0, 40)
+[node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=1647876188]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 text = "Settings"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=590391720]
-custom_minimum_size = Vector2(0, 40)
+[node name="LogoutButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=898651916]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+text = "Logout"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=898651917]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 text = "Quit Game"
+
+[node name="TopBar" type="MarginContainer" parent="." unique_id=1654126862]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = 250.0
+grow_vertical = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="PlayerInfo" type="VBoxContainer" parent="TopBar" unique_id=1354200419]
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="TopBar/PlayerInfo" unique_id=2046134722]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18
+text = "Username"
+
+[node name="UIDLabel" type="Label" parent="TopBar/PlayerInfo" unique_id=253989358]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "UID: 00000"

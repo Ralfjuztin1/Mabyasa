@@ -18,7 +18,7 @@ var camera_pitch: float = 0.0
 
 var last_movement_direction := Vector3(0, 0, 1) 
 
-const FALL_THRESHOLD: float = -15.0
+const FALL_THRESHOLD: float = -5.0
 var is_respawning: bool = false
 
 func _ready() -> void:

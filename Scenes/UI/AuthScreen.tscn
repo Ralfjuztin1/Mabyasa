@@ -1,47 +1,73 @@
 [gd_scene format=3 uid="uid://c27kaowi6h0gw"]
 
 [ext_resource type="Script" uid="uid://bki0w5bsr630i" path="res://Scenes/UI/AuthScreen.gd" id="1_qdewa"]
+[ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
+[ext_resource type="Texture2D" uid="uid://dkeboxilae8ck" path="res://Assets/UI/MabyasaUI/mabiyasaWHITE.png" id="3_a4dlk"]
+[ext_resource type="Texture2D" uid="uid://dwftyq0c3hm2a" path="res://Assets/UI/MabyasaUI/Better Text Area 2.png" id="4_a4dlk"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_WoodPanel"]
-bg_color = Color(0.24, 0.14, 0.08, 0.96)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.1, 0.05, 0.02, 1)
-shadow_size = 8
+[sub_resource type="AtlasTexture" id="AtlasTexture_quh2r"]
+atlas = ExtResource("4_a4dlk")
+region = Rect2(82, 0, 46, 32)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Input"]
-bg_color = Color(0.12, 0.07, 0.04, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmk2x"]
+texture = SubResource("AtlasTexture_quh2r")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InputNormal"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.03, 0.04, 0.07, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
 border_width_bottom = 2
-border_color = Color(0.28, 0.18, 0.1, 1)
+border_color = Color(0.2, 0.25, 0.35, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InputFocus"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.05, 0.07, 0.11, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.85, 0.75, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
-bg_color = Color(0.42, 0.24, 0.12, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18, 0.09, 0.04, 1)
+bg_color = Color(0.85, 0.75, 0.45, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.85, 0.75, 0.45, 0.25)
+shadow_size = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
-bg_color = Color(0.28, 0.15, 0.07, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.1, 0.05, 0.02, 1)
+bg_color = Color(0.7, 0.6, 0.32, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.55, 0.32, 0.15, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.92, 0.72, 0.25, 1)
+bg_color = Color(0.95, 0.85, 0.55, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.85, 0.75, 0.45, 0.45)
+shadow_size = 18
 
 [node name="MainMenu" type="Control" unique_id=1531872894]
 layout_mode = 3
@@ -52,125 +78,179 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qdewa")
 
-[node name="Background" type="ColorRect" parent="." unique_id=855736341]
+[node name="Background" type="TextureRect" parent="." unique_id=855736341]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.093417816, 0.020966468, 0.013022674, 1)
+texture = ExtResource("2_u55fw")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=250252130]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.7)
+
+[node name="Logo" type="TextureRect" parent="." unique_id=788257062]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 70.0
+offset_bottom = 230.0
+grow_horizontal = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.66, 1.66)
+texture = ExtResource("3_a4dlk")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=608311785]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=221249326]
-custom_minimum_size = Vector2(320, 0)
+texture_filter = 1
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_WoodPanel")
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.875, 0.75)
+offset_transform_visual_only = false
+theme_override_styles/panel = SubResource("StyleBoxTexture_vmk2x")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=200347423]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.87, 1.05)
+offset_transform_visual_only = false
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 36
 
 [node name="MainVBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=78020409]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 18
 
 [node name="HeaderTitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1870410298]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.78, 0.35, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.02, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-text = "❖ LOGIN ❖"
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 20
+text = "❖ WELCOME!❖"
 horizontal_alignment = 1
 
 [node name="LoginBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=713190584]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 14
 
 [node name="LoginEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=321165319]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Email Address"
 
 [node name="LoginPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1205203109]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Password"
 secret = true
 
 [node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1025739782]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
-text = "Login"
+text = "Enter Game"
 
 [node name="SwitchToRegister" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=88481749]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.6, 0.45, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.78, 0.35, 1)
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_colors/font_hover_color = Color(0.85, 0.75, 0.45, 1)
 text = "New Adventurer? Register"
 flat = true
 
 [node name="RegisterBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1159984278]
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 14
 
 [node name="RegUsername" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1257502311]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Adventurer Name"
 
 [node name="RegEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=722484509]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Email Address"
 
 [node name="RegPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1327827692]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.85, 0.75, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_Input")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Password (Min 6 chars)"
 secret = true
 
 [node name="RegisterButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1148927108]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.5, 1)
+theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
-text = "Register"
+text = "Create Account"
 
 [node name="SwitchToLogin" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1790851975]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.6, 0.45, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.78, 0.35, 1)
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_colors/font_hover_color = Color(0.85, 0.75, 0.45, 1)
 text = "Back to Login"
 flat = true
 
 [node name="StatusLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=2143531663]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

@@ -48,6 +48,10 @@ func _ready() -> void:
 	TutorialManager.progress_updated.connect(_on_progress_bar_updated)
 	TutorialManager.tutorial_step_completed.connect(_on_step_completed)
 
+	# Automatically pop up the welcome window if this is a brand new account ("intro" step)
+	if TutorialManager.current_active_step == "intro":
+		show_welcome()
+
 func show_welcome() -> void:
 	if TutorialManager.current_active_step == "finished":
 		return
