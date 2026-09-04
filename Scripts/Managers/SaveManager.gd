@@ -1,6 +1,5 @@
 extends Node
 
-# Generates a unique save file path based on the logged-in Supabase user email
 func _get_save_path() -> String:
 	var user_id = "guest"
 	if SupabaseManager and not SupabaseManager.current_user_email.is_empty():
@@ -12,12 +11,10 @@ func save_game(player: CharacterBody3D, current_scene_path: String, tutorial_don
 	if not is_instance_valid(player):
 		return
 
-	# Load existing data first so we don't overwrite flags like tutorial_completed
 	var existing_data = load_game()
 	var final_tutorial_status = tutorial_done
 	
 	if not existing_data.is_empty():
-		# Once tutorial_completed is true, it stays true forever (prevents false overwrites)
 		var previous_status = existing_data.get("tutorial_completed", false)
 		final_tutorial_status = previous_status or tutorial_done
 
@@ -28,13 +25,19 @@ func save_game(player: CharacterBody3D, current_scene_path: String, tutorial_don
 			"y": player.global_position.y,
 			"z": player.global_position.z
 		},
-		"current_scene": current_scene_path
+		"current_scene": current_scene_path,
+		
+		# ➔ Integrates all game subsystems natively and safely
+		"progression": PlayerProgression.get_save_data() if PlayerProgression else {},
+		"time": TimeManager.get_save_data() if TimeManager else {},
+		"quests": QuestManager.get_save_data() if QuestManager else {}
 	}
 
 	var file_path = _get_save_path()
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
-		var json_string = JSON.stringify(game_data)
+		# Pretty-print with tabs for easier manual debugging
+		var json_string = JSON.stringify(game_data, "\t")
 		file.store_string(json_string)
 		
 		print("💾 [SAVE MANAGER] Game successfully saved!")
@@ -60,7 +63,15 @@ func load_game() -> Dictionary:
 		
 		if error == OK:
 			var data = json.get_data()
-			# --- DEBUG CONSOLE LOG ---
+			
+			# ➔ Automatically restores manager states from the loaded save file
+			if data.has("progression") and PlayerProgression:
+				PlayerProgression.load_save_data(data["progression"])
+			if data.has("time") and TimeManager:
+				TimeManager.load_save_data(data["time"])
+			if data.has("quests") and QuestManager:
+				QuestManager.load_save_data(data["quests"])
+				
 			print("📂 [SAVE MANAGER] Save file loaded successfully!")
 			print("   ├── File Path:  ", file_path)
 			print("   ├── Map Scene:  ", data.get("current_scene", "Unknown"))

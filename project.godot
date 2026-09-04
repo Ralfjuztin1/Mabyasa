@@ -21,6 +21,10 @@ GameManager="*uid://c0g2g73lnjsd0"
 TransitionManager="*uid://cs8yx3ottg1hh"
 SaveManager="*uid://b5q4pq0a7jrnb"
 TutorialManager="*uid://bocr1ftvonao"
+PlayerProgression="*uid://b8ddoi7ofgj23"
+GameEvents="*uid://qqbjeor7y7gb"
+TimeManager="*uid://bldwd52t0h1o3"
+QuestManager="*uid://d2akdm0u3p2n3"
 
 [display]
 
