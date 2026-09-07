@@ -27,7 +27,8 @@ signal registration_completed(success: bool, message: String)
 signal login_completed(success: bool, message: String)
 
 var session_token: String = ""
-var current_user_email: String = "guest" # Tracks who is currently logged in for local saves
+var current_user_email: String = "guest"
+var pending_action: String = "" # Tracks whether we are logging in or registering to prevent signal mix-ups
 
 # --- Initialization ---
 func _ready():
@@ -35,6 +36,13 @@ func _ready():
 
 # --- Authentication Functions ---
 func register_user(email: String, password: String, username: String):
+	pending_action = "register"
+	current_user_email = email.strip_edges().to_lower()
+	
+	if GameManager:
+		GameManager.active_user_email = current_user_email
+		print("🔑 [SUPABASE] Registration intent locked for: ", current_user_email)
+
 	var body = JSON.stringify({
 		"email": email,
 		"password": password,
@@ -51,8 +59,13 @@ func register_user(email: String, password: String, username: String):
 		registration_completed.emit(false, "Network error.")
 
 func login_user(email: String, password: String):
-	# Save the user email locally so the SaveManager knows whose file to use
+	pending_action = "login"
 	current_user_email = email.strip_edges().to_lower()
+	
+	# ➔ SECURED: Immediately store email in both managers before network call
+	if GameManager:
+		GameManager.active_user_email = current_user_email
+		print("🔑 [SUPABASE] Login session secured for: ", current_user_email)
 	
 	var body = JSON.stringify({
 		"email": email,
@@ -67,11 +80,14 @@ func login_user(email: String, password: String):
 		login_completed.emit(false, "Network error.")
 
 func _on_auth_request_completed(result, response_code, headers, body):
-	var response = JSON.parse_string(body.get_string_from_utf8())
+	var json_text = body.get_string_from_utf8()
+	var response = JSON.parse_string(json_text) if not json_text.is_empty() else {}
+	if response == null: response = {}
 	
-	if response_code == 200:
-		if response.has("access_token"):
-			session_token = response["access_token"]
+	if response_code == 200 or response_code == 201:
+		if pending_action == "login":
+			if response.has("access_token"):
+				session_token = response["access_token"]
 			print("Login successful!")
 			login_completed.emit(true, "Welcome back!")
 		else:
@@ -80,5 +96,8 @@ func _on_auth_request_completed(result, response_code, headers, body):
 	else:
 		var error_message = response.get("error_description", response.get("msg", "Unknown error."))
 		print("Auth failed: ", error_message)
-		registration_completed.emit(false, error_message)
-		login_completed.emit(false, error_message)
+		
+		if pending_action == "login":
+			login_completed.emit(false, error_message)
+		else:
+			registration_completed.emit(false, error_message)

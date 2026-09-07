@@ -46,6 +46,10 @@ folder_colors={
 "res://addons/": "gray"
 }
 
+[gui]
+
+theme/custom_font="uid://bldlk7nddt8v5"
+
 [input]
 
 move_forward={

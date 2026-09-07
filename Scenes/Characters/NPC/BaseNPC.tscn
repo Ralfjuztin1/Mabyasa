@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://dv4lkp2m3o45m"]
+
+[ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://BaseNPC.gd" id="1_2xq1e"]
+[ext_resource type="FontFile" uid="uid://bldlk7nddt8v5" path="res://addons/fonts/monogram.ttf" id="2_86usj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7xnph"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xnph"]
+radius = 0.125
+height = 0.48033905
+
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1266467026]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+script = ExtResource("1_2xq1e")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1650075220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013176084, 0)
+billboard = 2
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_7xnph")
+animation = &"idle_back"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=693811600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.022117436, 0)
+shape = SubResource("CapsuleShape3D_7xnph")
+
+[node name="NameLabel" type="Label3D" parent="." unique_id=1742529722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30130076, 0)
+billboard = 2
+texture_filter = 4
+text = "Townsman"
+font = ExtResource("2_86usj")
+font_size = 30
+outline_size = 8

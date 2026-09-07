@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cqy4cq4few4h5" path="res://Scenes/UI/PauseMenu.gd" id="1_eod5q"]
 [ext_resource type="Texture2D" uid="uid://dbjgc5q1n5mp8" path="res://Assets/UI/UI Assets pack_v.1_st/UI.png" id="2_n4i8v"]
+[ext_resource type="Texture2D" uid="uid://d4b1r6wehroqn" path="res://Assets/UI/MabyasaUI/UIIcons_1 (1).png" id="3_2bpff"]
+[ext_resource type="Texture2D" uid="uid://db6qghy4titht" path="res://Assets/UI/MabyasaUI/UIIcons_1 (2).png" id="4_8hc20"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xkoqs"]
 atlas = ExtResource("2_n4i8v")
@@ -36,149 +38,67 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_store_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_party_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wish_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bpff"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(1, 64, 14, 15)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_2bpff")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hc20"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(1, 64, 14, 15)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_8hc20")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixmtu"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(49, 64, 14, 15)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_ixmtu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yl58v"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(49, 64, 14, 15)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_yl58v")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2bpff"]
+load_path = "res://.godot/imported/UIIcons_1 (1).png-08c935056e6c09d09be3354e158a9652.ctex"
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdh0q"]
+atlas = SubResource("CompressedTexture2D_2bpff")
+region = Rect2(113, 96, 14, 15)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdh0q"]
+texture = SubResource("AtlasTexture_gdh0q")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_settings_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_djuuc"]
+load_path = "res://.godot/imported/UIIcons_1 (2).png-c24cb5a94a6f4b57d3274d26f5cfff2a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85qas"]
+atlas = SubResource("CompressedTexture2D_djuuc")
+region = Rect2(113, 96, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qjuxo"]
+texture = SubResource("AtlasTexture_85qas")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5oc23"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(49, 0, 45, 15)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_5oc23")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xeiyh"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(49, 17, 45, 14)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_n"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_p"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_resume_h"]
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_xeiyh")
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1552715194]
 process_mode = 3
@@ -234,7 +154,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_GoldSep")
 [node name="HeaderLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=1613044962]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 17
 text = "P A U S E D"
 
 [node name="HeaderLineRight" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=1977381059]
@@ -272,8 +192,8 @@ text = "Trailblazer"
 
 [node name="LevelUID" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1564251317]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.3578282, 0.40967667, 0.5104054, 1)
+theme_override_font_sizes/font_size = 22
 text = "Lv. 60  |  UID: 800012345"
 
 [node name="XPBar" type="ProgressBar" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=217665015]
@@ -286,8 +206,8 @@ show_percentage = false
 
 [node name="XPLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=695597973]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.5, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.39637682, 0.63056165, 0.27618918, 1)
+theme_override_font_sizes/font_size = 22
 text = "EXP  6500 / 10000"
 
 [node name="MidSeparator" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=2117323226]
@@ -296,63 +216,32 @@ theme_override_styles/separator = SubResource("StyleBoxLine_GoldSep")
 
 [node name="MenuGrid" type="GridContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=776126724]
 layout_mode = 2
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
+theme_override_constants/h_separation = 37
 columns = 3
 
-[node name="GridBtn1" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620957481]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_store_n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_store_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_store_h")
-text = "Store"
-
-[node name="GridBtn2" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1198096072]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_party_n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_party_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_party_h")
-text = "Party"
-
-[node name="GridBtn3" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=627869675]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_wish_n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_wish_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_wish_h")
-text = "Wish"
-
-[node name="GridBtn4" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1362457227]
+[node name="Missions" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1362457227]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxTexture_missions_n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_missions_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_missions_h")
-text = "Missions"
+theme_override_styles/hover = SubResource("StyleBoxTexture_missions_p")
 
-[node name="GridBtn5" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1475755962]
+[node name="Inventory" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1475755962]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxTexture_inv_n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_inv_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_inv_h")
-text = "Inventory"
+theme_override_styles/hover = SubResource("StyleBoxTexture_inv_p")
 
-[node name="GridBtn6" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620785726]
+[node name="Settings" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620785726]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_settings_n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_settings_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_settings_h")
-text = "Settings"
+theme_override_styles/normal = SubResource("StyleBoxTexture_gdh0q")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_qjuxo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_qjuxo")
 
 [node name="VerticalSpacer" type="Control" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=986409493]
 layout_mode = 2
@@ -366,15 +255,17 @@ alignment = 2
 [node name="QuitButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=1812516780]
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxTexture_quit_n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_quit_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_quit_h")
+theme_override_styles/hover = SubResource("StyleBoxTexture_quit_p")
 text = "Quit Game"
 
 [node name="ResumeButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=1689735471]
 custom_minimum_size = Vector2(160, 50)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_resume_n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_resume_p")
-theme_override_styles/hover = SubResource("StyleBoxTexture_resume_h")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxTexture_quit_n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_quit_p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_quit_p")
 text = "Resume"

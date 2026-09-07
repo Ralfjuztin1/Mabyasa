@@ -1,19 +1,16 @@
 extends Control
 
-# --- Main UI Nodes ---
 @onready var panel_container = $CenterContainer/PanelContainer
 @onready var header_title = $CenterContainer/PanelContainer/MarginContainer/MainVBox/HeaderTitle
 @onready var login_box = $CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox
 @onready var register_box = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox
 @onready var status_label = $CenterContainer/PanelContainer/MarginContainer/MainVBox/StatusLabel
 
-# --- Login Nodes ---
 @onready var login_email = $CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginEmail
 @onready var login_password = $CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPassword
 @onready var login_button = $CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginButton
 @onready var switch_to_reg_btn = $CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/SwitchToRegister
 
-# --- Register Nodes ---
 @onready var reg_username = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegUsername
 @onready var reg_email = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegEmail
 @onready var reg_password = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPassword
@@ -21,39 +18,30 @@ extends Control
 @onready var switch_to_login_btn = $CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/SwitchToLogin
 
 func _ready():
-	# --- Ensure mouse cursor is visible and free on the Auth screen ---
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-	# Connect Button Presses
 	login_button.pressed.connect(_on_login_pressed)
 	register_button.pressed.connect(_on_register_pressed)
 	switch_to_reg_btn.pressed.connect(_show_register)
 	switch_to_login_btn.pressed.connect(_show_login)
 	
-	# Connect Button Animations (Hover & Click scale)
 	_setup_button_animations(login_button)
 	_setup_button_animations(register_button)
 	
-	# --- Email Autocomplete & Auto-Tab Hooks ---
 	login_email.text_changed.connect(_on_email_text_changed.bind(login_email, login_password))
 	reg_email.text_changed.connect(_on_email_text_changed.bind(reg_email, reg_password))
 	
-	# Connect Supabase Signals
 	SupabaseManager.login_completed.connect(_on_login_completed)
 	SupabaseManager.registration_completed.connect(_on_registration_completed)
 	
-	# Play initial panel pop-in animation
 	_animate_panel_pop_in()
 
-# --- Email Autocomplete & Auto-Tab Helper ---
 func _on_email_text_changed(new_text: String, line_edit: LineEdit, password_node: LineEdit):
 	if new_text.ends_with("@") and not "gmail.com" in new_text:
 		line_edit.text = new_text + "gmail.com"
 		line_edit.caret_column = new_text.length() 
-		# Automatically focus/tab to the password field for lightning-fast typing!
 		password_node.grab_focus()
 
-# --- Animated Transitions ---
 func _animate_panel_pop_in():
 	panel_container.pivot_offset = panel_container.size / 2.0
 	panel_container.scale = Vector2(0.8, 0.8)
@@ -107,7 +95,6 @@ func _clear_status():
 	status_label.text = ""
 	status_label.modulate = Color.WHITE
 
-# --- Button Actions & Auth ---
 func _on_login_pressed():
 	if login_email.text.strip_edges() == "" or login_password.text.strip_edges() == "":
 		_set_status("Please enter email & password.", Color(1, 0.3, 0.3))
@@ -128,22 +115,19 @@ func _on_register_pressed():
 	register_button.disabled = true
 	SupabaseManager.register_user(reg_email.text, reg_password.text, reg_username.text)
 
-# --- Supabase Responses ---
 func _set_status(message: String, color: Color):
 	status_label.text = message
 	status_label.modulate = color
 
 func _on_login_completed(success: bool, message: String):
 	if success:
+		# ➔ FIX: Initialize session data immediately upon successful login!
+		if GameManager:
+			GameManager.initialize_session(login_email.text)
+			
 		_set_status("Welcome, Adventurer!", Color(0.3, 0.9, 0.4))
-		
-		# Fade to black
 		await TransitionManager.fade_out(0.5)
-		
-		# Swap to the Game Menu
 		get_tree().change_scene_to_file("res://Scenes/UI/GameMenu.tscn")
-		
-		# Fade back in once the menu is loaded
 		TransitionManager.fade_in(0.5)
 	else:
 		login_button.disabled = false

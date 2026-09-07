@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-# --- Updated Node Paths Matching the New UI Layout ---
 @onready var resume_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/BottomBar/ResumeButton
 @onready var quit_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/BottomBar/QuitButton
 @onready var layout_wrapper: HBoxContainer = $LayoutWrapper
@@ -37,7 +36,7 @@ func _ready() -> void:
 		if btn_inventory: btn_inventory.pressed.connect(func(): print("❖ Inventory menu clicked (Currently Unavailable)"))
 		if btn_settings: btn_settings.pressed.connect(func(): print("❖ Settings menu clicked (Currently Unavailable)"))
 	
-	# Connect via GameManager signal (the goat method that handles ESC cleanly)
+	# Connect via GameManager signal
 	if GameManager.has_signal("game_paused"):
 		GameManager.game_paused.connect(_on_game_paused)
 
@@ -46,7 +45,11 @@ func _on_game_paused(is_paused: bool) -> void:
 	if is_paused:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		# ➔ OPTIMIZATION: Restore mouse mode based on TutorialManager instead of forcing CAPTURED
+		if TutorialManager and TutorialManager.current_active_step in ["intro", "movement"]:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _on_resume_pressed() -> void:
 	GameManager.toggle_pause()
@@ -57,7 +60,6 @@ func _on_quit_pressed() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	
 	if player:
-		# Dynamically resolve current map path safely (ignoring Main.tscn wrapper)
 		var current_scene_path = ""
 		var current_scene = get_tree().current_scene
 		

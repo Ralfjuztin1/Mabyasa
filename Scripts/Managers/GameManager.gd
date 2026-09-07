@@ -5,10 +5,10 @@ signal hud_visibility_changed(is_visible: bool)
 signal state_changed(new_state: GameState)
 
 enum GameState { EXPLORATION, DIALOGUE, QUIZ, COMBAT, PAUSED }
+
+var active_user_email: String = ""
 var should_load_save: bool = false
 var current_state: GameState = GameState.EXPLORATION
-
-# Tracks the active gameplay map file path instead of the container scene
 var current_level_path: String = "res://Scenes/Main/FirstTown.tscn"
 
 func _ready() -> void:
@@ -26,6 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func toggle_pause() -> void:
 	if current_state in [GameState.DIALOGUE, GameState.COMBAT, GameState.QUIZ]:
 		return 
+	
+	# ➔ Prevent pausing while the tutorial welcome intro box is open
+	if TutorialManager and TutorialManager.current_active_step == "intro":
+		return
 
 	var tree = get_tree()
 	tree.paused = not tree.paused
@@ -57,7 +61,6 @@ func _apply_state(new_state: GameState) -> void:
 
 func _perform_emergency_save_and_quit() -> void:
 	print("❖ Window close requested. Performing emergency position save...")
-	
 	var tree = get_tree()
 	var player = tree.get_first_node_in_group("player")
 	var current_scene = tree.current_scene
@@ -67,3 +70,46 @@ func _perform_emergency_save_and_quit() -> void:
 			SaveManager.save_game(player, current_level_path)
 	
 	tree.quit()
+
+# --- CENTRALIZED SESSION INITIALIZATION ---
+func initialize_session(email: String) -> void:
+	active_user_email = email.strip_edges().to_lower()
+	if SupabaseManager:
+		SupabaseManager.current_user_email = active_user_email
+		
+	# Pre-load save data and tutorial state immediately upon login
+	if SaveManager and SaveManager.has_save():
+		should_load_save = true
+		var data = SaveManager.load_game()
+		if TutorialManager:
+			if data.get("tutorial_completed", false):
+				TutorialManager.current_active_step = "finished"
+				for key in TutorialManager.progress.keys():
+					TutorialManager.progress[key] = true
+			else:
+				TutorialManager.current_active_step = "intro"
+			TutorialManager.update_permissions()
+			print("📂 [GAME MANAGER] Loaded existing session for: ", active_user_email)
+	else:
+		should_load_save = false
+		if TutorialManager:
+			TutorialManager.reset_tutorial()
+		print("✨ [GAME MANAGER] Initialized fresh session for new user: ", active_user_email)
+
+# --- MASTER SESSION RESET ---
+func clear_session_data() -> void:
+	should_load_save = false
+	current_level_path = "res://Scenes/Main/FirstTown.tscn"
+	active_user_email = ""
+	
+	if SupabaseManager:
+		SupabaseManager.current_user_email = ""
+	if TutorialManager: 
+		TutorialManager.reset_tutorial()
+	if PlayerProgression: 
+		PlayerProgression.load_save_data({})
+	if TimeManager: 
+		TimeManager.current_index = 0
+	if QuestManager:
+		QuestManager.active_quests.clear()
+		QuestManager.completed_quests.clear()

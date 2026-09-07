@@ -19,14 +19,14 @@ var camera_allowed: bool = false
 var sprint_allowed: bool = false
 
 var walk_distance: float = 0.0
-const TARGET_WALK_DISTANCE: float = 25.0 
+const TARGET_WALK_DISTANCE: float = 15.0 
 
 var camera_turned_amount: float = 0.0
-const TARGET_CAMERA_TURN: float = 250.0
+const TARGET_CAMERA_TURN: float = 500.0
 
 func _ready() -> void:
 	update_permissions()
-	load_tutorial_from_save()
+	# ➔ FIX: Removed load_tutorial_from_save() from here to prevent ghost saves/state leaks on boot
 
 func _input(event: InputEvent) -> void:
 	if OS.is_debug_build() and event is InputEventKey and event.pressed and event.keycode == KEY_F12:

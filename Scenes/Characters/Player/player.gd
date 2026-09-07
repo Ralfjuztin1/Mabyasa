@@ -1,10 +1,10 @@
 extends CharacterBody3D
 
-@export var speed: float = 12.0
+@export var speed: float = 5.0
 @export var sprint_multiplier: float = 1.7
 @export var gravity_multiplier: float = 3.0 
 @export var mouse_sensitivity: float = 0.003
-@export var camera_distance: float = 4.0
+@export var camera_distance: float = 5.2
 @export_range(-89.0, 0.0, 1.0) var min_pitch: float = -65.0  
 @export_range(0.0, 89.0, 1.0) var max_pitch: float = 15.0     
 
@@ -14,7 +14,7 @@ extends CharacterBody3D
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var camera_yaw: float = 0.0
-var camera_pitch: float = 0.0
+var camera_pitch: float = deg_to_rad(-12.0)
 
 var last_movement_direction := Vector3(0, 0, 1) 
 
@@ -23,7 +23,7 @@ var is_respawning: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# ➔ FIX: Removed hardcoded Input.set_mouse_mode(CAPTURED) here so TutorialManager controls it on boot!
 	spring_arm.spring_length = camera_distance
 	camera_yaw = rotation.y
 
@@ -50,7 +50,7 @@ func _input(event: InputEvent) -> void:
 				camera_pitch = clamp(camera_pitch, deg_to_rad(min_pitch), deg_to_rad(max_pitch))
 				
 				# --- SLOWER ENVIRONMENT SCAN PROGRESS TRACKER ---
-				var look_amount = event.relative.length() * 0.5 # Scaled down for a natural panning feel
+				var look_amount = event.relative.length() * 0.5 
 				TutorialManager.record_camera_turn(look_amount)
 
 func _physics_process(delta: float) -> void:
@@ -64,6 +64,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= (gravity * gravity_multiplier) * delta
 
+	# --- RESTRICTION: Blocks movement until TutorialManager unlocks it ---
 	if not TutorialManager.movement_allowed:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -80,6 +81,7 @@ func _physics_process(delta: float) -> void:
 	var is_moving = false
 
 	if direction:
+		# --- RESTRICTION: Blocks sprint until TutorialManager unlocks it ---
 		if Input.is_action_pressed("sprint") and TutorialManager.sprint_allowed:
 			current_speed *= sprint_multiplier
 			TutorialManager.record_sprint() 

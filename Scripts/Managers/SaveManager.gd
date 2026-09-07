@@ -2,8 +2,10 @@ extends Node
 
 func _get_save_path() -> String:
 	var user_id = "guest"
-	if SupabaseManager and not SupabaseManager.current_user_email.is_empty():
-		user_id = SupabaseManager.current_user_email.replace("@", "_at_").replace(".", "_")
+	
+	# ➔ FIX 2: Check GameManager for the persistent email that survives scene changes
+	if GameManager and not GameManager.active_user_email.is_empty():
+		user_id = GameManager.active_user_email.replace("@", "_at_").replace(".", "_")
 	
 	return "user://save_" + user_id + ".json"
 
