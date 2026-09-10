@@ -1,13 +1,12 @@
 [gd_scene format=3 uid="uid://0axw3ppda6w7"]
 
 [ext_resource type="Script" uid="uid://cqy4cq4few4h5" path="res://Scenes/UI/PauseMenu.gd" id="1_eod5q"]
-[ext_resource type="Texture2D" uid="uid://dbjgc5q1n5mp8" path="res://Assets/UI/UI Assets pack_v.1_st/UI.png" id="2_n4i8v"]
 [ext_resource type="Texture2D" uid="uid://d4b1r6wehroqn" path="res://Assets/UI/MabyasaUI/UIIcons_1 (1).png" id="3_2bpff"]
 [ext_resource type="Texture2D" uid="uid://db6qghy4titht" path="res://Assets/UI/MabyasaUI/UIIcons_1 (2).png" id="4_8hc20"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xkoqs"]
-atlas = ExtResource("2_n4i8v")
-region = Rect2(209, 82, 46, 45)
+atlas = ExtResource("4_8hc20")
+region = Rect2(97, 0, 30, 31)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
 texture = SubResource("AtlasTexture_xkoqs")
@@ -192,7 +191,7 @@ text = "Trailblazer"
 
 [node name="LevelUID" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1564251317]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3578282, 0.40967667, 0.5104054, 1)
+theme_override_colors/font_color = Color(0.56271946, 0.6152672, 0.7193557, 1)
 theme_override_font_sizes/font_size = 22
 text = "Lv. 60  |  UID: 800012345"
 
@@ -227,6 +226,22 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_missions_n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_missions_p")
 theme_override_styles/hover = SubResource("StyleBoxTexture_missions_p")
 
+[node name="Label" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Missions" unique_id=1652347255]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -3.0
+offset_right = 31.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 19
+text = "Missions"
+
 [node name="Inventory" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1475755962]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
@@ -235,6 +250,22 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_inv_n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_inv_p")
 theme_override_styles/hover = SubResource("StyleBoxTexture_inv_p")
 
+[node name="Label" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Inventory" unique_id=156802351]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -3.0
+offset_right = 31.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 19
+text = "Inventory"
+
 [node name="Settings" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=620785726]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
@@ -242,6 +273,22 @@ size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxTexture_gdh0q")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_qjuxo")
 theme_override_styles/hover = SubResource("StyleBoxTexture_qjuxo")
+
+[node name="Label" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Settings" unique_id=993213899]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -3.0
+offset_right = 31.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 19
+text = "Settings"
 
 [node name="VerticalSpacer" type="Control" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=986409493]
 layout_mode = 2

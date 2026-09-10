@@ -858,6 +858,7 @@ can_wander = true
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.656929)
 npc_name = "Rids"
+dialogue_id = "test_npc"
 npc_frames = SubResource("SpriteFrames_5jb8g")
 can_wander = true
 

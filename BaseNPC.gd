@@ -8,6 +8,9 @@ extends CharacterBody3D
 		if is_inside_tree() and has_node("NameLabel"):
 			$NameLabel.text = value
 
+@export_category("Dialogue")
+@export var dialogue_id: String = ""
+
 @export var npc_frames: SpriteFrames:
 	set(value):
 		npc_frames = value
@@ -23,6 +26,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var wander_direction: Vector3 = Vector3.ZERO
 var wander_timer: float = 0.0
 var start_position: Vector3
+var player_in_range: bool = false
 
 # --- ANIMATION & STATE OPTIMIZATIONS ---
 var current_facing: String = "front"
@@ -32,6 +36,7 @@ var last_look_dir: Vector3 = Vector3(0, 0, 1)
 
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
 @onready var name_label: Label3D = $NameLabel
+@onready var interaction_prompt: Label3D = $InteractionPrompt
 
 func _ready() -> void:
 	if has_node("NameLabel"):
@@ -128,3 +133,29 @@ func _update_animation() -> void:
 		animated_sprite.play("walk_" + current_facing)
 	else:
 		animated_sprite.play("idle_" + current_facing)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not player_in_range:
+		return
+
+	if event.is_action_pressed("interact"):
+		DialogueManager.start_dialogue(self)
+
+func _on_interaction_area_body_entered(body: Node3D) -> void:
+	if not body.is_in_group("player"):
+		return
+
+	player_in_range = true
+	interaction_prompt.visible = true
+
+	print("[NPC] Player entered interaction range: ", npc_name)
+
+
+func _on_interaction_area_body_exited(body: Node3D) -> void:
+	if not body.is_in_group("player"):
+		return
+
+	player_in_range = false
+	interaction_prompt.visible = false
+
+	print("[NPC] Player left interaction range: ", npc_name)

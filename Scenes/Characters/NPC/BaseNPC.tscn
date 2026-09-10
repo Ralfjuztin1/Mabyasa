@@ -50,6 +50,9 @@ animations = [{
 radius = 0.125
 height = 0.48033905
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_7xnph"]
+radius = 0.43061855
+
 [node name="BaseNPC" type="CharacterBody3D" unique_id=1266467026]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 script = ExtResource("1_2xq1e")
@@ -75,3 +78,18 @@ text = "Townsman"
 font = ExtResource("2_86usj")
 font_size = 30
 outline_size = 8
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=613061826]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=1689350647]
+shape = SubResource("SphereShape3D_7xnph")
+
+[node name="InteractionPrompt" type="Label3D" parent="." unique_id=1965708827]
+transform = Transform3D(0.59, 0, 0, 0, 0.59, 0, 0, 0, 0.59, 0, 0.42009974, 0)
+visible = false
+billboard = 2
+text = "[E] Talk"
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

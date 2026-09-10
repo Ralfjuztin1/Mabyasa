@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var sprint_multiplier: float = 1.7
 @export var gravity_multiplier: float = 3.0 
 @export var mouse_sensitivity: float = 0.003
-@export var camera_distance: float = 5.2
+@export var camera_distance: float = 7.1
 @export_range(-89.0, 0.0, 1.0) var min_pitch: float = -65.0  
 @export_range(0.0, 89.0, 1.0) var max_pitch: float = 15.0     
 
