@@ -19,6 +19,7 @@ var player_camera_distance: float = 5.2
 func _ready() -> void:
 	Dialogic.timeline_started.connect(_on_dialogue_started)
 	Dialogic.timeline_ended.connect(_on_dialogue_ended)
+	Dialogic.signal_event.connect(_on_dialogic_signal)
 
 
 func start_dialogue(npc: Node) -> void:
@@ -28,19 +29,89 @@ func start_dialogue(npc: Node) -> void:
 	if not is_instance_valid(npc):
 		return
 
-	var dialogue_id: String = npc.dialogue_id
+	current_npc = npc
+
+	var dialogue_id: String = _get_dialogue_for_npc(npc)
 
 	if dialogue_id.is_empty():
-		push_warning("[DIALOGUE] NPC has no dialogue ID: " + str(npc.npc_name))
+		push_warning(
+			"[DIALOGUE] NPC has no valid dialogue: "
+			+ str(npc.npc_name)
+		)
+		current_npc = null
 		return
-
-	current_npc = npc
 
 	var dialogue_path := DIALOGUE_PATH + dialogue_id + ".dtl"
 
 	print("[DIALOGUE] Starting: ", dialogue_path)
 
 	Dialogic.start(dialogue_path)
+
+
+func _get_dialogue_for_npc(npc: Node) -> String:
+	# Check quest-specific dialogues first.
+	if "quest_dialogues" in npc:
+		for rule in npc.quest_dialogues:
+			if not rule.has("quest_id"):
+				continue
+
+			var quest_id: String = str(rule["quest_id"])
+
+			if quest_id.is_empty():
+				continue
+
+			# Highest priority:
+			# Quest has been completed.
+			if QuestManager.is_quest_completed(quest_id):
+				if rule.has("completed_dialogue"):
+					var completed_dialogue: String = str(
+						rule["completed_dialogue"]
+					)
+
+					if not completed_dialogue.is_empty():
+						print(
+							"[DIALOGUE] Using completed quest dialogue: ",
+							completed_dialogue
+						)
+
+						return completed_dialogue
+
+			# Second priority:
+			# Quest is currently active.
+			if QuestManager.is_quest_active(quest_id):
+				if rule.has("active_dialogue"):
+					var active_dialogue: String = str(
+						rule["active_dialogue"]
+					)
+
+					if not active_dialogue.is_empty():
+						print(
+							"[DIALOGUE] Using active quest dialogue: ",
+							active_dialogue
+						)
+
+						return active_dialogue
+
+	# No matching quest dialogue was found.
+	# Fall back to the NPC's normal dialogue.
+	if "dialogue_id" in npc:
+		return str(npc.dialogue_id)
+
+	return ""
+
+
+func _on_dialogic_signal(argument: Variant) -> void:
+	var signal_name := str(argument)
+
+	print("[DIALOGUE] Signal received: ", signal_name)
+
+	# Quest-start signals use:
+	# start_<quest_id>
+	if signal_name.begins_with("start_"):
+		var quest_id := signal_name.trim_prefix("start_")
+
+		if not quest_id.is_empty():
+			QuestManager.start_quest(quest_id)
 
 
 func _on_dialogue_started() -> void:
@@ -61,7 +132,9 @@ func _on_dialogue_started() -> void:
 
 	if is_instance_valid(current_npc):
 		npc_was_physics_processing = current_npc.is_physics_processing()
-		npc_was_unhandled_input_processing = current_npc.is_processing_unhandled_input()
+		npc_was_unhandled_input_processing = (
+			current_npc.is_processing_unhandled_input()
+		)
 
 		current_npc.set_physics_process(false)
 		current_npc.set_process_unhandled_input(false)
@@ -80,6 +153,10 @@ func _on_dialogue_started() -> void:
 func _on_dialogue_ended() -> void:
 	is_dialogue_active = false
 
+	# Tell the quest system that this NPC was talked to.
+	if is_instance_valid(current_npc):
+		GameEvents.npc_talked.emit(current_npc.npc_id)
+
 	var player := get_tree().get_first_node_in_group("player")
 
 	if player:
@@ -90,7 +167,9 @@ func _on_dialogue_ended() -> void:
 
 	if is_instance_valid(current_npc):
 		current_npc.set_physics_process(npc_was_physics_processing)
-		current_npc.set_process_unhandled_input(npc_was_unhandled_input_processing)
+		current_npc.set_process_unhandled_input(
+			npc_was_unhandled_input_processing
+		)
 
 	current_npc = null
 
@@ -117,8 +196,10 @@ func _zoom_camera_in(player: Node) -> void:
 	player_camera_distance = spring_arm.spring_length
 
 	var tween := create_tween()
+
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_OUT)
+
 	tween.tween_property(
 		spring_arm,
 		"spring_length",
@@ -134,8 +215,10 @@ func _zoom_camera_out(player: Node) -> void:
 		return
 
 	var tween := create_tween()
+
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_IN_OUT)
+
 	tween.tween_property(
 		spring_arm,
 		"spring_length",

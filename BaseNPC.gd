@@ -8,8 +8,19 @@ extends CharacterBody3D
 		if is_inside_tree() and has_node("NameLabel"):
 			$NameLabel.text = value
 
+@export var npc_id: String = ""
+
 @export_category("Dialogue")
 @export var dialogue_id: String = ""
+
+# Optional quest-specific dialogue rules.
+# Each entry will eventually contain:
+# {
+#     "quest_id": "talk_to_bebang",
+#     "active_dialogue": "bebang_quest",
+#     "completed_dialogue": "bebang_completed"
+# }
+@export var quest_dialogues: Array[Dictionary] = []
 
 @export var npc_frames: SpriteFrames:
 	set(value):
@@ -30,7 +41,7 @@ var player_in_range: bool = false
 
 # --- ANIMATION & STATE OPTIMIZATIONS ---
 var current_facing: String = "front"
-var is_idling: bool = true # Tracks if the NPC is naturally standing still
+var is_idling: bool = true
 var active_camera: Camera3D
 var last_look_dir: Vector3 = Vector3(0, 0, 1)
 
@@ -38,10 +49,14 @@ var last_look_dir: Vector3 = Vector3(0, 0, 1)
 @onready var name_label: Label3D = $NameLabel
 @onready var interaction_prompt: Label3D = $InteractionPrompt
 
+
 func _ready() -> void:
 	if has_node("NameLabel"):
 		name_label.text = npc_name
-		
+
+	if has_node("InteractionPrompt"):
+		interaction_prompt.visible = false
+
 	if Engine.is_editor_hint():
 		return
 
@@ -50,6 +65,7 @@ func _ready() -> void:
 	if npc_frames:
 		animated_sprite.sprite_frames = npc_frames
 		animated_sprite.play("idle_front")
+
 
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -63,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		if wander_timer > 0:
 			wander_timer -= delta
 		else:
-			_switch_wander_state() # Naturally swap between walking and idling
+			_switch_wander_state()
 
 		velocity.x = wander_direction.x * move_speed
 		velocity.z = wander_direction.z * move_speed
@@ -74,55 +90,62 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# --- COLLISION FIX ---
-	# If they bump a wall while walking, force a quick pause, then they will recalculate
 	if is_on_wall() and can_wander and not is_idling:
-		_switch_wander_state(true) 
+		_switch_wander_state(true)
 
 	_update_animation()
+
 
 func _switch_wander_state(forced_wall_bump: bool = false) -> void:
 	if forced_wall_bump or not is_idling:
 		# Switch to IDLE
 		is_idling = true
 		wander_direction = Vector3.ZERO
-		
+
 		if forced_wall_bump:
-			wander_timer = randf_range(0.5, 1.2) # Quick pause if they bumped an object
+			wander_timer = randf_range(0.5, 1.2)
 		else:
-			wander_timer = randf_range(2.0, 4.0) # Natural pause to look around
+			wander_timer = randf_range(2.0, 4.0)
 	else:
 		# Switch to WALK
 		is_idling = false
+
 		if global_position.distance_to(start_position) > wander_radius:
 			wander_direction = (start_position - global_position).normalized()
 		else:
-			wander_direction = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized()
-		
-		wander_timer = randf_range(1.5, 3.5) # Walk for a few seconds
+			wander_direction = Vector3(
+				randf_range(-1, 1),
+				0,
+				randf_range(-1, 1)
+			).normalized()
+
+		wander_timer = randf_range(1.5, 3.5)
+
 
 func _update_animation() -> void:
-	# length_squared() is a CPU optimization to avoid calculating square roots
-	var is_moving = velocity.length_squared() > 0.01
-	
+	# length_squared() avoids unnecessary square-root calculation
+	var is_moving: bool = velocity.length_squared() > 0.01
+
 	if is_moving:
 		last_look_dir = velocity.normalized()
 
 	# Cache the camera so we only search the scene tree once
 	if not active_camera:
 		active_camera = get_viewport().get_camera_3d()
-		
+
 	if active_camera:
-		var cam_forward = -active_camera.global_transform.basis.z
-		var cam_right = active_camera.global_transform.basis.x
+		var cam_forward := -active_camera.global_transform.basis.z
+		var cam_right := active_camera.global_transform.basis.x
 
 		cam_forward.y = 0
 		cam_right.y = 0
+
 		cam_forward = cam_forward.normalized()
 		cam_right = cam_right.normalized()
 
-		# Constant dot-product calculation ensures the sprite updates even if you run around an idle NPC
-		var forward_amount = last_look_dir.dot(cam_forward)
-		var right_amount = last_look_dir.dot(cam_right)
+		# Keep the NPC facing correctly relative to the camera
+		var forward_amount := last_look_dir.dot(cam_forward)
+		var right_amount := last_look_dir.dot(cam_right)
 
 		if abs(right_amount) > abs(forward_amount):
 			current_facing = "right" if right_amount > 0 else "left"
@@ -134,12 +157,14 @@ func _update_animation() -> void:
 	else:
 		animated_sprite.play("idle_" + current_facing)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not player_in_range:
 		return
 
 	if event.is_action_pressed("interact"):
 		DialogueManager.start_dialogue(self)
+
 
 func _on_interaction_area_body_entered(body: Node3D) -> void:
 	if not body.is_in_group("player"):

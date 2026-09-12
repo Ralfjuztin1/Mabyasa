@@ -852,13 +852,21 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 [node name="bebang" parent="npc" unique_id=1266467026 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0.1528635, 0.96813893, -64.21155)
 npc_name = "Bebang"
+npc_id = "bebang"
+dialogue_id = "bebang_default"
+quest_dialogues = Array[Dictionary]([{
+"active_dialogue": "bebang_quest",
+"quest_id": "talk_to_bebang"
+}])
 npc_frames = SubResource("SpriteFrames_ox5xy")
 can_wander = true
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.656929)
 npc_name = "Rids"
-dialogue_id = "test_npc"
+npc_id = "rids"
+dialogue_id = "rids_first_talk"
+quest_dialogues = null
 npc_frames = SubResource("SpriteFrames_5jb8g")
 can_wander = true
 

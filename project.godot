@@ -31,10 +31,13 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
+"Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
 "character": "res://Scenes/Characters/NPC/Dialogic/Rids.dch"
 }
 directories/dtl_directory={
-"test_npc": "res://Scenes/Characters/NPC/Dialogic/test_npc.dtl"
+"bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
+"bebang_first_talk": "res://Scenes/Characters/NPC/Dialogic/bebang_quest.dtl",
+"test_npc": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl"
 }
 layout/style_directory={
 "": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",

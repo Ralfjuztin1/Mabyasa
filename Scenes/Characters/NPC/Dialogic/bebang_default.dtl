@@ -1,0 +1,6 @@
+if QuestManager.is_quest_completed("talk_to_bebang") == true:
+	Bebang: Thank you for helping!
+	[end_timeline]
+Bebang: Heya!
+Hello
+Bebang: ..
