@@ -240,7 +240,8 @@ offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 19
-text = "Missions"
+text = "Quests"
+horizontal_alignment = 1
 
 [node name="Inventory" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1475755962]
 custom_minimum_size = Vector2(0, 90)

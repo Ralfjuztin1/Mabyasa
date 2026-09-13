@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://t075rskilpu0"]
+
+[ext_resource type="Script" uid="uid://cyomxykuvag3j" path="res://Scenes/Characters/NPC/BaseAnimal.gd" id="1_nyy40"]
+[ext_resource type="FontFile" uid="uid://bldlk7nddt8v5" path="res://addons/fonts/monogram.ttf" id="1_qtv8i"]
+[ext_resource type="Texture2D" uid="uid://liwywxmsdx6k" path="res://Assets/Characters/NPC_anims/Animals/Piglet_animation_without_shadow.png" id="2_rhww2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m71a5"]
+atlas = ExtResource("2_rhww2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nyy40"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m71a5")
+}],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rhww2"]
+radius = 0.16601563
+height = 0.33245468
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_m71a5"]
+radius = 0.43061855
+
+[node name="BaseAnimals" type="CharacterBody3D" unique_id=2135312985]
+script = ExtResource("1_nyy40")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=2005085457]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.08829363, 0)
+billboard = 2
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_nyy40")
+animation = &"idle_back"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1351258765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09605962, 0)
+shape = SubResource("CapsuleShape3D_rhww2")
+
+[node name="NameLabel" type="Label3D" parent="." unique_id=1658879120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17256215, 0)
+billboard = 2
+texture_filter = 4
+modulate = Color(1, 1, 1, 0.38039216)
+outline_modulate = Color(0, 0, 0, 0.41568628)
+text = "Animal"
+font = ExtResource("1_qtv8i")
+font_size = 30
+outline_size = 8
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1707452801]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=290919824]
+shape = SubResource("SphereShape3D_m71a5")

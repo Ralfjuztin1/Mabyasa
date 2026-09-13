@@ -36,8 +36,7 @@ directories/dch_directory={
 }
 directories/dtl_directory={
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
-"bebang_first_talk": "res://Scenes/Characters/NPC/Dialogic/bebang_quest.dtl",
-"test_npc": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl"
+"rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl"
 }
 layout/style_directory={
 "": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",

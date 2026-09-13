@@ -1,12 +1,14 @@
 if QuestManager.is_quest_completed("talk_to_bebang") == true:
-	character: Dakal a salamat!
+	character: Ah makanta, sige...
 	[end_timeline]
-character: Hello!
-Hello!
-character: Malyari mu kung makisabi kang Bebang?
-- Sige
-	character: Pakisabi kaya patawad kasi adamusak ke ing tanaman na...
-	[signal arg="start_talk_to_bebang"]
-- Ali
-	character: ...
-	[end_timeline]
+elif QuestManager.is_quest_active("talk_to_bebang") == true:
+	character: Panayan daka...
+else:
+	character: Hello!
+	Hello!
+	character: Malyari mu kung makisabi kang Bebang?
+	- Sige
+		character: Pakisabi kaya patawad kasi adamusak ke ing tanaman na...
+		[signal arg="start_talk_to_bebang"]
+	- Ali
+		Bebang: Aydamo bugok!

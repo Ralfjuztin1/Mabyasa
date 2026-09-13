@@ -1,6 +1,12 @@
 if QuestManager.is_quest_completed("talk_to_bebang") == true:
-	Bebang: Thank you for helping!
+	Bebang: Salamat!
 	[end_timeline]
-Bebang: Heya!
-Hello
-Bebang: ..
+elif QuestManager.is_quest_active("talk_to_bebang") == true:
+	Hi!
+	Bebang: Pakisabi kang Rids gunutan kami!
+	[end_timeline]
+else:
+	Bebang: Hi!
+	Hello...
+	Bebang: ?...
+	[end_timeline]
