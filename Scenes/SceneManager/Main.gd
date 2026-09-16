@@ -1,155 +1,397 @@
 extends Node
 
+
 signal loading_completed()
+
 
 @onready var level_container: Node3D = $LevelContainer
 @onready var player: CharacterBody3D = $Player
 @onready var ui_layer: CanvasLayer = $UILayer
 
-var current_level_node: Node3D = null
+
+# The loaded level itself does not need to be Node3D.
+var current_level_node: Node = null
+
 var target_level_path: String = ""
 var target_spawn_name: String = ""
-var is_loading := false
+
+var is_loading: bool = false
 
 var pending_saved_position: Vector3 = Vector3.ZERO
-var has_pending_save := false
-var tutorial_instance: Node = null 
+var has_pending_save: bool = false
+
+var tutorial_instance: Node = null
+
 
 func _ready() -> void:
-	set_process(false) 
+	set_process(false)
+
 	player.visible = false
 	player.set_physics_process(false)
-	
-	# ➔ FIX: Sync mouse mode and permissions the moment we enter the game world from the menu
+
+
+	# ========================================================
+	# TUTORIAL PERMISSIONS
+	# ========================================================
+
 	if TutorialManager:
 		TutorialManager.update_permissions()
-	
-	# --- AUTO-SPAWN TUTORIAL UI OVERLAY ---
-	var tutorial_ui_path = "res://Scenes/UI/TutorialUI.tscn"
+
+
+	# ========================================================
+	# TUTORIAL UI
+	# ========================================================
+
+	var tutorial_ui_path := "res://Scenes/UI/TutorialUI.tscn"
+
 	if ResourceLoader.exists(tutorial_ui_path):
 		var tutorial_packed = load(tutorial_ui_path)
+
 		if tutorial_packed and ui_layer:
 			tutorial_instance = tutorial_packed.instantiate()
 			ui_layer.add_child(tutorial_instance)
-			print("🎓 [TUTORIAL] TutorialUI overlay successfully spawned.")
+
+			print(
+				"🎓 [TUTORIAL] TutorialUI overlay successfully spawned."
+			)
 	else:
-		push_warning("TutorialUI.tscn not found at path: " + tutorial_ui_path)
-	
-	var level_to_load = "res://Scenes/Main/FirstTown.tscn"
-	var spawn_name = "DefaultSpawn"
-	
+		push_warning(
+			"TutorialUI.tscn not found at path: "
+			+ tutorial_ui_path
+		)
+
+
+	# ========================================================
+	# DETERMINE LEVEL TO LOAD
+	# ========================================================
+
+	var level_to_load := "res://Scenes/Main/FirstTown.tscn"
+	var spawn_name := "DefaultSpawn"
+
+
 	if GameManager.should_load_save:
-		var saved_data = SaveManager.load_game()
+		var saved_data := SaveManager.load_game()
+
 		if not saved_data.is_empty():
-			if saved_data.has("current_scene") and not saved_data["current_scene"].is_empty():
+
+			if (
+				saved_data.has("current_scene")
+				and not saved_data["current_scene"].is_empty()
+			):
 				level_to_load = saved_data["current_scene"]
-			
+
+
 			if saved_data.has("player_position"):
 				var pos = saved_data["player_position"]
-				pending_saved_position = Vector3(pos["x"], pos["y"], pos["z"])
+
+				pending_saved_position = Vector3(
+					pos["x"],
+					pos["y"],
+					pos["z"]
+				)
+
 				has_pending_save = true
-				print("❖ Queued save state restore for scene: ", level_to_load)
+
+				print(
+					"❖ Queued save state restore for scene: ",
+					level_to_load
+				)
+
 	else:
-		print("✨ [RPG FLOW] Brand new user! Loading world.")
+		print(
+			"✨ [RPG FLOW] Brand new user! Loading world."
+		)
+
 		await get_tree().process_frame
-		SaveManager.save_game(player, level_to_load, false)
 
-	load_new_level_async(level_to_load, spawn_name)
+		SaveManager.save_game(
+			player,
+			level_to_load,
+			false
+		)
 
-func load_new_level_async(level_path: String, spawn_point_name: String) -> void:
+
+	load_new_level_async(
+		level_to_load,
+		spawn_name
+	)
+
+
+# ============================================================
+# ASYNC LEVEL LOADING
+# ============================================================
+
+func load_new_level_async(
+	level_path: String,
+	spawn_point_name: String
+) -> void:
+
 	if is_loading:
 		return
 
 	is_loading = true
+
 	target_level_path = level_path
 	target_spawn_name = spawn_point_name
 
+
 	await TransitionManager.fade_out(0.4)
 
+
+	# Remove previous level.
 	if is_instance_valid(current_level_node):
 		current_level_node.queue_free()
 		current_level_node = null
 
-	var error = ResourceLoader.load_threaded_request(level_path)
+
+	var error := ResourceLoader.load_threaded_request(
+		level_path
+	)
+
 	if error != OK:
-		push_error("Failed to start async load for: " + level_path)
+		push_error(
+			"Failed to start async load for: "
+			+ level_path
+		)
+
 		is_loading = false
+
 		await TransitionManager.fade_in(0.2)
+
 		return
 
+
 	set_process(true)
+
+
+# ============================================================
+# LEVEL LOADING PROCESS
+# ============================================================
 
 func _process(_delta: float) -> void:
 	if not is_loading:
 		set_process(false)
 		return
 
-	var progress := []
-	var status = ResourceLoader.load_threaded_get_status(target_level_path, progress)
+
+	var progress: Array = []
+
+	var status := ResourceLoader.load_threaded_get_status(
+		target_level_path,
+		progress
+	)
+
 
 	match status:
+
 		ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+
 			if progress.size() > 0:
-				TransitionManager.update_progress(progress[0])
+				TransitionManager.update_progress(
+					progress[0]
+				)
+
 
 		ResourceLoader.THREAD_LOAD_LOADED:
+
 			set_process(false)
-			TransitionManager.update_progress(1.0) 
-			
-			var packed_level: PackedScene = ResourceLoader.load_threaded_get(target_level_path)
+
+			TransitionManager.update_progress(1.0)
+
+
+			var loaded_resource := (
+				ResourceLoader.load_threaded_get(
+					target_level_path
+				)
+			)
+
+
+			if not loaded_resource is PackedScene:
+				push_error(
+					"[MAIN WORLD] Loaded resource is not a PackedScene: "
+					+ target_level_path
+				)
+
+				is_loading = false
+
+				await TransitionManager.fade_in(0.2)
+
+				return
+
+
+			var packed_level := loaded_resource as PackedScene
+
 			_instantiate_level(packed_level)
-			
+
 			await TransitionManager.fade_in(0.5)
-			
-			# --- TRIGGER WELCOME BOX IF NEW USER ---
-			if tutorial_instance and tutorial_instance.has_method("show_welcome"):
+
+
+			# Tutorial welcome box.
+			if (
+				tutorial_instance
+				and tutorial_instance.has_method("show_welcome")
+			):
 				if TutorialManager.current_active_step == "intro":
 					tutorial_instance.show_welcome()
 
-		ResourceLoader.THREAD_LOAD_FAILED, ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
-			push_error("Async loading failed for: " + target_level_path)
+
+		ResourceLoader.THREAD_LOAD_FAILED:
+			push_error(
+				"Async loading failed for: "
+				+ target_level_path
+			)
+
 			set_process(false)
+
 			is_loading = false
-			TransitionManager.fade_in(0.2)
+
+			await TransitionManager.fade_in(0.2)
+
+
+		ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
+			push_error(
+				"Invalid resource while loading: "
+				+ target_level_path
+			)
+
+			set_process(false)
+
+			is_loading = false
+
+			await TransitionManager.fade_in(0.2)
+
+
+# ============================================================
+# INSTANTIATE LEVEL
+# ============================================================
 
 func _instantiate_level(packed_level: PackedScene) -> void:
-	current_level_node = packed_level.instantiate() as Node3D
-	
-	if not current_level_node:
-		push_error("Failed to instantiate level or root node is not a Node3D!")
+
+	if packed_level == null:
+		push_error(
+			"[MAIN WORLD] PackedScene is null."
+		)
+
 		is_loading = false
+
 		return
 
-	level_container.add_child(current_level_node)
-	
-	GameManager.current_level_path = target_level_path
-	print("🗺️ [MAIN WORLD] Active Scene Successfully Loaded & Instantiated: ", target_level_path)
 
+	var level_instance := packed_level.instantiate()
+
+
+	if level_instance == null:
+		push_error(
+			"[MAIN WORLD] Failed to instantiate level: "
+			+ target_level_path
+		)
+
+		is_loading = false
+
+		return
+
+
+	# Important:
+	# The level root does NOT have to be Node3D.
+	current_level_node = level_instance
+
+
+	level_container.add_child(
+		current_level_node
+	)
+
+
+	# Tell GameManager which actual level is loaded.
+	GameManager.current_level_path = target_level_path
+
+
+	print(
+		"🗺️ [MAIN WORLD] Active Scene Successfully Loaded & Instantiated: ",
+		target_level_path
+	)
+
+
+	# Give the level time to initialize.
 	await get_tree().process_frame
 	await get_tree().process_frame
+
+
+	# ========================================================
+	# RESTORE SAVED POSITION
+	# ========================================================
 
 	if has_pending_save:
+
 		player.global_position = pending_saved_position
-		print("❖ Successfully restored player to saved position: ", player.global_position)
+
+		print(
+			"❖ Successfully restored player to saved position: ",
+			player.global_position
+		)
+
 		has_pending_save = false
 		GameManager.should_load_save = false
+
 	else:
-		_teleport_player(target_spawn_name)
+
+		_teleport_player(
+			target_spawn_name
+		)
+
+
+	# ========================================================
+	# ACTIVATE PLAYER
+	# ========================================================
 
 	player.visible = true
 	player.set_physics_process(true)
 
+
 	is_loading = false
+
 	loading_completed.emit()
 
-func _teleport_player(spawn_name: String) -> void:
+
+# ============================================================
+# DEFAULT SPAWN
+# ============================================================
+
+func _teleport_player(
+	spawn_name: String
+) -> void:
+
 	if not is_instance_valid(current_level_node):
 		return
 
-	var spawn_point = current_level_node.find_child(spawn_name, true, false)
+
+	var spawn_point := current_level_node.find_child(
+		spawn_name,
+		true,
+		false
+	)
+
+
 	if spawn_point and spawn_point is Node3D:
-		player.global_position = spawn_point.global_position
-		print("Spawned at default level spawn point: ", spawn_point.global_position)
+
+		player.global_position = (
+			spawn_point.global_position
+		)
+
+		print(
+			"Spawned at default level spawn point: ",
+			spawn_point.global_position
+		)
+
 	else:
-		push_warning("Spawn point '" + spawn_name + "' not found!")
-		player.global_position = Vector3(0, 5, 0)
+
+		push_warning(
+			"Spawn point '"
+			+ spawn_name
+			+ "' not found!"
+		)
+
+		player.global_position = Vector3(
+			0,
+			5,
+			0
+		)

@@ -59,10 +59,12 @@ radius = 0.16601563
 height = 0.33245468
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m71a5"]
-radius = 0.43061855
+radius = 0.29801536
 
-[node name="BaseAnimals" type="CharacterBody3D" unique_id=2135312985]
+[node name="BaseAnimal" type="CharacterBody3D" unique_id=2135312985]
 script = ExtResource("1_nyy40")
+animal_id = null
+can_interact = null
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=2005085457]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.08829363, 0)
@@ -93,3 +95,12 @@ monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=290919824]
 shape = SubResource("SphereShape3D_m71a5")
+
+[node name="InteractionPrompt" type="Label3D" parent="." unique_id=637761193]
+transform = Transform3D(0.59, 0, 0, 0, 0.59, 0, 0, 0, 0.59, 0, 0.34046888, 0)
+visible = false
+billboard = 2
+text = "[E] Interact"
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

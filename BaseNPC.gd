@@ -216,8 +216,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("interact"):
+		QuestManager.handle_npc_interaction(npc_id)
 		DialogueManager.start_dialogue(self)
-
 
 func _on_interaction_area_body_entered(body: Node3D) -> void:
 	if not body.is_in_group("player"):

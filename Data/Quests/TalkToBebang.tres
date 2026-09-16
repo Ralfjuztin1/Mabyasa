@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://7xfxekmpovsb"]
+
+[ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="1_j2c8d"]
+[ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_yyoqp"]
+[ext_resource type="Script" uid="uid://54thwokoasbl" path="res://Scripts/Quest/QuestStep.gd" id="2_j2c8d"]
+
+[sub_resource type="Resource" id="Resource_lti04"]
+script = ExtResource("1_j2c8d")
+exp = 100
+gold = 50
+metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
+
+[sub_resource type="Resource" id="Resource_ppvts"]
+script = ExtResource("2_j2c8d")
+target = "Chief"
+metadata/_custom_type_script = "uid://54thwokoasbl"
+
+[resource]
+script = ExtResource("1_yyoqp")
+quest_id = "talk_to_chief"
+title = "Talk to chief"
+description = "Rids asked you to talk to Chief."
+rewards = SubResource("Resource_lti04")
+steps = Array[ExtResource("2_j2c8d")]([SubResource("Resource_ppvts")])
+metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

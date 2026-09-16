@@ -1,0 +1,33 @@
+if QuestManager.is_quest_completed("pet_the_animal") and not QuestManager.has_dialogue_flag("chief_pet_animal_complete"):
+	chief: Istu ikwa me ken.
+	[signal arg="set_flag_chief_pet_animal_complete"]
+	[end_timeline]
+
+elif QuestManager.is_quest_active("pet_the_animal") and QuestManager.is_count_zero("pet_the_animal"):
+	chief: panayan daka
+	[end_timeline]
+
+elif QuestManager.is_quest_active("pet_the_animal") and QuestManager.is_count_under("pet_the_animal"):
+	chief: damo karitak naman
+	[end_timeline]
+
+elif QuestManager.is_quest_active("pet_the_animal") and QuestManager.is_count_over("pet_the_animal"):
+	chief: damo pekarakal mu
+	[end_timeline]
+
+elif QuestManager.is_quest_active("pet_the_animal"):
+	chief: pakanan mo pa reng babi
+	[end_timeline]
+
+elif QuestManager.is_quest_active("talk_to_chief"):
+	chief: oh so you have talked to rids?
+	[signal arg="start_pet_the_animal"]
+	chief: Pakanan mo pa reng babi now na.
+	[end_timeline]
+
+elif QuestManager.is_quest_completed("talk_to_chief") and not QuestManager.is_quest_completed("pet_the_animal"):
+	chief: Pakanan mo reng babi now na.
+	[end_timeline]
+
+else:
+	chief: mayap a abak

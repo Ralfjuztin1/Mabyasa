@@ -103,15 +103,34 @@ func _get_dialogue_for_npc(npc: Node) -> String:
 func _on_dialogic_signal(argument: Variant) -> void:
 	var signal_name := str(argument)
 
-	print("[DIALOGUE] Signal received: ", signal_name)
+	print(
+		"[DIALOGUE] Signal received: ",
+		signal_name
+	)
 
-	# Quest-start signals use:
-	# start_<quest_id>
+
+	# Start a quest:
+	# start_pet_the_animal
 	if signal_name.begins_with("start_"):
 		var quest_id := signal_name.trim_prefix("start_")
 
 		if not quest_id.is_empty():
 			QuestManager.start_quest(quest_id)
+
+		return
+
+
+	# Set a persistent dialogue flag:
+	# set_flag_chief_pet_animal_complete
+	if signal_name.begins_with("set_flag_"):
+		var flag_id := signal_name.trim_prefix("set_flag_")
+
+		if not flag_id.is_empty():
+			QuestManager.set_dialogue_flag(
+				flag_id
+			)
+
+		return
 
 
 func _on_dialogue_started() -> void:

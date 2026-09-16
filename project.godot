@@ -32,10 +32,12 @@ Dialogic="*uid://ds2q0uclmolvu"
 
 directories/dch_directory={
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
-"character": "res://Scenes/Characters/NPC/Dialogic/Rids.dch"
+"character": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
+"chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
+"chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl"
 }
 layout/style_directory={
@@ -62,6 +64,7 @@ enabled=PackedStringArray("res://addons/MarchingSquaresTerrain/plugin.cfg", "res
 
 folder_colors={
 "res://Assets/": "blue",
+"res://Data/": "purple",
 "res://Scenes/": "green",
 "res://Scripts/": "orange",
 "res://addons/": "gray"
