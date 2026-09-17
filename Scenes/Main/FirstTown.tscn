@@ -30,12 +30,12 @@ sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
 sky_horizon_color = Color(0.7919941, 0.6286258, 0.568827, 1)
 ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 
-[sub_resource type="Sky" id="Sky_b2kth"]
+[sub_resource type="Sky" id="Sky_vm1ce"]
 sky_material = SubResource("ProceduralSkyMaterial_j2cfa")
 
 [sub_resource type="Environment" id="Environment_rxw54"]
 background_mode = 2
-sky = SubResource("Sky_b2kth")
+sky = SubResource("Sky_vm1ce")
 glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kgegj"]
@@ -51,7 +51,7 @@ fractal_octaves = 4
 fractal_lacunarity = 1.89
 metadata/_preview_in_3d_space_ = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_m6u13"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sgv20"]
 noise = SubResource("FastNoiseLite_opipp")
 color_ramp = SubResource("Gradient_o0aej")
 seamless = true
@@ -63,14 +63,14 @@ transparency = 4
 blend_mode = 2
 cull_mode = 1
 depth_draw_mode = 1
-albedo_texture = SubResource("NoiseTexture2D_m6u13")
+albedo_texture = SubResource("NoiseTexture2D_sgv20")
 grow_amount = 16.0
 proximity_fade_enabled = true
 proximity_fade_distance = 2250.55
 distance_fade_max_distance = 0.0
 stencil_flags = 2
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l04sm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdaiq"]
 render_priority = 0
 shader = ExtResource("4_b2kth")
 shader_parameter/absorptioncolour = Color(0.115088515, 0.3517746, 0.9999972, 1)
@@ -92,21 +92,21 @@ shader_parameter/ssr_type = 0
 shader_parameter/ssr_screen_fade = 0.00999999977648
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_b66by"]
-material = SubResource("ShaderMaterial_l04sm")
+material = SubResource("ShaderMaterial_fdaiq")
 size = Vector2(10000, 10000)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_kgegj"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x2wea"]
 frequency = 0.0003
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gmdo7"]
-noise = SubResource("FastNoiseLite_kgegj")
+noise = SubResource("FastNoiseLite_x2wea")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uykmb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1bwj"]
 albedo_color = Color(0.24271658, 0.41038576, 0, 1)
 albedo_texture = SubResource("NoiseTexture2D_gmdo7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_l04sm"]
-material = SubResource("StandardMaterial3D_uykmb")
+material = SubResource("StandardMaterial3D_d1bwj")
 
 [sub_resource type="MultiMesh" id="MultiMesh_tx8nu"]
 resource_local_to_scene = true
@@ -1920,12 +1920,13 @@ script = ExtResource("3_tx8nu")
 
 [node name="CommonTree1" type="MultiMeshInstance3D" parent="TreesManager" unique_id=919839661]
 transform = Transform3D(-0.26321894, 0, 0.98234683, 0, 1.0170004, 0, -0.98234683, 0, -0.26321894, -12.90323, 0, -33.179733)
-lod_bias = 128.0
+lod_bias = 5.0
 multimesh = SubResource("MultiMesh_tx8nu")
 metadata/_scatter_graph = ExtResource("6_lauo3")
 
 [node name="CommonTree2" type="MultiMeshInstance3D" parent="TreesManager" unique_id=1128006036]
 transform = Transform3D(-0.26321915, 0, 0.98234695, 0, 1.0170004, 0, -0.98234695, 0, -0.26321915, -18.43319, 0, -38.7097)
+lod_bias = 5.0
 multimesh = SubResource("MultiMesh_bm7lg")
 metadata/_scatter_graph = ExtResource("8_8k2fn")
 

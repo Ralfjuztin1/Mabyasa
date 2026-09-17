@@ -395,3 +395,30 @@ func _teleport_player(
 			5,
 			0
 		)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if is_loading:
+		return
+
+	if event.is_action_pressed("gotoforest"):
+		print("[TEST TELEPORT] Going to Forest...")
+		_test_change_map("res://Scenes/Main/Forest.tscn")
+		return
+
+	if event.is_action_pressed("firsttownreset"):
+		print("[TEST TELEPORT] Going to FirstTown...")
+		_test_change_map("res://Scenes/Main/FirstTown.tscn")
+		return
+
+
+func _test_change_map(scene_path: String) -> void:
+	if not ResourceLoader.exists(scene_path):
+		push_error("[TEST TELEPORT] Scene not found: " + scene_path)
+		return
+
+	# Make sure a previous saved position does not override
+	# the test teleport.
+	has_pending_save = false
+	GameManager.should_load_save = false
+
+	load_new_level_async(scene_path, "DefaultSpawn")

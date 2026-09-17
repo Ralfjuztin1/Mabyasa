@@ -608,7 +608,7 @@ animations = [{
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 script = ExtResource("1_27cb7")
 camera_distance = 1.0
-min_pitch = -20.0
+min_pitch = -35.0
 max_pitch = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=170960580]

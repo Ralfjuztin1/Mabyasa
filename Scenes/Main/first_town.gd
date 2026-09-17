@@ -41,4 +41,4 @@ func _ready() -> void:
 	# Give Godot another frame to finish the material update.
 	await get_tree().process_frame
 
-	print("[FirstTown] Terrain initialization complete.")
+	print("[FirstTown] Terrain initialization complete.")   
