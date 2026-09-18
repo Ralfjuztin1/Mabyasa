@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://g4m2dc7h55qs" path="res://Scenes/SceneManager/Main.gd" id="1_d2boy"]
 [ext_resource type="PackedScene" uid="uid://crl4dujp2yhm4" path="res://Scenes/Characters/Player/player.tscn" id="2_8w6v0"]
 [ext_resource type="PackedScene" uid="uid://0axw3ppda6w7" path="res://Scenes/UI/PauseMenu.tscn" id="2_jrpmo"]
+[ext_resource type="PackedScene" uid="uid://dful3cpqtgqhr" path="res://Scenes/UI/QuestUI.tscn" id="2_mbsg8"]
 
 [node name="Main" type="Node" unique_id=1964064950]
 script = ExtResource("1_d2boy")
@@ -11,6 +12,8 @@ script = ExtResource("1_d2boy")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=751941855]
 layer = 10
+
+[node name="QuestUI" parent="UILayer" unique_id=1451924497 instance=ExtResource("2_mbsg8")]
 
 [node name="PauseMenu" parent="UILayer" unique_id=2059153811 instance=ExtResource("2_jrpmo")]
 

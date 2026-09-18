@@ -1,5 +1,6 @@
 if QuestManager.is_quest_completed("pet_the_animal") and not QuestManager.has_dialogue_flag("chief_pet_animal_complete"):
-	chief: Istu ikwa me ken.
+	chief: Istu ikwa me ken.\
+	right
 	[signal arg="set_flag_chief_pet_animal_complete"]
 	[end_timeline]
 
@@ -21,8 +22,8 @@ elif QuestManager.is_quest_active("pet_the_animal"):
 
 elif QuestManager.is_quest_active("talk_to_chief"):
 	chief: oh so you have talked to rids?
-	[signal arg="start_pet_the_animal"]
 	chief: Pakanan mo pa reng babi now na.
+	[signal arg="start_pet_the_animal"]
 	[end_timeline]
 
 elif QuestManager.is_quest_completed("talk_to_chief") and not QuestManager.is_quest_completed("pet_the_animal"):

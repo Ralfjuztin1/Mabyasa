@@ -19,11 +19,23 @@ validation_type = "talk_npc"
 validation_target = "Chief"
 metadata/_custom_type_script = "uid://54thwokoasbl"
 
+[sub_resource type="Resource" id="Resource_0r026"]
+script = ExtResource("2_064sb")
+type = "interact_object"
+target = "manukq"
+required_count = 3
+validation_type = "talk_npc"
+validation_target = "Chief"
+metadata/_custom_type_script = "uid://54thwokoasbl"
+
 [resource]
 script = ExtResource("1_i40xh")
 quest_id = "pet_the_animal"
 title = "Pet The Animal"
 description = "chief asked you to pet the animal *lima* times"
 rewards = SubResource("Resource_ny1p3")
-steps = Array[ExtResource("2_064sb")]([SubResource("Resource_064sb")])
+steps = Array[ExtResource("2_064sb")]([SubResource("Resource_064sb"), SubResource("Resource_0r026")])
+quest_giver_id = "Chief"
+quest_turn_in_id = "Chief"
+is_main_quest = true
 metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

@@ -2498,6 +2498,6 @@ animal_frames = SubResource("SpriteFrames_n7o3d")
 [node name="Manuk4" parent="animals" unique_id=1428460679 instance=ExtResource("8_6vahg")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15.317486, 0.4248082, -25.161085)
 animal_name = "Manuk"
-animal_id = ""
+animal_id = "manukq"
 can_interact = true
 animal_frames = SubResource("SpriteFrames_n7o3d")

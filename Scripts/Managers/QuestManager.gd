@@ -38,9 +38,26 @@ const QUESTS_PATH: String = "res://Data/Quests/"
 # RUNTIME QUEST STATE
 # ============================================================
 
+# Each active quest uses:
+#
+# {
+#     "current_step": 0,
+#     "current_count": 0,
+#     "validation_state": "none",
+#     "objectives": [
+#         {
+#             "count": 0,
+#             "completed": false,
+#             "validation_state": "none"
+#         }
+#     ]
+# }
+#
+# current_step/current_count/validation_state remain for
+# compatibility with existing dialogue code.
+
 var active_quests: Dictionary = {}
 var completed_quests: Array[String] = []
-
 var dialogue_flags: Dictionary = {}
 
 
@@ -199,15 +216,33 @@ func start_quest(quest_id: String) -> void:
 		)
 		return
 
+	if quest_data.steps.is_empty():
+		push_warning(
+			"[QUEST] Cannot start quest with no objectives: "
+			+ quest_id
+		)
+		return
+
+	var objective_states: Array = []
+
+	for _step in quest_data.steps:
+		objective_states.append({
+			"count": 0,
+			"completed": false,
+			"validation_state": "none"
+		})
+
 	active_quests[quest_id] = {
 		"current_step": 0,
 		"current_count": 0,
-		"validation_state": "none"
+		"validation_state": "none",
+		"objectives": objective_states
 	}
 
 	print("")
 	print("📜 [QUEST STARTED] ", quest_data.title)
 	print("   Quest ID: ", quest_id)
+	print("   Objectives: ", quest_data.steps.size())
 
 	quest_started.emit(
 		quest_id,
@@ -233,41 +268,68 @@ func handle_npc_interaction(npc_id: String) -> void:
 		if quest_data == null:
 			continue
 
-		var step_index: int = (
-			active_quests[quest_id]["current_step"]
+		var objective_count: int = quest_data.steps.size()
+
+		var objective_states: Array = active_quests[quest_id].get(
+			"objectives",
+			[]
 		)
 
-		if step_index < 0 or step_index >= quest_data.steps.size():
-			continue
+		for step_index in range(objective_count):
+			if not active_quests.has(quest_id):
+				break
 
-		var current_step: QuestStep = quest_data.steps[step_index]
+			if step_index >= objective_states.size():
+				break
 
-		# Only validation events for the current step matter here.
-		if current_step.validation_type != "talk_npc":
-			continue
+			if bool(
+				objective_states[step_index].get(
+					"completed",
+					false
+				)
+			):
+				continue
 
-		if current_step.validation_target != npc_id:
-			continue
+			var current_step: QuestStep = quest_data.steps[step_index]
 
-		print(
-			"🔍 [QUEST PRE-DIALOGUE VALIDATION] ",
-			quest_data.title,
-			" → talk_npc: ",
-			npc_id
-		)
+			if current_step.validation_type != "talk_npc":
+				continue
 
-		_validate_counted_objective(
-			quest_id,
-			quest_data,
-			current_step
-		)
+			if current_step.validation_target != npc_id:
+				continue
+
+			print(
+				"🔍 [QUEST PRE-DIALOGUE VALIDATION] ",
+				quest_data.title,
+				" → objective ",
+				step_index,
+				" → talk_npc: ",
+				npc_id
+			)
+
+			_validate_counted_objective(
+				quest_id,
+				quest_data,
+				step_index
+			)
+
+			objective_states = active_quests.get(
+				quest_id,
+				{}
+			).get(
+				"objectives",
+				[]
+			)
 
 
 # ============================================================
 # GAME EVENT HANDLER
 # ============================================================
 
-func _on_event(target_id: String, event_type: String) -> void:
+func _on_event(
+	target_id: String,
+	event_type: String
+) -> void:
 	print(
 		"🔔 [QUEST EVENT] type=",
 		event_type,
@@ -286,123 +348,224 @@ func _on_event(target_id: String, event_type: String) -> void:
 		if quest_data == null:
 			continue
 
-		var step_index: int = (
-			active_quests[quest_id]["current_step"]
+		var objective_states: Array = active_quests[quest_id].get(
+			"objectives",
+			[]
 		)
 
-		if step_index < 0 or step_index >= quest_data.steps.size():
-			continue
+		for step_index in range(
+			quest_data.steps.size()
+		):
+			if not active_quests.has(quest_id):
+				break
 
-		var current_step: QuestStep = quest_data.steps[step_index]
-
-		print(
-			"   📌 [QUEST CHECK] ",
-			quest_id,
-			" | step=",
-			current_step.type,
-			" | target=",
-			current_step.target,
-			" | count=",
-			active_quests[quest_id].get("current_count", 0)
-		)
-
-		# ----------------------------------------------------
-		# NORMAL / COUNTED OBJECTIVE
-		# ----------------------------------------------------
-
-		var objective_matches: bool = (
-			current_step.type == event_type
-			and current_step.target == target_id
-		)
-
-		if objective_matches:
-			_handle_objective_event(
-				quest_id,
-				quest_data,
-				current_step
+			objective_states = active_quests[quest_id].get(
+				"objectives",
+				[]
 			)
 
-		# ----------------------------------------------------
-		# VALIDATION EVENTS
-		# ----------------------------------------------------
+			if step_index >= objective_states.size():
+				continue
 
-		if not active_quests.has(quest_id):
-			continue
+			var objective_state: Dictionary = (
+				objective_states[step_index]
+			)
 
-		if (
-			current_step.validation_type != "none"
-			and not current_step.validation_type.is_empty()
-		):
-			# IMPORTANT:
-			# NPC validation is handled before Dialogue starts.
-			# Do not validate it again when Dialogic ends.
+			if bool(
+				objective_state.get(
+					"completed",
+					false
+				)
+			):
+				continue
+
+			var current_step: QuestStep = (
+				quest_data.steps[step_index]
+			)
+
+			print(
+				"   📌 [QUEST CHECK] ",
+				quest_id,
+				" | objective=",
+				step_index,
+				" | step=",
+				current_step.type,
+				" | target=",
+				current_step.target,
+				" | count=",
+				objective_state.get(
+					"count",
+					0
+				)
+			)
+
+			# ----------------------------------------------------
+			# NORMAL OBJECTIVE
+			# ----------------------------------------------------
+
+			var objective_matches: bool = (
+				current_step.type == event_type
+				and current_step.target == target_id
+			)
+
+			if objective_matches:
+				_handle_objective_event(
+					quest_id,
+					quest_data,
+					step_index
+				)
+
+			if not active_quests.has(quest_id):
+				break
+
+			# ----------------------------------------------------
+			# VALIDATION
+			# ----------------------------------------------------
+
+			objective_states = active_quests[quest_id].get(
+				"objectives",
+				[]
+			)
+
+			if step_index >= objective_states.size():
+				continue
+
+			if bool(
+				objective_states[step_index].get(
+					"completed",
+					false
+				)
+			):
+				continue
+
+			# NPC validation happens before Dialogic.
 			if (
 				event_type == "talk_npc"
 				and current_step.validation_type == "talk_npc"
 			):
 				continue
 
-			var validation_matches: bool = (
-				current_step.validation_type == event_type
-				and current_step.validation_target == target_id
-			)
-
-			if validation_matches:
-				_validate_counted_objective(
-					quest_id,
-					quest_data,
-					current_step
+			if (
+				current_step.validation_type != "none"
+				and not current_step.validation_type.is_empty()
+			):
+				var validation_matches: bool = (
+					current_step.validation_type == event_type
+					and current_step.validation_target == target_id
 				)
+
+				if validation_matches:
+					_validate_counted_objective(
+						quest_id,
+						quest_data,
+						step_index
+					)
 
 
 # ============================================================
-# HANDLE OBJECTIVE
+# HANDLE OBJECTIVE EVENT
 # ============================================================
 
 func _handle_objective_event(
 	quest_id: String,
 	quest_data: QuestData,
-	current_step: QuestStep
+	step_index: int
 ) -> void:
 
 	if not active_quests.has(quest_id):
 		return
 
+	if step_index < 0:
+		return
+
+	if step_index >= quest_data.steps.size():
+		return
+
+	var current_step: QuestStep = (
+		quest_data.steps[step_index]
+	)
+
+	var objective_state: Dictionary = (
+		active_quests[quest_id]["objectives"][step_index]
+	)
+
 	# Counted objective.
 	if current_step.required_count > 1:
-		active_quests[quest_id]["current_count"] += 1
+		objective_state["count"] = int(
+			objective_state.get(
+				"count",
+				0
+			)
+		) + 1
 
-		# New interaction means the player is attempting again.
-		active_quests[quest_id]["validation_state"] = "none"
+		objective_state["validation_state"] = "none"
 
-		var current_count: int = (
-			active_quests[quest_id]["current_count"]
+		var current_count: int = int(
+			objective_state.get(
+				"count",
+				0
+			)
 		)
 
 		print(
 			"🔢 [QUEST COUNT] ",
 			quest_data.title,
+			" → objective ",
+			step_index,
 			" → ",
 			current_count,
 			"/",
 			current_step.required_count
 		)
 
-		_emit_current_objective(quest_id)
+		# No validator = complete automatically.
+		if (
+			current_step.validation_type == "none"
+			and current_count >= current_step.required_count
+		):
+			_complete_objective(
+				quest_id,
+				quest_data,
+				step_index
+			)
+		else:
+			_sync_legacy_state(quest_id)
+			_emit_objective_updated(
+				quest_id,
+				step_index
+			)
 
 		return
 
-	# Normal one-time objective.
-	print(
-		"✅ [QUEST OBJECTIVE COMPLETE] ",
-		quest_data.title,
-		" → ",
-		current_step.type,
-		": ",
-		current_step.target
-	)
+	# One-time objective.
+	objective_state["count"] = 1
+	objective_state["validation_state"] = "none"
 
-	_advance_quest(quest_id)
+	if current_step.validation_type == "none":
+		print(
+			"✅ [QUEST OBJECTIVE COMPLETE] ",
+			quest_data.title,
+			" → ",
+			current_step.type,
+			": ",
+			current_step.target
+		)
+
+		_complete_objective(
+			quest_id,
+			quest_data,
+			step_index
+		)
+
+		return
+
+	# Still needs external validation.
+	_sync_legacy_state(quest_id)
+
+	_emit_objective_updated(
+		quest_id,
+		step_index
+	)
 
 
 # ============================================================
@@ -412,14 +575,31 @@ func _handle_objective_event(
 func _validate_counted_objective(
 	quest_id: String,
 	quest_data: QuestData,
-	current_step: QuestStep
+	step_index: int
 ) -> void:
 
 	if not active_quests.has(quest_id):
 		return
 
-	var current_count: int = (
-		active_quests[quest_id]["current_count"]
+	if step_index < 0:
+		return
+
+	if step_index >= quest_data.steps.size():
+		return
+
+	var current_step: QuestStep = (
+		quest_data.steps[step_index]
+	)
+
+	var objective_state: Dictionary = (
+		active_quests[quest_id]["objectives"][step_index]
+	)
+
+	var current_count: int = int(
+		objective_state.get(
+			"count",
+			0
+		)
 	)
 
 	var required_count: int = (
@@ -429,6 +609,8 @@ func _validate_counted_objective(
 	print(
 		"🔍 [QUEST VALIDATION] ",
 		quest_data.title,
+		" → objective ",
+		step_index,
 		" → ",
 		current_count,
 		"/",
@@ -440,7 +622,13 @@ func _validate_counted_objective(
 	# --------------------------------------------------------
 
 	if current_count == 0:
-		active_quests[quest_id]["validation_state"] = "zero"
+		objective_state["validation_state"] = "zero"
+
+		_sync_legacy_state(quest_id)
+		_emit_objective_updated(
+			quest_id,
+			step_index
+		)
 
 		print(
 			"⚠️ [QUEST VALIDATION] No interactions yet."
@@ -453,14 +641,21 @@ func _validate_counted_objective(
 	# --------------------------------------------------------
 
 	if current_count == required_count:
-		active_quests[quest_id]["validation_state"] = "correct"
+		objective_state["validation_state"] = "correct"
 
 		print(
 			"✅ [QUEST VALIDATION PASSED] ",
-			quest_data.title
+			quest_data.title,
+			" → objective ",
+			step_index
 		)
 
-		_advance_quest(quest_id)
+		_complete_objective(
+			quest_id,
+			quest_data,
+			step_index
+		)
+
 		return
 
 	# --------------------------------------------------------
@@ -468,7 +663,7 @@ func _validate_counted_objective(
 	# --------------------------------------------------------
 
 	if current_count < required_count:
-		active_quests[quest_id]["validation_state"] = "under"
+		objective_state["validation_state"] = "under"
 
 		print(
 			"❌ [QUEST VALIDATION FAILED] TOO FEW → ",
@@ -480,7 +675,7 @@ func _validate_counted_objective(
 		_reset_failed_attempt(
 			quest_id,
 			quest_data,
-			current_step
+			step_index
 		)
 
 		return
@@ -490,7 +685,7 @@ func _validate_counted_objective(
 	# --------------------------------------------------------
 
 	if current_count > required_count:
-		active_quests[quest_id]["validation_state"] = "over"
+		objective_state["validation_state"] = "over"
 
 		print(
 			"❌ [QUEST VALIDATION FAILED] TOO MANY → ",
@@ -502,7 +697,7 @@ func _validate_counted_objective(
 		_reset_failed_attempt(
 			quest_id,
 			quest_data,
-			current_step
+			step_index
 		)
 
 
@@ -513,64 +708,137 @@ func _validate_counted_objective(
 func _reset_failed_attempt(
 	quest_id: String,
 	quest_data: QuestData,
-	current_step: QuestStep
+	step_index: int
 ) -> void:
 
-	# Keep the validation state so Dialogic can see
-	# why the attempt failed.
-	active_quests[quest_id]["current_count"] = 0
+	var objective_state: Dictionary = (
+		active_quests[quest_id]["objectives"][step_index]
+	)
+
+	objective_state["count"] = 0
 
 	quest_validation_failed.emit(
 		quest_id,
 		quest_data,
-		current_step
+		quest_data.steps[step_index]
 	)
 
-	_emit_current_objective(quest_id)
+	_sync_legacy_state(quest_id)
+
+	_emit_objective_updated(
+		quest_id,
+		step_index
+	)
 
 
 # ============================================================
-# ADVANCE QUEST
+# COMPLETE ONE OBJECTIVE
 # ============================================================
 
-func _advance_quest(quest_id: String) -> void:
+func _complete_objective(
+	quest_id: String,
+	quest_data: QuestData,
+	step_index: int
+) -> void:
+
 	if not active_quests.has(quest_id):
 		return
 
-	var quest_data := get_quest(quest_id)
-
-	if quest_data == null:
+	if step_index < 0:
 		return
 
-	active_quests[quest_id]["current_step"] += 1
-	active_quests[quest_id]["current_count"] = 0
-	active_quests[quest_id]["validation_state"] = "none"
+	if step_index >= quest_data.steps.size():
+		return
 
-	var new_step_index: int = (
-		active_quests[quest_id]["current_step"]
+	var objective_state: Dictionary = (
+		active_quests[quest_id]["objectives"][step_index]
 	)
 
-	if new_step_index >= quest_data.steps.size():
-		_complete_quest(quest_id)
-		return
+	var required_count: int = (
+		quest_data.steps[step_index].required_count
+	)
+
+	objective_state["completed"] = true
+
+	objective_state["count"] = max(
+		int(
+			objective_state.get(
+				"count",
+				0
+			)
+		),
+		required_count
+	)
+
+	objective_state["validation_state"] = "correct"
 
 	print(
-		"📜 [QUEST ADVANCED] ",
+		"✅ [QUEST OBJECTIVE COMPLETED] ",
 		quest_data.title,
-		" → Step ",
-		new_step_index + 1,
-		" of ",
+		" → objective ",
+		step_index + 1,
+		"/",
 		quest_data.steps.size()
 	)
 
-	_emit_current_objective(quest_id)
+	_sync_legacy_state(quest_id)
+
+	_emit_objective_updated(
+		quest_id,
+		step_index
+	)
+
+	if _all_objectives_completed(
+		quest_id,
+		quest_data
+	):
+		_complete_quest(quest_id)
 
 
 # ============================================================
-# CURRENT OBJECTIVE
+# ALL OBJECTIVES COMPLETED
 # ============================================================
 
-func _emit_current_objective(quest_id: String) -> void:
+func _all_objectives_completed(
+	quest_id: String,
+	quest_data: QuestData
+) -> bool:
+
+	if not active_quests.has(quest_id):
+		return false
+
+	var objective_states: Array = (
+		active_quests[quest_id].get(
+			"objectives",
+			[]
+		)
+	)
+
+	if objective_states.size() < quest_data.steps.size():
+		return false
+
+	for step_index in range(
+		quest_data.steps.size()
+	):
+		if not bool(
+			objective_states[step_index].get(
+				"completed",
+				false
+			)
+		):
+			return false
+
+	return true
+
+
+# ============================================================
+# LEGACY / CURRENT OBJECTIVE STATE
+# ============================================================
+
+func _sync_legacy_state(
+	quest_id: String
+) -> void:
+
 	if not active_quests.has(quest_id):
 		return
 
@@ -579,19 +847,112 @@ func _emit_current_objective(quest_id: String) -> void:
 	if quest_data == null:
 		return
 
-	var step_index: int = (
-		active_quests[quest_id]["current_step"]
+	var objective_states: Array = (
+		active_quests[quest_id].get(
+			"objectives",
+			[]
+		)
 	)
 
-	if step_index < 0 or step_index >= quest_data.steps.size():
+	var next_index: int = (
+		quest_data.steps.size()
+	)
+
+	for step_index in range(
+		quest_data.steps.size()
+	):
+		if step_index >= objective_states.size():
+			break
+
+		if not bool(
+			objective_states[step_index].get(
+				"completed",
+				false
+			)
+		):
+			next_index = step_index
+			break
+
+	active_quests[quest_id]["current_step"] = (
+		next_index
+	)
+
+	if next_index >= quest_data.steps.size():
+		active_quests[quest_id]["current_count"] = 0
+		active_quests[quest_id]["validation_state"] = "none"
 		return
 
-	var current_step: QuestStep = quest_data.steps[step_index]
+	active_quests[quest_id]["current_count"] = int(
+		objective_states[next_index].get(
+			"count",
+			0
+		)
+	)
+
+	active_quests[quest_id]["validation_state"] = str(
+		objective_states[next_index].get(
+			"validation_state",
+			"none"
+		)
+	)
+
+
+func _emit_current_objective(
+	quest_id: String
+) -> void:
+
+	if not active_quests.has(quest_id):
+		return
+
+	_sync_legacy_state(quest_id)
+
+	var quest_data := get_quest(quest_id)
+
+	if quest_data == null:
+		return
+
+	var step_index: int = int(
+		active_quests[quest_id].get(
+			"current_step",
+			-1
+		)
+	)
+
+	if step_index < 0:
+		return
+
+	if step_index >= quest_data.steps.size():
+		return
+
+	_emit_objective_updated(
+		quest_id,
+		step_index
+	)
+
+
+func _emit_objective_updated(
+	quest_id: String,
+	step_index: int
+) -> void:
+
+	if not active_quests.has(quest_id):
+		return
+
+	var quest_data := get_quest(quest_id)
+
+	if quest_data == null:
+		return
+
+	if step_index < 0:
+		return
+
+	if step_index >= quest_data.steps.size():
+		return
 
 	quest_objective_updated.emit(
 		quest_id,
 		step_index,
-		current_step
+		quest_data.steps[step_index]
 	)
 
 
@@ -599,7 +960,13 @@ func _emit_current_objective(quest_id: String) -> void:
 # COMPLETE QUEST
 # ============================================================
 
-func _complete_quest(quest_id: String) -> void:
+func _complete_quest(
+	quest_id: String
+) -> void:
+
+	if not active_quests.has(quest_id):
+		return
+
 	var quest_data := get_quest(quest_id)
 
 	if quest_data == null:
@@ -607,7 +974,10 @@ func _complete_quest(quest_id: String) -> void:
 
 	print("")
 	print("========================================")
-	print("✨ [QUEST COMPLETED] ", quest_data.title)
+	print(
+		"✨ [QUEST COMPLETED] ",
+		quest_data.title
+	)
 	print("========================================")
 
 	_grant_rewards(quest_data)
@@ -631,7 +1001,10 @@ func _complete_quest(quest_id: String) -> void:
 # REWARDS
 # ============================================================
 
-func _grant_rewards(quest_data: QuestData) -> void:
+func _grant_rewards(
+	quest_data: QuestData
+) -> void:
+
 	if quest_data.rewards == null:
 		return
 
@@ -660,32 +1033,56 @@ func _grant_rewards(quest_data: QuestData) -> void:
 # QUEST STATE
 # ============================================================
 
-func is_quest_active(quest_id: String) -> bool:
+func is_quest_active(
+	quest_id: String
+) -> bool:
 	return active_quests.has(quest_id)
 
 
-func is_quest_completed(quest_id: String) -> bool:
+func is_quest_completed(
+	quest_id: String
+) -> bool:
 	return completed_quests.has(quest_id)
 
 
-func get_current_step(quest_id: String) -> int:
+func get_current_step(
+	quest_id: String
+) -> int:
+
 	if not active_quests.has(quest_id):
 		return -1
 
-	return active_quests[quest_id]["current_step"]
+	_sync_legacy_state(quest_id)
 
-
-func get_current_count(quest_id: String) -> int:
-	if not active_quests.has(quest_id):
-		return 0
-
-	return active_quests[quest_id].get(
-		"current_count",
-		0
+	return int(
+		active_quests[quest_id].get(
+			"current_step",
+			-1
+		)
 	)
 
 
-func get_required_count(quest_id: String) -> int:
+func get_current_count(
+	quest_id: String
+) -> int:
+
+	if not active_quests.has(quest_id):
+		return 0
+
+	_sync_legacy_state(quest_id)
+
+	return int(
+		active_quests[quest_id].get(
+			"current_count",
+			0
+		)
+	)
+
+
+func get_required_count(
+	quest_id: String
+) -> int:
+
 	if not active_quests.has(quest_id):
 		return 0
 
@@ -694,60 +1091,368 @@ func get_required_count(quest_id: String) -> int:
 	if quest_data == null:
 		return 0
 
-	var step_index: int = (
-		active_quests[quest_id]["current_step"]
+	var step_index: int = get_current_step(
+		quest_id
 	)
 
-	if step_index < 0 or step_index >= quest_data.steps.size():
+	if step_index < 0:
+		return 0
+
+	if step_index >= quest_data.steps.size():
 		return 0
 
 	return quest_data.steps[step_index].required_count
 
 
 # ============================================================
-# VALIDATION STATE
+# MULTI-OBJECTIVE STATE
 # ============================================================
 
-func get_validation_state(quest_id: String) -> String:
-	if not active_quests.has(quest_id):
-		return "none"
+func get_objective_count(
+	quest_id: String,
+	step_index: int
+) -> int:
 
-	return active_quests[quest_id].get(
-		"validation_state",
-		"none"
+	if not active_quests.has(quest_id):
+		return 0
+
+	var objective_states: Array = (
+		active_quests[quest_id].get(
+			"objectives",
+			[]
+		)
+	)
+
+	if step_index < 0:
+		return 0
+
+	if step_index >= objective_states.size():
+		return 0
+
+	return int(
+		objective_states[step_index].get(
+			"count",
+			0
+		)
 	)
 
 
-func is_validation_failed(quest_id: String) -> bool:
-	var state := get_validation_state(quest_id)
+func get_objective_required_count(
+	quest_id: String,
+	step_index: int
+) -> int:
 
-	return state == "under" or state == "over"
+	var quest_data := get_quest(quest_id)
+
+	if quest_data == null:
+		return 0
+
+	if step_index < 0:
+		return 0
+
+	if step_index >= quest_data.steps.size():
+		return 0
+
+	return quest_data.steps[step_index].required_count
 
 
-func is_count_zero(quest_id: String) -> bool:
-	return get_validation_state(quest_id) == "zero"
+func is_objective_completed(
+	quest_id: String,
+	step_index: int
+) -> bool:
+
+	if not active_quests.has(quest_id):
+		return false
+
+	var objective_states: Array = (
+		active_quests[quest_id].get(
+			"objectives",
+			[]
+		)
+	)
+
+	if step_index < 0:
+		return false
+
+	if step_index >= objective_states.size():
+		return false
+
+	return bool(
+		objective_states[step_index].get(
+			"completed",
+			false
+		)
+	)
 
 
-func is_count_under(quest_id: String) -> bool:
-	return get_validation_state(quest_id) == "under"
+func get_objective_validation_state(
+	quest_id: String,
+	step_index: int
+) -> String:
+
+	if not active_quests.has(quest_id):
+		return "none"
+
+	var objective_states: Array = (
+		active_quests[quest_id].get(
+			"objectives",
+			[]
+		)
+	)
+
+	if step_index < 0:
+		return "none"
+
+	if step_index >= objective_states.size():
+		return "none"
+
+	return str(
+		objective_states[step_index].get(
+			"validation_state",
+			"none"
+		)
+	)
 
 
-func is_count_over(quest_id: String) -> bool:
-	return get_validation_state(quest_id) == "over"
+# ============================================================
+# VALIDATION STATE
+# ============================================================
+
+func get_validation_state(
+	quest_id: String
+) -> String:
+
+	if not active_quests.has(quest_id):
+		return "none"
+
+	_sync_legacy_state(quest_id)
+
+	return str(
+		active_quests[quest_id].get(
+			"validation_state",
+			"none"
+		)
+	)
 
 
-func is_count_correct(quest_id: String) -> bool:
-	return get_validation_state(quest_id) == "correct"
+func is_validation_failed(
+	quest_id: String
+) -> bool:
+
+	var state := get_validation_state(
+		quest_id
+	)
+
+	return (
+		state == "under"
+		or state == "over"
+	)
+
+
+func is_count_zero(
+	quest_id: String
+) -> bool:
+
+	return (
+		get_validation_state(quest_id)
+		== "zero"
+	)
+
+
+func is_count_under(
+	quest_id: String
+) -> bool:
+
+	return (
+		get_validation_state(quest_id)
+		== "under"
+	)
+
+
+func is_count_over(
+	quest_id: String
+) -> bool:
+
+	return (
+		get_validation_state(quest_id)
+		== "over"
+	)
+
+
+func is_count_correct(
+	quest_id: String
+) -> bool:
+
+	return (
+		get_validation_state(quest_id)
+		== "correct"
+	)
+
+
+# ============================================================
+# NPC QUEST MARKER
+# ============================================================
+
+# Returns:
+#
+# "available" = !
+# "turn_in"   = ?
+# "none"      = hidden
+#
+# The NPC itself does not need to know which quest belongs
+# to it. QuestData contains quest_giver_id and quest_turn_in_id.
+
+func get_npc_quest_marker(
+	npc_id: String
+) -> String:
+
+	if npc_id.is_empty():
+		return "none"
+
+	# --------------------------------------------------------
+	# TURN-IN QUESTS
+	# --------------------------------------------------------
+
+	for quest_id in active_quests.keys():
+		var active_id: String = str(
+			quest_id
+		)
+
+		var quest_data: QuestData = get_quest(
+			active_id
+		)
+
+		if quest_data == null:
+			continue
+
+		if quest_data.quest_turn_in_id != npc_id:
+			continue
+
+		if _all_objectives_completed(
+			active_id,
+			quest_data
+		):
+			return "turn_in"
+
+	# --------------------------------------------------------
+	# AVAILABLE QUESTS
+	# --------------------------------------------------------
+
+	var available_side_quest: bool = false
+	var available_main_quest: bool = false
+
+	for quest_id in quest_database.keys():
+		var quest_data: QuestData = (
+			quest_database[str(quest_id)]
+		)
+
+		if quest_data == null:
+			continue
+
+		if quest_data.quest_giver_id != npc_id:
+			continue
+
+		if completed_quests.has(
+			str(quest_id)
+		):
+			continue
+
+		if active_quests.has(
+			str(quest_id)
+		):
+			continue
+
+		if quest_data.is_main_quest:
+			available_main_quest = true
+		else:
+			available_side_quest = true
+
+	# Main quest gets priority over side quest.
+	if available_main_quest:
+		return "available"
+
+	if available_side_quest:
+		return "available"
+
+	return "none"
+
+
+# Returns true when the highest-priority available or turn-in
+# quest for this NPC is a main quest.
+#
+# Useful later if BaseNPC wants to make the marker yellow for
+# main quests and another color for side quests.
+
+func is_npc_main_quest_marker(
+	npc_id: String
+) -> bool:
+
+	if npc_id.is_empty():
+		return false
+
+	# Turn-in has priority.
+	for quest_id in active_quests.keys():
+		var active_id: String = str(
+			quest_id
+		)
+
+		var quest_data: QuestData = get_quest(
+			active_id
+		)
+
+		if quest_data == null:
+			continue
+
+		if quest_data.quest_turn_in_id != npc_id:
+			continue
+
+		if _all_objectives_completed(
+			active_id,
+			quest_data
+		):
+			return quest_data.is_main_quest
+
+	# Available quest.
+	for quest_id in quest_database.keys():
+		var quest_data: QuestData = (
+			quest_database[str(quest_id)]
+		)
+
+		if quest_data == null:
+			continue
+
+		if quest_data.quest_giver_id != npc_id:
+			continue
+
+		if completed_quests.has(
+			str(quest_id)
+		):
+			continue
+
+		if active_quests.has(
+			str(quest_id)
+		):
+			continue
+
+		if quest_data.is_main_quest:
+			return true
+
+	return false
 
 
 # ============================================================
 # DIALOGUE FLAGS
 # ============================================================
 
-func has_dialogue_flag(flag_id: String) -> bool:
-	return dialogue_flags.get(
-		flag_id,
-		false
+func has_dialogue_flag(
+	flag_id: String
+) -> bool:
+
+	return bool(
+		dialogue_flags.get(
+			flag_id,
+			false
+		)
 	)
 
 
@@ -758,7 +1463,9 @@ func set_dialogue_flag(
 
 	dialogue_flags[flag_id] = value
 
-	dialogue_flag_changed.emit(flag_id)
+	dialogue_flag_changed.emit(
+		flag_id
+	)
 
 	print(
 		"💬 [DIALOGUE FLAG] ",
@@ -769,7 +1476,7 @@ func set_dialogue_flag(
 
 
 # ============================================================
-# SAVE / LOAD
+# SAVE
 # ============================================================
 
 func get_save_data() -> Dictionary:
@@ -780,11 +1487,21 @@ func get_save_data() -> Dictionary:
 	}
 
 
-func load_save_data(data: Dictionary) -> void:
+# ============================================================
+# LOAD
+# ============================================================
+
+func load_save_data(
+	data: Dictionary
+) -> void:
+
 	if data.is_empty():
 		return
 
-	# Active quests
+	# --------------------------------------------------------
+	# ACTIVE QUESTS
+	# --------------------------------------------------------
+
 	var saved_active_quests = data.get(
 		"active_quests",
 		{}
@@ -794,38 +1511,142 @@ func load_save_data(data: Dictionary) -> void:
 
 	if saved_active_quests is Dictionary:
 		for quest_id in saved_active_quests.keys():
-			var saved_state = saved_active_quests[quest_id]
+			var saved_state = (
+				saved_active_quests[quest_id]
+			)
 
 			if not saved_state is Dictionary:
 				continue
 
-			active_quests[quest_id] = {
-				"current_step": int(
+			var id: String = str(quest_id)
+
+			var quest_data: QuestData = get_quest(
+				id
+			)
+
+			if quest_data == null:
+				continue
+
+			var objective_states: Array = []
+
+			var saved_objectives = (
+				saved_state.get(
+					"objectives",
+					null
+				)
+			)
+
+			# New multi-objective format.
+			if saved_objectives is Array:
+
+				for step_index in range(
+					quest_data.steps.size()
+				):
+					var state: Dictionary = {
+						"count": 0,
+						"completed": false,
+						"validation_state": "none"
+					}
+
+					if step_index < saved_objectives.size():
+
+						var saved_objective = (
+							saved_objectives[step_index]
+						)
+
+						if saved_objective is Dictionary:
+
+							state["count"] = int(
+								saved_objective.get(
+									"count",
+									0
+								)
+							)
+
+							state["completed"] = bool(
+								saved_objective.get(
+									"completed",
+									false
+								)
+							)
+
+							state["validation_state"] = str(
+								saved_objective.get(
+									"validation_state",
+									"none"
+								)
+							)
+
+					objective_states.append(
+						state
+					)
+
+			# Old sequential format.
+			else:
+
+				var old_current_step: int = int(
 					saved_state.get(
 						"current_step",
 						0
 					)
-				),
+				)
 
-				"current_count": int(
+				var old_current_count: int = int(
 					saved_state.get(
 						"current_count",
 						0
 					)
-				),
+				)
 
-				"validation_state": str(
+				var old_validation_state: String = str(
 					saved_state.get(
 						"validation_state",
 						"none"
 					)
 				)
+
+				for step_index in range(
+					quest_data.steps.size()
+				):
+					var migrated_state: Dictionary = {
+						"count": 0,
+						"completed": (
+							step_index < old_current_step
+						),
+						"validation_state": "none"
+					}
+
+					if step_index == old_current_step:
+						migrated_state["count"] = (
+							old_current_count
+						)
+
+						migrated_state[
+							"validation_state"
+						] = old_validation_state
+
+					objective_states.append(
+						migrated_state
+					)
+
+			active_quests[id] = {
+				"current_step": 0,
+				"current_count": 0,
+				"validation_state": "none",
+				"objectives": objective_states
 			}
 
-	# Completed quests
-	var saved_completed_quests = data.get(
-		"completed_quests",
-		[]
+			_sync_legacy_state(id)
+
+	# --------------------------------------------------------
+	# COMPLETED QUESTS
+	# --------------------------------------------------------
+
+	var saved_completed_quests = (
+		data.get(
+			"completed_quests",
+			[]
+		)
 	)
 
 	completed_quests.clear()
@@ -837,10 +1658,15 @@ func load_save_data(data: Dictionary) -> void:
 					quest_id
 				)
 
-	# Dialogue flags
-	var saved_dialogue_flags = data.get(
-		"dialogue_flags",
-		{}
+	# --------------------------------------------------------
+	# DIALOGUE FLAGS
+	# --------------------------------------------------------
+
+	var saved_dialogue_flags = (
+		data.get(
+			"dialogue_flags",
+			{}
+		)
 	)
 
 	dialogue_flags.clear()

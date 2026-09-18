@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://dful3cpqtgqhr"]
+
+[ext_resource type="Script" uid="uid://b8ystqbwh75c8" path="res://Scenes/UI/QuestUI.gd" id="1_quest_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.035, 0.05, 0.043, 0.62)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.55)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.12, 0.13, 0.1, 0.46)
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.25)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_separator"]
+bg_color = Color(0.72, 0.62, 0.36, 0.3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_completion"]
+bg_color = Color(1, 0.95, 0.72, 0.12)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.45)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="QuestUI" type="Control" unique_id=158750572]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_quest_ui")
+
+[node name="QuestPanel" type="Control" parent="." unique_id=616268862]
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 364.0
+offset_bottom = 220.0
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="QuestPanel" unique_id=1233686541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="ContentMargin" type="MarginContainer" parent="QuestPanel" unique_id=1620634578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="QuestPanel/ContentMargin" unique_id=1594835537]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="QuestHeaderPanel" type="PanelContainer" parent="QuestPanel/ContentMargin/MainVBox" unique_id=1662659835]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="QuestHeader" type="Label" parent="QuestPanel/ContentMargin/MainVBox/QuestHeaderPanel" unique_id=1589250292]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.8, 0.49, 1)
+theme_override_font_sizes/font_size = 12
+text = "QUEST"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestTitle" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=669239075]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_font_sizes/font_size = 17
+text = "Quest Title"
+autowrap_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=1139992783]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Quest description"
+autowrap_mode = 2
+
+[node name="ObjectivesScroll" type="ScrollContainer" parent="QuestPanel/ContentMargin/MainVBox" unique_id=354848752]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="ObjectivesContainer" type="VBoxContainer" parent="QuestPanel/ContentMargin/MainVBox/ObjectivesScroll" unique_id=1390451472]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="ObjectiveTemplate" type="HBoxContainer" parent="QuestPanel/ContentMargin/MainVBox/ObjectivesScroll/ObjectivesContainer" unique_id=98030365]
+visible = false
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="StateLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate" unique_id=1271886359]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+text = "☐"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ObjectiveLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate" unique_id=261447683]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 14
+text = "Objective"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CountLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate" unique_id=883108757]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.68, 0.64, 1)
+theme_override_font_sizes/font_size = 13
+text = "0 / 1"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="QuestPanel/ContentMargin/MainVBox" unique_id=140973425]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="RewardsHeader" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=956172159]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 11
+text = "REWARDS"
+
+[node name="RewardsContainer" type="HBoxContainer" parent="QuestPanel/ContentMargin/MainVBox" unique_id=356807857]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ExpReward" type="Label" parent="QuestPanel/ContentMargin/MainVBox/RewardsContainer" unique_id=233074943]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 13
+text = "⭐ 100 EXP"
+
+[node name="GoldReward" type="Label" parent="QuestPanel/ContentMargin/MainVBox/RewardsContainer" unique_id=1437452260]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 13
+text = "🪙 50 GOLD"
+horizontal_alignment = 2
+
+[node name="NoRewards" type="Label" parent="QuestPanel/ContentMargin/MainVBox/RewardsContainer" unique_id=1270714969]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.63, 0.59, 1)
+theme_override_font_sizes/font_size = 12
+text = "No rewards"
+
+[node name="StatusLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=525762617]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.67, 0.49, 1)
+theme_override_font_sizes/font_size = 10
+text = "ACTIVE"
+horizontal_alignment = 2
+
+[node name="CompletionOverlay" type="Panel" parent="QuestPanel" unique_id=425302541]
+visible = false
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_completion")
+
+[node name="CompletionLabel" type="Label" parent="QuestPanel/CompletionOverlay" unique_id=862689173]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -18.0
+offset_right = 120.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.96, 0.82, 0.42, 1)
+theme_override_colors/font_shadow_color = Color(0.02, 0.02, 0.02, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 21
+text = "QUEST COMPLETE!"
+horizontal_alignment = 1
+vertical_alignment = 1
