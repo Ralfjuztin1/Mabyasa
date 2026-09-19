@@ -87,16 +87,18 @@ monitorable = false
 shape = SubResource("SphereShape3D_7xnph")
 
 [node name="InteractionPrompt" type="Label3D" parent="." unique_id=1965708827]
-transform = Transform3D(0.59, 0, 0, 0, 0.59, 0, 0, 0, 0.59, 0, 0.42009974, 0)
+transform = Transform3D(0.59000003, 0, 0, 0, 0.59000003, 0, 0, 0, 0.59000003, 0, 0.38435358, 0)
 visible = false
 billboard = 2
 text = "[E] Talk"
 
 [node name="QuestMarker" type="Node3D" parent="." unique_id=1598379860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05092303, 0)
 script = ExtResource("3_2xq1e")
+float_height = 0.02
 
 [node name="Exclamation" type="Label3D" parent="QuestMarker" unique_id=667586151]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41389483, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.067, 0)
 visible = false
 billboard = 2
 no_depth_test = true
@@ -104,7 +106,7 @@ modulate = Color(1, 1, 0, 1)
 text = "!"
 
 [node name="Question" type="Label3D" parent="QuestMarker" unique_id=1417482254]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38347834, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06742635, 0)
 visible = false
 billboard = 2
 no_depth_test = true
