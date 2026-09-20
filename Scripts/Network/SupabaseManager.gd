@@ -31,6 +31,9 @@ var current_user_email: String = "guest"
 var current_user_id: String = ""
 var pending_action: String = "" # Tracks whether we are logging in or registering to prevent signal mix-ups
 
+var _cloud_sync_in_progress: bool = false
+var _pending_cloud_sync_data: Dictionary = {}
+
 # --- Initialization ---
 func _ready():
 	auth_request.request_completed.connect(_on_auth_request_completed)
@@ -119,6 +122,19 @@ func sync_save_to_cloud(save_data: Dictionary) -> void:
 	if session_token.is_empty() or current_user_id.is_empty():
 		return # Guest or not logged in — nothing to sync.
 
+	if _cloud_sync_in_progress:
+		# A sync is already in flight on this HTTPRequest node — it can
+		# only handle one request at a time. Remember this (newer) data
+		# and send it automatically once the current one finishes,
+		# instead of firing a second request that would just error.
+		_pending_cloud_sync_data = save_data
+		return
+
+	_cloud_sync_in_progress = true
+	_start_cloud_sync_request(save_data)
+
+
+func _start_cloud_sync_request(save_data: Dictionary) -> void:
 	var endpoint = REST_URL + "saves?on_conflict=user_id"
 	var headers = [
 		"apikey: " + SUPABASE_KEY,
@@ -136,6 +152,7 @@ func sync_save_to_cloud(save_data: Dictionary) -> void:
 
 	if error != OK:
 		push_warning("[SUPABASE] Failed to start cloud save sync.")
+		_cloud_sync_in_progress = false
 
 
 func fetch_save_from_cloud() -> Dictionary:
@@ -167,6 +184,15 @@ func fetch_save_from_cloud() -> Dictionary:
 
 func _on_db_request_completed(_result, _response_code, _headers, _body) -> void:
 	# fetch_save_from_cloud() awaits this signal directly for its own
-	# response; sync_save_to_cloud() is fire-and-forget and doesn't need
-	# anything handled here.
-	pass
+	# response, so it doesn't need anything handled here.
+	#
+	# For sync_save_to_cloud(), this is what clears the in-flight flag
+	# and — if newer save data queued up while this request was
+	# running — immediately fires that one off next.
+	if _cloud_sync_in_progress:
+		_cloud_sync_in_progress = false
+
+		if not _pending_cloud_sync_data.is_empty():
+			var next_data := _pending_cloud_sync_data
+			_pending_cloud_sync_data = {}
+			sync_save_to_cloud(next_data)
