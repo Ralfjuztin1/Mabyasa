@@ -100,6 +100,12 @@ func save_game(
 	file.close()
 
 
+	# Push the same data to the cloud so it follows the account
+	# across devices, not just this one.
+	if SupabaseManager:
+		SupabaseManager.sync_save_to_cloud(game_data)
+
+
 	print("💾 [SAVE MANAGER] Game successfully saved!")
 	print("   ├── Target User File:     ", file_path)
 	print("   ├── Tutorial Completed?:  ", final_tutorial_status)
@@ -168,6 +174,27 @@ func _read_save_file(file_path: String) -> Dictionary:
 		return data
 
 	return {}
+
+
+# ============================================================
+# WRITE RAW SAVE DATA (used to seed a cloud save into the local file)
+# ============================================================
+
+func write_raw_save_data(data: Dictionary) -> void:
+	var file_path := _get_save_path()
+	var file := FileAccess.open(file_path, FileAccess.WRITE)
+
+	if file == null:
+		push_error(
+			"[SAVE MANAGER] Failed to open save file for cloud write: "
+			+ file_path
+		)
+		return
+
+	file.store_string(JSON.stringify(data, "\t"))
+	file.close()
+
+	print("☁️ [SAVE MANAGER] Cloud save written to local cache: ", file_path)
 
 
 # ============================================================

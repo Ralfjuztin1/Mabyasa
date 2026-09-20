@@ -184,11 +184,26 @@ func initialize_session(email: String) -> void:
 	if SupabaseManager:
 		SupabaseManager.current_user_email = active_user_email
 
+	# Pull the cloud save down FIRST, before checking has_save().
+	# This is the actual fix for progress not following the account
+	# across devices: has_save() only ever checked the local file,
+	# which a new device will never have.
+	if SupabaseManager:
+		var cloud_data: Dictionary = await SupabaseManager.fetch_save_from_cloud()
+
+		if not cloud_data.is_empty():
+			SaveManager.write_raw_save_data(cloud_data)
+
+			print(
+				"☁️ [GAME MANAGER] Cloud save found and restored for: ",
+				active_user_email
+			)
+
 	# Pre-load save data and tutorial state immediately upon login.
 	if SaveManager and SaveManager.has_save():
 		should_load_save = true
 
-		var data := SaveManager.load_game()
+		var data: Dictionary = SaveManager.load_game()
 
 		if TutorialManager:
 			if data.get("tutorial_completed", false):

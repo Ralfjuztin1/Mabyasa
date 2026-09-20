@@ -122,8 +122,10 @@ func _set_status(message: String, color: Color):
 func _on_login_completed(success: bool, message: String):
 	if success:
 		# ➔ FIX: Initialize session data immediately upon successful login!
+		# Now awaited — initialize_session pulls the cloud save down
+		# before returning, which is a network call.
 		if GameManager:
-			GameManager.initialize_session(login_email.text)
+			await GameManager.initialize_session(login_email.text)
 			
 		_set_status("Welcome, Adventurer!", Color(0.3, 0.9, 0.4))
 		await TransitionManager.fade_out(0.5)

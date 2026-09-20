@@ -32,7 +32,7 @@ Dialogic="*uid://ds2q0uclmolvu"
 
 directories/dch_directory={
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
-"character": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
+"Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
