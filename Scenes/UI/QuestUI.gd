@@ -48,6 +48,8 @@ extends Control
 	$QuestPanel/CompletionOverlay/CompletionLabel
 )
 
+@onready var collapse_button: Button = $CollapseButton
+
 
 # ============================================================
 # LAYOUT
@@ -66,6 +68,12 @@ var viewport_width_ratio: float = 0.30
 
 @export_range(60.0, 400.0, 10.0)
 var max_objectives_height: float = 180.0
+
+@export_range(24.0, 80.0, 2.0)
+var collapsed_reveal_width: float = 2.0
+
+@export_range(0.0, 20.0, 1.0)
+var arrow_gap: float = 4.0
 
 
 # ============================================================
@@ -89,6 +97,9 @@ var shake_step: float = 0.04
 @export_range(0.5, 2.0, 0.05)
 var completion_hold_time: float = 0.75
 
+@export_range(0.15, 0.8, 0.05)
+var collapse_duration: float = 0.30
+
 
 # ============================================================
 # RUNTIME
@@ -96,16 +107,16 @@ var completion_hold_time: float = 0.75
 
 var current_quest_id: String = ""
 
-# Quest display order.
-# New quests are appended when started.
 var quest_order: Array[String] = []
 
 var panel_base_position: Vector2 = Vector2.ZERO
 
 var panel_tween: Tween
 var completion_tween: Tween
+var collapse_tween: Tween
 
 var completion_running: bool = false
+var is_collapsed: bool = false
 
 
 # ============================================================
@@ -119,9 +130,15 @@ func _ready() -> void:
 	objective_template.visible = false
 	completion_overlay.visible = false
 
+	panel_base_position = quest_panel.position
+
+	collapse_button.visible = false
+	collapse_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	collapse_button.focus_mode = Control.FOCUS_NONE
+	collapse_button.pressed.connect(_toggle_collapsed)
+
 	_connect_signals()
 
-	# Handles quests restored before the UI existed.
 	call_deferred("_refresh")
 
 
@@ -168,7 +185,6 @@ func _on_quest_started(
 	if completion_running:
 		return
 
-	# Do not replace the quest currently being displayed.
 	if not current_quest_id.is_empty():
 		if QuestManager.is_quest_active(current_quest_id):
 			return
@@ -195,7 +211,6 @@ func _on_objective_updated(
 
 	_add_to_quest_order(quest_id)
 
-	# Only update the quest currently shown.
 	if quest_id != current_quest_id:
 		return
 
@@ -238,7 +253,6 @@ func _on_quest_completed(
 	if completion_running:
 		return
 
-	# Do not interrupt another quest currently being displayed.
 	if quest_id != current_quest_id:
 		return
 
@@ -247,7 +261,13 @@ func _on_quest_completed(
 	if panel_tween != null and panel_tween.is_valid():
 		panel_tween.kill()
 
+	if collapse_tween != null and collapse_tween.is_valid():
+		collapse_tween.kill()
+
 	visible = true
+	collapse_button.visible = false
+	is_collapsed = false
+	quest_panel.position = panel_base_position
 
 	_update_quest_text(quest_data)
 	_update_rewards(quest_data)
@@ -275,12 +295,10 @@ func _sync_quest_order() -> void:
 
 	var active_quests: Dictionary = QuestManager.active_quests
 
-	# Remove quests that are no longer active.
 	for index: int in range(quest_order.size() - 1, -1, -1):
 		if not active_quests.has(quest_order[index]):
 			quest_order.remove_at(index)
 
-	# Add loaded quests that were not registered by a signal.
 	for quest_id in active_quests.keys():
 		var id: String = str(quest_id)
 
@@ -296,12 +314,10 @@ func _get_next_quest_id() -> String:
 
 	_sync_quest_order()
 
-	# Use recorded quest order first.
 	for quest_id: String in quest_order:
 		if active_quests.has(quest_id):
 			return quest_id
 
-	# Fallback for any quest not yet recorded.
 	for quest_id in active_quests.keys():
 		return str(quest_id)
 
@@ -326,9 +342,10 @@ func _refresh() -> void:
 	if active_quests.is_empty():
 		current_quest_id = ""
 		visible = false
+		collapse_button.visible = false
+		is_collapsed = false
 		return
 
-	# Keep current quest when it is still active.
 	if (
 		not current_quest_id.is_empty()
 		and active_quests.has(current_quest_id)
@@ -336,7 +353,6 @@ func _refresh() -> void:
 		_refresh_current()
 		return
 
-	# Otherwise display the next quest in order.
 	var next_quest_id: String = _get_next_quest_id()
 
 	if next_quest_id.is_empty():
@@ -369,11 +385,13 @@ func _show_quest() -> void:
 
 	if quest_data == null:
 		visible = false
+		collapse_button.visible = false
 		return
 
 	var was_hidden: bool = not visible
 
 	visible = true
+	collapse_button.visible = true
 
 	_update_quest_text(quest_data)
 	_rebuild_objectives(current_quest_id, quest_data)
@@ -382,6 +400,13 @@ func _show_quest() -> void:
 	status_label.text = "ACTIVE"
 
 	_resize_panel()
+
+	if is_collapsed:
+		quest_panel.position = _get_collapsed_position()
+	else:
+		quest_panel.position = panel_base_position
+
+	_update_collapse_button_position()
 
 	if was_hidden:
 		call_deferred("_animate_pop_in")
@@ -581,7 +606,7 @@ func _resize_panel() -> void:
 		content_size.y + margin_y
 	)
 
-	panel_base_position = quest_panel.position
+	_update_collapse_button_position()
 
 
 # ============================================================
@@ -595,6 +620,9 @@ func _animate_pop_in() -> void:
 	if not is_instance_valid(quest_panel):
 		return
 
+	if is_collapsed:
+		return
+
 	if panel_tween != null and panel_tween.is_valid():
 		panel_tween.kill()
 
@@ -602,7 +630,8 @@ func _animate_pop_in() -> void:
 
 	_resize_panel()
 
-	panel_base_position = quest_panel.position
+	quest_panel.position = panel_base_position
+	_update_collapse_button_position()
 	quest_panel.pivot_offset = quest_panel.size / 2.0
 	quest_panel.scale = Vector2(0.8, 0.8)
 	quest_panel.modulate.a = 0.0
@@ -628,6 +657,97 @@ func _animate_pop_in() -> void:
 
 
 # ============================================================
+# COLLAPSE / EXPAND
+# ============================================================
+
+func _toggle_collapsed() -> void:
+	if completion_running:
+		return
+
+	if not visible:
+		return
+
+	is_collapsed = not is_collapsed
+
+	if collapse_tween != null and collapse_tween.is_valid():
+		collapse_tween.kill()
+
+	var target_position: Vector2
+
+	if is_collapsed:
+		target_position = _get_collapsed_position()
+		collapse_button.text = "▶"
+	else:
+		target_position = panel_base_position
+		collapse_button.text = "◀"
+
+	var arrow_target_position := _get_arrow_position(is_collapsed)
+
+	collapse_tween = create_tween()
+	collapse_tween.set_parallel(true)
+	collapse_tween.set_trans(Tween.TRANS_CUBIC)
+	collapse_tween.set_ease(Tween.EASE_IN_OUT)
+
+	collapse_tween.tween_property(
+		quest_panel,
+		"position",
+		target_position,
+		collapse_duration
+	)
+
+	collapse_tween.tween_property(
+		collapse_button,
+		"position",
+		arrow_target_position,
+		collapse_duration
+	)
+
+	collapse_button.scale = Vector2(0.9, 0.9)
+
+	collapse_tween.tween_property(
+		collapse_button,
+		"scale",
+		Vector2.ONE,
+		collapse_duration
+	)
+
+
+func _get_collapsed_position() -> Vector2:
+	return Vector2(
+		-quest_panel.size.x + collapsed_reveal_width,
+		panel_base_position.y
+	)
+
+
+func _get_arrow_position(collapsed: bool) -> Vector2:
+	var x: float
+
+	if collapsed:
+		x = 4.0
+	else:
+		x = (
+			panel_base_position.x
+			+ quest_panel.size.x
+			+ arrow_gap
+		)
+
+	var y: float = (
+		panel_base_position.y
+		+ (quest_panel.size.y - collapse_button.size.y) / 2.0
+	)
+
+	return Vector2(x, y)
+
+
+func _update_collapse_button_position() -> void:
+	if not is_instance_valid(collapse_button):
+		return
+
+	collapse_button.text = "▶" if is_collapsed else "◀"
+	collapse_button.position = _get_arrow_position(is_collapsed)
+
+
+# ============================================================
 # SHAKE
 # ============================================================
 
@@ -641,7 +761,13 @@ func _shake_panel() -> void:
 	if panel_tween != null and panel_tween.is_valid():
 		panel_tween.kill()
 
-	quest_panel.position = panel_base_position
+	var base_position: Vector2 = (
+		_get_collapsed_position()
+		if is_collapsed
+		else panel_base_position
+	)
+
+	quest_panel.position = base_position
 
 	var tween: Tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
@@ -656,14 +782,14 @@ func _shake_panel() -> void:
 		tween.tween_property(
 			quest_panel,
 			"position:x",
-			panel_base_position.x + offset,
+			base_position.x + offset,
 			shake_step
 		)
 
 	tween.tween_property(
 		quest_panel,
 		"position:x",
-		panel_base_position.x,
+		base_position.x,
 		shake_step
 	)
 
@@ -875,6 +1001,8 @@ func _completion_shake() -> void:
 
 func _finish_completion() -> void:
 	completion_overlay.visible = false
+	collapse_button.visible = false
+	is_collapsed = false
 
 	quest_panel.scale = Vector2.ONE
 	quest_panel.modulate.a = 1.0
@@ -891,6 +1019,8 @@ func _finish_completion() -> void:
 
 	if QuestManager != null and not QuestManager.active_quests.is_empty():
 		visible = false
+		collapse_button.visible = false
 		_refresh()
 	else:
 		visible = false
+		collapse_button.visible = false

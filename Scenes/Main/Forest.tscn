@@ -186,7 +186,6 @@ metadata/_custom_type_script = "uid://cddg1xr5hye1d"
 [node name="Chunk (0, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=1971664064 node_paths=PackedStringArray("terrain_system")]
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (0, 0)" unique_id=1982997029]
 cast_shadow = 0
@@ -252,7 +251,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 64)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-1, 2)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-1, 2)" unique_id=1558481561]
 cast_shadow = 0
@@ -296,7 +294,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -96)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(0, -3)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (0, -3)" unique_id=1093539121]
 cast_shadow = 0
@@ -384,7 +381,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 32)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-2, 1)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-2, 1)" unique_id=239751740]
 cast_shadow = 0
@@ -395,7 +391,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 0)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-1, 0)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-1, 0)" unique_id=503656757]
 cast_shadow = 0
@@ -417,7 +412,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 64)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-2, 2)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-2, 2)" unique_id=1054308924]
 cast_shadow = 0
@@ -428,7 +422,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 0, 64)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-3, 2)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-3, 2)" unique_id=1883211644]
 cast_shadow = 0
@@ -439,7 +432,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 32)
 script = ExtResource("3_gfvm6")
 terrain_system = NodePath("..")
 chunk_coords = Vector2i(-1, 1)
-merge_mode = 2
 
 [node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-1, 1)" unique_id=1509596008]
 cast_shadow = 0

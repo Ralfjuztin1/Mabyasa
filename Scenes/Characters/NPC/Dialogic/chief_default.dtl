@@ -1,5 +1,5 @@
 if QuestManager.is_quest_completed("pet_the_animal") and not QuestManager.has_dialogue_flag("chief_pet_animal_complete"):
-	chief: Istu ikwa me ken.\
+	chief: [i][color=yellow]Istu[/color][/i] you got it!\
 	right
 	[signal arg="set_flag_chief_pet_animal_complete"]
 	[end_timeline]

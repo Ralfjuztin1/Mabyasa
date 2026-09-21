@@ -1,14 +1,12 @@
 if QuestManager.is_quest_completed("talk_to_chief") == true:
-	character: Ah makanta, sige...
+	Rids: Thanks for your help!
 	[end_timeline]
 elif QuestManager.is_quest_active("talk_to_chief") == true:
-	character: Panayan daka...
+	Rids: I'll wait for you
 else:
-	character: Hello!
-	Hello!
-	character: Munta ka pa kang chief panayan naka.
-	- oki nanung gawan.
-		character: Atin yang i utus keka.
+	Rids: Hello!
+	Hi, what can i do for you?
+	Rids: Munta ka pa kang chief panayan naka.
+	- Okay, what can i do for chief?
+		Rids: He wants someone to run an errand for him.
 		[signal arg="start_talk_to_chief"]
-	- Ali
-		Bebang: Aydamo bugok!

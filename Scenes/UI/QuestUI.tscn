@@ -38,6 +38,46 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_normal"]
+bg_color = Color(0.045, 0.055, 0.048, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.62)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_pressed"]
+bg_color = Color(0.2, 0.18, 0.11, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_hover"]
+bg_color = Color(0.13, 0.14, 0.115, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.88)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0.85, 0.75, 0.45, 0.18)
+shadow_size = 8
+
 [node name="QuestUI" type="Control" unique_id=158750572]
 layout_mode = 3
 anchors_preset = 15
@@ -49,11 +89,16 @@ mouse_filter = 2
 script = ExtResource("1_quest_ui")
 
 [node name="QuestPanel" type="Control" parent="." unique_id=616268862]
-anchors_preset = 0
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 24.0
-offset_top = 24.0
-offset_right = 364.0
-offset_bottom = 220.0
+offset_top = -180.0
+offset_right = 383.0
+offset_bottom = 87.0
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Background" type="Panel" parent="QuestPanel" unique_id=1233686541]
@@ -93,7 +138,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_header")
 [node name="QuestHeader" type="Label" parent="QuestPanel/ContentMargin/MainVBox/QuestHeaderPanel" unique_id=1589250292]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.8, 0.49, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 21
 text = "QUEST"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -101,7 +146,7 @@ vertical_alignment = 1
 [node name="QuestTitle" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=669239075]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 21
 text = "Quest Title"
 autowrap_mode = 2
 
@@ -138,7 +183,7 @@ mouse_filter = 2
 custom_minimum_size = Vector2(22, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.66, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "☐"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -147,7 +192,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "Objective"
 vertical_alignment = 1
 autowrap_mode = 2
@@ -156,7 +201,7 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(62, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.68, 0.64, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 20
 text = "0 / 1"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -168,7 +213,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 [node name="RewardsHeader" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=956172159]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 21
 text = "REWARDS"
 
 [node name="RewardsContainer" type="HBoxContainer" parent="QuestPanel/ContentMargin/MainVBox" unique_id=356807857]
@@ -203,7 +248,7 @@ text = "No rewards"
 [node name="StatusLabel" type="Label" parent="QuestPanel/ContentMargin/MainVBox" unique_id=525762617]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.42, 0.67, 0.49, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 21
 text = "ACTIVE"
 horizontal_alignment = 2
 
@@ -240,3 +285,20 @@ theme_override_font_sizes/font_size = 21
 text = "QUEST COMPLETE!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CollapseButton" type="Button" parent="." unique_id=158750573]
+z_index = 30
+layout_mode = 0
+offset_top = 281.0
+offset_right = 42.0
+offset_bottom = 339.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.91, 0.8, 0.49, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.9, 0.58, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.84, 0.46, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_hover")
+text = "◀"
