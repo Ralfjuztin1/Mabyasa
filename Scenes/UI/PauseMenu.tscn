@@ -193,21 +193,27 @@ text = "Trailblazer"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.56271946, 0.6152672, 0.7193557, 1)
 theme_override_font_sizes/font_size = 22
-text = "Lv. 60  |  UID: 800012345"
+text = "Lv. 1"
 
 [node name="XPBar" type="ProgressBar" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=217665015]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxTexture_xp_bg")
 theme_override_styles/fill = SubResource("StyleBoxTexture_xp_fill")
-value = 65.0
+value = 0.0
 show_percentage = false
 
 [node name="XPLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=695597973]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.39637682, 0.63056165, 0.27618918, 1)
 theme_override_font_sizes/font_size = 22
-text = "EXP  6500 / 10000"
+text = "EXP  0 / 100"
+
+[node name="GoldLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 20
+text = "🪙 0"
 
 [node name="MidSeparator" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=2117323226]
 layout_mode = 2
