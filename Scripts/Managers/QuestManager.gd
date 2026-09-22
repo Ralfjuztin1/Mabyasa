@@ -117,23 +117,28 @@ func _ready() -> void:
 func _load_quest_database() -> void:
 	quest_database.clear()
 
-	var directory := DirAccess.open(QUESTS_PATH)
+	var files: PackedStringArray = ResourceLoader.list_directory(
+		QUESTS_PATH
+	)
 
-	if directory == null:
-		push_error(
-			"[QUEST] Could not open quest folder: "
-			+ QUESTS_PATH
-		)
-		return
-
-	var files := directory.get_files()
+	print("🔎 [QUEST] Scanning: ", QUESTS_PATH)
+	print("🔎 [QUEST] Found entries: ", files.size())
 
 	for file_name in files:
-		if not file_name.ends_with(".tres"):
+		# ResourceLoader.list_directory() can also return directories.
+		if file_name.ends_with("/"):
 			continue
 
-		var file_path := QUESTS_PATH + file_name
-		var quest_resource = ResourceLoader.load(file_path)
+		if not file_name.to_lower().ends_with(".tres"):
+			continue
+
+		var file_path: String = QUESTS_PATH + file_name
+
+		print("🔄 [QUEST] Loading: ", file_path)
+
+		var quest_resource: Resource = ResourceLoader.load(
+			file_path
+		)
 
 		if quest_resource == null:
 			push_warning(
@@ -149,7 +154,7 @@ func _load_quest_database() -> void:
 			)
 			continue
 
-		var quest_data: QuestData = quest_resource
+		var quest_data: QuestData = quest_resource as QuestData
 
 		if quest_data.quest_id.is_empty():
 			push_warning(
@@ -173,6 +178,12 @@ func _load_quest_database() -> void:
 			" → ",
 			quest_data.title
 		)
+
+	print(
+		"📚 [QUEST] Loaded ",
+		quest_database.size(),
+		" quest(s)."
+	)
 
 
 # ============================================================
