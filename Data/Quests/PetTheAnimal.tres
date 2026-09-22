@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_ny1p3"]
 script = ExtResource("1_064sb")
-exp = 28
+exp = 178
 gold = 36
 metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
 

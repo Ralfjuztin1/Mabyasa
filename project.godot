@@ -31,14 +31,19 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
+"Apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Apu.dch",
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
+"Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",
+"Litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Litik.dch",
 "Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
-"rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl"
+"rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
+"waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl",
+"walk_with_litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/walk_with_litik.dtl"
 }
 layout/style_directory={
 "": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",
