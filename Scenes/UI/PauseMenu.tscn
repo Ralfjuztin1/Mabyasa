@@ -99,6 +99,54 @@ region = Rect2(49, 17, 45, 14)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_p"]
 texture = SubResource("AtlasTexture_xeiyh")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_button_normal"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.09, 0.1, 0.085, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.12)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_button_pressed"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.22, 0.19, 0.11, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_button_hover"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.16, 0.15, 0.105, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="PauseMenu" type="CanvasLayer" unique_id=1552715194]
 process_mode = 3
 layer = 50
@@ -214,6 +262,16 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
 theme_override_font_sizes/font_size = 20
 text = "🪙 0"
+
+[node name="StatsButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_stats_button_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_stats_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_stats_button_hover")
+text = "View Stats"
 
 [node name="MidSeparator" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=2117323226]
 layout_mode = 2

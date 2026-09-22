@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var layout_wrapper: HBoxContainer = $LayoutWrapper
 @onready var menu_grid: GridContainer = $LayoutWrapper/RightPanel/Margin/VBox/MenuGrid
 @onready var missions_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Missions
+@onready var stats_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/StatsButton
 
 @onready var level_label: Label = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/LevelUID
 @onready var xp_bar: ProgressBar = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/XPBar
@@ -14,9 +15,11 @@ extends CanvasLayer
 
 
 const QUEST_LOG_SCENE: PackedScene = preload("res://Scenes/UI/QuestLog.tscn")
+const PLAYER_STATS_SCENE: PackedScene = preload("res://Scenes/UI/PlayerStats.tscn")
 
 
 var quest_log: CanvasLayer = null
+var player_stats: CanvasLayer = null
 
 
 func _ready() -> void:
@@ -60,11 +63,21 @@ func _ready() -> void:
 	if is_instance_valid(missions_button):
 		missions_button.pressed.connect(_on_missions_pressed)
 
+	# Stats button.
+	if is_instance_valid(stats_button):
+		stats_button.pressed.connect(_on_stats_pressed)
+
 	# ------------------------------------------------------------
 	# QUEST LOG
 	# ------------------------------------------------------------
 
 	_create_quest_log()
+
+	# ------------------------------------------------------------
+	# PLAYER STATS
+	# ------------------------------------------------------------
+
+	_create_player_stats()
 
 	# ------------------------------------------------------------
 	# PLAYER PROGRESSION (level / XP / gold)
@@ -121,6 +134,42 @@ func _on_quest_log_closed() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
+func _create_player_stats() -> void:
+	if player_stats != null:
+		return
+
+	if PLAYER_STATS_SCENE == null:
+		push_error("[PAUSE MENU] PlayerStats scene could not be loaded.")
+		return
+
+	player_stats = PLAYER_STATS_SCENE.instantiate() as CanvasLayer
+
+	if player_stats == null:
+		push_error("[PAUSE MENU] Failed to instantiate PlayerStats.")
+		return
+
+	add_child(player_stats)
+
+	if player_stats.has_signal("closed"):
+		player_stats.closed.connect(_on_player_stats_closed)
+
+	player_stats.visible = false
+
+
+func _on_stats_pressed() -> void:
+	if player_stats == null:
+		return
+
+	hide()
+	player_stats.open()
+
+
+func _on_player_stats_closed() -> void:
+	# Same as the quest log — stay paused, just return to the Pause Menu.
+	show()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
 func _update_profile_display() -> void:
 	if not PlayerProgression:
 		return
@@ -148,6 +197,9 @@ func _on_game_paused(is_paused: bool) -> void:
 	if not is_paused:
 		if quest_log != null:
 			quest_log.visible = false
+
+		if player_stats != null:
+			player_stats.visible = false
 
 		if TutorialManager and TutorialManager.current_active_step in ["intro", "movement"]:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
