@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bki0w5bsr630i" path="res://Scenes/UI/AuthScreen.gd" id="1_qdewa"]
 [ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
-[ext_resource type="Texture2D" uid="uid://dkeboxilae8ck" path="res://Assets/UI/MabyasaUI/mabiyasaWHITE.png" id="3_a4dlk"]
+[ext_resource type="Texture2D" uid="uid://djr664341ner7" path="res://Assets/UI/MabyasaUI/mabyasa.png" id="3_a4dlk"]
 [ext_resource type="Texture2D" uid="uid://dwftyq0c3hm2a" path="res://Assets/UI/MabyasaUI/Better Text Area 2.png" id="4_a4dlk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_quh2r"]

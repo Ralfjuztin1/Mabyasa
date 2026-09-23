@@ -1,0 +1,23 @@
+[wait time="2.0"]
+Apu: So... the curse took some of your voice too, did it?
+Apu: I remember this happened to your Bapa too...
+You: What? someone experienced the same curse as me?
+Apu: Yes child... this curse takes certain parts of your voices.
+Apu: To break this curse you must re-learn the phrases and find the mystic ylang-ylang.
+Apu: You can re-learn your phrases here in town for the moment...
+[wait time="1.0"]
+Apu: I know! you can try to greet [color=yellow]everyone[/color] here!
+You: I'll try...
+label greet everyone
+Apu: Okay, how can you [color=yellow]greet everyone all at once?[/color]
+[wait time="1.0"]
+- Mayap a abak kekayu ngan!
+	Apu: Istu! That's the proper way of greeting everyone all at once!
+- Mayap a abak!
+	Apu: Hmmm... thats for a single person only, try again...
+	[wait time="1.0"]
+	jump greet everyone
+- Mayap a abak kekayu!
+	Apu: Close.. this greeting is plural but it does not include all people at once. you can try again...
+	[wait time="1.0"]
+	jump greet everyone

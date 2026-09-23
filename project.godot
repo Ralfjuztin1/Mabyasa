@@ -36,11 +36,13 @@ directories/dch_directory={
 "Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",
 "Litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Litik.dch",
 "Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
+"You": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/You.dch",
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
+"meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl",
 "walk_with_litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/walk_with_litik.dtl"
@@ -51,8 +53,43 @@ layout/style_directory={
 }
 layout/style_list=["res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres"]
 layout/default_style="res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres"
-glossary/default_case_sensitive=true
+glossary/default_case_sensitive=false
 variables={}
+glossary/glossary_files=["uid://dlw8oui7c181j"]
+glossary/default_color=Color(0.99607843, 0.8784314, 0, 1)
+text/letter_speed=0.04
+text/initial_text_reveal_skippable=true
+text/text_reveal_skip_delay=1.0
+text/advance_delay=0.2
+text/autoadvance_per_character_delay=0.1
+text/autoadvance_ignored_characters_enabled=true
+animations/join_default_length=0.5
+animations/join_default_wait=true
+animations/leave_default_length=0.5
+animations/leave_default_wait=true
+animations/cross_fade_default_length=0.5
+choices/autofocus_first=true
+choices/delay=0.2
+choices/reveal_delay=0
+choices/reveal_by_input=false
+save/autosave_delay=60.0
+save/encryption_on_exports_only=true
+text/autocolor_names=true
+text/autopauses={}
+audio/channel_defaults={
+"": {
+"audio_bus": "",
+"fade_length": 0.0,
+"loop": false,
+"volume": 0.0
+},
+"music": {
+"audio_bus": "",
+"fade_length": 0.0,
+"loop": true,
+"volume": 0.0
+}
+}
 
 [display]
 

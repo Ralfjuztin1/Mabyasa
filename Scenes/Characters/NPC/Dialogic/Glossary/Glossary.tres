@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="DialogicGlossary" format=3 uid="uid://dlw8oui7c181j"]
+
+[ext_resource type="Script" uid="uid://80elcodyqohb" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_nd4oi"]
+
+[resource]
+script = ExtResource("1_nd4oi")
+entries = {
+"Aldo": {
+"case_sensitive": false,
+"name": "Aldo",
+"text": "Morning",
+"title": "Translation"
+},
+"Apu": {
+"name": "Apu",
+"text": "Grandmother/Grandfather",
+"title": "Translation"
+},
+"Ima": {
+"name": "Ima",
+"text": "Mother",
+"title": "Translation"
+},
+"Istu": {
+"name": "Istu",
+"text": "Right/correct",
+"title": "Translation"
+},
+"Keka": {
+"name": "Keka",
+"text": "To you (singular)",
+"title": "Translation"
+},
+"Kekayu": {
+"name": "Kekayu",
+"text": "To you (plural)",
+"title": "Translation"
+},
+"Kekayu ngan": {
+"name": "Kekayu ngan",
+"text": "To all of you",
+"title": "Translation"
+},
+"Mayap a abak": {
+"alternatives": [],
+"extra": "Greeting",
+"name": "Mayap a abak",
+"text": "Good morning",
+"title": "Translation"
+},
+"Tatang": {
+"name": "Tatang",
+"text": "Father",
+"title": "Translation"
+},
+"ylang-ylang": {
+"name": "ylang-ylang",
+"text": "A rare soothing flower that can heal curses due to its magical scent.",
+"title": "Description"
+}
+}

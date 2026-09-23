@@ -17,7 +17,7 @@ script = ExtResource("2_3foyr")
 scene = ExtResource("1_dnqwj")
 overrides = {
 "global_bg_color": "Color(0, 0, 0, 0.7529412)",
-"global_font_size": "30.0"
+"global_font_size": "28.0"
 }
 
 [sub_resource type="Resource" id="Resource_o6qn0"]
@@ -36,6 +36,8 @@ scene = ExtResource("5_sdqiw")
 script = ExtResource("2_3foyr")
 scene = ExtResource("6_wliju")
 overrides = {
+"box_animation_in": "1",
+"box_animation_out": "1",
 "text_size": "55.0"
 }
 
@@ -51,7 +53,7 @@ overrides = {
 script = ExtResource("2_3foyr")
 scene = ExtResource("8_wmicx")
 overrides = {
-"font_size_custom": "25.0"
+"font_size_custom": "30.0"
 }
 
 [sub_resource type="Resource" id="Resource_jqk2m"]
@@ -77,4 +79,4 @@ layer_info = {
 "16": SubResource("Resource_jqk2m"),
 "17": SubResource("Resource_eag1i")
 }
-metadata/_latest_layer = "11"
+metadata/_latest_layer = "15"
