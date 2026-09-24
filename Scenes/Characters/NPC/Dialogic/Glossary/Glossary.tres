@@ -16,6 +16,11 @@ entries = {
 "text": "Grandmother/Grandfather",
 "title": "Translation"
 },
+"Bapa": {
+"name": "Bapa",
+"text": "Uncle",
+"title": "Translation"
+},
 "Ima": {
 "name": "Ima",
 "text": "Mother",

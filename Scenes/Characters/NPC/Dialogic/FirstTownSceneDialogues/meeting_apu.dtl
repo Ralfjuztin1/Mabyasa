@@ -13,11 +13,20 @@ Apu: Okay, how can you [color=yellow]greet everyone all at once?[/color]
 [wait time="1.0"]
 - Mayap a abak kekayu ngan!
 	Apu: Istu! That's the proper way of greeting everyone all at once!
+	jump Apu_continuation
 - Mayap a abak!
-	Apu: Hmmm... thats for a single person only, try again...
+	Apu: Hmmm... yes its correct but there's a more proper way to greet [color=yellow]everyone.[/color]
 	[wait time="1.0"]
 	jump greet everyone
-- Mayap a abak kekayu!
-	Apu: Close.. this greeting is plural but it does not include all people at once. you can try again...
+- Mayap a gatpanapun!
+	Apu: It's only morning. you can try again...
 	[wait time="1.0"]
 	jump greet everyone
+label Apu_continuation
+Apu: Few more and you can re-learn how we greet people here.
+You: Wow. It's not that hard.
+Apu: Hmmm...
+Apu: I remember your dara bebang will set up her stall soon...
+Apu: You can go there and maybe learn new phrases.
+You: Okay Apu, Thank you!
+[end_timeline]
