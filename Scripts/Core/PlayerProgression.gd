@@ -2,12 +2,20 @@ extends Node
 
 signal stats_changed
 signal leveled_up
+signal hp_changed
+signal player_defeated
 
 # --- CORE DATA (Saved to JSON) ---
 var level: int = 1
 var current_exp: int = 0
 var gold: int = 0
 var active_pet_id: String = ""
+
+# Current HP persists across battles until healed (potion, resting, leveling
+# up). -1 means "not initialized yet" so ensure_hp_initialized() can fill it
+# in the first time it's actually needed, without assuming a max_hp value
+# up front.
+var current_hp: int = -1
 
 # Gear tracks the upgrade level. (1 = Base). 
 var gear_levels: Dictionary = {
@@ -44,8 +52,33 @@ func add_exp(amount: int) -> void:
 		leveled = true
 		
 	if leveled:
+		# Leveling up fully restores HP — a small, simple reward, and it
+		# sidesteps current_hp ever exceeding a freshly-grown max_hp.
+		current_hp = get_total_max_hp()
+		hp_changed.emit()
 		leveled_up.emit()
 	stats_changed.emit()
+
+
+# --- HP (battle-facing; persists across fights until healed) ---
+func ensure_hp_initialized() -> void:
+	if current_hp < 0:
+		current_hp = get_total_max_hp()
+
+
+func take_damage(amount: int) -> void:
+	ensure_hp_initialized()
+	current_hp = max(current_hp - amount, 0)
+	hp_changed.emit()
+
+	if current_hp <= 0:
+		player_defeated.emit()
+
+
+func heal(amount: int) -> void:
+	ensure_hp_initialized()
+	current_hp = min(current_hp + amount, get_total_max_hp())
+	hp_changed.emit()
 
 # --- DYNAMIC STAT CALCULATORS ---
 func get_total_atk() -> int:
@@ -85,12 +118,15 @@ func upgrade_gear(gear_type: String) -> bool:
 
 # --- JSON SERIALIZATION ---
 func get_save_data() -> Dictionary:
+	ensure_hp_initialized()
+
 	return {
 		"level": level,
 		"current_exp": current_exp,
 		"gold": gold,
 		"gear_levels": gear_levels,
-		"active_pet_id": active_pet_id
+		"active_pet_id": active_pet_id,
+		"current_hp": current_hp
 	}
 
 func load_save_data(data: Dictionary) -> void:
@@ -105,4 +141,10 @@ func load_save_data(data: Dictionary) -> void:
 			gear_levels[key] = saved_gears[key]
 			
 	active_pet_id = data.get("active_pet_id", "")
+
+	# -1 sentinel if this save predates HP tracking — ensure_hp_initialized()
+	# will fill it in from max_hp the first time it's needed.
+	current_hp = data.get("current_hp", -1)
+
 	stats_changed.emit()
+	hp_changed.emit()

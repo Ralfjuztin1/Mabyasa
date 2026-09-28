@@ -1,0 +1,458 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
+[ext_resource type="PackedScene" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_platform"]
+bg_color = Color(0.14, 0.22, 0.15, 0.55)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enemy_sprite"]
+bg_color = Color(0.32, 0.24, 0.3, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.62, 0.36, 0.4)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_sprite"]
+bg_color = Color(0.22, 0.28, 0.34, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.62, 0.36, 0.4)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_info_box"]
+bg_color = Color(0.05, 0.06, 0.052, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.55)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_message_box"]
+bg_color = Color(0.05, 0.06, 0.052, 0.94)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action_box"]
+bg_color = Color(0.08, 0.09, 0.075, 0.94)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.6)
+corner_radius_top_left = 0
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.09, 0.1, 0.085, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enemy_hp_fill"]
+bg_color = Color(0.78, 0.32, 0.28, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_hp_fill"]
+bg_color = Color(0.42, 0.67, 0.49, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_barrier_fill"]
+bg_color = Color(0.46, 0.55, 0.86, 0.92)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exp_fill"]
+bg_color = Color(0.5, 0.68, 0.88, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09, 0.1, 0.085, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.35)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.22, 0.19, 0.11, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.16, 0.15, 0.105, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="BattleScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 55
+script = ExtResource("1_battle_screen")
+
+[node name="Root" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SkyBG" type="ColorRect" parent="Root"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.42, 0.5, 0.47, 1)
+
+[node name="GroundBG" type="ColorRect" parent="Root"]
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 0.79
+mouse_filter = 2
+color = Color(0.27, 0.32, 0.24, 1)
+
+[node name="EnemyPlatform" type="Panel" parent="Root"]
+anchor_left = 0.58
+anchor_top = 0.44
+anchor_right = 0.92
+anchor_bottom = 0.53
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_platform")
+
+[node name="EnemySpriteBox" type="Panel" parent="Root"]
+anchor_left = 0.6
+anchor_top = 0.16
+anchor_right = 0.9
+anchor_bottom = 0.45
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_enemy_sprite")
+
+[node name="EnemySpriteLabel" type="Label" parent="Root/EnemySpriteBox"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.85, 0.8, 0.83, 0.8)
+theme_override_font_sizes/font_size = 16
+text = "(no sprite yet)"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EnemyInfoBox" type="Panel" parent="Root"]
+anchor_left = 0.04
+anchor_top = 0.05
+anchor_right = 0.44
+anchor_bottom = 0.25
+theme_override_styles/panel = SubResource("StyleBoxFlat_info_box")
+
+[node name="Margin" type="MarginContainer" parent="Root/EnemyInfoBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Root/EnemyInfoBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EnemyNameLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = "Enemy"
+
+[node name="BarrierRow" type="HBoxContainer" parent="Root/EnemyInfoBox/Margin/VBox"]
+layout_mode = 2
+
+[node name="BarrierTagLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/BarrierRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.63, 0.68, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "BARRIER"
+
+[node name="BarrierValueLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/BarrierRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.63, 0.68, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "15 / 15"
+horizontal_alignment = 2
+
+[node name="BarrierBar" type="ProgressBar" parent="Root/EnemyInfoBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_barrier_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HPRow" type="HBoxContainer" parent="Root/EnemyInfoBox/Margin/VBox"]
+layout_mode = 2
+
+[node name="HPTagLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.65, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "HP"
+
+[node name="EnemyHPLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/HPRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.65, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "30 / 30"
+horizontal_alignment = 2
+
+[node name="EnemyHPBar" type="ProgressBar" parent="Root/EnemyInfoBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_enemy_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="PlayerPlatform" type="Panel" parent="Root"]
+anchor_left = 0.08
+anchor_top = 0.66
+anchor_right = 0.42
+anchor_bottom = 0.75
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_platform")
+
+[node name="PlayerSpriteBox" type="Panel" parent="Root"]
+anchor_left = 0.1
+anchor_top = 0.4
+anchor_right = 0.4
+anchor_bottom = 0.68
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_player_sprite")
+
+[node name="PlayerSpriteLabel" type="Label" parent="Root/PlayerSpriteBox"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 0.8)
+theme_override_font_sizes/font_size = 20
+text = "You"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerInfoBox" type="Panel" parent="Root"]
+anchor_left = 0.54
+anchor_top = 0.56
+anchor_right = 0.96
+anchor_bottom = 0.775
+theme_override_styles/panel = SubResource("StyleBoxFlat_info_box")
+
+[node name="Margin" type="MarginContainer" parent="Root/PlayerInfoBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Root/PlayerInfoBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerNameRow" type="HBoxContainer" parent="Root/PlayerInfoBox/Margin/VBox"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerNameRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = "You"
+
+[node name="LevelLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerNameRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv. 1"
+horizontal_alignment = 2
+
+[node name="PlayerHPRow" type="HBoxContainer" parent="Root/PlayerInfoBox/Margin/VBox"]
+layout_mode = 2
+
+[node name="PlayerHPTagLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerHPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.55, 0.75, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "HP"
+
+[node name="PlayerHPLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerHPRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.75, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="PlayerHPBar" type="ProgressBar" parent="Root/PlayerInfoBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_player_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="EXPBar" type="ProgressBar" parent="Root/PlayerInfoBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_exp_fill")
+value = 0.0
+show_percentage = false
+
+[node name="BottomBar" type="HBoxContainer" parent="Root"]
+anchor_top = 0.79
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 0
+
+[node name="MessageBox" type="PanelContainer" parent="Root/BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_message_box")
+
+[node name="MessageMargin" type="MarginContainer" parent="Root/BottomBar/MessageBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="MessageLabel" type="Label" parent="Root/BottomBar/MessageBox/MessageMargin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "A wild enemy appears!"
+autowrap_mode = 2
+vertical_alignment = 1
+
+[node name="ActionBox" type="PanelContainer" parent="Root/BottomBar"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_action_box")
+
+[node name="ActionMargin" type="MarginContainer" parent="Root/BottomBar/ActionBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ActionVBox" type="VBoxContainer" parent="Root/BottomBar/ActionBox/ActionMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AttackButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "Attack"
+
+[node name="PotionButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "Potion"
+
+[node name="ContinueButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox"]
+visible = false
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "Continue"
+
+[node name="QuizUI" parent="Root" instance=ExtResource("2_quiz_ui")]
+layout_mode = 1

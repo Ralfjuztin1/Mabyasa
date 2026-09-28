@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Battle/AnswerCard.gd" id="1_answer_card"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.1, 0.1, 0.09, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.62, 0.36, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+
+[node name="AnswerCard" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 56)
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+script = ExtResource("1_answer_card")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "Answer"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

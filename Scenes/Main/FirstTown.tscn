@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://ccuptbsu882qt" path="res://Assets/Environment/FarmLite_FBX/Texture_01.png" id="13_8uvmf"]
 [ext_resource type="Texture2D" uid="uid://d3pwjklksn5lj" path="res://Assets/Characters/NPC_anims/oldguy/walk.png" id="13_sgv20"]
 [ext_resource type="Texture2D" uid="uid://cssrmw7ubt5yq" path="res://Assets/Characters/NPC_anims/Animals/Rooster_animation_without_shadow.png" id="22_ppvpn"]
+[ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -1890,6 +1891,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8a144"]
+size = Vector3(1.9667969, 2.437378, 1.8583984)
+
 [node name="FirstTown" type="Node3D" unique_id=524938763]
 script = ExtResource("1_8k2fn")
 
@@ -2501,3 +2505,14 @@ animal_name = "Manuk"
 animal_id = "manukq"
 can_interact = true
 animal_frames = SubResource("SpriteFrames_n7o3d")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=396528128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1366854, 0, -34.38382)
+script = ExtResource("25_sgv20")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1474998164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48339844, 1.1998739, 0.42919922)
+shape = SubResource("BoxShape3D_8a144")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

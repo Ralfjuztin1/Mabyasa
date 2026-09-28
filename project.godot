@@ -27,12 +27,14 @@ TimeManager="*uid://bldwd52t0h1o3"
 QuestManager="*uid://d2akdm0u3p2n3"
 DialogueManager="*uid://cwbawur3d386e"
 Dialogic="*uid://ds2q0uclmolvu"
+BattleManager="*uid://cdv3581eacjts"
 
 [dialogic]
 
 directories/dch_directory={
 "Apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Apu.dch",
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
+"Dara Bebang": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Dara Bebang.dch",
 "Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",
 "Litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Litik.dch",
 "Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
@@ -95,6 +97,7 @@ audio/channel_defaults={
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
