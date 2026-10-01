@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://d3pwjklksn5lj" path="res://Assets/Characters/NPC_anims/oldguy/walk.png" id="13_sgv20"]
 [ext_resource type="Texture2D" uid="uid://cssrmw7ubt5yq" path="res://Assets/Characters/NPC_anims/Animals/Rooster_animation_without_shadow.png" id="22_ppvpn"]
 [ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
+[ext_resource type="Script" uid="uid://b0jvwyblpgpmq" path="res://Scripts/Cutscene/CutsceneTest.gd" id="26_fdaiq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -2513,6 +2514,16 @@ script = ExtResource("25_sgv20")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1474998164]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48339844, 1.1998739, 0.42919922)
 shape = SubResource("BoxShape3D_8a144")
+
+[node name="CutsceneTest" type="Node" parent="." unique_id=681455647]
+script = ExtResource("26_fdaiq")
+
+[node name="CutscenePoints" type="Node3D" parent="." unique_id=1266979120]
+
+[node name="TestMovePoint" type="Marker3D" parent="CutscenePoints" unique_id=970676249]
+
+[node name="TestCameraPoint" type="Marker3D" parent="CutscenePoints" unique_id=1953398776]
+transform = Transform3D(-0.42367575, 0, -0.90581393, 0, 1, 0, 0.90581393, 0, -0.42367575, 1.9893103, 3.3407383, -12.989222)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

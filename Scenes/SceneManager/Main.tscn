@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://crl4dujp2yhm4" path="res://Scenes/Characters/Player/player.tscn" id="2_8w6v0"]
 [ext_resource type="PackedScene" uid="uid://0axw3ppda6w7" path="res://Scenes/UI/PauseMenu.tscn" id="2_jrpmo"]
 [ext_resource type="PackedScene" uid="uid://dful3cpqtgqhr" path="res://Scenes/UI/QuestUI.tscn" id="2_mbsg8"]
+[ext_resource type="Script" uid="uid://fp58wobagfr3" path="res://Scripts/Cutscene/CutsceneController.gd" id="5_yrtnx"]
 
 [node name="Main" type="Node" unique_id=1964064950]
 script = ExtResource("1_d2boy")
@@ -19,3 +20,6 @@ layer = 10
 
 [node name="Player" parent="." unique_id=877630363 instance=ExtResource("2_8w6v0")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 5.8369637, 0)
+
+[node name="CutsceneController" type="Node" parent="." unique_id=996812636]
+script = ExtResource("5_yrtnx")
