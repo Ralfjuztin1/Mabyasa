@@ -432,6 +432,7 @@ func play_dialogue(timeline_path: String) -> void:
 		push_warning(
 			"[CUTSCENE] Empty dialogue path."
 		)
+
 		return
 
 	if not ResourceLoader.exists(timeline_path):
@@ -439,12 +440,26 @@ func play_dialogue(timeline_path: String) -> void:
 			"[CUTSCENE] Dialogue not found: "
 			+ timeline_path
 		)
+
 		return
 
 	Dialogic.start(timeline_path)
 
 	await Dialogic.timeline_ended
 
+	# DialogueManager restores player control when a timeline ends.
+	# Since the cutscene is still running, immediately take control back.
+	if is_cutscene_active:
+		var player := _find_player()
+
+		if is_instance_valid(player):
+			player.velocity = Vector3.ZERO
+			player.set_physics_process(false)
+			player.set_process_input(false)
+
+			print(
+				"[CUTSCENE] Player control retained after dialogue."
+			)
 
 # ============================================================
 # FADE SYSTEM
