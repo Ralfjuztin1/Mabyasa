@@ -45,11 +45,12 @@ var start_position: Vector3
 var player_in_range: bool = false
 
 # --- ANIMATION ---
-
+var cutscene_controlled: bool = false
 var current_facing: String = "front"
 var is_idling: bool = true
 var active_camera: Camera3D
 var last_look_dir: Vector3 = Vector3(0, 0, 1)
+var cutscene_facing: bool = false
 
 
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
@@ -84,6 +85,11 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
+	# Cutscene controller is handling movement.
+	if cutscene_controlled:
+		_update_animation()
+		return
+
 	# --- GRAVITY ---
 
 	if not is_on_floor():
@@ -114,15 +120,12 @@ func _physics_process(delta: float) -> void:
 			move_speed
 		)
 
-
 	move_and_slide()
-
 
 	# --- WALL COLLISION ---
 
 	if is_on_wall() and can_wander and not is_idling:
 		_switch_wander_state(true)
-
 
 	# --- ANIMATION ---
 
@@ -169,34 +172,81 @@ func _update_animation() -> void:
 	if is_moving:
 		last_look_dir = velocity.normalized()
 
+	# ========================================================
+	# CUTSCENE FACING
+	# ========================================================
+	#
+	# During a cutscene, use the NPC's actual movement direction
+	# instead of calculating facing from the active camera.
+	#
+	# This prevents the cinematic camera from flipping the
+	# walking animation.
+	#
 
-	# Cache the current camera.
-	if not is_instance_valid(active_camera):
-		active_camera = get_viewport().get_camera_3d()
+	if cutscene_facing:
+		var direction := last_look_dir
 
-
-	if active_camera:
-		var cam_forward := -active_camera.global_transform.basis.z
-		var cam_right := active_camera.global_transform.basis.x
-
-		cam_forward.y = 0.0
-		cam_right.y = 0.0
-
-		cam_forward = cam_forward.normalized()
-		cam_right = cam_right.normalized()
-
-
-		var forward_amount: float = last_look_dir.dot(cam_forward)
-		var right_amount: float = last_look_dir.dot(cam_right)
-
-
-		if abs(right_amount) > abs(forward_amount):
-			current_facing = "right" if right_amount > 0.0 else "left"
+		if abs(direction.x) > abs(direction.z):
+			current_facing = (
+				"right"
+				if direction.x > 0.0
+				else "left"
+			)
 		else:
-			current_facing = "back" if forward_amount > 0.0 else "front"
+			current_facing = (
+				"front"
+				if direction.z > 0.0
+				else "back"
+			)
 
+	else:
+		# ====================================================
+		# NORMAL CAMERA-BASED FACING
+		# ====================================================
 
-	# Play the appropriate animation.
+		if not is_instance_valid(active_camera):
+			active_camera = get_viewport().get_camera_3d()
+
+		if active_camera:
+			var cam_forward := (
+				-active_camera.global_transform.basis.z
+			)
+
+			var cam_right := (
+				active_camera.global_transform.basis.x
+			)
+
+			cam_forward.y = 0.0
+			cam_right.y = 0.0
+
+			cam_forward = cam_forward.normalized()
+			cam_right = cam_right.normalized()
+
+			var forward_amount: float = (
+				last_look_dir.dot(cam_forward)
+			)
+
+			var right_amount: float = (
+				last_look_dir.dot(cam_right)
+			)
+
+			if abs(right_amount) > abs(forward_amount):
+				current_facing = (
+					"right"
+					if right_amount > 0.0
+					else "left"
+				)
+			else:
+				current_facing = (
+					"back"
+					if forward_amount > 0.0
+					else "front"
+				)
+
+	# ========================================================
+	# PLAY ANIMATION
+	# ========================================================
+
 	var animation_name: String
 
 	if is_moving:
@@ -204,10 +254,10 @@ func _update_animation() -> void:
 	else:
 		animation_name = "idle_" + current_facing
 
-
-	# Avoid repeatedly restarting the same animation.
 	if animated_sprite.animation != animation_name:
-		if animated_sprite.sprite_frames.has_animation(animation_name):
+		if animated_sprite.sprite_frames.has_animation(
+			animation_name
+		):
 			animated_sprite.play(animation_name)
 
 

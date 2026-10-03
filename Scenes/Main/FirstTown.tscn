@@ -2644,12 +2644,11 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 [node name="npc" type="Node3D" parent="." unique_id=540821247]
 
 [node name="bebang" parent="npc" unique_id=1266467026 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 27.074505, 0.96813893, -61.37535)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 33.959778, 0.96813893, -46.229233)
 npc_name = "Bebang"
 npc_id = "bebang"
 dialogue_id = "bebang_default"
 npc_frames = SubResource("SpriteFrames_ox5xy")
-can_wander = true
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.656929)
@@ -3246,6 +3245,9 @@ transform = Transform3D(-0.32721788, 0, 0.9449489, 0, 1, 0, -0.9449489, 0, -0.32
 
 [node name="ImaTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=1281255720]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.290924, 0.6905799, -41.50543)
+
+[node name="BebangTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=2003384431]
+transform = Transform3D(-0.46030492, 0, 0.8877609, 0, 1, 0, -0.8877609, 0, -0.46030492, 9.526538, 0.6262915, -41.54365)
 
 [node name="FirstTownIntro" type="Node" parent="." unique_id=811207447]
 script = ExtResource("27_x2wea")

@@ -32,12 +32,13 @@ var player: CharacterBody3D = null
 
 var ima: Node3D = null
 var apu: Node3D = null
+var bebang: CharacterBody3D = null
 
 var scene_1_start_point: Node3D = null
 var waking_up_camera: Node3D = null
 var ima_talk_point: Node3D = null
 var well_point: Node3D = null
-
+var bebang_talk_point: Node3D = null
 
 # ============================================================
 # READY
@@ -132,6 +133,17 @@ func _initialize() -> void:
 	# ========================================================
 	# FIND IMA
 	# ========================================================
+	bebang = level_root.get_node_or_null(
+		"npc/bebang"
+	) as CharacterBody3D
+	
+	if bebang == null:
+		bebang = level_root.find_child(
+			"bebang",
+			true,
+			false
+		) as CharacterBody3D
+		
 
 	ima = level_root.get_node_or_null(
 		"npc/ima"
@@ -200,7 +212,10 @@ func _initialize() -> void:
 		level_root,
 		"WellPoint"
 	)
-
+	bebang_talk_point = _find_point(
+		level_root,
+		"BebangTalkPoint"
+	)
 	if scene_1_start_point == null:
 		push_error(
 			"[SCENE 1] Scene1StartPoint not found."
@@ -401,7 +416,9 @@ func _start_scene_1() -> void:
 	ima.global_position = (
 		ima_talk_point.global_position
 	)
+	
 
+	
 	print(
 		"👩 [SCENE 1] Ima moved to ImaTalkPoint: ",
 		ima.global_position
@@ -447,9 +464,13 @@ func _start_scene_1() -> void:
 	print(
 		"💬 [SCENE 1] Playing waking_up timeline."
 	)
-
+	cutscene_controller.move_npc_to(
+		bebang,
+		bebang_talk_point.global_position
+	)
 	await cutscene_controller.play_dialogue(
 		intro_timeline
+		
 	)
 
 	# ========================================================

@@ -260,6 +260,117 @@ func move_player_to(
 
 
 # ============================================================
+# NPC MOVEMENT
+# ============================================================
+
+## Moves a CharacterBody3D NPC toward a world position.
+##
+## The NPC must have a "cutscene_controlled" property.
+func move_npc_to(
+	npc: CharacterBody3D,
+	target_position: Vector3,
+	stopping_distance: float = 0.05
+) -> void:
+
+	if not is_instance_valid(npc):
+		push_warning(
+			"[CUTSCENE] move_npc_to: NPC is invalid."
+		)
+		return
+
+	if not npc.is_inside_tree():
+		return
+
+	var offset := target_position - npc.global_position
+	offset.y = 0.0
+
+	var starting_distance := offset.length()
+
+	if starting_distance <= stopping_distance:
+		return
+
+	# Tell the NPC that the cutscene is taking control.
+	npc.set("cutscene_controlled", true)
+	npc.set("cutscene_facing", true)
+
+	npc.velocity = Vector3.ZERO
+
+	var gravity := _get_player_gravity(npc)
+
+	var timeout := maxf(
+		MIN_TIMEOUT,
+		(starting_distance / maxf(move_speed, 0.01))
+		* TIMEOUT_MULTIPLIER
+	)
+
+	var elapsed := 0.0
+
+	while is_cutscene_active:
+
+		await get_tree().physics_frame
+
+		if not is_instance_valid(npc):
+			break
+
+		if not npc.is_inside_tree():
+			break
+
+		if get_tree().paused:
+			continue
+
+		var delta := get_physics_process_delta_time()
+
+		elapsed += delta
+
+		if elapsed > timeout:
+			push_warning(
+				"[CUTSCENE] NPC movement timed out: "
+				+ npc.name
+			)
+			break
+
+		var current_offset := (
+			target_position
+			- npc.global_position
+		)
+
+		current_offset.y = 0.0
+
+		var distance := current_offset.length()
+
+		if distance <= stopping_distance:
+			break
+
+		var direction := current_offset / distance
+
+		var step_speed := minf(
+			move_speed,
+			distance / maxf(delta, 0.001)
+		)
+
+		npc.velocity.x = direction.x * step_speed
+		npc.velocity.z = direction.z * step_speed
+
+		if not npc.is_on_floor():
+			npc.velocity.y -= gravity * delta
+
+		npc.move_and_slide()
+
+	# Stop the NPC.
+	if is_instance_valid(npc):
+		npc.velocity = Vector3.ZERO
+
+		npc.set(
+			"cutscene_controlled",
+			false
+		)
+
+	print(
+		"[CUTSCENE] NPC reached destination: ",
+		npc.name
+	)
+
+# ============================================================
 # PLAYER CONTROL
 # ============================================================
 
