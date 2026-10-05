@@ -397,6 +397,11 @@ func _release_control() -> void:
 	if is_instance_valid(_player):
 		_player.velocity = Vector3.ZERO
 
+		# Restore gameplay camera/movement rotation after the
+		# cutscene may have rotated the player root.
+		if _player.has_method("sync_after_cutscene"):
+			_player.sync_after_cutscene()
+
 		_player.set_physics_process(
 			_player_was_physics
 		)
@@ -411,7 +416,6 @@ func _release_control() -> void:
 
 	is_cutscene_active = false
 	_movement_running = false
-
 
 # ============================================================
 # CAMERA

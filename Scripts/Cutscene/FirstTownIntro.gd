@@ -11,6 +11,12 @@ extends Node
 var intro_timeline: String = ""
 
 
+@export_category("Cutscene System")
+## When enabled, Scene 1 is driven by the reusable CutsceneDirector.
+## If the director node is missing, the old scripted sequence is used.
+@export var use_cutscene_director: bool = true
+
+
 @export_category("Timing")
 
 @export_range(0.0, 1.0, 0.05)
@@ -28,6 +34,7 @@ var scene_1_started: bool = false
 
 var tutorial_ui: Node = null
 var cutscene_controller: Node = null
+var cutscene_director: CutsceneDirector = null
 var player: CharacterBody3D = null
 
 var ima: Node3D = null
@@ -109,6 +116,21 @@ func _initialize() -> void:
 		push_error(
 			"[SCENE 1] CutsceneController could not be found."
 		)
+
+	# ========================================================
+	# FIND CUTSCENE DIRECTOR
+	# ========================================================
+
+	if use_cutscene_director:
+		cutscene_director = level_root.get_node_or_null(
+			"Scene1Cutscene"
+		) as CutsceneDirector
+
+		if cutscene_director == null:
+			push_warning(
+				"[SCENE 1] Scene1Cutscene director not found. "
+				+ "Falling back to the old scripted sequence."
+			)
 
 	# ========================================================
 	# FIND PLAYER
@@ -292,6 +314,12 @@ func _on_tutorial_finished() -> void:
 		"🎬 [SCENE 1] Tutorial finished. "
 		+ "Starting Scene 1."
 	)
+
+	# New reusable cutscene system.
+	# If it is not configured yet, keep the existing working sequence.
+	if use_cutscene_director and is_instance_valid(cutscene_director):
+		await cutscene_director.play_sequence()
+		return
 
 	await get_tree().create_timer(
 		start_delay

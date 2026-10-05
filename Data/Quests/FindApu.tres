@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://bh202uujf5jy"]
+
+[ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="1_cd2c8"]
+[ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_s5keu"]
+[ext_resource type="Script" uid="uid://54thwokoasbl" path="res://Scripts/Quest/QuestStep.gd" id="2_cd2c8"]
+
+[sub_resource type="Resource" id="Resource_a5noc"]
+script = ExtResource("1_cd2c8")
+exp = 15
+gold = 15
+metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
+
+[sub_resource type="Resource" id="Resource_bgoy2"]
+script = ExtResource("2_cd2c8")
+target = "apu"
+metadata/_custom_type_script = "uid://54thwokoasbl"
+
+[resource]
+script = ExtResource("1_s5keu")
+quest_id = "z1_find_apu"
+title = "Find Apu"
+description = "Ima told you to go the well and speak with apu."
+rewards = SubResource("Resource_a5noc")
+steps = Array[ExtResource("2_cd2c8")]([SubResource("Resource_bgoy2")])
+is_main_quest = true
+metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

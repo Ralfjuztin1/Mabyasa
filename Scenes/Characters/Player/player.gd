@@ -63,7 +63,25 @@ func _input(event: InputEvent) -> void:
 			var look_amount: float = event.relative.length() * 0.5
 			TutorialManager.record_camera_turn(look_amount)
 
+func sync_after_cutscene() -> void:
+	# Preserve the current camera's world yaw.
+	var camera := get_viewport().get_camera_3d()
 
+	var world_camera_yaw: float = camera.global_rotation.y if camera else 0.0
+
+	# Gameplay does not need the player root to keep the cutscene's
+	# forced facing rotation.
+	rotation.y = 0.0
+
+	# Convert the preserved world camera rotation back into
+	# the player's local Head rotation.
+	camera_yaw = world_camera_yaw
+
+	head.rotation.y = camera_yaw
+	head.rotation.x = camera_pitch
+
+	velocity = Vector3.ZERO
+	
 func _physics_process(delta: float) -> void:
 	if global_position.y < FALL_THRESHOLD and not is_respawning:
 		_respawn_at_checkpoint()

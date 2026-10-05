@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cq0lmxxgiherr" path="res://Scenes/Main/trees_manager.gd" id="3_tx8nu"]
 [ext_resource type="Shader" uid="uid://v6gda6oqxkp0" path="res://Assets/Shaders/Water.gdshader" id="4_b2kth"]
 [ext_resource type="ArrayMesh" uid="uid://npf0afhh3cgd" path="res://Assets/Environment/stylized nature gltf/CommonTree1.tres" id="5_rxw54"]
+[ext_resource type="Resource" uid="uid://dal4fpt0f4kcl" path="res://Assets/ScatterTreesTres/common_tree_3_scatter.tres" id="5_xpjev"]
 [ext_resource type="Script" uid="uid://cddg1xr5hye1d" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain.gd" id="6_5eqbr"]
 [ext_resource type="ArrayMesh" uid="uid://cjdngcb3yx5l1" path="res://Assets/Houses/house1.tres" id="6_8k2fn"]
 [ext_resource type="Resource" uid="uid://h8ljyds2vpwy" path="res://Assets/ScatterTreesTres/common_tree_1_scatter.tres" id="6_lauo3"]
@@ -30,6 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://cssrmw7ubt5yq" path="res://Assets/Characters/NPC_anims/Animals/Rooster_animation_without_shadow.png" id="22_ppvpn"]
 [ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
 [ext_resource type="Script" uid="uid://cy0338afheka" path="res://Scripts/Cutscene/FirstTownIntro.gd" id="27_x2wea"]
+[ext_resource type="PackedScene" uid="uid://by06t27gp1kwd" path="res://Scenes/Main/Scene1Cutscene.tscn" id="32_8qoby"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -113,6 +115,15 @@ albedo_texture = SubResource("NoiseTexture2D_gmdo7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_l04sm"]
 material = SubResource("StandardMaterial3D_d1bwj")
+
+[sub_resource type="MultiMesh" id="MultiMesh_8qoby"]
+resource_local_to_scene = true
+transform_format = 1
+use_colors = true
+use_custom_data = true
+instance_count = 40
+mesh = ExtResource("5_rxw54")
+buffer = PackedFloat32Array(0.11530547, 0, 0.99333006, -2.4271042, 0, 1, 0, -0.30478293, -0.99333006, 0, 0.11530547, -5.332859, 1, 1, 1, 1, 0, 0, 0, 0, -0.8583132, 0, -0.51312613, -6.920289, 0, 1, 0, -0.08325884, 0.51312613, 0, -0.8583132, -9.661996, 1, 1, 1, 1, 0, 0, 0, 0, -0.26609257, 0, -0.9639475, -6.1915607, 0, 1, 0, 0.16300651, 0.9639475, 0, -0.26609257, -6.3124557, 1, 1, 1, 1, 0, 0, 0, 0, -0.34567565, 0, -0.9383541, 6.0591946, 0, 1, 0, 0.31344536, 0.9383541, 0, -0.34567565, 5.6794763, 1, 1, 1, 1, 0, 0, 0, 0, 0.9525903, 0, -0.30425602, 4.726506, 0, 1, 0, 0.17757843, 0.30425602, 0, 0.9525903, 2.6774569, 1, 1, 1, 1, 0, 0, 0, 0, -0.80864185, 0, 0.58830124, 5.02637, 0, 1, 0, -0.4835193, -0.58830124, 0, -0.80864185, 1.4647156, 1, 1, 1, 1, 0, 0, 0, 0, 0.27189672, 0, 0.96232647, 12.832521, 0, 1, 0, -0.29420313, -0.96232647, 0, 0.27189672, 1.7971749, 1, 1, 1, 1, 0, 0, 0, 0, 0.41656318, 0, -0.9091068, -1.0367349, 0, 1, 0, -0.24567956, 0.9091068, 0, 0.41656318, 3.9688778, 1, 1, 1, 1, 0, 0, 0, 0, -0.7028674, 0, 0.7113209, -5.712569, 0, 1, 0, 0.34893996, -0.7113209, 0, -0.7028674, -9.831196, 1, 1, 1, 1, 0, 0, 0, 0, -0.9733832, 0, 0.22918372, 1.1119504, 0, 1, 0, -0.42027542, -0.22918372, 0, -0.9733832, 3.8538918, 1, 1, 1, 1, 0, 0, 0, 0, 0.0043168054, 0, -0.9999907, -1.4782517, 0, 1, 0, -0.25985652, 0.9999907, 0, 0.0043168054, -7.5367074, 1, 1, 1, 1, 0, 0, 0, 0, -0.08462124, 0, -0.9964132, 9.601313, 0, 1, 0, 0.024775987, 0.9964132, 0, -0.08462124, -6.308768, 1, 1, 1, 1, 0, 0, 0, 0, 0.6016731, 0, -0.7987424, -3.395021, 0, 1, 0, -0.15401201, 0.7987424, 0, 0.6016731, 5.247732, 1, 1, 1, 1, 0, 0, 0, 0, 0.53130895, 0, -0.8471781, -5.4515643, 0, 1, 0, -0.24258488, 0.8471781, 0, 0.53130895, -7.0536976, 1, 1, 1, 1, 0, 0, 0, 0, -0.9936382, 0, 0.11261943, -5.7533207, 0, 1, 0, 0.17802864, -0.11261943, 0, -0.9936382, -3.0885663, 1, 1, 1, 1, 0, 0, 0, 0, -0.9224269, 0, 0.38617176, -11.468811, 0, 1, 0, -0.12914146, -0.38617176, 0, -0.9224269, -4.71221, 1, 1, 1, 1, 0, 0, 0, 0, 0.86288345, 0, -0.5054029, 0.86207026, 0, 1, 0, -0.22932407, 0.5054029, 0, 0.86288345, 8.261298, 1, 1, 1, 1, 0, 0, 0, 0, 0.42767477, 0, 0.9039327, -8.672967, 0, 1, 0, 0.0953845, -0.9039327, 0, 0.42767477, 3.4258997, 1, 1, 1, 1, 0, 0, 0, 0, -0.04745654, 0, -0.9988733, -13.614074, 0, 1, 0, 0.4712087, 0.9988733, 0, -0.04745654, -0.25446627, 1, 1, 1, 1, 0, 0, 0, 0, 0.44688326, 0, -0.8945923, -7.303031, 0, 1, 0, -0.37326333, 0.8945923, 0, 0.44688326, -1.8976898, 1, 1, 1, 1, 0, 0, 0, 0, -0.7029191, 0, 0.7112698, 14.432949, 0, 1, 0, -0.13795888, -0.7112698, 0, -0.7029191, 2.4338543, 1, 1, 1, 1, 0, 0, 0, 0, -0.81599945, 0, 0.5780527, -14.555781, 0, 1, 0, 0.023393448, -0.5780527, 0, -0.81599945, -2.2152345, 1, 1, 1, 1, 0, 0, 0, 0, 0.5197868, 0, 0.854296, 9.352052, 0, 1, 0, 0.30749062, -0.854296, 0, 0.5197868, -8.53482, 1, 1, 1, 1, 0, 0, 0, 0, -0.78261346, 0, 0.622508, -6.1978, 0, 1, 0, 0.3868787, -0.622508, 0, -0.78261346, -0.2815188, 1, 1, 1, 1, 0, 0, 0, 0, -0.29086265, 0, 0.9567648, 11.947567, 0, 1, 0, 0.32608852, -0.9567648, 0, -0.29086265, -6.853483, 1, 1, 1, 1, 0, 0, 0, 0, 0.9903741, 0, 0.13841671, -14.430992, 0, 1, 0, -0.3353638, -0.13841671, 0, 0.9903741, 6.019347, 1, 1, 1, 1, 0, 0, 0, 0, 0.015082578, 0, 0.9998863, 9.1005125, 0, 1, 0, 0.04877339, -0.9998863, 0, 0.015082578, 9.105693, 1, 1, 1, 1, 0, 0, 0, 0, -0.08564023, 0, -0.99632615, 3.4599862, 0, 1, 0, 0.15601636, 0.99632615, 0, -0.08564023, 9.572467, 1, 1, 1, 1, 0, 0, 0, 0, -0.994752, 0, 0.10231568, 11.237207, 0, 1, 0, 0.23869243, -0.10231568, 0, -0.994752, -0.33879104, 1, 1, 1, 1, 0, 0, 0, 0, -0.94215155, 0, 0.33518723, -9.630122, 0, 1, 0, -0.013726525, -0.33518723, 0, -0.94215155, 9.187337, 1, 1, 1, 1, 0, 0, 0, 0, 0.99935865, 0, 0.035808668, 10.002058, 0, 1, 0, -0.29010105, -0.035808668, 0, 0.99935865, -3.590499, 1, 1, 1, 1, 0, 0, 0, 0, 0.30753794, 0, -0.9515358, 6.7280383, 0, 1, 0, 0.024958385, 0.9515358, 0, 0.30753794, 9.41019, 1, 1, 1, 1, 0, 0, 0, 0, 0.11072447, 0, -0.9938511, 1.2912807, 0, 1, 0, -0.4550858, 0.9938511, 0, 0.11072447, 9.218434, 1, 1, 1, 1, 0, 0, 0, 0, -0.98654777, 0, 0.16347317, -5.408894, 0, 1, 0, -0.39251062, -0.16347317, 0, -0.98654777, -7.1018906, 1, 1, 1, 1, 0, 0, 0, 0, -0.9773103, 0, -0.21181263, 0.92771626, 0, 1, 0, -0.18588343, 0.21181263, 0, -0.9773103, 8.614925, 1, 1, 1, 1, 0, 0, 0, 0, 0.91669905, 0, -0.39957833, -9.905049, 0, 1, 0, -0.20846362, 0.39957833, 0, 0.91669905, -0.8694681, 1, 1, 1, 1, 0, 0, 0, 0, 0.8338111, 0, -0.5520498, 11.426539, 0, 1, 0, -0.4783597, 0.5520498, 0, 0.8338111, 7.4040318, 1, 1, 1, 1, 0, 0, 0, 0, -0.64993364, 0, 0.759991, -14.1185, 0, 1, 0, 0.04517517, -0.759991, 0, -0.64993364, -3.383682, 1, 1, 1, 1, 0, 0, 0, 0, -0.9964504, 0, 0.08418185, 14.020256, 0, 1, 0, -0.056586593, -0.08418185, 0, -0.9964504, 4.4953113, 1, 1, 1, 1, 0, 0, 0, 0, -0.7284009, 0, 0.68515116, -6.9948564, 0, 1, 0, 0.33535957, -0.68515116, 0, -0.7284009, -3.7762728, 1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="MultiMesh" id="MultiMesh_tx8nu"]
 resource_local_to_scene = true
@@ -2601,6 +2612,9 @@ animations = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_8a144"]
 size = Vector3(1.9667969, 2.437378, 1.8583984)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_b66by"]
+size = Vector3(13.472656, 4.5057373, 1)
+
 [node name="FirstTown" type="Node3D" unique_id=524938763]
 script = ExtResource("1_8k2fn")
 
@@ -2628,6 +2642,12 @@ shadow_enabled = true
 [node name="TreesManager" type="Node3D" parent="." unique_id=872289235]
 transform = Transform3D(1.085, 0, 0, 0, 1.085, 0, 0, 0, 1.085, 14, 0, -12)
 script = ExtResource("3_tx8nu")
+
+[node name="CommonTree3" type="MultiMeshInstance3D" parent="TreesManager" unique_id=404022502]
+transform = Transform3D(-0.2425981, 0, 0.9053888, 0, 0.9373277, 0, -0.9053888, 0, -0.2425981, -31.33773, 0, 78.59679)
+lod_bias = 5.0
+multimesh = SubResource("MultiMesh_8qoby")
+metadata/_scatter_graph = ExtResource("5_xpjev")
 
 [node name="CommonTree1" type="MultiMeshInstance3D" parent="TreesManager" unique_id=919839661]
 transform = Transform3D(-0.26321894, 0, 0.98234683, 0, 1.0170004, 0, -0.98234683, 0, -0.26321894, -12.90323, 0, -33.179733)
@@ -2667,7 +2687,7 @@ npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
 [node name="ima" parent="npc" unique_id=265834820 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 30.275995, 0.85757613, -45.597927)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 26.347689, 0.85757613, -59.55504)
 npc_name = "Ima"
 npc_id = "ima"
 npc_frames = SubResource("SpriteFrames_nax27")
@@ -2676,6 +2696,7 @@ npc_frames = SubResource("SpriteFrames_nax27")
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.3276217, 0.918553, -28.297337)
 npc_name = "Apu"
 npc_id = "apu"
+dialogue_id = "FirstTownSceneDialogues/meeting_apu"
 npc_frames = SubResource("SpriteFrames_ppes2")
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
@@ -2717,6 +2738,7 @@ cell_size = Vector2(1, 1)
 tex2_has_grass = false
 texture_albedo_2 = Color(0.69803923, 0.58431375, 0.44313726, 1)
 metadata/_custom_type_script = "uid://cddg1xr5hye1d"
+metadata/_edit_lock_ = true
 
 [node name="Chunk (-1, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=1507031163 node_paths=PackedStringArray("terrain_system")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 0)
@@ -3235,16 +3257,16 @@ shape = SubResource("BoxShape3D_8a144")
 [node name="CutscenePoints" type="Node3D" parent="." unique_id=1266979120]
 
 [node name="Scene1StartPoint" type="Marker3D" parent="CutscenePoints" unique_id=1710863601]
-transform = Transform3D(-0.6757212, 0, 0.7371573, 0, 1, 0, -0.7371573, 0, -0.6757212, 39.178467, 0.21597505, -41.547153)
+transform = Transform3D(-0.6757212, 0, 0.7371573, 0, 1, 0, -0.7371573, 0, -0.6757212, 37.96, 0.69, -40.005)
 
 [node name="WellPoint" type="Marker3D" parent="CutscenePoints" unique_id=1925832626]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.94811, 2.8461976, -37.260242)
 
 [node name="WakingUpCamera" type="Marker3D" parent="CutscenePoints" unique_id=1235244607]
-transform = Transform3D(-0.32721788, 0, 0.9449489, 0, 1, 0, -0.9449489, 0, -0.32721788, 37.023556, 1.0111785, -41.40227)
+transform = Transform3D(0.55135685, 0, -0.8342697, 0, 1, 0, 0.8342697, 0, 0.55135685, 33.61328, 1.0111785, -38.407913)
 
 [node name="ImaTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=1281255720]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.290924, 0.6905799, -41.50543)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.018414, 0.6905799, -41.131573)
 
 [node name="BebangTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=2003384431]
 transform = Transform3D(-0.46030492, 0, 0.8877609, 0, 1, 0, -0.8877609, 0, -0.46030492, 9.526538, 0.6262915, -41.54365)
@@ -3252,6 +3274,15 @@ transform = Transform3D(-0.46030492, 0, 0.8877609, 0, 1, 0, -0.8877609, 0, -0.46
 [node name="FirstTownIntro" type="Node" parent="." unique_id=811207447]
 script = ExtResource("27_x2wea")
 intro_timeline = "uid://n1t8vy8wgy1n"
+
+[node name="Scene1Cutscene" parent="." unique_id=1791518946 instance=ExtResource("32_8qoby")]
+
+[node name="Teleport" type="Area3D" parent="." unique_id=365691736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Teleport" unique_id=1963276835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15234375, 1.7528687, 0)
+shape = SubResource("BoxShape3D_b66by")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
