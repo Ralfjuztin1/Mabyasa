@@ -33,6 +33,10 @@ var has_pending_save: bool = false
 
 var tutorial_instance: Node = null
 
+# Prevent multiple save/quit calls if Windows sends
+# more than one close notification.
+var is_exiting: bool = false
+
 
 # ============================================================
 # READY
@@ -40,6 +44,12 @@ var tutorial_instance: Node = null
 
 func _ready() -> void:
 	set_process(false)
+
+	# IMPORTANT:
+	# Prevent Godot from immediately quitting when the player
+	# presses the window X or uses Alt+F4.
+	# This gives us time to save first.
+	get_tree().set_auto_accept_quit(false)
 
 	player.visible = false
 	player.set_physics_process(false)
@@ -155,6 +165,78 @@ func _ready() -> void:
 		level_to_load,
 		spawn_name
 	)
+
+
+# ============================================================
+# WINDOW CLOSE / ALT+F4
+# ============================================================
+
+func _notification(what: int) -> void:
+
+	if what != NOTIFICATION_WM_CLOSE_REQUEST:
+		return
+
+	if is_exiting:
+		return
+
+	is_exiting = true
+
+	print("")
+	print("========================================")
+	print("💾 [EXIT] Window close detected.")
+	print("💾 [EXIT] Saving game before quitting...")
+	print("========================================")
+
+	_save_before_exit()
+
+
+# ============================================================
+# SAVE BEFORE EXIT
+# ============================================================
+
+func _save_before_exit() -> void:
+
+	if SaveManager == null:
+		print("⚠️ [EXIT] SaveManager not found.")
+		get_tree().quit()
+		return
+
+	# Make sure the current player position is available.
+	if not is_instance_valid(player):
+		print("⚠️ [EXIT] Player is not valid.")
+		get_tree().quit()
+		return
+
+	# Use the currently loaded gameplay level.
+	var scene_to_save := GameManager.current_level_path
+
+	if scene_to_save.is_empty():
+		scene_to_save = FIRST_TOWN_PATH
+
+	scene_to_save = _normalize_saved_level_path(
+		scene_to_save
+	)
+
+	print(
+		"💾 [EXIT] Saving scene: ",
+		scene_to_save
+	)
+
+	# IMPORTANT:
+	# This uses the same SaveManager save system used by
+	# the normal game save flow.
+	#
+	# Wait for the save operation to finish before quitting.
+	await SaveManager.save_game(
+		player,
+		scene_to_save,
+		false
+	)
+
+	print("✅ [EXIT] Save completed.")
+	print("🚪 [EXIT] Closing game.")
+
+	get_tree().quit()
 
 
 # ============================================================
