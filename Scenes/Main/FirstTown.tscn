@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://dvjogf0p527uj" path="res://Assets/Characters/NPC_anims/ima/idle.png" id="14_d1bwj"]
 [ext_resource type="Texture2D" uid="uid://dqdjoj7fw1mbo" path="res://Assets/Characters/NPC_anims/ima/walk.png" id="15_foq2n"]
 [ext_resource type="Texture2D" uid="uid://c7l3qpjivvwkr" path="res://Assets/Characters/NPC_anims/apu/idle.png" id="16_0na3q"]
+[ext_resource type="Script" uid="uid://chx51t0pbuor3" path="res://Scripts/Managers/NPCDialogueEntry.gd" id="17_ubr33"]
 [ext_resource type="Texture2D" uid="uid://doepna2a2dbx6" path="res://Assets/Characters/NPC_anims/apu/walk.png" id="17_xpjev"]
 [ext_resource type="Texture2D" uid="uid://cssrmw7ubt5yq" path="res://Assets/Characters/NPC_anims/Animals/Rooster_animation_without_shadow.png" id="22_ppvpn"]
 [ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
@@ -142,6 +143,33 @@ use_custom_data = true
 instance_count = 12
 mesh = ExtResource("7_5eqbr")
 buffer = PackedFloat32Array(0.32324648, 0, -0.9463148, 23.695679, 0, 1, 0, 0.19269052, 0.9463148, 0, 0.32324648, -48.572342, 1, 1, 1, 1, 0, 0, 0, 0, 0.5506166, 0, -0.8347583, -5.914576, 0, 1, 0, -0.37299675, 0.8347583, 0, 0.5506166, -1.5848153, 1, 1, 1, 1, 0, 0, 0, 0, 0.94926083, 0, 0.31448984, 14.184308, 0, 1, 0, 0.26405212, -0.31448984, 0, 0.94926083, 19.759523, 1, 1, 1, 1, 0, 0, 0, 0, -0.23162006, 0, -0.97280633, 25.415304, 0, 1, 0, 0.033298627, 0.97280633, 0, -0.23162006, 20.120197, 1, 1, 1, 1, 0, 0, 0, 0, -0.8986935, 0, -0.4385772, 21.05756, 0, 1, 0, 0.29458803, 0.4385772, 0, -0.8986935, 26.036293, 1, 1, 1, 1, 0, 0, 0, 0, 0.20913799, 0, 0.97788614, -30.31618, 0, 1, 0, -0.26788682, -0.97788614, 0, 0.20913799, 12.676899, 1, 1, 1, 1, 0, 0, 0, 0, -0.55765176, 0, -0.830075, 14.097406, 0, 1, 0, -0.16059577, 0.830075, 0, -0.55765176, -0.7574463, 1, 1, 1, 1, 0, 0, 0, 0, -0.6872521, 0, 0.726419, -16.234055, 0, 1, 0, 0.30245423, -0.726419, 0, -0.6872521, 25.397173, 1, 1, 1, 1, 0, 0, 0, 0, 0.96386, 0, 0.26640937, -1.7468942, 0, 1, 0, -0.3825338, -0.26640937, 0, 0.96386, 43.086926, 1, 1, 1, 1, 0, 0, 0, 0, 0.5450401, 0, 0.83841, -30.655045, 0, 1, 0, 0.2587007, -0.83841, 0, 0.5450401, 37.153618, 1, 1, 1, 1, 0, 0, 0, 0, 0.1360372, 0, 0.9907037, -6.92917, 0, 1, 0, 0.49695057, -0.9907037, 0, 0.1360372, -36.166626, 1, 1, 1, 1, 0, 0, 0, 0, -0.53645664, 0, 0.84392786, -27.424122, 0, 1, 0, 0.372833, -0.84392786, 0, -0.53645664, -10.763817, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="Resource" id="Resource_0md02"]
+script = ExtResource("17_ubr33")
+condition = 3
+priority = 100
+quest_id = "bebang_talk_to_rids"
+timeline_path = "FirstTownSceneDialogues/bebang_qc"
+play_once = true
+
+[sub_resource type="Resource" id="Resource_ubr33"]
+script = ExtResource("17_ubr33")
+condition = 2
+priority = 90
+quest_id = "bebang_talk_to_rids"
+timeline_path = "FirstTownSceneDialogues/bebang_quest_active"
+
+[sub_resource type="Resource" id="Resource_0oc6g"]
+script = ExtResource("17_ubr33")
+condition = 1
+priority = 80
+quest_id = "bebang_talk_to_rids"
+timeline_path = "FirstTownSceneDialogues/bebang_quest_ns"
+
+[sub_resource type="Resource" id="Resource_631tw"]
+script = ExtResource("17_ubr33")
+priority = 1
+timeline_path = "FirstTownSceneDialogues/bebang_default"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_scv2f"]
 atlas = ExtResource("9_scv2f")
@@ -1533,6 +1561,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_8qoby"]
+script = ExtResource("17_ubr33")
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nax27"]
 atlas = ExtResource("16_0na3q")
 region = Rect2(0, 0, 64, 64)
@@ -2664,10 +2695,11 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 [node name="npc" type="Node3D" parent="." unique_id=540821247]
 
 [node name="bebang" parent="npc" unique_id=1266467026 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 33.959778, 0.96813893, -46.229233)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 33.959778, 1.1638854, -46.229233)
 npc_name = "Bebang"
 npc_id = "bebang"
 dialogue_id = "bebang_default"
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0md02"), SubResource("Resource_ubr33"), SubResource("Resource_0oc6g"), SubResource("Resource_631tw")])
 npc_frames = SubResource("SpriteFrames_ox5xy")
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
@@ -2675,6 +2707,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.6569
 npc_name = "Rids"
 npc_id = "rids"
 dialogue_id = "rids_first_talk"
+dialogue_entries = null
 npc_frames = SubResource("SpriteFrames_5jb8g")
 can_wander = true
 
@@ -2683,6 +2716,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.3126698, 0.8666879, -61.822
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
+dialogue_entries = null
 npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
@@ -2690,6 +2724,7 @@ can_wander = true
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 26.347689, 0.85757613, -59.55504)
 npc_name = "Ima"
 npc_id = "ima"
+dialogue_entries = null
 npc_frames = SubResource("SpriteFrames_nax27")
 
 [node name="apu" parent="npc" unique_id=1006961691 instance=ExtResource("8_fbikn")]
@@ -2697,6 +2732,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.3276217, 0.918553, -28.2973
 npc_name = "Apu"
 npc_id = "apu"
 dialogue_id = "FirstTownSceneDialogues/meeting_apu"
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_8qoby")])
 npc_frames = SubResource("SpriteFrames_ppes2")
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]

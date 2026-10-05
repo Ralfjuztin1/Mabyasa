@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://bvobcsobuielo"]
+
+[ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="1_2limv"]
+[ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_j5s5h"]
+[ext_resource type="Script" uid="uid://54thwokoasbl" path="res://Scripts/Quest/QuestStep.gd" id="2_2limv"]
+
+[sub_resource type="Resource" id="Resource_4bdg3"]
+script = ExtResource("1_2limv")
+exp = 15
+gold = 10
+metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
+
+[sub_resource type="Resource" id="Resource_0xr8h"]
+script = ExtResource("2_2limv")
+target = "rids"
+metadata/_custom_type_script = "uid://54thwokoasbl"
+
+[resource]
+script = ExtResource("1_j5s5h")
+quest_id = "bebang_talk_to_rids"
+title = "Talk to Rids"
+description = "Bebang asked you to talk to rids."
+rewards = SubResource("Resource_4bdg3")
+steps = Array[ExtResource("2_2limv")]([SubResource("Resource_0xr8h")])
+metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

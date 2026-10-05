@@ -5,6 +5,7 @@ const DIALOGUE_CAMERA_DISTANCE: float = 0.5
 const CAMERA_TWEEN_TIME: float = 0.35
 
 var current_npc: Node = null
+var current_dialogue_entry: NPCDialogueEntry = null
 var is_dialogue_active: bool = false
 
 var player_was_physics_processing: bool = true
@@ -30,10 +31,11 @@ func start_dialogue(npc: Node) -> void:
 		return
 
 	current_npc = npc
+	current_dialogue_entry = null
 
-	var dialogue_id: String = _get_dialogue_for_npc(npc)
+	var dialogue_path: String = _get_dialogue_for_npc(npc)
 
-	if dialogue_id.is_empty():
+	if dialogue_path.is_empty():
 		push_warning(
 			"[DIALOGUE] NPC has no valid dialogue: "
 			+ str(npc.npc_name)
@@ -41,64 +43,185 @@ func start_dialogue(npc: Node) -> void:
 		current_npc = null
 		return
 
-	var dialogue_path := DIALOGUE_PATH + dialogue_id + ".dtl"
-
 	print("[DIALOGUE] Starting: ", dialogue_path)
 
 	Dialogic.start(dialogue_path)
 
 
+# ============================================================
+# DIALOGUE SELECTION
+# ============================================================
+
 func _get_dialogue_for_npc(npc: Node) -> String:
-	# Check quest-specific dialogues first.
-	if "quest_dialogues" in npc:
-		for rule in npc.quest_dialogues:
-			if not rule.has("quest_id"):
-				continue
+	# NPCs can hold many NPCDialogueEntry resources.
+	# The valid entry with the highest priority wins.
+	if "dialogue_entries" in npc:
+		var entries = npc.dialogue_entries
+		var best_entry: NPCDialogueEntry = null
 
-			var quest_id: String = str(rule["quest_id"])
+		if entries is Array:
+			for entry in entries:
+				if not entry is NPCDialogueEntry:
+					continue
 
-			if quest_id.is_empty():
-				continue
+				if not _dialogue_entry_matches(entry, npc):
+					continue
 
-			# Highest priority:
-			# Quest has been completed.
-			if QuestManager.is_quest_completed(quest_id):
-				if rule.has("completed_dialogue"):
-					var completed_dialogue: String = str(
-						rule["completed_dialogue"]
-					)
+				if entry.timeline_path.is_empty():
+					continue
 
-					if not completed_dialogue.is_empty():
-						print(
-							"[DIALOGUE] Using completed quest dialogue: ",
-							completed_dialogue
-						)
+				if best_entry == null or entry.priority > best_entry.priority:
+					best_entry = entry
 
-						return completed_dialogue
+		if best_entry != null:
+			current_dialogue_entry = best_entry
 
-			# Second priority:
-			# Quest is currently active.
-			if QuestManager.is_quest_active(quest_id):
-				if rule.has("active_dialogue"):
-					var active_dialogue: String = str(
-						rule["active_dialogue"]
-					)
+			print(
+				"[DIALOGUE] Selected entry priority ",
+				best_entry.priority,
+				": ",
+				best_entry.timeline_path
+			)
 
-					if not active_dialogue.is_empty():
-						print(
-							"[DIALOGUE] Using active quest dialogue: ",
-							active_dialogue
-						)
+			return _normalize_dialogue_path(
+				best_entry.timeline_path
+			)
 
-						return active_dialogue
-
-	# No matching quest dialogue was found.
-	# Fall back to the NPC's normal dialogue.
+	# Legacy fallback.
 	if "dialogue_id" in npc:
-		return str(npc.dialogue_id)
+		var legacy_dialogue: String = str(npc.dialogue_id)
+
+		if not legacy_dialogue.is_empty():
+			return _normalize_dialogue_path(legacy_dialogue)
 
 	return ""
 
+
+func _dialogue_entry_matches(
+	entry: NPCDialogueEntry,
+	npc: Node
+) -> bool:
+	# A one-time entry is no longer valid after it has finished once.
+	if entry.play_once:
+		var play_once_flag: String = _get_play_once_flag_id(
+			npc,
+			entry
+		)
+
+		if QuestManager.has_dialogue_flag(play_once_flag):
+			return false
+
+	match entry.condition:
+		NPCDialogueEntry.ConditionType.ALWAYS:
+			return true
+
+		NPCDialogueEntry.ConditionType.QUEST_NOT_STARTED:
+			if entry.quest_id.is_empty():
+				return false
+
+			return (
+				not QuestManager.is_quest_active(entry.quest_id)
+				and not QuestManager.is_quest_completed(entry.quest_id)
+			)
+
+		NPCDialogueEntry.ConditionType.QUEST_ACTIVE:
+			if entry.quest_id.is_empty():
+				return false
+
+			return QuestManager.is_quest_active(entry.quest_id)
+
+		NPCDialogueEntry.ConditionType.QUEST_COMPLETED:
+			if entry.quest_id.is_empty():
+				return false
+
+			return QuestManager.is_quest_completed(entry.quest_id)
+
+		NPCDialogueEntry.ConditionType.QUEST_VALIDATION_UNDER:
+			if entry.quest_id.is_empty():
+				return false
+
+			return QuestManager.is_count_under(entry.quest_id)
+
+		NPCDialogueEntry.ConditionType.QUEST_VALIDATION_OVER:
+			if entry.quest_id.is_empty():
+				return false
+
+			return QuestManager.is_count_over(entry.quest_id)
+
+		NPCDialogueEntry.ConditionType.DIALOGUE_FLAG:
+			if entry.flag_id.is_empty():
+				return false
+
+			return QuestManager.has_dialogue_flag(entry.flag_id)
+
+	return false
+
+
+func _get_play_once_flag_id(
+	npc: Node,
+	entry: NPCDialogueEntry
+) -> String:
+	if not entry.play_once_id.strip_edges().is_empty():
+		return "dialogue_once_" + entry.play_once_id.strip_edges()
+
+	var npc_id: String = "npc"
+
+	if "npc_id" in npc:
+		npc_id = str(npc.npc_id)
+
+	var timeline: String = _normalize_dialogue_path(
+		entry.timeline_path
+	)
+
+	return "dialogue_once_" + npc_id + "_" + timeline
+
+
+func _mark_dialogue_entry_played() -> void:
+	if not is_instance_valid(current_npc):
+		return
+
+	if current_dialogue_entry == null:
+		return
+
+	if not current_dialogue_entry.play_once:
+		return
+
+	var flag_id: String = _get_play_once_flag_id(
+		current_npc,
+		current_dialogue_entry
+	)
+
+	QuestManager.set_dialogue_flag(flag_id)
+
+	print(
+		"[DIALOGUE] Play-once entry consumed: ",
+		flag_id
+	)
+
+
+func _normalize_dialogue_path(
+	dialogue_reference: String
+) -> String:
+	var reference: String = dialogue_reference.strip_edges()
+
+	if reference.is_empty():
+		return ""
+
+	if reference.begins_with("res://"):
+		if reference.to_lower().ends_with(".dtl"):
+			return reference
+
+		return reference + ".dtl"
+
+	if reference.to_lower().ends_with(".dtl"):
+		reference = reference.trim_suffix(".dtl")
+
+	return DIALOGUE_PATH + reference + ".dtl"
+
+
+# ============================================================
+# DIALOGIC SIGNALS
+# ============================================================
 
 func _on_dialogic_signal(argument: Variant) -> void:
 	var signal_name := str(argument)
@@ -108,9 +231,6 @@ func _on_dialogic_signal(argument: Variant) -> void:
 		signal_name
 	)
 
-
-	# Start a quest:
-	# start_pet_the_animal
 	if signal_name.begins_with("start_"):
 		var quest_id := signal_name.trim_prefix("start_")
 
@@ -119,19 +239,18 @@ func _on_dialogic_signal(argument: Variant) -> void:
 
 		return
 
-
-	# Set a persistent dialogue flag:
-	# set_flag_chief_pet_animal_complete
 	if signal_name.begins_with("set_flag_"):
 		var flag_id := signal_name.trim_prefix("set_flag_")
 
 		if not flag_id.is_empty():
-			QuestManager.set_dialogue_flag(
-				flag_id
-			)
+			QuestManager.set_dialogue_flag(flag_id)
 
 		return
 
+
+# ============================================================
+# DIALOGUE START
+# ============================================================
 
 func _on_dialogue_started() -> void:
 	is_dialogue_active = true
@@ -169,10 +288,17 @@ func _on_dialogue_started() -> void:
 	print("[DIALOGUE] Dialogue started.")
 
 
+# ============================================================
+# DIALOGUE END
+# ============================================================
+
 func _on_dialogue_ended() -> void:
 	is_dialogue_active = false
 
-	# Tell the quest system that this NPC was talked to.
+	# Mark the selected dialogue entry as consumed only after
+	# Dialogic actually reaches the end of the timeline.
+	_mark_dialogue_entry_played()
+
 	if is_instance_valid(current_npc):
 		GameEvents.npc_talked.emit(current_npc.npc_id)
 
@@ -191,6 +317,7 @@ func _on_dialogue_ended() -> void:
 		)
 
 	current_npc = null
+	current_dialogue_entry = null
 
 	GameManager.set_game_state(GameManager.GameState.EXPLORATION)
 
@@ -198,6 +325,10 @@ func _on_dialogue_ended() -> void:
 
 	print("[DIALOGUE] Dialogue ended.")
 
+
+# ============================================================
+# CAMERA
+# ============================================================
 
 func _get_player_spring_arm(player: Node) -> SpringArm3D:
 	if player.has_node("Head/SpringArm3D"):

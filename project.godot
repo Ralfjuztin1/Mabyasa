@@ -42,7 +42,10 @@ directories/dch_directory={
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
-"bebang_default": "res://Scenes/Characters/NPC/Dialogic/bebang_default.dtl",
+"FirstTownSceneDialogues/bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
+"bebang_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_qc.dtl",
+"bebang_quest_active": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_active.dtl",
+"bebang_quest_ns": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_ns.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",

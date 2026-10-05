@@ -17,7 +17,7 @@ extends CharacterBody3D
 @export_category("Dialogue")
 
 @export var dialogue_id: String = ""
-
+@export var dialogue_entries: Array[NPCDialogueEntry] = []
 
 @export var npc_frames: SpriteFrames:
 	set(value):
