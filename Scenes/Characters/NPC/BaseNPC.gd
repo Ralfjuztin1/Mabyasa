@@ -2,41 +2,36 @@
 extends CharacterBody3D
 
 
-@export_category("Animal Identity")
+@export_category("NPC Identity")
 
-@export var animal_name: String = "Animal":
+@export var npc_name: String = "Townsman":
 	set(value):
-		animal_name = value
+		npc_name = value
 
 		if is_inside_tree() and has_node("NameLabel"):
 			$NameLabel.text = value
 
-@export var animal_id: String = ""
+@export var npc_id: String = ""
 
 
-@export_category("Animal Interaction")
+@export_category("Dialogue")
 
-@export var can_interact: bool = true
+@export var dialogue_id: String = ""
 
 
-@export_category("Animal Visuals")
-
-@export var animal_frames: SpriteFrames:
+@export var npc_frames: SpriteFrames:
 	set(value):
-		animal_frames = value
+		npc_frames = value
 
 		if Engine.is_editor_hint() and has_node("AnimatedSprite3D"):
 			$AnimatedSprite3D.sprite_frames = value
 
 
-@export_category("Animal Behavior")
+@export_category("NPC Behavior")
 
-@export var can_wander: bool = true
-@export var move_speed: float = 1.5
-@export var wander_radius: float = 5.0
-
-@export_range(0.0, 1.0, 0.05)
-var idle_chance: float = 0.5
+@export var can_wander: bool = false
+@export var move_speed: float = 2.0
+@export var wander_radius: float = 3.0
 
 
 # ============================================================
@@ -51,8 +46,8 @@ var wander_direction: Vector3 = Vector3.ZERO
 var wander_timer: float = 0.0
 var start_position: Vector3
 
-# Used as a fallback if another system moves the animal
-# directly through global_position.
+# Used to detect actual movement even if another system
+# moves the NPC by changing global_position directly.
 var previous_position: Vector3 = Vector3.ZERO
 
 
@@ -67,16 +62,22 @@ var player_in_range: bool = false
 # ANIMATION
 # ============================================================
 
+var cutscene_controlled: bool = false
+
 var current_facing: String = "front"
 var is_idling: bool = true
 
 var active_camera: Camera3D = null
 
-# Actual world-space movement direction.
+# The NPC's actual world-space movement direction.
 var last_look_dir: Vector3 = Vector3(0, 0, 1)
+
+# Kept for compatibility with your existing cutscene code.
+var cutscene_facing: bool = false
 
 
 @onready var animated_sprite: AnimatedSprite3D = $AnimatedSprite3D
+@onready var name_label: Label3D = $NameLabel
 @onready var interaction_prompt: Label3D = $InteractionPrompt
 
 
@@ -86,65 +87,31 @@ var last_look_dir: Vector3 = Vector3(0, 0, 1)
 
 func _ready() -> void:
 
-	# --------------------------------------------------------
-	# ANIMAL NAME
-	# --------------------------------------------------------
-
+	# Update NPC name.
 	if has_node("NameLabel"):
-		$NameLabel.text = animal_name
+		name_label.text = npc_name
 
-
-	# --------------------------------------------------------
-	# INTERACTION PROMPT
-	# --------------------------------------------------------
-
+	# Hide interaction prompt until player is nearby.
 	if has_node("InteractionPrompt"):
 		interaction_prompt.visible = false
 
-
-	# --------------------------------------------------------
-	# STOP EDITOR EXECUTION
-	# --------------------------------------------------------
-
+	# Stop editor-only execution.
 	if Engine.is_editor_hint():
 		return
-
-
-	# --------------------------------------------------------
-	# INITIAL POSITION
-	# --------------------------------------------------------
 
 	start_position = global_position
 	previous_position = global_position
 
-
-	# --------------------------------------------------------
-	# APPLY SPRITE FRAMES
-	# --------------------------------------------------------
-
-	if animal_frames:
-
-		animated_sprite.sprite_frames = animal_frames
+	# Apply NPC sprite frames.
+	if npc_frames:
+		animated_sprite.sprite_frames = npc_frames
 
 		if animated_sprite.sprite_frames.has_animation(
 			"idle_front"
 		):
-
 			animated_sprite.play(
 				"idle_front"
 			)
-
-
-	# --------------------------------------------------------
-	# START IDLE
-	# --------------------------------------------------------
-
-	is_idling = true
-	wander_direction = Vector3.ZERO
-	wander_timer = randf_range(
-		1.0,
-		3.0
-	)
 
 
 # ============================================================
@@ -158,11 +125,27 @@ func _physics_process(delta: float) -> void:
 
 
 	# ========================================================
+	# CUTSCENE
+	# ========================================================
+
+	if cutscene_controlled:
+
+		# If the cutscene controller directly changes the NPC's
+		# position, detect that movement.
+		_update_direction_from_position()
+
+		_update_animation()
+
+		previous_position = global_position
+
+		return
+
+
+	# ========================================================
 	# GRAVITY
 	# ========================================================
 
 	if not is_on_floor():
-
 		velocity.y -= gravity * delta
 
 
@@ -173,49 +156,19 @@ func _physics_process(delta: float) -> void:
 	if can_wander:
 
 		if wander_timer > 0.0:
-
 			wander_timer -= delta
-
 		else:
-
 			_switch_wander_state()
 
+		velocity.x = (
+			wander_direction.x
+			* move_speed
+		)
 
-		# ----------------------------------------------------
-		# IDLE
-		# ----------------------------------------------------
-
-		if is_idling:
-
-			velocity.x = move_toward(
-				velocity.x,
-				0.0,
-				move_speed
-			)
-
-			velocity.z = move_toward(
-				velocity.z,
-				0.0,
-				move_speed
-			)
-
-
-		# ----------------------------------------------------
-		# WALKING
-		# ----------------------------------------------------
-
-		else:
-
-			velocity.x = (
-				wander_direction.x
-				* move_speed
-			)
-
-			velocity.z = (
-				wander_direction.z
-				* move_speed
-			)
-
+		velocity.z = (
+			wander_direction.z
+			* move_speed
+		)
 
 	else:
 
@@ -248,28 +201,29 @@ func _physics_process(delta: float) -> void:
 		and can_wander
 		and not is_idling
 	):
-
 		_switch_wander_state(true)
 
 
 	# ========================================================
-	# MOVEMENT DIRECTION
+	# UPDATE MOVEMENT DIRECTION
 	# ========================================================
 
-	var horizontal_velocity := Vector3(
-		velocity.x,
-		0.0,
-		velocity.z
-	)
+	if velocity.x != 0.0 or velocity.z != 0.0:
 
-	if horizontal_velocity.length_squared() > 0.001:
-
-		last_look_dir = (
-			horizontal_velocity.normalized()
+		var movement_direction := Vector3(
+			velocity.x,
+			0.0,
+			velocity.z
 		)
+
+		if movement_direction.length_squared() > 0.001:
+			last_look_dir = (
+				movement_direction.normalized()
+			)
 
 	else:
 
+		# Fallback to actual position movement.
 		_update_direction_from_position()
 
 
@@ -283,7 +237,7 @@ func _physics_process(delta: float) -> void:
 
 
 # ============================================================
-# POSITION-BASED DIRECTION FALLBACK
+# POSITION-BASED DIRECTION
 # ============================================================
 
 func _update_direction_from_position() -> void:
@@ -296,85 +250,54 @@ func _update_direction_from_position() -> void:
 	movement.y = 0.0
 
 	if movement.length_squared() > 0.00001:
-
 		last_look_dir = (
 			movement.normalized()
 		)
 
 
 # ============================================================
-# WANDERING
+# WANDER STATE
 # ============================================================
 
 func _switch_wander_state(
 	forced_wall_bump: bool = false
 ) -> void:
 
-	# --------------------------------------------------------
-	# FORCED IDLE FROM WALL
-	# --------------------------------------------------------
+	if (
+		forced_wall_bump
+		or not is_idling
+	):
 
-	if forced_wall_bump:
-
+		# Enter idle state.
 		is_idling = true
 		wander_direction = Vector3.ZERO
 
-		wander_timer = randf_range(
-			0.5,
-			1.2
-		)
-
-		return
-
-
-	# --------------------------------------------------------
-	# CURRENTLY IDLE
-	# --------------------------------------------------------
-
-	if is_idling:
-
-		if randf() < idle_chance:
-
-			is_idling = true
-			wander_direction = Vector3.ZERO
+		if forced_wall_bump:
 
 			wander_timer = randf_range(
-				1.5,
+				0.5,
+				1.2
+			)
+
+		else:
+
+			wander_timer = randf_range(
+				2.0,
 				4.0
 			)
 
-			return
-
-		is_idling = false
-
-
-	# --------------------------------------------------------
-	# CURRENTLY WALKING
-	# --------------------------------------------------------
-
-	else:
-
-		is_idling = true
-		wander_direction = Vector3.ZERO
-
-		wander_timer = randf_range(
-			1.5,
-			4.0
-		)
-
 		return
 
 
-	# --------------------------------------------------------
-	# CHOOSE DIRECTION
-	# --------------------------------------------------------
+	# ========================================================
+	# ENTER WALKING STATE
+	# ========================================================
 
-	if (
-		global_position.distance_to(
-			start_position
-		)
-		> wander_radius
-	):
+	is_idling = false
+
+	if global_position.distance_to(
+		start_position
+	) > wander_radius:
 
 		wander_direction = (
 			start_position
@@ -389,16 +312,6 @@ func _switch_wander_state(
 			randf_range(-1.0, 1.0)
 		).normalized()
 
-
-	# --------------------------------------------------------
-	# SAFETY
-	# --------------------------------------------------------
-
-	if wander_direction.length_squared() < 0.01:
-
-		wander_direction = Vector3.FORWARD
-
-
 	wander_timer = randf_range(
 		1.5,
 		3.5
@@ -406,7 +319,7 @@ func _switch_wander_state(
 
 
 # ============================================================
-# GET CURRENT ACTIVE CAMERA
+# GET ACTIVE CAMERA
 # ============================================================
 
 func _get_active_camera() -> Camera3D:
@@ -432,30 +345,30 @@ func _update_animation() -> void:
 	# ========================================================
 
 	var is_moving: bool = (
-		velocity.x != 0.0
-		or velocity.z != 0.0
-		or global_position.distance_squared_to(
-			previous_position
-		) > 0.00001
+		last_look_dir.length_squared() > 0.001
+		and (
+			velocity.x != 0.0
+			or velocity.z != 0.0
+			or global_position.distance_squared_to(
+				previous_position
+			) > 0.00001
+		)
 	)
 
 
 	# ========================================================
-	# GET CURRENT ACTIVE CAMERA
+	# ALWAYS USE THE CURRENT ACTIVE CAMERA
 	# ========================================================
 	#
-	# IMPORTANT:
+	# This is the important part.
 	#
-	# Do NOT cache this camera.
+	# Player camera during normal gameplay:
+	#     works normally.
 	#
-	# During normal gameplay:
-	#     this is the player camera.
+	# Cinematic camera during cutscene:
+	#     automatically becomes the reference camera.
 	#
-	# During a cinematic:
-	#     this becomes the cinematic camera.
-	#
-	# When the cinematic ends:
-	#     it becomes the player camera again.
+	# There is NO separate cutscene-facing branch.
 	#
 
 	active_camera = _get_active_camera()
@@ -472,31 +385,25 @@ func _update_animation() -> void:
 		)
 
 
-		# ----------------------------------------------------
-		# IGNORE VERTICAL CAMERA ANGLE
-		# ----------------------------------------------------
-
+		# Ignore vertical camera angle.
 		cam_forward.y = 0.0
 		cam_right.y = 0.0
 
 
 		if cam_forward.length_squared() > 0.001:
-
 			cam_forward = (
 				cam_forward.normalized()
 			)
 
-
 		if cam_right.length_squared() > 0.001:
-
 			cam_right = (
 				cam_right.normalized()
 			)
 
 
-		# ----------------------------------------------------
-		# WORLD MOVEMENT → CAMERA SPACE
-		# ----------------------------------------------------
+		# ====================================================
+		# CONVERT WORLD MOVEMENT TO CAMERA SPACE
+		# ====================================================
 
 		var forward_amount: float = (
 			last_look_dir.dot(
@@ -511,9 +418,9 @@ func _update_animation() -> void:
 		)
 
 
-		# ----------------------------------------------------
-		# DETERMINE ANIMATION DIRECTION
-		# ----------------------------------------------------
+		# ====================================================
+		# DETERMINE CAMERA-RELATIVE DIRECTION
+		# ====================================================
 
 		if abs(right_amount) > abs(forward_amount):
 
@@ -533,7 +440,7 @@ func _update_animation() -> void:
 
 
 	# ========================================================
-	# SELECT ANIMATION
+	# PLAY ANIMATION
 	# ========================================================
 
 	var animation_name: String
@@ -553,10 +460,6 @@ func _update_animation() -> void:
 		)
 
 
-	# ========================================================
-	# PLAY ANIMATION
-	# ========================================================
-
 	if (
 		animated_sprite.animation
 		!= animation_name
@@ -572,7 +475,7 @@ func _update_animation() -> void:
 
 
 # ============================================================
-# PLAYER INTERACTION
+# INPUT
 # ============================================================
 
 func _unhandled_input(
@@ -582,47 +485,21 @@ func _unhandled_input(
 	if not player_in_range:
 		return
 
-	if not can_interact:
-		return
-
 	if event.is_action_pressed(
 		"interact"
 	):
 
-		_interact_with_animal()
-
-
-# ============================================================
-# ANIMAL INTERACTION
-# ============================================================
-
-func _interact_with_animal() -> void:
-
-	if animal_id.is_empty():
-
-		push_warning(
-			"[ANIMAL] Animal has no animal_id: "
-			+ animal_name
+		QuestManager.handle_npc_interaction(
+			npc_id
 		)
 
-		return
-
-
-	print(
-		"🐾 [ANIMAL INTERACT] ",
-		animal_name,
-		" | ID: ",
-		animal_id
-	)
-
-
-	GameEvents.object_interacted.emit(
-		animal_id
-	)
+		DialogueManager.start_dialogue(
+			self
+		)
 
 
 # ============================================================
-# INTERACTION AREA ENTERED
+# PLAYER ENTERED
 # ============================================================
 
 func _on_interaction_area_body_entered(
@@ -632,26 +509,19 @@ func _on_interaction_area_body_entered(
 	if not body.is_in_group("player"):
 		return
 
-
 	player_in_range = true
 
-
-	if (
-		has_node("InteractionPrompt")
-		and can_interact
-	):
-
+	if has_node("InteractionPrompt"):
 		interaction_prompt.visible = true
 
-
 	print(
-		"[ANIMAL] Player entered interaction range: ",
-		animal_name
+		"[NPC] Player entered interaction range: ",
+		npc_name
 	)
 
 
 # ============================================================
-# INTERACTION AREA EXITED
+# PLAYER EXITED
 # ============================================================
 
 func _on_interaction_area_body_exited(
@@ -661,16 +531,12 @@ func _on_interaction_area_body_exited(
 	if not body.is_in_group("player"):
 		return
 
-
 	player_in_range = false
 
-
 	if has_node("InteractionPrompt"):
-
 		interaction_prompt.visible = false
 
-
 	print(
-		"[ANIMAL] Player left interaction range: ",
-		animal_name
+		"[NPC] Player left interaction range: ",
+		npc_name
 	)

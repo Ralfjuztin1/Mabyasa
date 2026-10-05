@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dv4lkp2m3o45m"]
 
-[ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://BaseNPC.gd" id="1_2xq1e"]
+[ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://Scenes/Characters/NPC/BaseNPC.gd" id="1_2xq1e"]
 [ext_resource type="FontFile" uid="uid://bldlk7nddt8v5" path="res://addons/fonts/monogram.ttf" id="2_86usj"]
 [ext_resource type="Script" uid="uid://cic5lyaucjxqt" path="res://Scripts/Quest/QuestMarker.gd" id="3_2xq1e"]
 
