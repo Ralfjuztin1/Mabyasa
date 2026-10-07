@@ -9,22 +9,26 @@ metadata/_custom_type_script = "uid://c4mr7ni5a2s41"
 
 [node name="01_face_apu" type="Node" parent="." unique_id=1260106137]
 script = ExtResource("2_veii0")
+action_type = 3
 actor_id = "apu"
 target_actor_id = "Player"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="02_face_player" type="Node" parent="." unique_id=1797028895]
 script = ExtResource("2_veii0")
+action_type = 3
 actor_id = "Player"
 target_actor_id = "apu"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="03_camera" type="Node" parent="." unique_id=218346230]
 script = ExtResource("2_veii0")
+action_type = 8
 target_id = "Scene3Camera"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="04_dialogue" type="Node" parent="." unique_id=666212188]
 script = ExtResource("2_veii0")
+action_type = 7
 timeline_path = "uid://cn2805hd4baru"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
