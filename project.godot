@@ -51,6 +51,7 @@ directories/dtl_directory={
 "ima_qa": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qa.dtl",
 "ima_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qc.dtl",
 "ima_qna": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qna.dtl",
+"litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl",

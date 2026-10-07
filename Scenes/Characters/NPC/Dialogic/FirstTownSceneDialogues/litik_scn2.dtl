@@ -1,0 +1,26 @@
+Litik: ....
+Litik: Oh!.... Hello!
+You: What?! Who are you???
+Litik: I'm not so sure myself, but i think i'm the part of your voice that got stuck....
+You: Hmmm... maybe this is what Ima was talking about...
+Litik: I think you're the only one who can hear me.
+Litik: I know!...
+Litik: I can be your guide and help you throughout your journey to remove the curse!
+Litik: My name is Litik by the way.
+You: Okay! nice to meet you.
+Litik: I heard your Ima want you to go to Apu.
+Litik: Look ahead—there's Apu sitting by the well, and a few villagers standing around them!
+[wait time="0.6"]
+Litik: Wait! I think you've heard your Ima say "Mayap a Abak" earlier.
+Litik: This will be your first lesson, a greeting!
+You: Okay, I'm listening...
+label 1st lesson
+Litik: Mayap = Good.\
+a = a connector\
+Abak = Morning
+Litik: Are you getting it?
+- I get it.
+	Litik: Good
+- Can you repeat that?
+	jump 1st lesson
+	[wait time="0.5"]
