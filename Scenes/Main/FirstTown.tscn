@@ -33,6 +33,10 @@
 [ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
 [ext_resource type="Script" uid="uid://cy0338afheka" path="res://Scripts/Cutscene/FirstTownIntro.gd" id="27_x2wea"]
 [ext_resource type="PackedScene" uid="uid://by06t27gp1kwd" path="res://Scenes/Main/Scene1Cutscene.tscn" id="32_8qoby"]
+[ext_resource type="Script" uid="uid://drp5onhdsv685" path="res://Scenes/Main/LitikAppearTrigger.gd" id="32_631tw"]
+[ext_resource type="PackedScene" uid="uid://c0prbcekd5ay7" path="res://Scenes/Characters/NPC/litik.tscn" id="35_0oc6g"]
+[ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
+[ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -2643,6 +2647,9 @@ animations = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_8a144"]
 size = Vector3(1.9667969, 2.437378, 1.8583984)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_7xnph"]
+size = Vector3(14.071045, 1, 11.084015)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_b66by"]
 size = Vector3(13.472656, 4.5057373, 1)
 
@@ -2700,6 +2707,7 @@ npc_name = "Bebang"
 npc_id = "bebang"
 dialogue_id = "bebang_default"
 dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0md02"), SubResource("Resource_ubr33"), SubResource("Resource_0oc6g"), SubResource("Resource_631tw")])
+cutscene_flags = null
 npc_frames = SubResource("SpriteFrames_ox5xy")
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
@@ -2707,7 +2715,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.6569
 npc_name = "Rids"
 npc_id = "rids"
 dialogue_id = "rids_first_talk"
-dialogue_entries = null
+cutscene_flags = null
 npc_frames = SubResource("SpriteFrames_5jb8g")
 can_wander = true
 
@@ -2716,7 +2724,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.3126698, 0.8666879, -61.822
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
-dialogue_entries = null
+cutscene_flags = null
 npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
@@ -2724,15 +2732,17 @@ can_wander = true
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 26.347689, 0.85757613, -59.55504)
 npc_name = "Ima"
 npc_id = "ima"
-dialogue_entries = null
+cutscene_flags = null
 npc_frames = SubResource("SpriteFrames_nax27")
 
-[node name="apu" parent="npc" unique_id=1006961691 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.3276217, 0.918553, -28.297337)
+[node name="apu" parent="npc" unique_id=1006961691 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -2.519099, 0.918553, -28.297337)
 npc_name = "Apu"
 npc_id = "apu"
-dialogue_id = "FirstTownSceneDialogues/meeting_apu"
+dialogue_id = "meeting_apu"
 dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_8qoby")])
+interaction_cutscenes = [NodePath("../../Scene3")]
+cutscene_flags = Array[String](["scene_3_apu"])
 npc_frames = SubResource("SpriteFrames_ppes2")
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
@@ -3293,7 +3303,7 @@ shape = SubResource("BoxShape3D_8a144")
 [node name="CutscenePoints" type="Node3D" parent="." unique_id=1266979120]
 
 [node name="Scene1StartPoint" type="Marker3D" parent="CutscenePoints" unique_id=1710863601]
-transform = Transform3D(-0.6757212, 0, 0.7371573, 0, 1, 0, -0.7371573, 0, -0.6757212, 37.96, 0.69, -40.005)
+transform = Transform3D(-0.6757212, 0, 0.7371573, 0, 1, 0, -0.7371573, 0, -0.6757212, 38.108326, 0.23664206, -40.45548)
 
 [node name="WellPoint" type="Marker3D" parent="CutscenePoints" unique_id=1925832626]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.94811, 2.8461976, -37.260242)
@@ -3307,11 +3317,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.018414, 0.6905799, -41.131
 [node name="BebangTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=2003384431]
 transform = Transform3D(-0.46030492, 0, 0.8877609, 0, 1, 0, -0.8877609, 0, -0.46030492, 9.526538, 0.6262915, -41.54365)
 
+[node name="StoryMarkers" type="Marker3D" parent="." unique_id=544631421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.388443, 0, -29.695984)
+
+[node name="LitikAppearPoint" type="Marker3D" parent="StoryMarkers" unique_id=1188552448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4612658, 0)
+
+[node name="LitikScenePlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=714424177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025029182, 0, 2.4720306)
+
+[node name="LitikSceneLitikPoint" type="Marker3D" parent="StoryMarkers" unique_id=170340479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2303392, 0)
+
+[node name="Camera" type="Marker3D" parent="StoryMarkers" unique_id=2078292894]
+transform = Transform3D(-0.19458087, -0.52116764, 0.830977, -0.11882208, 0.85345435, 0.5074416, -0.9736631, 0, -0.22799212, 2.7861557, 2.3847997, 1.5529671)
+
+[node name="Scene3Camera" type="Marker3D" parent="StoryMarkers" unique_id=1028416232]
+transform = Transform3D(0.808828, 0.5002663, 0.3090811, -0.5723659, 0.7903105, 0.2186471, -0.13488829, -0.3537554, 0.92556065, -5.015978, 1.555036, 4.947233)
+
+[node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.388443, 0, -29.695984)
+
+[node name="LitikAppearTrigger" type="Area3D" parent="StoryTrigger" unique_id=1986426696 node_paths=PackedStringArray("litik_cutscene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33256543, 0)
+script = ExtResource("32_631tw")
+litik_cutscene = NodePath("../../Scene2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/LitikAppearTrigger" unique_id=2051805543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2354736, 0, 0.71784973)
+shape = SubResource("BoxShape3D_7xnph")
+
+[node name="LitikCutscene" type="Node3D" parent="." unique_id=83601087]
+
 [node name="FirstTownIntro" type="Node" parent="." unique_id=811207447]
 script = ExtResource("27_x2wea")
 intro_timeline = "uid://n1t8vy8wgy1n"
 
 [node name="Scene1Cutscene" parent="." unique_id=1791518946 instance=ExtResource("32_8qoby")]
+
+[node name="Scene2" parent="." unique_id=1374041491 instance=ExtResource("35_vu2ah")]
+
+[node name="Scene3" parent="." unique_id=1949823004 instance=ExtResource("36_vu2ah")]
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)
@@ -3319,6 +3365,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Teleport" unique_id=1963276835]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15234375, 1.7528687, 0)
 shape = SubResource("BoxShape3D_b66by")
+
+[node name="litik" parent="." unique_id=268767707 instance=ExtResource("35_0oc6g")]
+transform = Transform3D(1.66, 0, 0, 0, 1.66, 0, 0, 0, 1.66, 0, 0.80734706, 0)
+visible = false
+npc_name = "Litik"
+npc_id = "litik"
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

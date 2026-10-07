@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c6cjijlpfmno6"]
+
+[ext_resource type="Script" uid="uid://c4mr7ni5a2s41" path="res://Scripts/Cutscene/CutsceneDirector.gd" id="1_na7uk"]
+[ext_resource type="Script" uid="uid://duhrpmind65fn" path="res://Scripts/Cutscene/CutsceneAction.gd" id="2_veii0"]
+
+[node name="Scene3" type="Node" unique_id=1949823004]
+script = ExtResource("1_na7uk")
+metadata/_custom_type_script = "uid://c4mr7ni5a2s41"
+
+[node name="01_face_apu" type="Node" parent="." unique_id=1260106137]
+script = ExtResource("2_veii0")
+actor_id = "apu"
+target_actor_id = "Player"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="02_face_player" type="Node" parent="." unique_id=1797028895]
+script = ExtResource("2_veii0")
+actor_id = "Player"
+target_actor_id = "apu"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="03_camera" type="Node" parent="." unique_id=218346230]
+script = ExtResource("2_veii0")
+target_id = "Scene3Camera"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="04_dialogue" type="Node" parent="." unique_id=666212188]
+script = ExtResource("2_veii0")
+timeline_path = "uid://cn2805hd4baru"
+metadata/_custom_type_script = "uid://duhrpmind65fn"

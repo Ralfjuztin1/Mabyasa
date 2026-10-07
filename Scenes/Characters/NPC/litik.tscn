@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://c0prbcekd5ay7"]
+
+[ext_resource type="Texture2D" uid="uid://bqi4txkuieeol" path="res://Assets/Characters/NPC_anims/Litik.png" id="1_ew6ut"]
+[ext_resource type="Script" uid="uid://c2l6h0bl3psgb" path="res://Scenes/Characters/NPC/litik.gd" id="1_w5l70"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5l70"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78b5x"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpr45"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l85u"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytptb"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3bu0"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfje3"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3iwiw"]
+atlas = ExtResource("1_ew6ut")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7xnph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5l70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78b5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpr45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7l85u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytptb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3bu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfje3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3iwiw")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[node name="Litik" type="CharacterBody3D" unique_id=268767707]
+script = ExtResource("1_w5l70")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1174620828]
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_7xnph")
+animation = &"idle"
+frame_progress = 0.7706413
+
+[node name="Label3D" type="Label3D" parent="." unique_id=173231560]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, 0.2530039, 0)
+billboard = 2
+text = "Litik
+"
+font_size = 33

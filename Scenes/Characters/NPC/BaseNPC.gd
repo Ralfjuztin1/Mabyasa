@@ -19,6 +19,18 @@ extends CharacterBody3D
 @export var dialogue_id: String = ""
 @export var dialogue_entries: Array[NPCDialogueEntry] = []
 
+
+@export_category("Interaction Cutscenes")
+
+## Multiple story cutscenes can be assigned in order.
+## The first available cutscene is played when the player interacts.
+@export var interaction_cutscenes: Array[CutsceneDirector] = []
+
+## One flag per cutscene, matching the same array index.
+## Leave a flag empty if that cutscene should be repeatable.
+@export var cutscene_flags: Array[String] = []
+
+
 @export var npc_frames: SpriteFrames:
 	set(value):
 		npc_frames = value
@@ -493,9 +505,66 @@ func _unhandled_input(
 			npc_id
 		)
 
+		# --------------------------------------------------------
+		# STORY CUTSCENES
+		# --------------------------------------------------------
+
+		if await _try_play_interaction_cutscene():
+			return
+
+		# --------------------------------------------------------
+		# NORMAL NPC DIALOGUE
+		# --------------------------------------------------------
+
 		DialogueManager.start_dialogue(
 			self
 		)
+
+
+# ============================================================
+# INTERACTION CUTSCENES
+# ============================================================
+
+func _try_play_interaction_cutscene() -> bool:
+
+	if interaction_cutscenes.is_empty():
+		return false
+
+	for index in range(interaction_cutscenes.size()):
+
+		var cutscene := interaction_cutscenes[index]
+
+		if not is_instance_valid(cutscene):
+			continue
+
+		var flag := ""
+
+		if index < cutscene_flags.size():
+			flag = cutscene_flags[index].strip_edges()
+
+		# A non-empty flag means this cutscene is one-time.
+		if not flag.is_empty():
+			if QuestManager.has_dialogue_flag(flag):
+				continue
+
+		print(
+			"[NPC] Playing interaction cutscene: ",
+			cutscene.name
+		)
+
+		await cutscene.play_sequence()
+
+		# Only mark the cutscene complete after the cutscene
+		# itself has finished.
+		if not flag.is_empty():
+			QuestManager.set_dialogue_flag(
+				flag,
+				true
+			)
+
+		return true
+
+	return false
 
 
 # ============================================================

@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://i05u3tkaegly"]
+
+[ext_resource type="Script" uid="uid://c4mr7ni5a2s41" path="res://Scripts/Cutscene/CutsceneDirector.gd" id="1_775oq"]
+[ext_resource type="Script" uid="uid://duhrpmind65fn" path="res://Scripts/Cutscene/CutsceneAction.gd" id="2_5cfgf"]
+
+[node name="CutsceneDirector" type="Node" unique_id=1374041491]
+script = ExtResource("1_775oq")
+metadata/_custom_type_script = "uid://c4mr7ni5a2s41"
+
+[node name="01_fade" type="Node" parent="." unique_id=2027138307]
+script = ExtResource("2_5cfgf")
+action_type = 10
+fade_duration = 0.2
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="02_tp_player" type="Node" parent="." unique_id=144498695]
+script = ExtResource("2_5cfgf")
+action_type = 1
+actor_id = "Player"
+target_id = "LitikScenePlayerPoint"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="03_tp_litik" type="Node" parent="." unique_id=668835828]
+script = ExtResource("2_5cfgf")
+action_type = 1
+actor_id = "litik"
+target_id = "LitikSceneLitikPoint"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="04_show" type="Node" parent="." unique_id=287607543]
+script = ExtResource("2_5cfgf")
+action_type = 12
+actor_id = "litik"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="05_face_player" type="Node" parent="." unique_id=2046682175]
+script = ExtResource("2_5cfgf")
+action_type = 3
+actor_id = "Player"
+target_actor_id = "litik"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="06_face_litik" type="Node" parent="." unique_id=1270536755]
+script = ExtResource("2_5cfgf")
+action_type = 3
+actor_id = "litik"
+target_actor_id = "Player"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="07_camera_shot" type="Node" parent="." unique_id=616651773]
+script = ExtResource("2_5cfgf")
+action_type = 8
+target_id = "Camera"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="08_fade" type="Node" parent="." unique_id=611997676]
+script = ExtResource("2_5cfgf")
+action_type = 11
+fade_duration = 0.3
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="09_dialogue" type="Node" parent="." unique_id=1657575128]
+script = ExtResource("2_5cfgf")
+action_type = 7
+timeline_path = "uid://bclhy447w5kw6"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="10_DISAPPEARAMONGTHESEAOFBUTTERFLIES" type="Node" parent="." unique_id=396120521]
+script = ExtResource("2_5cfgf")
+action_type = 12
+actor_id = "litik"
+timeline_path = "uid://bclhy447w5kw6"
+visible_state = false
+metadata/_custom_type_script = "uid://duhrpmind65fn"

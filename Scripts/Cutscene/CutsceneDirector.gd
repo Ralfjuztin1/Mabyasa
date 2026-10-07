@@ -379,6 +379,9 @@ func reset_actor_visual(actor: Node3D) -> void:
 	# Play Animation action can immediately choose another direction.
 	if sprite.sprite_frames.has_animation("idle_front"):
 		sprite.play("idle_front")
+	
+	if sprite.sprite_frames.has_animation("idle"):
+		sprite.play ("idle")
 
 
 func _find_animated_sprite(node: Node) -> AnimatedSprite3D:
