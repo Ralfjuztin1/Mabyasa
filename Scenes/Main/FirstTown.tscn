@@ -37,7 +37,6 @@
 [ext_resource type="PackedScene" uid="uid://c0prbcekd5ay7" path="res://Scenes/Characters/NPC/litik.tscn" id="35_0oc6g"]
 [ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
-[ext_resource type="Script" uid="uid://bouebb3legfs7" path="res://Scenes/Main/BattleTestGrant.gd" id="38_vq4af"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -3373,9 +3372,6 @@ transform = Transform3D(1.66, 0, 0, 0, 1.66, 0, 0, 0, 1.66, 0, 0.80734706, 0)
 visible = false
 npc_name = "Litik"
 npc_id = "litik"
-
-[node name="Node" type="Node" parent="." unique_id=482187181]
-script = ExtResource("38_vq4af")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

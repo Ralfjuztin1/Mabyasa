@@ -391,21 +391,38 @@ func _normalize_dialogue_path(
 # DIALOGIC SIGNALS
 # ============================================================
 
-func _on_dialogic_signal(
-	argument: Variant
-) -> void:
+func _on_dialogic_signal(argument: Variant) -> void:
 
 	var signal_name: String = str(
 		argument
 	).strip_edges()
 
 
-	if signal_name.is_empty():
-		return
+	# Dialogic may pass the signal as:
+	# learn_mayap_a_abak
+	#
+	# or:
+	# [signal arg="learn_mayap_a_abak"]
+	#
+	# Normalize both formats.
+
+	if signal_name.begins_with(
+		"[signal arg=\""
+	) and signal_name.ends_with(
+		"\"]"
+	):
+
+		signal_name = signal_name.trim_prefix(
+			"[signal arg=\""
+		)
+
+		signal_name = signal_name.trim_suffix(
+			"\"]"
+		)
 
 
 	print(
-		"[DIALOGUE] Signal received: ",
+		"[DIALOGUE] Normalized signal: ",
 		signal_name
 	)
 
