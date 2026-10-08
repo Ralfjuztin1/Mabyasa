@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "mayap_a_abak"
+kapampangan = "Mayap a abak"
+english = "Good morning"
+category = "greeting"
+difficulty = 1
+source_npc = "Litik"
+allowed_types = PackedStringArray("multiple_choice", "translate", "fill_blank", "match", "sentence_build")
+hint = "Use abak when it is morning."
+pronunciation = "/Mayap a yabak/"
+parts = PackedStringArray("mayap", "a", "abak")
+fill_blank_variants = [{"prompt": "It is morning. Complete the greeting:\nMayap a ____", "answer_id": "abak"}]
+sentence_distractors = PackedStringArray("bengi", "gatpanapun")

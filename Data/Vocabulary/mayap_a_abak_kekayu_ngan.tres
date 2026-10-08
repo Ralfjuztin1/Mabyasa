@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "mayap_a_abak_kekayu_ngan"
+kapampangan = "Mayap a abak kekayu ngan"
+english = "Good morning to all of you"
+category = "greeting"
+difficulty = 1
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
+hint = "Use this greeting for morning. The source gives: Good morning to all of you"
+parts = PackedStringArray("mayap", "a", "abak", "kekayu", "ngan")
+fill_blank_variants = [{"prompt": "It is morning. Complete the greeting:\nMayap a abak ____", "answer_id": "kekayu ngan"}]
+sentence_distractors = PackedStringArray("abak", "bengi", "gatpanapun", "aldo")
+lesson_group = "common_greetings"
+source_section = "common_greetings"

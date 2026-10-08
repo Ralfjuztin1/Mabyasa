@@ -13,6 +13,9 @@ Apu: Okay, how can you [color=yellow]greet everyone all at once?[/color]
 [wait time="1.0"]
 - Mayap a abak kekayu ngan!
 	Apu: Istu! That's the proper way of greeting everyone all at once!
+	[signal arg="[signal arg="learn_mayap_a_abak_kekayu_ngan"]"]
+	Apu: And also you can just say "Mayap a abak kekayu!"
+	[signal arg="[signal arg="learn_mayap_a_abak_kekayu"]"]
 	jump Apu_continuation
 - Mayap a abak!
 	Apu: Hmmm... yes its correct but there's a more proper way to greet [color=yellow]everyone.[/color]

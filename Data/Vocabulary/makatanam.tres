@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "makatanam"
+kapampangan = "makatanam"
+english = "six times"
+category = "word"
+difficulty = 3
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: makatanam = six times."
+lesson_group = "multiplicative_numerals"
+source_section = "multiplicative_numerals"

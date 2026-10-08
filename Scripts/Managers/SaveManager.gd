@@ -5,8 +5,13 @@ extends Node
 # SCENE PATHS
 # ============================================================
 
-const BOOT_SCENE_PATH := "res://Scenes/SceneManager/Main.tscn"
-const FIRST_TOWN_PATH := "res://Scenes/Main/FirstTown.tscn"
+const BOOT_SCENE_PATH: String = (
+	"res://Scenes/SceneManager/Main.tscn"
+)
+
+const FIRST_TOWN_PATH: String = (
+	"res://Scenes/Main/FirstTown.tscn"
+)
 
 
 # ============================================================
@@ -15,15 +20,24 @@ const FIRST_TOWN_PATH := "res://Scenes/Main/FirstTown.tscn"
 
 func _get_save_path() -> String:
 
-	var user_id: String = "guest"
+	var user_key: String = "guest"
 
-	if GameManager and not GameManager.active_user_email.is_empty():
+	if (
+		GameManager
+		and not GameManager.active_user_email.is_empty()
+	):
 
-		user_id = GameManager.active_user_email \
-			.replace("@", "_at_") \
+		user_key = (
+			GameManager.active_user_email
+			.replace("@", "_at_")
 			.replace(".", "_")
+		)
 
-	return "user://save_" + user_id + ".json"
+	return (
+		"user://save_"
+		+ user_key
+		+ ".json"
+	)
 
 
 # ============================================================
@@ -37,8 +51,8 @@ func _normalize_scene_path(
 	if scene_path == BOOT_SCENE_PATH:
 
 		print(
-			"⚠️ [SAVE MANAGER] Converting Main.tscn save path "
-			+ "to FirstTown.tscn."
+			"⚠️ [SAVE MANAGER] Converting Main.tscn "
+			+ "save path to FirstTown.tscn."
 		)
 
 		return FIRST_TOWN_PATH
@@ -54,12 +68,15 @@ func _normalize_save_data(
 	data: Dictionary
 ) -> Dictionary:
 
-	var normalized_data: Dictionary = data.duplicate(
-		true
+	var normalized_data: Dictionary = (
+		data.duplicate(true)
 	)
 
+
 	if (
-		normalized_data.has("current_scene")
+		normalized_data.has(
+			"current_scene"
+		)
 		and normalized_data["current_scene"] is String
 	):
 
@@ -68,6 +85,7 @@ func _normalize_save_data(
 				normalized_data["current_scene"]
 			)
 		)
+
 
 	return normalized_data
 
@@ -85,29 +103,38 @@ func save_game(
 	if not is_instance_valid(player):
 
 		push_warning(
-			"[SAVE MANAGER] Cannot save: player is invalid."
+			"[SAVE MANAGER] Cannot save: player invalid."
 		)
 
 		return
 
-	var file_path := _get_save_path()
 
-	# --------------------------------------------------------
-	# READ EXISTING DATA
-	# --------------------------------------------------------
-
-	var existing_data: Dictionary = _read_save_file(
-		file_path
+	var file_path: String = (
+		_get_save_path()
 	)
 
+
 	# --------------------------------------------------------
-	# TUTORIAL STATE
+	# EXISTING SAVE
+	# --------------------------------------------------------
+
+	var existing_data: Dictionary = (
+		_read_save_file(
+			file_path
+		)
+	)
+
+
+	# --------------------------------------------------------
+	# TUTORIAL
 	# --------------------------------------------------------
 
 	var previous_tutorial_status: bool = (
-		existing_data.get(
-			"tutorial_completed",
-			false
+		bool(
+			existing_data.get(
+				"tutorial_completed",
+				false
+			)
 		)
 	)
 
@@ -116,18 +143,39 @@ func save_game(
 		or tutorial_done
 	)
 
+
 	# --------------------------------------------------------
-	# NORMALIZE SCENE PATH
+	# SCENE
 	# --------------------------------------------------------
 
-	var normalized_scene_path := (
+	var normalized_scene_path: String = (
 		_normalize_scene_path(
 			current_scene_path
 		)
 	)
 
+
 	# --------------------------------------------------------
-	# BUILD SAVE DATA
+	# LANGUAGE
+	# --------------------------------------------------------
+	#
+	# THIS is the important addition.
+	#
+	# LanguageProgress data is stored inside the same account
+	# save as player progression, quests, etc.
+	# --------------------------------------------------------
+
+	var language_data: Dictionary = {}
+
+	if LanguageProgress:
+
+		language_data = (
+			LanguageProgress.get_save_data()
+		)
+
+
+	# --------------------------------------------------------
+	# BUILD ACCOUNT SAVE
 	# --------------------------------------------------------
 
 	var game_data: Dictionary = {
@@ -150,6 +198,9 @@ func save_game(
 			if PlayerProgression
 			else {},
 
+		"language":
+			language_data,
+
 		"time":
 			TimeManager.get_save_data()
 			if TimeManager
@@ -161,37 +212,45 @@ func save_game(
 			else {}
 	}
 
+
 	# --------------------------------------------------------
-	# WRITE LOCAL SAVE
+	# LOCAL SAVE
 	# --------------------------------------------------------
 
-	var file := FileAccess.open(
-		file_path,
-		FileAccess.WRITE
+	var file: FileAccess = (
+		FileAccess.open(
+			file_path,
+			FileAccess.WRITE
+		)
 	)
+
 
 	if file == null:
 
 		push_error(
-			"[SAVE MANAGER] Failed to open save file for writing: "
+			"[SAVE MANAGER] Failed to open: "
 			+ file_path
 		)
 
 		return
 
-	var json_string := JSON.stringify(
-		game_data,
-		"\t"
-	)
 
 	file.store_string(
-		json_string
+		JSON.stringify(
+			game_data,
+			"\t"
+		)
 	)
 
 	file.close()
 
+
 	# --------------------------------------------------------
 	# CLOUD SAVE
+	# --------------------------------------------------------
+	#
+	# SupabaseManager handles the cloud account using the
+	# authenticated Supabase user_id.
 	# --------------------------------------------------------
 
 	if SupabaseManager:
@@ -200,63 +259,41 @@ func save_game(
 			game_data
 		)
 
+
 	# --------------------------------------------------------
 	# DEBUG
 	# --------------------------------------------------------
 
 	print(
-		"💾 [SAVE MANAGER] Game successfully saved!"
+		"💾 [SAVE MANAGER] Account save completed."
 	)
 
 	print(
-		"   ├── Target User File:     ",
+		"   ├── Local account file: ",
 		file_path
 	)
 
 	print(
-		"   ├── Tutorial Completed?:  ",
+		"   ├── Tutorial: ",
 		final_tutorial_status
 	)
 
 	print(
-		"   ├── Saved Scene Path:     ",
+		"   ├── Scene: ",
 		normalized_scene_path
 	)
 
 	print(
-		"   └── Saved Position:       ",
-		player.global_position
+		"   └── Language entries: ",
+		language_data.get(
+			"learned",
+			[]
+		).size()
 	)
-
-	# --------------------------------------------------------
-	# QUEST DEBUG
-	# --------------------------------------------------------
-
-	if QuestManager:
-
-		var quest_save_data: Dictionary = (
-			QuestManager.get_save_data()
-		)
-
-		print(
-			"   ├── Active Quests:        ",
-			quest_save_data.get(
-				"active_quests",
-				{}
-			)
-		)
-
-		print(
-			"   └── Completed Quests:     ",
-			quest_save_data.get(
-				"completed_quests",
-				[]
-			)
-		)
 
 
 # ============================================================
-# READ SAVE FILE ONLY
+# READ SAVE FILE
 # ============================================================
 
 func _read_save_file(
@@ -266,74 +303,103 @@ func _read_save_file(
 	if not FileAccess.file_exists(
 		file_path
 	):
-
 		return {}
 
-	var file := FileAccess.open(
-		file_path,
-		FileAccess.READ
+
+	var file: FileAccess = (
+		FileAccess.open(
+			file_path,
+			FileAccess.READ
+		)
 	)
+
 
 	if file == null:
 		return {}
 
-	var json_text := file.get_as_text()
+
+	var json_text: String = (
+		file.get_as_text()
+	)
 
 	file.close()
+
 
 	if json_text.is_empty():
 		return {}
 
-	var json := JSON.new()
 
-	var error := json.parse(
-		json_text
+	var json: JSON = JSON.new()
+
+	var error: Error = (
+		json.parse(
+			json_text
+		)
 	)
+
 
 	if error != OK:
 
 		push_error(
-			"[SAVE MANAGER] Existing save JSON is invalid: "
+			"[SAVE MANAGER] Invalid JSON: "
 			+ json.get_error_message()
 		)
 
 		return {}
 
-	var data = json.get_data()
 
-	if data is Dictionary:
-		return data
+	var raw_data: Variant = (
+		json.get_data()
+	)
+
+
+	if raw_data is Dictionary:
+
+		return (
+			raw_data as Dictionary
+		)
+
 
 	return {}
 
 
 # ============================================================
-# WRITE RAW SAVE DATA
+# CLOUD DATA -> LOCAL ACCOUNT CACHE
 # ============================================================
 
 func write_raw_save_data(
 	data: Dictionary
 ) -> void:
 
-	var normalized_data := _normalize_save_data(
-		data
+	var normalized_data: Dictionary = (
+		_normalize_save_data(
+			data
+		)
 	)
 
-	var file_path := _get_save_path()
 
-	var file := FileAccess.open(
-		file_path,
-		FileAccess.WRITE
+	var file_path: String = (
+		_get_save_path()
 	)
+
+
+	var file: FileAccess = (
+		FileAccess.open(
+			file_path,
+			FileAccess.WRITE
+		)
+	)
+
 
 	if file == null:
 
 		push_error(
-			"[SAVE MANAGER] Failed to open save file for cloud write: "
-			+ file_path
+			"[SAVE MANAGER] Failed to write cloud "
+			+ "data to local cache."
 		)
 
 		return
+
 
 	file.store_string(
 		JSON.stringify(
@@ -344,9 +410,10 @@ func write_raw_save_data(
 
 	file.close()
 
+
 	print(
-		"☁️ [SAVE MANAGER] Cloud save written to local cache: ",
-		file_path
+		"☁️ [SAVE MANAGER] Cloud save restored "
+		+ "to local account cache."
 	)
 
 
@@ -356,36 +423,43 @@ func write_raw_save_data(
 
 func load_game() -> Dictionary:
 
-	var file_path := _get_save_path()
+	var file_path: String = (
+		_get_save_path()
+	)
+
 
 	if not FileAccess.file_exists(
 		file_path
 	):
 
 		print(
-			"📂 [SAVE MANAGER] No save file found for user at: ",
+			"📂 [SAVE MANAGER] No save found for account: ",
 			file_path
 		)
 
 		return {}
 
-	var raw_data := _read_save_file(
-		file_path
+
+	var raw_data: Dictionary = (
+		_read_save_file(
+			file_path
+		)
 	)
+
 
 	if raw_data.is_empty():
 		return {}
 
-	# --------------------------------------------------------
-	# NORMALIZE OLD SAVE
-	# --------------------------------------------------------
 
-	var data := _normalize_save_data(
-		raw_data
+	var data: Dictionary = (
+		_normalize_save_data(
+			raw_data
+		)
 	)
 
+
 	# --------------------------------------------------------
-	# RESTORE PROGRESSION
+	# PLAYER
 	# --------------------------------------------------------
 
 	if (
@@ -393,12 +467,52 @@ func load_game() -> Dictionary:
 		and PlayerProgression
 	):
 
-		PlayerProgression.load_save_data(
+		var progression_data: Variant = (
 			data["progression"]
 		)
 
+		if progression_data is Dictionary:
+
+			PlayerProgression.load_save_data(
+				progression_data as Dictionary
+			)
+
+
 	# --------------------------------------------------------
-	# RESTORE TIME
+	# LANGUAGE
+	# --------------------------------------------------------
+	#
+	# This restores THIS ACCOUNT'S language progress.
+	# --------------------------------------------------------
+
+	if (
+		data.has("language")
+		and LanguageProgress
+	):
+
+		var language_data: Variant = (
+			data["language"]
+		)
+
+		if language_data is Dictionary:
+
+			LanguageProgress.load_save_data(
+				language_data as Dictionary
+			)
+
+	else:
+
+		# Old save without language data.
+		# This account simply starts with no learned vocabulary.
+		if LanguageProgress:
+
+			LanguageProgress.load_save_data(
+				{}
+			)
+
+
+	# --------------------------------------------------------
+	# TIME
 	# --------------------------------------------------------
 
 	if (
@@ -406,12 +520,19 @@ func load_game() -> Dictionary:
 		and TimeManager
 	):
 
-		TimeManager.load_save_data(
+		var time_data: Variant = (
 			data["time"]
 		)
 
+		if time_data is Dictionary:
+
+			TimeManager.load_save_data(
+				time_data as Dictionary
+			)
+
+
 	# --------------------------------------------------------
-	# RESTORE QUESTS
+	# QUESTS
 	# --------------------------------------------------------
 
 	if (
@@ -419,62 +540,45 @@ func load_game() -> Dictionary:
 		and QuestManager
 	):
 
-		QuestManager.load_save_data(
+		var quest_data: Variant = (
 			data["quests"]
 		)
+
+		if quest_data is Dictionary:
+
+			QuestManager.load_save_data(
+				quest_data as Dictionary
+			)
+
 
 	# --------------------------------------------------------
 	# DEBUG
 	# --------------------------------------------------------
 
 	print(
-		"📂 [SAVE MANAGER] Save file loaded successfully!"
+		"📂 [SAVE MANAGER] Account save loaded."
 	)
 
 	print(
-		"   ├── File Path:  ",
+		"   ├── Account file: ",
 		file_path
 	)
 
 	print(
-		"   ├── Map Scene:  ",
+		"   ├── Scene: ",
 		data.get(
 			"current_scene",
 			"Unknown"
 		)
 	)
 
-	print(
-		"   └── Coordinates:",
-		data.get(
-			"player_position",
-			"Unknown"
-		)
-	)
-
-	# --------------------------------------------------------
-	# QUEST DEBUG
-	# --------------------------------------------------------
-
-	if data.has("quests"):
-
-		var quest_data = data["quests"]
+	if LanguageProgress:
 
 		print(
-			"   ├── Active Quests:    ",
-			quest_data.get(
-				"active_quests",
-				{}
-			)
+			"   └── Learned vocabulary: ",
+			LanguageProgress.get_learned_entries().size()
 		)
 
-		print(
-			"   └── Completed Quests: ",
-			quest_data.get(
-				"completed_quests",
-				[]
-			)
-		)
 
 	return data
 

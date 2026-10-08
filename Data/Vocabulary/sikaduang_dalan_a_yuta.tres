@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "sikaduang_dalan_a_yuta"
+kapampangan = "sikaduang dalan a yuta"
+english = "one-two hundred millionth"
+category = "phrase"
+difficulty = 3
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: sikaduang dalan a yuta means one-two hundred millionth."
+lesson_group = "partitive_numerals"
+source_section = "partitive_numerals"

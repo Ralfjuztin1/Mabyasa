@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "labing_adwa"
+kapampangan = "labing adwa"
+english = "twelve"
+category = "phrase"
+difficulty = 2
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: labing adwa means twelve."
+lesson_group = "cardinal_numbers"
+source_section = "cardinal_numbers"

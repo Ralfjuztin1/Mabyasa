@@ -7,22 +7,23 @@ content_margin_left = 16.0
 content_margin_top = 12.0
 content_margin_right = 16.0
 content_margin_bottom = 12.0
-bg_color = Color(0.1, 0.1, 0.09, 0.95)
+bg_color = Color(0.10, 0.10, 0.09, 0.97)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.72, 0.62, 0.36, 0.55)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_color = Color(0.72, 0.62, 0.36, 0.62)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
 shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 4
+shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
 [node name="AnswerCard" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 56)
+mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_answer_card")
 

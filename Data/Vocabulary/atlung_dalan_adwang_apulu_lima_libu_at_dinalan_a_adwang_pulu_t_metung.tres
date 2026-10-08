@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "atlung_dalan_adwang_apulu_lima_libu_at_dinalan_a_adwang_pulu_t_metung"
+kapampangan = "atlung dalan adwang apulu lima libu at dinalan a adwang pulu't metung"
+english = "three hundred twenty-five thousand one hundred and twenty-one"
+category = "phrase"
+difficulty = 2
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: atlung dalan adwang apulu lima libu at dinalan a adwang pulu't metung means three hundred twenty-five thousand one hundred and twenty-one."
+lesson_group = "cardinal_numbers"
+source_section = "cardinal_numbers"

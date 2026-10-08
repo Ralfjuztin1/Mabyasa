@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "taga_nu_karin_ka"
+kapampangan = "Taga nu karin ka?"
+english = "Where are you from?"
+category = "phrase"
+difficulty = 1
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: Taga nu karin ka? means Where are you from?."
+lesson_group = "common_greetings"
+source_section = "common_greetings"

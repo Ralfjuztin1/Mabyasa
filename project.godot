@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 
 SupabaseManager="*uid://bgsvuf0ko0l67"
 GameManager="*uid://c0g2g73lnjsd0"
+LanguageProgress="*res://Scripts/Learning/LanguageProgress.gd"
 TransitionManager="*uid://cs8yx3ottg1hh"
 SaveManager="*uid://b5q4pq0a7jrnb"
 TutorialManager="*uid://bocr1ftvonao"
@@ -42,7 +43,7 @@ directories/dch_directory={
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
-"FirstTownSceneDialogues/bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
+"bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
 "bebang_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_qc.dtl",
 "bebang_quest_active": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_active.dtl",
 "bebang_quest_ns": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_ns.dtl",
@@ -54,8 +55,7 @@ directories/dtl_directory={
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
-"waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl",
-"walk_with_litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/walk_with_litik.dtl"
+"waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"
 }
 layout/style_directory={
 "": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "anam_a_apulu"
+kapampangan = "anam a apulu"
+english = "sixty"
+category = "phrase"
+difficulty = 2
+source_npc = ""
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: anam a apulu means sixty."
+lesson_group = "cardinal_numbers"
+source_section = "cardinal_numbers"

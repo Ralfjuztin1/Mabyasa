@@ -109,9 +109,9 @@ func _on_quiz_requested(question: QuizQuestion) -> void:
 	quiz_ui.start_quiz(question)
 
 
-func _on_quiz_answer_selected(index: int) -> void:
+func _on_quiz_answer_selected(payload: Variant) -> void:
 	bottom_bar.visible = true
-	BattleManager.submit_quiz_answer(index)
+	BattleManager.submit_quiz_answer(payload)
 
 
 func _on_battle_log(message: String) -> void:

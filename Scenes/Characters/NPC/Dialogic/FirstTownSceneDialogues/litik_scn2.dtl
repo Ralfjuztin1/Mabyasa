@@ -18,6 +18,7 @@ label 1st lesson
 Litik: Mayap = Good.\
 a = a connector\
 Abak = Morning
+[signal arg="[signal arg="learn_mayap_a_abak"]"]
 Litik: Are you getting it?
 - I get it.
 	Litik: Good
