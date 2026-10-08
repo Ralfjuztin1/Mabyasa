@@ -21,6 +21,7 @@ const RECENT_MEMORY := 3
 const RECENT_KIND_MEMORY := 2
 const RETRY_DELAY := 1
 const TIMEOUT_FEEDBACK_DELAY := 1.8
+const WRONG_FEEDBACK_DELAY := 1.2
 
 var battle_active := false
 var awaiting_quiz_response := false
@@ -151,6 +152,15 @@ func _auto_acknowledge_timeout_feedback() -> void:
 	acknowledge_feedback()
 
 
+
+func _auto_acknowledge_wrong_feedback() -> void:
+	await get_tree().create_timer(WRONG_FEEDBACK_DELAY).timeout
+
+	if not battle_active or not awaiting_feedback:
+		return
+
+	acknowledge_feedback()
+
 func player_use_potion() -> void:
 	if not battle_active or awaiting_quiz_response or awaiting_feedback:
 		return
@@ -222,6 +232,8 @@ func _apply_attack(damage_mult: float, result: AnswerResult) -> void:
 
 		if result.timed_out:
 			_auto_acknowledge_timeout_feedback()
+		else:
+			_auto_acknowledge_wrong_feedback()
 
 		return
 

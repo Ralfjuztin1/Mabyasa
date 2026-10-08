@@ -18,7 +18,8 @@ extends Node
 ## SaveManager stores this data inside the account save.
 ##
 ## IMPORTANT:
-## Encountered != Learned.
+## Encountered and learned are separate records, but battle eligibility
+## is based on ENCOUNTERED vocabulary.
 ##
 ## encountered:
 ## The player has seen/heard the word or phrase.
@@ -26,7 +27,7 @@ extends Node
 ## learned:
 ## The story explicitly taught the word or phrase.
 ##
-## Only learned vocabulary is allowed in battle.
+## Only encountered vocabulary is allowed in battle.
 ## ============================================================
 
 
@@ -256,6 +257,40 @@ func is_learned(
 	return _learned.has(
 		vocab_id
 	)
+
+
+func get_encountered_entries() -> Array[VocabEntry]:
+	var result: Array[VocabEntry] = []
+
+	for raw_id: Variant in _encountered.keys():
+		var id: String = str(raw_id)
+
+		if not _entries.has(id):
+			continue
+
+		var entry: VocabEntry = _entries[id] as VocabEntry
+		if entry != null:
+			result.append(entry)
+
+	return result
+
+
+func get_encountered_combat_entries() -> Array[VocabEntry]:
+	var result: Array[VocabEntry] = []
+
+	for entry: VocabEntry in get_encountered_entries():
+		if entry.category == "particle":
+			continue
+
+		if (
+			entry.allowed_types.has("multiple_choice")
+			or entry.allowed_types.has("translate")
+			or entry.allowed_types.has("fill_blank")
+			or entry.allowed_types.has("match")
+		):
+			result.append(entry)
+
+	return result
 
 
 func get_learned_entries() -> Array[VocabEntry]:
@@ -512,7 +547,7 @@ func record_result(
 	if vocab_id.is_empty():
 		return
 
-	if not _learned.has(vocab_id):
+	if not _encountered.has(vocab_id):
 		return
 
 	var raw_existing: Variant = (
