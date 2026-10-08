@@ -20,9 +20,28 @@ const FIRST_TOWN_PATH: String = (
 
 func _get_save_path() -> String:
 
-	var user_key: String = "guest"
+	var user_key: String = ""
+
+
+	# --------------------------------------------------------
+	# SUPABASE ACCOUNT ID
+	# --------------------------------------------------------
 
 	if (
+		SupabaseManager
+		and not SupabaseManager.current_user_id.is_empty()
+	):
+
+		user_key = (
+			SupabaseManager.current_user_id
+		)
+
+
+	# --------------------------------------------------------
+	# EMAIL FALLBACK
+	# --------------------------------------------------------
+
+	elif (
 		GameManager
 		and not GameManager.active_user_email.is_empty()
 	):
@@ -33,12 +52,21 @@ func _get_save_path() -> String:
 			.replace(".", "_")
 		)
 
+
+	# --------------------------------------------------------
+	# NO ACCOUNT
+	# --------------------------------------------------------
+
+	else:
+
+		user_key = "guest"
+
+
 	return (
-		"user://save_"
+		"user://save_account_"
 		+ user_key
 		+ ".json"
 	)
-
 
 # ============================================================
 # NORMALIZE SCENE PATH
@@ -371,7 +399,11 @@ func write_raw_save_data(
 	data: Dictionary
 ) -> void:
 
-	var normalized_data: Dictionary = (
+	if data.is_empty():
+		return
+
+
+	var cloud_data: Dictionary = (
 		_normalize_save_data(
 			data
 		)
@@ -382,6 +414,109 @@ func write_raw_save_data(
 		_get_save_path()
 	)
 
+
+	# --------------------------------------------------------
+	# READ EXISTING LOCAL ACCOUNT SAVE
+	# --------------------------------------------------------
+
+	var local_data: Dictionary = (
+		_read_save_file(
+			file_path
+		)
+	)
+
+
+	# --------------------------------------------------------
+	# MERGE CLOUD + LOCAL
+	# --------------------------------------------------------
+	#
+	# Cloud remains the main source.
+	# But if the cloud save is missing data that already exists
+	# locally, preserve the local data instead of destroying it.
+	#
+	# This is especially important for language progress.
+	# --------------------------------------------------------
+
+	var merged_data: Dictionary = (
+		cloud_data.duplicate(true)
+	)
+
+
+	var sections: Array[String] = [
+		"progression",
+		"language",
+		"time",
+		"quests"
+	]
+
+
+	for section: String in sections:
+
+		var local_section: Variant = (
+			local_data.get(
+				section,
+				null
+			)
+		)
+
+
+		var cloud_section: Variant = (
+			cloud_data.get(
+				section,
+				null
+			)
+		)
+
+
+		# Section missing from cloud.
+		if cloud_section == null:
+
+			if local_section != null:
+
+				merged_data[section] = (
+					local_section
+				)
+
+			continue
+
+
+		# Language/progression/etc. exists locally but cloud has
+		# an empty dictionary. Preserve local progress.
+		if (
+			cloud_section is Dictionary
+			and local_section is Dictionary
+			and (cloud_section as Dictionary).is_empty()
+			and not (local_section as Dictionary).is_empty()
+		):
+
+			merged_data[section] = (
+				local_section
+			)
+
+
+	# --------------------------------------------------------
+	# TUTORIAL
+	# --------------------------------------------------------
+
+	if (
+		local_data.has("tutorial_completed")
+		and bool(
+			local_data["tutorial_completed"]
+		)
+		and not bool(
+			merged_data.get(
+				"tutorial_completed",
+				false
+			)
+		)
+	):
+
+		merged_data["tutorial_completed"] = true
+
+
+	# --------------------------------------------------------
+	# WRITE MERGED ACCOUNT SAVE
+	# --------------------------------------------------------
 
 	var file: FileAccess = (
 		FileAccess.open(
@@ -394,8 +529,8 @@ func write_raw_save_data(
 	if file == null:
 
 		push_error(
-			"[SAVE MANAGER] Failed to write cloud "
-			+ "data to local cache."
+			"[SAVE MANAGER] Failed to write merged cloud "
+			+ "save to local cache."
 		)
 
 		return
@@ -403,7 +538,7 @@ func write_raw_save_data(
 
 	file.store_string(
 		JSON.stringify(
-			normalized_data,
+			merged_data,
 			"\t"
 		)
 	)
@@ -412,10 +547,14 @@ func write_raw_save_data(
 
 
 	print(
-		"☁️ [SAVE MANAGER] Cloud save restored "
-		+ "to local account cache."
+		"☁️ [SAVE MANAGER] Cloud save merged into "
+		+ "local account cache."
 	)
 
+	print(
+		"   └── Preserved local language: ",
+		merged_data.has("language")
+	)
 
 # ============================================================
 # LOAD GAME
