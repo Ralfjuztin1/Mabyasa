@@ -1114,11 +1114,7 @@ static func _build_match(
 	)
 
 
-	var right_entries: Array[VocabEntry] = (
-		candidates.duplicate()
-	)
-
-	right_entries.shuffle()
+	var right_entries: Array[VocabEntry] = candidates.duplicate()
 
 
 	for entry: VocabEntry in candidates:

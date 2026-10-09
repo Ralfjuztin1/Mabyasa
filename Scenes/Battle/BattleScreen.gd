@@ -34,7 +34,10 @@ signal closed
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
+	
+	# Show cursor for battle UI.
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	attack_button.pressed.connect(_on_attack_pressed)
 	potion_button.pressed.connect(_on_potion_pressed)
 	continue_button.pressed.connect(_on_continue_pressed)
@@ -105,6 +108,7 @@ func _on_quiz_requested(question: QuizQuestion) -> void:
 	# Bottom bar hides while the quiz overlay is up — the sword and
 	# cards occupy roughly the same screen region, and having both
 	# visible at once would be redundant.
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	bottom_bar.visible = false
 	quiz_ui.start_quiz(question)
 
@@ -123,7 +127,7 @@ func _on_battle_ended(victory: bool) -> void:
 	message_label.text = (
 		"You won the fight!" if victory else "You were defeated..."
 	)
-
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	attack_button.visible = false
 	potion_button.visible = false
 	continue_button.visible = true
@@ -146,3 +150,4 @@ func _on_potion_pressed() -> void:
 func _on_continue_pressed() -> void:
 	closed.emit()
 	queue_free()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
