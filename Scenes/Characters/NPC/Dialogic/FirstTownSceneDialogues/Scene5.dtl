@@ -1,0 +1,14 @@
+"Kuya Dino": Mayap a Abak \:)
+label repeat
+You: Litik just showed me this one. Mayap... a... abak.
+- Mayap a Abak
+	"Kuya Dino": Hah! There it is. Good to see you're still in there.
+	jump continue
+- Mayap a Bengi
+	"Kuya Dino": It's not evening yet..
+	jump repeat
+- Mayap a Gatpanapun
+	"Kuya Dino": It's not afternoon  yet..
+	jump repeat
+label continue
+Litik: Told you. We make a decent team already.

@@ -1,0 +1,18 @@
+Litik: Look ahead—the narrow dirt path gets tight right by Ale Pacing's vegetable stand, and there's a big wooden cart blocking the way.
+Litik: In a small village like ours, when you need to pass close by someone working in a narrow space, say "Makilabas ku pu!" to excuse yourself politely.
+label return
+- Makilabas ku pu!
+	"Ale Pacing": Ah, Mayap a abak! Thanks for being mindful of the narrow path.
+	jump continue
+- Mayap a abak!
+	"Ale Pacing": Mayap a abak!
+	jump return
+- Mayap a gatpanapun
+	"Ale Pacing": It's not afternoon yet..
+label continue
+"Ale Pacing": Ah, Mayap a aldo! Thanks for being mindful of the narrow path.
+"Ale Pacing": Here, take a fresh sweet potato for your trouble—just pulled them from the soil this morning.
+Litik: Quick—to thank someone in Kapampangan, you say "Salamat"! But when someone is extra generous like Ale Pacing, add "Dakal a" in front—"Dakal a salamat" means thank you very much!
+You: Dakal a salamat!
+"Ale Pacing": Ala pung nanu man!
+"Ale Pacing": If you're walking down toward the big shade tree, could you bring this basket to Tomas? He's resting on the wooden bench there before lunch.

@@ -615,7 +615,7 @@ max_pitch = 5.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.093265735, 0)
 shape = SubResource("CapsuleShape3D_7xnph")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=351322556]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=351322556 groups=["battle_player_sprite"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14846997, 0)
 billboard = 2
 shaded = true

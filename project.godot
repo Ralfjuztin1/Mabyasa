@@ -33,16 +33,19 @@ BattleManager="*uid://cdv3581eacjts"
 [dialogic]
 
 directories/dch_directory={
+"Ale Pacing": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ale Pacing.dch",
 "Apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Apu.dch",
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
 "Dara Bebang": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Dara Bebang.dch",
 "Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",
+"Kuya Dino": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Kuya Dino.dch",
 "Litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Litik.dch",
 "Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
 "You": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/You.dch",
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
+"Scene5": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/Scene5.dtl",
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
 "bebang_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_qc.dtl",
 "bebang_quest_active": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_active.dtl",
@@ -55,6 +58,7 @@ directories/dtl_directory={
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
+"scene6": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/scene6.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"
 }
 layout/style_directory={
