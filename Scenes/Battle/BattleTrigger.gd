@@ -1,7 +1,8 @@
 extends Area3D
 
-## Small reusable trigger for testing or placing fixed encounters.
+## Reusable trigger for fixed encounters.
 ## Set is_boss=true for a sentence-building boss fight.
+## enemy_battle_sprite is optional; leave empty until the enemy art is ready.
 
 @export var enemy_id: String = "training_enemy"
 @export var enemy_name: String = "Training Enemy"
@@ -11,16 +12,18 @@ extends Area3D
 @export var enemy_exp_reward: int = 20
 @export var enemy_gold_reward: int = 10
 @export var is_boss: bool = false
+@export var enemy_battle_sprite: Texture2D
+@export var enemy_battle_flip_h: bool = false
 
 const BATTLE_SCREEN_SCENE: PackedScene = preload("res://Scenes/Battle/BattleScreen.tscn")
 
-var player_in_range := false
-
+var player_in_range: bool = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not player_in_range or BattleManager.battle_active:
 		return
+
 	if event.is_action_pressed("interact"):
 		_start_battle()
 
@@ -45,6 +48,8 @@ func _start_battle() -> void:
 	enemy_data.exp_reward = enemy_exp_reward
 	enemy_data.gold_reward = enemy_gold_reward
 	enemy_data.is_boss = is_boss
+	enemy_data.battle_sprite = enemy_battle_sprite
+	enemy_data.battle_sprite_flip_h = enemy_battle_flip_h
 
 	var battle_screen := BATTLE_SCREEN_SCENE.instantiate()
 	get_tree().current_scene.add_child(battle_screen)

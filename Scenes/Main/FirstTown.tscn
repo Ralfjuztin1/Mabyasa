@@ -3298,7 +3298,7 @@ can_interact = true
 animal_frames = SubResource("SpriteFrames_n7o3d")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=396528128]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.364913, 0, -36.11724)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7026186, 0, -32.671165)
 script = ExtResource("25_sgv20")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1474998164]

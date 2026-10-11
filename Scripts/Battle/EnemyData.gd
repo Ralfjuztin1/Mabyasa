@@ -11,3 +11,10 @@ extends Resource
 
 ## Boss fights switch the language challenge to sentence construction.
 @export var is_boss: bool = false
+
+## Optional static battle portrait/sprite. Assign it on a BattleTrigger.
+## Sprite sheets/AnimatedSprite3D are not required for enemies yet.
+@export var battle_sprite: Texture2D
+
+## Enable if the supplied enemy texture faces left and should face the player.
+@export var battle_sprite_flip_h: bool = false

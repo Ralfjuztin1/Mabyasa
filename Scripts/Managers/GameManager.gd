@@ -18,6 +18,11 @@ enum GameState {
 var active_user_email: String = ""
 var should_load_save: bool = false
 
+# Invalidates deferred save jobs and cloud-load continuations whenever the
+# active account changes. Prevents delayed work from one session affecting another.
+var _session_generation: int = 0
+var _session_ready: bool = false
+
 var current_state: GameState = (
 	GameState.EXPLORATION
 )
@@ -253,13 +258,26 @@ func request_save() -> void:
 
 func _queue_quest_save() -> void:
 
+	# Do not queue account saves until a real authenticated account is active.
+	if (
+		not _session_ready
+		or active_user_email.is_empty()
+		or not SupabaseManager
+		or SupabaseManager.current_user_id.is_empty()
+	):
+		return
+
 	if quest_save_queued:
 		return
 
 	quest_save_queued = true
+	var queued_generation: int = _session_generation
+	var queued_user_id: String = SupabaseManager.current_user_id
 
 	call_deferred(
-		"_save_progress"
+		"_save_progress",
+		queued_generation,
+		queued_user_id
 	)
 
 
@@ -267,9 +285,28 @@ func _queue_quest_save() -> void:
 # SAVE PROGRESS
 # ============================================================
 
-func _save_progress() -> void:
+func _save_progress(
+	queued_generation: int,
+	queued_user_id: String
+) -> void:
+
+	# A deferred save from a previous account must not run after a switch.
+	# Do not clear quest_save_queued for a newer session's queued job.
+	if queued_generation != _session_generation:
+		return
 
 	quest_save_queued = false
+
+	# Re-check account identity because login/logout may have happened after
+	# the deferred callback was queued.
+	if (
+		not _session_ready
+		or active_user_email.is_empty()
+		or not SupabaseManager
+		or SupabaseManager.current_user_id.is_empty()
+		or SupabaseManager.current_user_id != queued_user_id
+	):
+		return
 
 
 	# --------------------------------------------------------
@@ -373,6 +410,10 @@ func _perform_emergency_save_and_quit() -> void:
 		is_instance_valid(player)
 		and player is CharacterBody3D
 		and SaveManager
+		and _session_ready
+		and not active_user_email.is_empty()
+		and SupabaseManager
+		and not SupabaseManager.current_user_id.is_empty()
 	):
 
 		if (
@@ -387,6 +428,12 @@ func _perform_emergency_save_and_quit() -> void:
 			)
 
 
+	# Give the final cloud upload a moment to finish before quitting.
+	if SupabaseManager:
+
+		await SupabaseManager.wait_until_idle(3.0)
+
+
 	tree.quit()
 
 
@@ -398,72 +445,50 @@ func initialize_session(
 	email: String
 ) -> void:
 
-	active_user_email = (
-		email.strip_edges().to_lower()
-	)
+	# Each invocation is a new session generation. If another login/logout
+	# happens while the cloud fetch is awaiting a response, this invocation
+	# will stop before it writes or loads anything.
+	_session_generation += 1
+	var session_generation: int = _session_generation
+	var normalized_email: String = email.strip_edges().to_lower()
+	_session_ready = false
 
+	active_user_email = ""
+	_reset_runtime_state()
+	active_user_email = normalized_email
 
-	# --------------------------------------------------------
-	# CRITICAL ACCOUNT ISOLATION
-	# --------------------------------------------------------
-	#
-	# Always clear the language state belonging to the previous
-	# account before loading the new account.
-	#
-	# This prevents:
-	#
-	# Account A
-	# learned Mayap a abak
-	#
-	# ↓ logout/login
-	#
-	# Account B
-	# accidentally still knows Mayap a abak
-	#
-	# --------------------------------------------------------
-
-	if LanguageProgress:
-
-		LanguageProgress.reset()
-
-
-	# --------------------------------------------------------
-	# SUPABASE EMAIL
-	# --------------------------------------------------------
-
-	if SupabaseManager:
-
-		SupabaseManager.current_user_email = (
-			active_user_email
+	# Local files and Supabase rows are keyed by authenticated user ID.
+	if (
+		not SupabaseManager
+		or SupabaseManager.current_user_id.is_empty()
+	):
+		push_error(
+			"[GAME MANAGER] No authenticated Supabase user ID. "
+			+ "Not loading or saving any account data."
 		)
+		active_user_email = ""
+		return
 
+	var session_user_id: String = SupabaseManager.current_user_id
+	SupabaseManager.current_user_email = normalized_email
 
-	# --------------------------------------------------------
-	# CLOUD SAVE FIRST
-	# --------------------------------------------------------
-	#
-	# The cloud save belongs to the authenticated Supabase
-	# user ID.
-	# --------------------------------------------------------
+	# Cloud save first. Capture account ID above and validate it again after
+	# await, because the player may log out or switch accounts while waiting.
+	var cloud_data: Dictionary = await SupabaseManager.fetch_save_from_cloud()
+	if (
+		session_generation != _session_generation
+		or active_user_email != normalized_email
+		or not SupabaseManager
+		or SupabaseManager.current_user_id != session_user_id
+	):
+		return
 
-	if SupabaseManager:
-
-		var cloud_data: Dictionary = (
-			await SupabaseManager.fetch_save_from_cloud()
+	if not cloud_data.is_empty():
+		SaveManager.write_raw_save_data(cloud_data)
+		print(
+			"☁️ [GAME MANAGER] Cloud account save restored for: ",
+			normalized_email
 		)
-
-
-		if not cloud_data.is_empty():
-
-			SaveManager.write_raw_save_data(
-				cloud_data
-			)
-
-			print(
-				"☁️ [GAME MANAGER] Cloud account save "
-				+ "restored for: ",
-				active_user_email
-			)
 
 
 	# --------------------------------------------------------
@@ -471,7 +496,10 @@ func initialize_session(
 	# --------------------------------------------------------
 
 	if (
-		SaveManager
+		session_generation == _session_generation
+		and SupabaseManager
+		and SupabaseManager.current_user_id == session_user_id
+		and SaveManager
 		and SaveManager.has_save()
 	):
 
@@ -533,6 +561,10 @@ func initialize_session(
 
 	else:
 
+		# Never label an abandoned load as the current account's fresh session.
+		if session_generation != _session_generation or not SupabaseManager or SupabaseManager.current_user_id != session_user_id:
+			return
+
 		should_load_save = false
 
 
@@ -546,6 +578,10 @@ func initialize_session(
 			active_user_email
 		)
 
+	# Saving is enabled only after this account's cloud/local save decision and
+	# all state restoration are finished.
+	_session_ready = true
+
 
 # ============================================================
 # CLEAR SESSION
@@ -553,77 +589,79 @@ func initialize_session(
 
 func clear_session_data() -> void:
 
-	should_load_save = false
+	# Invalidate deferred saves and any pending cloud-load continuation.
+	_session_generation += 1
+	_session_ready = false
 
-
-	current_level_path = (
-		"res://Scenes/Main/FirstTown.tscn"
-	)
-
-
+	# Block any further saves first.
 	active_user_email = ""
-
-	quest_save_queued = false
 
 
 	# --------------------------------------------------------
 	# SUPABASE
 	# --------------------------------------------------------
+	#
+	# Clears the user ID, tokens and any queued cloud save.
+	# --------------------------------------------------------
 
 	if SupabaseManager:
 
-		SupabaseManager.current_user_email = ""
-		SupabaseManager.current_user_id = ""
-		SupabaseManager.session_token = ""
+		SupabaseManager.clear_session()
 
 
-	# --------------------------------------------------------
+	_reset_runtime_state()
+
+
+	print(
+		"🔄 [GAME MANAGER] Account session cleared."
+	)
+
+
+# ============================================================
+# RESET RUNTIME STATE
+# ============================================================
+#
+# Resets every manager that holds per-account data. Used on
+# logout AND at the start of every login, so nothing can carry
+# over from one account to the next.
+# ============================================================
+
+func _reset_runtime_state() -> void:
+
+	should_load_save = false
+	quest_save_queued = false
+	current_state = GameState.EXPLORATION
+	get_tree().paused = false
+
+	current_level_path = (
+		"res://Scenes/Main/FirstTown.tscn"
+	)
+
 	# LANGUAGE
-	# --------------------------------------------------------
-	#
-	# IMPORTANT:
-	# Completely remove the previous account's language state
-	# from memory.
-	# --------------------------------------------------------
-
 	if LanguageProgress:
 
 		LanguageProgress.reset()
 
 
-	# --------------------------------------------------------
 	# TUTORIAL
-	# --------------------------------------------------------
-
 	if TutorialManager:
 
 		TutorialManager.reset_tutorial()
 
 
-	# --------------------------------------------------------
 	# PLAYER
-	# --------------------------------------------------------
-
 	if PlayerProgression:
 
-		PlayerProgression.load_save_data(
-			{}
-		)
+		_reset_player_progression()
 
 
-	# --------------------------------------------------------
 	# TIME
-	# --------------------------------------------------------
-
 	if TimeManager:
 
 		TimeManager.current_index = 0
 
 
-	# --------------------------------------------------------
-	# QUESTS + STORY FLAGS
-	# --------------------------------------------------------
-
+	# QUESTS + DIALOGUE FLAGS
 	if QuestManager:
 
 		QuestManager.active_quests.clear()
@@ -631,6 +669,21 @@ func clear_session_data() -> void:
 		QuestManager.dialogue_flags.clear()
 
 
-	print(
-		"🔄 [GAME MANAGER] Account session cleared."
-	)
+func _reset_player_progression() -> void:
+
+	# PlayerProgression.load_save_data({}) returns immediately when the
+	# data is empty, so it can NOT be used to reset. Reset the saved
+	# fields directly (defaults match PlayerProgression.gd).
+
+	PlayerProgression.level = 1
+	PlayerProgression.current_exp = 0
+	PlayerProgression.gold = 0
+	PlayerProgression.active_pet_id = ""
+	PlayerProgression.current_hp = -1
+
+	for gear_key: String in PlayerProgression.gear_levels.keys():
+
+		PlayerProgression.gear_levels[gear_key] = 1
+
+	PlayerProgression.stats_changed.emit()
+	PlayerProgression.hp_changed.emit()
