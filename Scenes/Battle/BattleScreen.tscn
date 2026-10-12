@@ -1,8 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://bfaae2fx3yg3g"]
+[gd_scene format=3 uid="uid://bfaae2fx3yg3g"]
 
-[ext_resource type="Script" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
-[ext_resource type="PackedScene" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
-[ext_resource type="Texture2D" path="res://Assets/Battle/first_town_battle_bg.jpg" id="3_battle_bg"]
+[ext_resource type="Script" uid="uid://cf6de1186363b" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
+[ext_resource type="PackedScene" uid="uid://dcgk3tfigt0lo" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
+[ext_resource type="Texture2D" uid="uid://csm6q1ormbtf2" path="res://Assets/Battle/morning-battle.png" id="2_sqvdo"]
+
+[sub_resource type="StyleBoxFlat" id="PanelActor"]
+bg_color = Color(0.02, 0.03, 0.025, 0)
 
 [sub_resource type="StyleBoxFlat" id="PanelGlass"]
 bg_color = Color(0.025, 0.045, 0.04, 0.88)
@@ -17,6 +20,46 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color(0.01, 0.02, 0.015, 0.42)
 shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="BarBG"]
+bg_color = Color(0.015, 0.025, 0.02, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.6, 0.48, 0.35)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="BarBarrier"]
+bg_color = Color(0.43, 0.65, 0.88, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="BarEnemyHP"]
+bg_color = Color(0.84, 0.43, 0.32, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="BarHP"]
+bg_color = Color(0.42, 0.72, 0.38, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="BarEXP"]
+bg_color = Color(0.9, 0.72, 0.34, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="PanelMessage"]
 bg_color = Color(0.025, 0.035, 0.03, 0.91)
@@ -46,65 +89,6 @@ corner_radius_bottom_left = 10
 shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 12
 
-[sub_resource type="StyleBoxFlat" id="PanelActor"]
-bg_color = Color(0.02, 0.03, 0.025, 0.0)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-
-[sub_resource type="StyleBoxFlat" id="PanelPlatform"]
-bg_color = Color(0.015, 0.025, 0.018, 0.68)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.35, 0.39, 0.22, 0.25)
-corner_radius_top_left = 999
-corner_radius_top_right = 999
-corner_radius_bottom_right = 999
-corner_radius_bottom_left = 999
-
-[sub_resource type="StyleBoxFlat" id="BarBG"]
-bg_color = Color(0.015, 0.025, 0.02, 0.96)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.62, 0.6, 0.48, 0.35)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="BarHP"]
-bg_color = Color(0.42, 0.72, 0.38, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="BarEnemyHP"]
-bg_color = Color(0.84, 0.43, 0.32, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="BarBarrier"]
-bg_color = Color(0.43, 0.65, 0.88, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="BarEXP"]
-bg_color = Color(0.9, 0.72, 0.34, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [sub_resource type="StyleBoxFlat" id="ButtonNormal"]
 bg_color = Color(0.09, 0.12, 0.085, 0.98)
 border_width_left = 1
@@ -117,18 +101,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="ButtonHover"]
-bg_color = Color(0.2, 0.2, 0.12, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.79, 0.39, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
 [sub_resource type="StyleBoxFlat" id="ButtonPressed"]
 bg_color = Color(0.16, 0.15, 0.09, 1)
 border_width_left = 2
@@ -136,6 +108,18 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.82, 0.68, 0.34, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+bg_color = Color(0.2, 0.2, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.79, 0.39, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -167,7 +151,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Background" type="TextureRect" parent="Root"]
+[node name="Background" type="TextureRect" parent="Root" unique_id=992651142]
+texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -175,12 +160,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture_filter = 2
-texture = ExtResource("3_battle_bg")
+texture = ExtResource("2_sqvdo")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="AtmosphereTint" type="ColorRect" parent="Root"]
+[node name="AtmosphereTint" type="ColorRect" parent="Root" unique_id=1788982420]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -190,36 +174,17 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.035, 0.055, 0.05, 0.22)
 
-[node name="EncounterCaption" type="Label" parent="Root"]
+[node name="EncounterCaption" type="Label" parent="Root" unique_id=985244930]
 layout_mode = 0
-anchor_left = 0.40
+anchor_left = 0.4
 anchor_top = 0.035
-anchor_right = 0.60
+anchor_right = 0.6
 anchor_bottom = 0.09
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.95, 0.84, 0.57, 0.95)
 theme_override_font_sizes/font_size = 14
 text = "MABIYASA  /  ENCOUNTER"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="EnemyPlatform" type="Panel" parent="Root" unique_id=426354453]
-layout_mode = 0
-anchor_left = 0.16
-anchor_top = 0.60
-anchor_right = 0.45
-anchor_bottom = 0.705
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PanelPlatform")
-
-[node name="PlayerPlatform" type="Panel" parent="Root" unique_id=1635451131]
-layout_mode = 0
-anchor_left = 0.56
-anchor_top = 0.60
-anchor_right = 0.85
-anchor_bottom = 0.705
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PanelPlatform")
 
 [node name="EnemySpriteBox" type="Panel" parent="Root" unique_id=1212823918]
 layout_mode = 0
@@ -230,7 +195,7 @@ anchor_bottom = 0.64
 mouse_filter = 2
 theme_override_styles/panel = SubResource("PanelActor")
 
-[node name="EnemySprite" type="Sprite2D" parent="Root/EnemySpriteBox"]
+[node name="EnemySprite" type="Sprite2D" parent="Root/EnemySpriteBox" unique_id=542986562]
 visible = false
 texture_filter = 1
 
@@ -241,7 +206,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.97, 0.93, 0.81, 0.88)
 theme_override_font_sizes/font_size = 18
 text = "Enemy sprite not assigned"
@@ -250,7 +214,8 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="PlayerSpriteBox" type="Panel" parent="Root" unique_id=1943677206]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.58
 anchor_top = 0.255
 anchor_right = 0.85
@@ -268,7 +233,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.95, 0.93, 0.86, 0.9)
 theme_override_font_sizes/font_size = 18
 text = "Player sprite unavailable"
@@ -289,6 +253,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15
@@ -370,6 +336,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 9
 theme_override_constants/margin_right = 15
@@ -426,7 +394,6 @@ custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme_override_styles/background = SubResource("BarBG")
 theme_override_styles/fill = SubResource("BarEXP")
-value = 0.0
 show_percentage = false
 
 [node name="BottomBar" type="HBoxContainer" parent="Root" unique_id=1290900752]
@@ -445,10 +412,7 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("PanelMessage")
 
 [node name="MessageMargin" type="MarginContainer" parent="Root/BottomBar/MessageBox" unique_id=7251069]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 13
 theme_override_constants/margin_right = 22
@@ -468,10 +432,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("PanelCommand")
 
 [node name="ActionMargin" type="MarginContainer" parent="Root/BottomBar/ActionBox" unique_id=780028205]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 11
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 11
@@ -481,7 +442,7 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="CommandTitle" type="Label" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox"]
+[node name="CommandTitle" type="Label" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=17525297]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.77, 0.4, 1)
 theme_override_font_sizes/font_size = 12
@@ -522,10 +483,6 @@ theme_override_styles/focus = SubResource("ButtonFocus")
 text = "Continue"
 
 [node name="QuizUI" parent="Root" unique_id=535122943 instance=ExtResource("2_quiz_ui")]
-visible = false
+process_mode = 0
+process_priority = 0
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2

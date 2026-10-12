@@ -2,7 +2,7 @@ extends CanvasLayer
 
 ## Presentation-only battle layer.
 ## BattleManager retains all combat, quiz, damage, reward and turn logic.
-## This view uses a side-facing player sprite so 4-direction sprites are enough.
+## Uses side-facing sprites, so 4-direction sprites are enough.
 
 signal closed
 
@@ -35,15 +35,28 @@ signal closed
 var _last_enemy_hp: int = -1
 var _last_player_hp: int = -1
 var _entry_animation_played: bool = false
+var _previous_mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 
+
+# ============================================================
+# INITIALIZATION
+# ============================================================
 
 func _ready() -> void:
+	_previous_mouse_mode = Input.mouse_mode
+
+	# Keep the battle UI responsive even if the game tree is paused.
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Process after regular gameplay nodes so battle can keep the cursor
+	# visible even if a world script tries to capture it.
+	process_priority = 1000
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	attack_button.pressed.connect(_on_attack_pressed)
 	potion_button.pressed.connect(_on_potion_pressed)
 	continue_button.pressed.connect(_on_continue_pressed)
+
 	quiz_ui.answer_selected.connect(_on_quiz_answer_selected)
 
 	BattleManager.battle_started.connect(_on_battle_started)
@@ -62,22 +75,43 @@ func _ready() -> void:
 	call_deferred("_setup_player_battle_sprite")
 
 
-# -----------------------------------------------------------------------------
-# SPRITE SETUP
-# -----------------------------------------------------------------------------
+# ============================================================
+# MOUSE VISIBILITY
+# ============================================================
+
+func _process(_delta: float) -> void:
+	# Enforce cursor visibility while this battle layer exists.
+	# This is intentionally a cheap check with no scene scanning.
+	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _exit_tree() -> void:
+	# Restore the cursor mode used before entering battle.
+	Input.mouse_mode = _previous_mouse_mode
+
+
+# ============================================================
+# PLAYER SPRITE SETUP
+# ============================================================
 
 func _setup_player_battle_sprite() -> void:
-	var source_node := get_tree().get_first_node_in_group("battle_player_sprite")
+	var source_node := get_tree().get_first_node_in_group(
+		"battle_player_sprite"
+	)
+
 	if not (source_node is AnimatedSprite3D):
 		_show_player_sprite_fallback("Player sprite unavailable")
 		return
 
 	var source := source_node as AnimatedSprite3D
+
 	if source.sprite_frames == null:
 		_show_player_sprite_fallback("Player SpriteFrames missing")
 		return
 
 	var animation_names := source.sprite_frames.get_animation_names()
+
 	if animation_names.is_empty():
 		_show_player_sprite_fallback("Player animations missing")
 		return
@@ -88,56 +122,92 @@ func _setup_player_battle_sprite() -> void:
 	player_battle_sprite.speed_scale = 0.75
 	player_battle_sprite.flip_h = false
 
-	# The actor stands on the right, so idle_left faces the enemy.
-	# This uses a supplied cardinal animation, never a diagonal one.
+	# The player stands on the right and faces left toward the enemy.
+	# Only existing cardinal-direction animations are used.
 	var animation := _find_combat_idle(animation_names)
+
 	if animation.is_empty():
 		_show_player_sprite_fallback("No idle animation found")
 		return
 
 	player_battle_sprite.visible = true
 	player_battle_sprite.play(animation)
+
 	if is_instance_valid(player_sprite_label):
 		player_sprite_label.visible = false
 
-	if not player_sprite_slot.resized.is_connected(_center_player_battle_sprite):
-		player_sprite_slot.resized.connect(_center_player_battle_sprite)
+	if not player_sprite_slot.resized.is_connected(
+		_center_player_battle_sprite
+	):
+		player_sprite_slot.resized.connect(
+			_center_player_battle_sprite
+		)
+
 	_center_player_battle_sprite()
 	_fit_player_sprite()
 
-	# A battle may have started before the deferred sprite copy finished.
+	# Handle the case where battle begins before sprite setup finishes.
 	if BattleManager.battle_active:
 		call_deferred("_play_battle_entry")
 
 
-func _find_combat_idle(animation_names: PackedStringArray) -> String:
-	for preferred in ["idle_left", "idle_right", "idle_back", "idle_front"]:
+func _find_combat_idle(
+	animation_names: PackedStringArray
+) -> String:
+	for preferred in [
+		"idle_left",
+		"idle_right",
+		"idle_back",
+		"idle_front"
+	]:
 		if animation_names.has(preferred):
 			return preferred
 
 	for animation_name in animation_names:
 		if animation_name.to_lower().contains("idle"):
 			return animation_name
+
 	return ""
 
 
 func _center_player_battle_sprite() -> void:
-	if not is_instance_valid(player_battle_sprite) or not is_instance_valid(player_sprite_slot):
+	if not is_instance_valid(player_battle_sprite):
 		return
+
+	if not is_instance_valid(player_sprite_slot):
+		return
+
 	player_battle_sprite.position = player_sprite_slot.size * 0.5
 	_fit_player_sprite()
 
 
 func _fit_player_sprite() -> void:
-	if not is_instance_valid(player_battle_sprite) or player_battle_sprite.sprite_frames == null:
+	if not is_instance_valid(player_battle_sprite):
 		return
+
+	if player_battle_sprite.sprite_frames == null:
+		return
+
 	var animation := str(player_battle_sprite.animation)
-	if animation.is_empty() or player_battle_sprite.sprite_frames.get_frame_count(animation) == 0:
+
+	if animation.is_empty():
 		return
-	var frame_texture := player_battle_sprite.sprite_frames.get_frame_texture(animation, 0)
+
+	if player_battle_sprite.sprite_frames.get_frame_count(animation) == 0:
+		return
+
+	var frame_texture := (
+		player_battle_sprite.sprite_frames.get_frame_texture(
+			animation,
+			0
+		)
+	)
+
 	if frame_texture == null:
 		return
+
 	var frame_size := frame_texture.get_size()
+
 	if frame_size.x <= 0.0 or frame_size.y <= 0.0:
 		return
 
@@ -145,31 +215,55 @@ func _fit_player_sprite() -> void:
 		player_sprite_slot.size.x * 0.84 / frame_size.x,
 		player_sprite_slot.size.y * 0.88 / frame_size.y
 	)
-	# Keep pixel-art scaling integer where possible, so edges stay crisp.
-	var integer_scale := floorf(minf(battle_sprite_scale, fit_scale))
-	player_battle_sprite.scale = Vector2.ONE * maxf(1.0, integer_scale)
+
+	# Integer scaling helps keep pixel-art edges sharp.
+	var integer_scale := floorf(
+		minf(battle_sprite_scale, fit_scale)
+	)
+
+	player_battle_sprite.scale = (
+		Vector2.ONE * maxf(1.0, integer_scale)
+	)
 
 
 func _show_player_sprite_fallback(message: String) -> void:
 	if is_instance_valid(player_sprite_label):
 		player_sprite_label.visible = true
 		player_sprite_label.text = message
+
 	if is_instance_valid(player_battle_sprite):
 		player_battle_sprite.visible = false
 
 
+# ============================================================
+# ENEMY SPRITE
+# ============================================================
+
 func _fit_enemy_sprite() -> void:
-	if not is_instance_valid(enemy_sprite) or enemy_sprite.texture == null:
+	if not is_instance_valid(enemy_sprite):
 		return
-	var size := enemy_sprite.texture.get_size()
-	if size.x <= 0.0 or size.y <= 0.0:
+
+	if enemy_sprite.texture == null:
 		return
+
+	var texture_size := enemy_sprite.texture.get_size()
+
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return
+
 	var fit_scale := minf(
-		enemy_sprite_slot.size.x * 0.90 / size.x,
-		enemy_sprite_slot.size.y * 0.90 / size.y
+		enemy_sprite_slot.size.x * 0.90 / texture_size.x,
+		enemy_sprite_slot.size.y * 0.90 / texture_size.y
 	)
-	var integer_scale := floorf(minf(battle_sprite_scale, fit_scale))
-	enemy_sprite.scale = Vector2.ONE * maxf(1.0, integer_scale)
+
+	var integer_scale := floorf(
+		minf(battle_sprite_scale, fit_scale)
+	)
+
+	enemy_sprite.scale = (
+		Vector2.ONE * maxf(1.0, integer_scale)
+	)
+
 	enemy_sprite.position = enemy_sprite_slot.size * 0.5
 
 
@@ -177,6 +271,7 @@ func _show_enemy_sprite(enemy: EnemyData) -> void:
 	enemy_sprite.texture = enemy.battle_sprite
 	enemy_sprite.visible = enemy.battle_sprite != null
 	enemy_sprite.flip_h = enemy.battle_sprite_flip_h
+
 	if enemy.battle_sprite != null:
 		enemy_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		enemy_sprite_label.visible = false
@@ -184,82 +279,174 @@ func _show_enemy_sprite(enemy: EnemyData) -> void:
 	else:
 		enemy_sprite_label.visible = true
 		enemy_sprite_label.text = enemy.display_name
+
 		push_warning(
 			"[BATTLE UI] No battle sprite assigned for '"
 			+ enemy.display_name
 			+ "'. Set enemy_battle_sprite on the BattleTrigger."
 		)
 
-	if not enemy_sprite_slot.resized.is_connected(_fit_enemy_sprite):
-		enemy_sprite_slot.resized.connect(_fit_enemy_sprite)
+	if not enemy_sprite_slot.resized.is_connected(
+		_fit_enemy_sprite
+	):
+		enemy_sprite_slot.resized.connect(
+			_fit_enemy_sprite
+		)
 
+
+# ============================================================
+# BATTLE ENTRY ANIMATION
+# ============================================================
 
 func _play_battle_entry() -> void:
 	if _entry_animation_played:
 		return
+
 	_entry_animation_played = true
 
 	var tween := create_tween()
 	tween.set_parallel(true)
+
 	if is_instance_valid(enemy_sprite) and enemy_sprite.visible:
 		var enemy_home := enemy_sprite.position
+
 		enemy_sprite.position = enemy_home + Vector2(-52.0, 0.0)
 		enemy_sprite.modulate.a = 0.0
-		tween.tween_property(enemy_sprite, "position", enemy_home, 0.24).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(enemy_sprite, "modulate:a", 1.0, 0.22)
 
-	if is_instance_valid(player_battle_sprite) and player_battle_sprite.visible:
+		tween.tween_property(
+			enemy_sprite,
+			"position",
+			enemy_home,
+			0.24
+		).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+		tween.tween_property(
+			enemy_sprite,
+			"modulate:a",
+			1.0,
+			0.22
+		)
+
+	if (
+		is_instance_valid(player_battle_sprite)
+		and player_battle_sprite.visible
+	):
 		var player_home := player_battle_sprite.position
+
 		player_battle_sprite.position = player_home + Vector2(52.0, 0.0)
 		player_battle_sprite.modulate.a = 0.0
-		tween.tween_property(player_battle_sprite, "position", player_home, 0.26).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(player_battle_sprite, "modulate:a", 1.0, 0.24)
+
+		tween.tween_property(
+			player_battle_sprite,
+			"position",
+			player_home,
+			0.26
+		).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+		tween.tween_property(
+			player_battle_sprite,
+			"modulate:a",
+			1.0,
+			0.24
+		)
 
 
-# -----------------------------------------------------------------------------
+# ============================================================
 # BATTLE EVENTS: VISUALS ONLY
-# -----------------------------------------------------------------------------
+# ============================================================
 
 func _on_battle_started(enemy: EnemyData) -> void:
 	_entry_animation_played = false
 	_last_enemy_hp = enemy.max_hp
 	_last_player_hp = -1
+
 	enemy_name_label.text = enemy.display_name
 	_show_enemy_sprite(enemy)
+
 	message_label.text = "A wild %s appears!" % enemy.display_name
+
 	_refresh_player_exp()
 	_show_action_buttons()
+
 	call_deferred("_play_battle_entry")
 
 
-func _on_enemy_hp_changed(current: int, max_hp: int) -> void:
+func _on_enemy_hp_changed(
+	current: int,
+	max_hp: int
+) -> void:
 	enemy_hp_label.text = "%d / %d" % [current, max_hp]
-	enemy_hp_bar.value = float(current) / float(max_hp) * 100.0 if max_hp > 0 else 0.0
+
+	if max_hp > 0:
+		enemy_hp_bar.value = float(current) / float(max_hp) * 100.0
+	else:
+		enemy_hp_bar.value = 0.0
+
 	if _last_enemy_hp >= 0 and current < _last_enemy_hp:
 		_play_hit_feedback(enemy_sprite)
+
 	_last_enemy_hp = current
 
 
-func _on_enemy_barrier_changed(current: int, max_barrier: int) -> void:
-	barrier_value_label.text = "%d / %d" % [current, max_barrier]
-	barrier_bar.value = float(current) / float(max_barrier) * 100.0 if max_barrier > 0 else 0.0
+func _on_enemy_barrier_changed(
+	current: int,
+	max_barrier: int
+) -> void:
+	barrier_value_label.text = "%d / %d" % [
+		current,
+		max_barrier
+	]
+
+	if max_barrier > 0:
+		barrier_bar.value = (
+			float(current) / float(max_barrier) * 100.0
+		)
+	else:
+		barrier_bar.value = 0.0
 
 
-func _on_player_hp_changed(current: int, max_hp: int) -> void:
+func _on_player_hp_changed(
+	current: int,
+	max_hp: int
+) -> void:
 	player_hp_label.text = "%d / %d" % [current, max_hp]
-	player_hp_bar.value = float(current) / float(max_hp) * 100.0 if max_hp > 0 else 0.0
+
+	if max_hp > 0:
+		player_hp_bar.value = (
+			float(current) / float(max_hp) * 100.0
+		)
+	else:
+		player_hp_bar.value = 0.0
+
 	if _last_player_hp >= 0 and current < _last_player_hp:
 		_play_hit_feedback(player_battle_sprite)
+
 	_last_player_hp = current
 
 
 func _refresh_player_exp() -> void:
 	if not PlayerProgression:
 		return
-	player_level_label.text = "Lv. %d" % PlayerProgression.level
-	var max_exp: int = PlayerProgression.get_max_exp(PlayerProgression.level)
-	player_exp_bar.value = float(PlayerProgression.current_exp) / float(max_exp) * 100.0 if max_exp > 0 else 0.0
 
+	player_level_label.text = "Lv. %d" % PlayerProgression.level
+
+	var max_exp: int = PlayerProgression.get_max_exp(
+		PlayerProgression.level
+	)
+
+	if max_exp > 0:
+		player_exp_bar.value = (
+			float(PlayerProgression.current_exp)
+			/ float(max_exp)
+			* 100.0
+		)
+	else:
+		player_exp_bar.value = 0.0
+
+
+# ============================================================
+# QUIZ
+# ============================================================
 
 func _on_quiz_requested(question: QuizQuestion) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -272,18 +459,58 @@ func _on_quiz_answer_selected(payload: Variant) -> void:
 	BattleManager.submit_quiz_answer(payload)
 
 
+# ============================================================
+# HIT FEEDBACK
+# ============================================================
+
 func _play_hit_feedback(actor: Node2D) -> void:
 	if not is_instance_valid(actor) or not actor.visible:
 		return
+
 	var home_position: Vector2 = actor.position
 	var tween := create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.tween_property(actor, "modulate", Color(1.0, 0.58, 0.48, 1.0), 0.07)
-	tween.parallel().tween_property(actor, "position:x", home_position.x + 5.0, 0.035)
-	tween.tween_property(actor, "position:x", home_position.x - 5.0, 0.045)
-	tween.tween_property(actor, "position:x", home_position.x, 0.06)
-	tween.tween_property(actor, "modulate", Color.WHITE, 0.10)
 
+	tween.set_trans(Tween.TRANS_SINE)
+
+	tween.tween_property(
+		actor,
+		"modulate",
+		Color(1.0, 0.58, 0.48, 1.0),
+		0.07
+	)
+
+	tween.parallel().tween_property(
+		actor,
+		"position:x",
+		home_position.x + 5.0,
+		0.035
+	)
+
+	tween.tween_property(
+		actor,
+		"position:x",
+		home_position.x - 5.0,
+		0.045
+	)
+
+	tween.tween_property(
+		actor,
+		"position:x",
+		home_position.x,
+		0.06
+	)
+
+	tween.tween_property(
+		actor,
+		"modulate",
+		Color.WHITE,
+		0.10
+	)
+
+
+# ============================================================
+# BATTLE MESSAGES AND ENDING
+# ============================================================
 
 func _on_battle_log(message: String) -> void:
 	message_label.text = message
@@ -291,11 +518,20 @@ func _on_battle_log(message: String) -> void:
 
 func _on_battle_ended(victory: bool) -> void:
 	bottom_bar.visible = true
-	message_label.text = "Victory! The path is clear." if victory else "You were defeated..."
+
+	if victory:
+		message_label.text = "Victory! The path is clear."
+	else:
+		message_label.text = "You were defeated..."
+
 	attack_button.visible = false
 	potion_button.visible = false
 	continue_button.visible = true
 
+
+# ============================================================
+# ACTION BUTTONS
+# ============================================================
 
 func _show_action_buttons() -> void:
 	continue_button.visible = false

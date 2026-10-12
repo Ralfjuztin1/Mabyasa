@@ -1,102 +1,114 @@
-[gd_scene format=3 uid="uid://g07djhmeukkj"]
+[gd_scene format=3 uid="uid://dcgk3tfigt0lo"]
 
 [ext_resource type="Script" uid="uid://el3p32eyk6rp" path="res://Scripts/Battle/QuizUI.gd" id="1_quiz_ui"]
 
-[sub_resource type="StyleBoxFlat" id="CardStyle"]
+[sub_resource type="StyleBoxFlat" id="QuizCardPanel"]
 content_margin_left = 28.0
-content_margin_top = 22.0
+content_margin_top = 24.0
 content_margin_right = 28.0
-content_margin_bottom = 24.0
-bg_color = Color(0.055, 0.065, 0.06, 0.97)
+content_margin_bottom = 22.0
+bg_color = Color(0.025, 0.035, 0.03, 0.985)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.6, 0.52, 0.3, 0.55)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0, 0, 0, 0.45)
-shadow_size = 12
+border_color = Color(0.72, 0.61, 0.36, 0.92)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.52)
+shadow_size = 18
 
 [sub_resource type="StyleBoxFlat" id="TimerBackground"]
-bg_color = Color(0.12, 0.12, 0.11, 1)
+bg_color = Color(0.09, 0.11, 0.085, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.4, 0.31, 0.68)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="TimerFill"]
-bg_color = Color(0.93, 0.8, 0.38, 1)
+bg_color = Color(0.91, 0.75, 0.34, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="SwordStyle"]
-bg_color = Color(0.1, 0.115, 0.105, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.84, 0.72, 0.4, 0.9)
+[sub_resource type="StyleBoxFlat" id="SwordDropPanel"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.12, 0.08, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.87, 0.72, 0.37, 0.95)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.42)
-shadow_size = 8
+shadow_color = Color(0, 0, 0, 0.24)
+shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id="SentenceStyle"]
-bg_color = Color(0.08, 0.09, 0.085, 1)
+[sub_resource type="StyleBoxFlat" id="ChoiceNormal"]
+bg_color = Color(0.075, 0.09, 0.07, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.65, 0.56, 0.32, 0.5)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+border_color = Color(0.39, 0.43, 0.32, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
-bg_color = Color(0.1, 0.11, 0.105, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.56, 0.52, 0.42, 0.5)
-corner_radius_top_left = 9
-corner_radius_top_right = 9
-corner_radius_bottom_right = 9
-corner_radius_bottom_left = 9
+[sub_resource type="StyleBoxFlat" id="ChoicePressed"]
+bg_color = Color(0.2, 0.18, 0.1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.81, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
-bg_color = Color(0.2, 0.18, 0.11, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.93, 0.8, 0.38, 1)
-corner_radius_top_left = 9
-corner_radius_top_right = 9
-corner_radius_bottom_right = 9
-corner_radius_bottom_left = 9
+[sub_resource type="StyleBoxFlat" id="ChoiceHover"]
+bg_color = Color(0.15, 0.17, 0.105, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.88, 0.73, 0.39, 0.95)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="ButtonHover"]
-bg_color = Color(0.15, 0.14, 0.11, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.93, 0.8, 0.38, 1)
-corner_radius_top_left = 9
-corner_radius_top_right = 9
-corner_radius_bottom_right = 9
-corner_radius_bottom_left = 9
+[sub_resource type="StyleBoxFlat" id="ChoiceFocus"]
+bg_color = Color(0.12, 0.14, 0.09, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.97, 0.82, 0.43, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
-[node name="QuizUI" type="Control" unique_id=1155773710]
+[node name="QuizUI" type="Control" unique_id=1404315678]
+process_mode = 3
+process_priority = 1001
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,262 +117,262 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_quiz_ui")
 
-[node name="Scrim" type="ColorRect" parent="." unique_id=1670048195]
+[node name="Dimmer" type="ColorRect" parent="." unique_id=737544389]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.015, 0.02, 0.018, 0.72)
+mouse_filter = 2
+color = Color(0.005, 0.012, 0.009, 0.66)
 
-[node name="Card" type="PanelContainer" parent="." unique_id=1696065377]
+[node name="Card" type="PanelContainer" parent="." unique_id=619604097]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.08
-anchor_top = 0.055
-anchor_right = 0.92
-anchor_bottom = 0.94
-theme_override_styles/panel = SubResource("CardStyle")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -300.0
+offset_right = 500.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("QuizCardPanel")
 
-[node name="RootBox" type="VBoxContainer" parent="Card" unique_id=1194464342]
+[node name="RootBox" type="VBoxContainer" parent="Card" unique_id=699611487]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Header" type="HBoxContainer" parent="Card/RootBox" unique_id=851018424]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TypeLabel" type="Label" parent="Card/RootBox/Header" unique_id=1699708451]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
+theme_override_font_sizes/font_size = 16
+text = "KAPAMPANGAN CHALLENGE"
+vertical_alignment = 1
 
-[node name="Header" type="HBoxContainer" parent="Card/RootBox" unique_id=505122226]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="TypeLabel" type="Label" parent="Card/RootBox/Header" unique_id=1153802134]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_font_sizes/font_size = 20
-text = "MATCH"
-
-[node name="TimerLabel" type="Label" parent="Card/RootBox/Header" unique_id=1028755018]
-custom_minimum_size = Vector2(64, 0)
+[node name="TimerLabel" type="Label" parent="Card/RootBox/Header" unique_id=1728341672]
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 17
-text = "30.0"
+theme_override_font_sizes/font_size = 20
+text = "20.0"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="TimerBar" type="ProgressBar" parent="Card/RootBox" unique_id=1567687029]
-custom_minimum_size = Vector2(0, 8)
+[node name="TimerBar" type="ProgressBar" parent="Card/RootBox" unique_id=520540367]
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 theme_override_styles/background = SubResource("TimerBackground")
 theme_override_styles/fill = SubResource("TimerFill")
 value = 100.0
 show_percentage = false
 
-[node name="PromptLabel" type="Label" parent="Card/RootBox" unique_id=356899960]
-custom_minimum_size = Vector2(0, 94)
+[node name="PromptLabel" type="Label" parent="Card/RootBox" unique_id=260363284]
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 46
-text = "Connect each Kapampangan phrase to its English meaning."
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 27
+text = "Question prompt goes here"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="SubPrompt" type="Label" parent="Card/RootBox" unique_id=1738914907]
+[node name="SubPrompt" type="Label" parent="Card/RootBox" unique_id=689040220]
 visible = false
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7, 0.74, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "Choose the correct answer."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Content" type="Control" parent="Card/RootBox" unique_id=808560492]
+[node name="Content" type="Control" parent="Card/RootBox" unique_id=406144835]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 
-[node name="SwordPanel" type="PanelContainer" parent="Card/RootBox/Content" unique_id=747434129]
+[node name="SwordPanel" type="PanelContainer" parent="Card/RootBox/Content" unique_id=1100119416]
+visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.37
-anchor_top = 0.36
-anchor_right = 0.63
-anchor_bottom = 0.66
-mouse_filter = 2
-theme_override_styles/panel = SubResource("SwordStyle")
+anchor_left = 0.3
+anchor_top = 0.015
+anchor_right = 0.7
+anchor_bottom = 0.24
+mouse_filter = 1
+theme_override_styles/panel = SubResource("SwordDropPanel")
 
-[node name="SwordLabel" type="Label" parent="Card/RootBox/Content/SwordPanel" unique_id=1230991140]
+[node name="SwordLabel" type="Label" parent="Card/RootBox/Content/SwordPanel" unique_id=782607841]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_colors/font_color = Color(0.96, 0.84, 0.52, 1)
+theme_override_font_sizes/font_size = 18
 text = "⚔  DROP ANSWER HERE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StandardHint" type="Label" parent="Card/RootBox/Content" unique_id=35240252]
+[node name="AnswerGrid" type="GridContainer" parent="Card/RootBox/Content" unique_id=762307995]
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.27
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.88
+offset_left = -390.0
+offset_right = 390.0
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 12
+
+[node name="StandardHint" type="Label" parent="Card/RootBox/Content" unique_id=1849352966]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.91
 anchor_right = 1.0
-anchor_bottom = 0.33
-theme_override_colors/font_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 14
-text = "Drag the correct answer into the sword"
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.65, 0.69, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "DRAG A WORD CARD TO THE SWORD"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
 
-[node name="AnswerGrid" type="GridContainer" parent="Card/RootBox/Content" unique_id=364415210]
+[node name="MatchRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=109204434]
 visible = false
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.03
-anchor_top = 0.35
-anchor_right = 0.97
-anchor_bottom = 0.99
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 14
-columns = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
 
-[node name="MatchRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=1202354949]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.05
-anchor_top = 0.03
-anchor_right = 0.95
-anchor_bottom = 0.97
-theme_override_constants/separation = 7
-
-[node name="MatchProgressLabel" type="Label" parent="Card/RootBox/Content/MatchRoot" unique_id=190732375]
+[node name="MatchProgressLabel" type="Label" parent="Card/RootBox/Content/MatchRoot" unique_id=650554225]
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 15
-text = "Matched: 0 / 3"
+theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
+theme_override_font_sizes/font_size = 16
+text = "MATCHED  0 / 3"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="MatchColumns" type="HBoxContainer" parent="Card/RootBox/Content/MatchRoot" unique_id=106566749]
+[node name="MatchColumns" type="HBoxContainer" parent="Card/RootBox/Content/MatchRoot" unique_id=667920057]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 20
+theme_override_constants/separation = 18
 
-[node name="LeftColumn" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns" unique_id=899241652]
+[node name="LeftColumn" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns" unique_id=1165224874]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+size_flags_vertical = 3
+theme_override_constants/separation = 7
 
-[node name="LeftTitle" type="Label" parent="Card/RootBox/Content/MatchRoot/MatchColumns/LeftColumn" unique_id=173081638]
+[node name="LeftHeading" type="Label" parent="Card/RootBox/Content/MatchRoot/MatchColumns/LeftColumn" unique_id=964064337]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.83, 0.85, 0.76, 1)
+theme_override_font_sizes/font_size = 13
 text = "KAPAMPANGAN"
 horizontal_alignment = 1
 
-[node name="LeftButtons" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns/LeftColumn" unique_id=825484904]
+[node name="LeftButtons" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns/LeftColumn" unique_id=1358253259]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="RightColumn" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns" unique_id=362768703]
+[node name="RightColumn" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns" unique_id=894677887]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+size_flags_vertical = 3
+theme_override_constants/separation = 7
 
-[node name="RightTitle" type="Label" parent="Card/RootBox/Content/MatchRoot/MatchColumns/RightColumn" unique_id=1353924112]
+[node name="RightHeading" type="Label" parent="Card/RootBox/Content/MatchRoot/MatchColumns/RightColumn" unique_id=971629086]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_font_sizes/font_size = 15
-text = "ENGLISH"
+theme_override_colors/font_color = Color(0.83, 0.85, 0.76, 1)
+theme_override_font_sizes/font_size = 13
+text = "ENGLISH MEANING"
 horizontal_alignment = 1
 
-[node name="RightButtons" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns/RightColumn" unique_id=737724495]
+[node name="RightButtons" type="VBoxContainer" parent="Card/RootBox/Content/MatchRoot/MatchColumns/RightColumn" unique_id=34666872]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="SentenceRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=413643552]
+[node name="SentenceRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=1085140847]
 visible = false
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.04
-anchor_top = 0.02
-anchor_right = 0.96
-anchor_bottom = 0.98
-theme_override_constants/separation = 9
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
 
-[node name="SentenceTitle" type="Label" parent="Card/RootBox/Content/SentenceRoot" unique_id=661491492]
+[node name="SentencePanel" type="PanelContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=1097627168]
+custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_font_sizes/font_size = 15
-text = "YOUR SENTENCE"
-horizontal_alignment = 1
+theme_override_styles/panel = SubResource("SwordDropPanel")
 
-[node name="SentencePanel" type="PanelContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=331716242]
-custom_minimum_size = Vector2(0, 96)
+[node name="SentenceBar" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot/SentencePanel" unique_id=1028249797]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_styles/panel = SubResource("SentenceStyle")
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 
-[node name="SentenceBar" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot/SentencePanel" unique_id=1526496513]
-layout_mode = 2
-theme_override_constants/h_separation = 7
-theme_override_constants/v_separation = 7
-alignment = 1
-
-[node name="WordBankLabel" type="Label" parent="Card/RootBox/Content/SentenceRoot" unique_id=609919297]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 15
-text = "WORD CARDS"
-horizontal_alignment = 1
-
-[node name="SentenceBank" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=667944193]
+[node name="SentenceBank" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=925019762]
+custom_minimum_size = Vector2(0, 118)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/h_separation = 9
-theme_override_constants/v_separation = 9
-alignment = 1
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
 
-[node name="SentenceCheckButton" type="Button" parent="Card/RootBox/Content/SentenceRoot" unique_id=1074403866]
-custom_minimum_size = Vector2(210, 48)
+[node name="SentenceCheckButton" type="Button" parent="Card/RootBox/Content/SentenceRoot" unique_id=23480402]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_colors/font_pressed_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_colors/font_hover_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_colors/font_disabled_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("ButtonNormal")
-theme_override_styles/pressed = SubResource("ButtonPressed")
-theme_override_styles/hover = SubResource("ButtonHover")
-disabled = true
-text = "⚔  STRIKE"
+theme_override_colors/font_color = Color(0.97, 0.91, 0.75, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("ChoiceNormal")
+theme_override_styles/pressed = SubResource("ChoicePressed")
+theme_override_styles/hover = SubResource("ChoiceHover")
+theme_override_styles/focus = SubResource("ChoiceFocus")
+text = "CHECK SENTENCE"
 
-[node name="ButtonTemplates" type="Control" parent="." unique_id=621722265]
+[node name="ButtonTemplates" type="Control" parent="." unique_id=308207646]
 visible = false
 layout_mode = 1
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="ChoiceButtonTemplate" type="Button" parent="ButtonTemplates" unique_id=1358960036]
-visible = false
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 1
-offset_right = 200.0
-offset_bottom = 52.0
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_colors/font_pressed_color = Color(0.93, 0.8, 0.38, 1)
-theme_override_colors/font_hover_color = Color(0.94, 0.92, 0.86, 1)
-theme_override_colors/font_disabled_color = Color(0.7, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("ButtonNormal")
-theme_override_styles/pressed = SubResource("ButtonPressed")
-theme_override_styles/hover = SubResource("ButtonHover")
-text = "Template"
+[node name="ChoiceButtonTemplate" type="Button" parent="ButtonTemplates" unique_id=506928623]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("ChoiceNormal")
+theme_override_styles/pressed = SubResource("ChoicePressed")
+theme_override_styles/hover = SubResource("ChoiceHover")
+theme_override_styles/focus = SubResource("ChoiceFocus")
+text = "Choice"
