@@ -3,14 +3,12 @@
 [ext_resource type="Script" uid="uid://bki0w5bsr630i" path="res://Scenes/UI/AuthScreen.gd" id="1_qdewa"]
 [ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
 [ext_resource type="Texture2D" uid="uid://djr664341ner7" path="res://Assets/UI/MabyasaUI/mabyasa.png" id="3_a4dlk"]
-[ext_resource type="Texture2D" uid="uid://dwftyq0c3hm2a" path="res://Assets/UI/MabyasaUI/Better Text Area 2.png" id="4_a4dlk"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_quh2r"]
-atlas = ExtResource("4_a4dlk")
-region = Rect2(82, 0, 46, 32)
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="4_npbey"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="5_vmk2x"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="6_quh2r"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmk2x"]
-texture = SubResource("AtlasTexture_quh2r")
+texture = ExtResource("4_npbey")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InputNormal"]
 content_margin_left = 16.0
@@ -44,30 +42,27 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
-bg_color = Color(0.85, 0.75, 0.45, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.85, 0.75, 0.45, 0.25)
-shadow_size = 12
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y2ec"]
+atlas = ExtResource("5_vmk2x")
+region = Rect2(0, 0, 553, 121)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
-bg_color = Color(0.7, 0.6, 0.32, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nbvpm"]
+texture = SubResource("AtlasTexture_5y2ec")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.95, 0.85, 0.55, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.85, 0.75, 0.45, 0.45)
-shadow_size = 18
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7r6e"]
+atlas = ExtResource("6_quh2r")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n8ea4"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_etdbc"]
+load_path = "res://.godot/imported/Mabiyasa_Button_Selected.png-4306dacb3b4013a89fdfefbc9b9c5e3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc511"]
+atlas = SubResource("CompressedTexture2D_etdbc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h0ar6"]
+texture = SubResource("AtlasTexture_sc511")
 
 [node name="MainMenu" type="Control" unique_id=1531872894]
 layout_mode = 3
@@ -184,12 +179,12 @@ secret = true
 [node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1025739782]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Enter Game"
 
 [node name="SwitchToRegister" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=88481749]
@@ -239,12 +234,12 @@ secret = true
 [node name="RegisterButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1148927108]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Create Account"
 
 [node name="SwitchToLogin" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1790851975]

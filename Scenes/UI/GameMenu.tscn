@@ -2,54 +2,34 @@
 
 [ext_resource type="Script" uid="uid://d3jbvh7tc26qr" path="res://Scenes/UI/GameMenu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
-[ext_resource type="Texture2D" uid="uid://dwftyq0c3hm2a" path="res://Assets/UI/MabyasaUI/Better Text Area 2.png" id="3_no6tp"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_quh2r"]
-atlas = ExtResource("3_no6tp")
-region = Rect2(82, 0, 46, 32)
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="3_no6tp"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="4_ox43o"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="5_ugsay"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmk2x"]
-texture = SubResource("AtlasTexture_quh2r")
+texture = ExtResource("3_no6tp")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
-bg_color = Color(0.8117647, 0.61960787, 0.5372549, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18, 0.09, 0.04, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.85, 0.75, 0.45, 0.25)
-shadow_size = 12
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y2ec"]
+atlas = ExtResource("4_ox43o")
+region = Rect2(0, 0, 553, 121)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
-bg_color = Color(0.7, 0.6, 0.32, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.1, 0.05, 0.02, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nbvpm"]
+texture = SubResource("AtlasTexture_5y2ec")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.95, 0.85, 0.55, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.92, 0.72, 0.25, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.85, 0.75, 0.45, 0.45)
-shadow_size = 18
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7r6e"]
+atlas = ExtResource("5_ugsay")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n8ea4"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_etdbc"]
+load_path = "res://.godot/imported/Mabiyasa_Button_Selected.png-4306dacb3b4013a89fdfefbc9b9c5e3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc511"]
+atlas = SubResource("CompressedTexture2D_etdbc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h0ar6"]
+texture = SubResource("AtlasTexture_sc511")
 
 [node name="GameMenu" type="Control" unique_id=26290056]
 layout_mode = 3
@@ -131,45 +111,45 @@ theme_override_constants/separation = 16
 [node name="PlayButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=643762441]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Start Game"
 
 [node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=1647876188]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Settings"
 
 [node name="LogoutButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=898651916]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Logout"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox" unique_id=898651917]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.08, 0.1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h0ar6")
 text = "Quit Game"
 
 [node name="TopBar" type="MarginContainer" parent="." unique_id=1654126862]

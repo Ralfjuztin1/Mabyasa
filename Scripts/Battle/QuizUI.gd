@@ -1,19 +1,26 @@
 class_name QuizUI
 extends Control
 
-## Efficient language-combat UI.
-## Battle rules and answer validation remain in BattleManager/QuestionFactory.
-## This view only handles display, input, timing, and feedback.
+## Mabiyasa language-combat quiz interface.
+## Presentation and input only: BattleManager still validates answers and combat.
+## Standard questions use clear click-to-answer buttons; matching and sentence
+## construction keep their current input model and payload format.
 
 signal answer_selected(payload: Variant)
-
-const ANSWER_CARD_SCENE: PackedScene = preload("res://Scenes/Battle/AnswerCard.tscn")
 
 const GOLD := Color(0.93, 0.80, 0.38)
 const TEXT := Color(0.94, 0.92, 0.86)
 const MUTED := Color(0.70, 0.72, 0.68)
-const GOOD := Color(0.45, 0.92, 0.62)
-const BAD := Color(0.95, 0.43, 0.40)
+const GOOD := Color(0.55, 0.92, 0.48)
+const BAD := Color(0.96, 0.43, 0.36)
+const DISABLED_TINT := Color(0.62, 0.65, 0.59)
+
+const CARD_MAX_WIDTH := 900.0
+const CARD_MAX_HEIGHT := 620.0
+const CARD_EDGE_MARGIN := 24.0
+const ANSWER_MAX_WIDTH := 680.0
+const ANSWER_BUTTON_HEIGHT := 54.0
+const ANSWER_BUTTON_GAP := 10
 
 var current_question: QuizQuestion = null
 var _resolving := false
@@ -21,6 +28,7 @@ var _elapsed := 0.0
 var _time_limit := 20.0
 var _last_timer_tenth := -1
 var _last_timer_band := -1
+var _transition_tween: Tween
 
 @onready var _card: PanelContainer = $Card
 @onready var _type_label: Label = $Card/RootBox/Header/TypeLabel
@@ -30,7 +38,6 @@ var _last_timer_band := -1
 @onready var _sub_prompt: Label = $Card/RootBox/SubPrompt
 @onready var _content: Control = $Card/RootBox/Content
 @onready var _sword_panel: PanelContainer = $Card/RootBox/Content/SwordPanel
-@onready var _sword_label: Label = $Card/RootBox/Content/SwordPanel/SwordLabel
 @onready var _standard_hint: Label = $Card/RootBox/Content/StandardHint
 @onready var _answer_grid: GridContainer = $Card/RootBox/Content/AnswerGrid
 @onready var _match_root: VBoxContainer = $Card/RootBox/Content/MatchRoot
@@ -43,7 +50,7 @@ var _last_timer_band := -1
 @onready var _sentence_check_button: Button = $Card/RootBox/Content/SentenceRoot/SentenceCheckButton
 @onready var _choice_button_template: Button = $ButtonTemplates/ChoiceButtonTemplate
 
-var _answer_cards: Array[AnswerCard] = []
+var _standard_buttons: Array[Button] = []
 var _match_pairs: Array[Dictionary] = []
 var _match_left_selected := -1
 var _match_mistakes := 0
@@ -59,15 +66,49 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	process_priority = 1001
 	mouse_filter = Control.MOUSE_FILTER_STOP
+
 	_sentence_check_button.pressed.connect(_submit_sentence)
+	get_viewport().size_changed.connect(_layout_card)
+	_setup_base_style()
+	call_deferred("_layout_card")
+
+
+func _setup_base_style() -> void:
+	# The scene provides the detailed dark-green/gold StyleBoxes. These overrides
+	# set readable type and click behaviour without creating textures each frame.
+	_type_label.add_theme_color_override("font_color", GOLD)
+	_timer_label.add_theme_color_override("font_color", TEXT)
+	_prompt_label.add_theme_color_override("font_color", TEXT)
+	_prompt_label.add_theme_font_size_override("font_size", 32)
+	_sub_prompt.add_theme_color_override("font_color", MUTED)
+	_match_progress_label.add_theme_color_override("font_color", GOLD)
+	_standard_hint.visible = false
+	_sword_panel.visible = false
+	_choice_button_template.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+
+func _layout_card() -> void:
+	if not is_instance_valid(_card):
+		return
+
+	var viewport_size := get_viewport_rect().size
+	var target_width := minf(CARD_MAX_WIDTH, viewport_size.x - CARD_EDGE_MARGIN * 2.0)
+	var target_height := minf(CARD_MAX_HEIGHT, viewport_size.y - CARD_EDGE_MARGIN * 2.0)
+	target_width = maxf(target_width, 460.0)
+	target_height = maxf(target_height, 420.0)
+
+	_card.offset_left = -target_width * 0.5
+	_card.offset_right = target_width * 0.5
+	_card.offset_top = -target_height * 0.5
+	_card.offset_bottom = target_height * 0.5
 
 
 func _process(delta: float) -> void:
 	if not visible:
 		return
 
-	# The world player may recapture the cursor during input. Keep it visible
-	# for the entire battle quiz, not just when the quiz first opens.
+	# Keep the pointer visible during the quiz, even if world input tries to
+	# recapture it. This is a single inexpensive state check.
 	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
@@ -78,7 +119,7 @@ func _process(delta: float) -> void:
 	var remaining := maxf(_time_limit - _elapsed, 0.0)
 	_timer_bar.value = remaining / maxf(_time_limit, 0.01) * 100.0
 
-	# Text changes at most ten times a second; the progress bar remains smooth.
+	# Timer text and warning colours update only when their visible state changes.
 	var shown_tenth := int(ceil(remaining * 10.0))
 	if shown_tenth != _last_timer_tenth:
 		_last_timer_tenth = shown_tenth
@@ -111,6 +152,9 @@ func start_quiz(question: QuizQuestion) -> void:
 	if question == null:
 		return
 
+	if _transition_tween != null and _transition_tween.is_running():
+		_transition_tween.kill()
+
 	current_question = question
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_resolving = false
@@ -119,19 +163,24 @@ func start_quiz(question: QuizQuestion) -> void:
 	_last_timer_band = -1
 	_time_limit = maxf(question.time_limit, 5.0)
 
+	_layout_card()
 	_timer_bar.value = 100.0
 	_timer_label.text = "%.1f" % _time_limit
 	_timer_label.add_theme_color_override("font_color", TEXT)
 	_timer_bar.modulate = Color.WHITE
 	_type_label.text = question.get_type_label().to_upper()
 	_prompt_label.text = question.prompt
-	_sub_prompt.text = ""
-	_sub_prompt.visible = false
 
-	_sword_panel.visible = question.quiz_type not in [
-		QuizQuestion.QuizType.MATCH,
-		QuizQuestion.QuizType.SENTENCE_BUILD
-	]
+	# Short vocabulary prompts get more emphasis; long instructions stay readable.
+	_prompt_label.add_theme_font_size_override(
+		"font_size",
+		36 if question.prompt.length() <= 24 else 27
+	)
+
+	_sub_prompt.text = "Choose the correct answer."
+	_sub_prompt.visible = true
+	_sword_panel.visible = false
+	_standard_hint.visible = false
 
 	_clear_dynamic_content()
 
@@ -147,51 +196,90 @@ func start_quiz(question: QuizQuestion) -> void:
 
 	visible = true
 	set_process(true)
+	call_deferred("_focus_first_choice")
 	modulate.a = 0.0
 	_card.scale = Vector2(0.985, 0.985)
 	_card.pivot_offset = _card.size * 0.5
 
-	var tw := create_tween()
-	tw.set_parallel(true)
-	tw.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.tween_property(self, "modulate:a", 1.0, 0.16)
-	tw.tween_property(_card, "scale", Vector2.ONE, 0.18)
+	_transition_tween = create_tween()
+	_transition_tween.set_parallel(true)
+	_transition_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_transition_tween.tween_property(self, "modulate:a", 1.0, 0.16)
+	_transition_tween.tween_property(_card, "scale", Vector2.ONE, 0.18)
+
+
+func _focus_first_choice() -> void:
+	# Keyboard users start on the first available action; mouse input still works.
+	if not visible or _resolving:
+		return
+	if not _standard_buttons.is_empty():
+		_standard_buttons[0].grab_focus()
+	elif not _match_left_buttons.is_empty():
+		_match_left_buttons[0].grab_focus()
+	elif not _sentence_source_buttons.is_empty():
+		var first_button: Variant = _sentence_source_buttons.values()[0]
+		if first_button is Button:
+			(first_button as Button).grab_focus()
 
 
 func _build_standard_answers(question: QuizQuestion) -> void:
-	_standard_hint.visible = true
+	# Simple stacked options match the new quiz concept and are easier to use
+	# than dragging a card to a small target. Payload remains {index, elapsed, timed_out}.
 	_answer_grid.visible = true
-	_answer_grid.columns = maxi(1, mini(3, question.choices.size()))
-
-	var card_width := 250.0
-	if question.choices.size() <= 2:
-		card_width = 330.0
-
-	# Fit the grid to the number of choices and center it, avoiding a sparse
-	# two-choice row stuck against one side of the panel.
-	var columns: int = maxi(1, _answer_grid.columns)
-	var h_gap := 14.0
-	var grid_width := card_width * columns + h_gap * (columns - 1)
+	_answer_grid.columns = 1
+	_answer_grid.add_theme_constant_override("v_separation", ANSWER_BUTTON_GAP)
 	_answer_grid.anchor_left = 0.5
 	_answer_grid.anchor_right = 0.5
+	_answer_grid.anchor_top = 0.02
+	_answer_grid.anchor_bottom = 0.98
+
+	var usable_width := maxf(_content.size.x - 64.0, 360.0)
+	var grid_width := minf(ANSWER_MAX_WIDTH, usable_width)
 	_answer_grid.offset_left = -grid_width * 0.5
 	_answer_grid.offset_right = grid_width * 0.5
-	_answer_grid.anchor_top = 0.30
-	_answer_grid.anchor_bottom = 0.88
 	_answer_grid.offset_top = 0.0
 	_answer_grid.offset_bottom = 0.0
 
-	for i in question.choices.size():
-		var card: AnswerCard = ANSWER_CARD_SCENE.instantiate()
-		_answer_grid.add_child(card)
-		card.custom_minimum_size = Vector2(card_width, 70)
-		card.answer_index = i
-		card.answer_text = question.choices[i]
-		card.sword_drop_zone = _sword_panel
-		card.drag_layer = _content
-		card.dropped_on_sword.connect(_on_card_dropped)
-		card.drag_started.connect(_on_card_drag_started)
-		_answer_cards.append(card)
+	for index in question.choices.size():
+		var button := _make_choice_button(question.choices[index])
+		button.custom_minimum_size = Vector2(0.0, ANSWER_BUTTON_HEIGHT)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 19)
+		button.set_meta("answer_index", index)
+		button.pressed.connect(_on_standard_answer_pressed.bind(index, button))
+		_answer_grid.add_child(button)
+		_standard_buttons.append(button)
+
+
+func _on_standard_answer_pressed(index: int, chosen_button: Button) -> void:
+	if _resolving or current_question == null:
+		return
+	if index < 0 or index >= current_question.choices.size():
+		return
+
+	_resolving = true
+	var correct_index := current_question.correct_index
+
+	# Freeze choices and give immediate, clear feedback before sending the answer.
+	for i in _standard_buttons.size():
+		var button := _standard_buttons[i]
+		button.disabled = true
+		if i == correct_index:
+			button.modulate = GOOD
+		elif button == chosen_button:
+			button.modulate = BAD
+		else:
+			button.modulate = DISABLED_TINT
+
+	await get_tree().create_timer(0.28).timeout
+	if not is_instance_valid(self) or current_question == null:
+		return
+
+	_emit_answer({
+		"index": index,
+		"elapsed": _elapsed,
+		"timed_out": false
+	})
 
 
 func _build_match(question: QuizQuestion) -> void:
@@ -211,8 +299,10 @@ func _build_match(question: QuizQuestion) -> void:
 	right_indices.shuffle()
 
 	for index in left_indices:
+		if index >= question.match_left_texts.size() or index >= question.match_left_ids.size():
+			continue
 		var button := _make_choice_button(question.match_left_texts[index])
-		button.custom_minimum_size = Vector2(0, 48)
+		button.custom_minimum_size = Vector2(0.0, 50.0)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("match_id", question.match_left_ids[index])
 		button.pressed.connect(_on_match_left_pressed.bind(_match_left_buttons.size()))
@@ -220,8 +310,10 @@ func _build_match(question: QuizQuestion) -> void:
 		_match_left_buttons_box.add_child(button)
 
 	for index in right_indices:
+		if index >= question.match_right_texts.size() or index >= question.match_right_ids.size():
+			continue
 		var button := _make_choice_button(question.match_right_texts[index])
-		button.custom_minimum_size = Vector2(0, 48)
+		button.custom_minimum_size = Vector2(0.0, 50.0)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("match_id", question.match_right_ids[index])
 		button.pressed.connect(_on_match_right_pressed.bind(_match_right_buttons.size()))
@@ -230,7 +322,7 @@ func _build_match(question: QuizQuestion) -> void:
 
 
 func _build_sentence(question: QuizQuestion) -> void:
-	_sub_prompt.text = "Tap words to build the sentence. Tap a placed word to remove it."
+	_sub_prompt.text = "Tap words to build the sentence; tap a placed word to remove it."
 	_sub_prompt.visible = true
 	_sentence_root.visible = true
 	_sentence_check_button.disabled = true
@@ -239,6 +331,8 @@ func _build_sentence(question: QuizQuestion) -> void:
 	var token_texts: Dictionary = {}
 
 	for i in question.sentence_token_ids.size():
+		if i >= question.sentence_token_texts.size():
+			continue
 		var id := question.sentence_token_ids[i]
 		if token_ids.has(id):
 			continue
@@ -246,6 +340,8 @@ func _build_sentence(question: QuizQuestion) -> void:
 		token_texts[id] = question.sentence_token_texts[i]
 
 	for i in question.sentence_distractor_ids.size():
+		if i >= question.sentence_distractor_texts.size():
+			continue
 		var id := question.sentence_distractor_ids[i]
 		if token_ids.has(id):
 			continue
@@ -255,43 +351,17 @@ func _build_sentence(question: QuizQuestion) -> void:
 	token_ids.shuffle()
 	for token_id in token_ids:
 		var button := _make_choice_button(str(token_texts[token_id]))
-		button.custom_minimum_size = Vector2(112, 44)
+		button.custom_minimum_size = Vector2(112.0, 44.0)
 		button.set_meta("token_id", token_id)
 		button.pressed.connect(_on_sentence_token_pressed.bind(button))
 		_sentence_source_buttons[token_id] = button
 		_sentence_bank.add_child(button)
 
 
-func _on_card_drag_started(_card: AnswerCard) -> void:
-	var tw := create_tween()
-	tw.tween_property(_sword_panel, "modulate", Color(1.08, 1.04, 0.78), 0.10)
-
-
-func _on_card_dropped(card: AnswerCard) -> void:
-	if _resolving:
-		return
-	_resolving = true
-	for answer_card in _answer_cards:
-		answer_card.lock()
-
-	var center := _sword_panel.get_global_rect().get_center()
-	card.fly_to(center)
-	await get_tree().create_timer(0.20).timeout
-	if not is_instance_valid(self) or current_question == null:
-		return
-
-	var correct := card.answer_index == current_question.correct_index
-	await _sword_feedback(correct)
-	_emit_answer({
-		"index": card.answer_index,
-		"elapsed": _elapsed,
-		"timed_out": false
-	})
-
-
 func _on_match_left_pressed(index: int) -> void:
 	if _resolving or index < 0 or index >= _match_left_buttons.size():
 		return
+
 	var button := _match_left_buttons[index]
 	if button.disabled:
 		return
@@ -299,6 +369,7 @@ func _on_match_left_pressed(index: int) -> void:
 	for candidate in _match_left_buttons:
 		if not candidate.disabled:
 			candidate.modulate = Color.WHITE
+
 	if _match_left_selected == index:
 		_match_left_selected = -1
 		return
@@ -321,6 +392,7 @@ func _on_match_right_pressed(index: int) -> void:
 	var left_id := str(left_button.get_meta("match_id"))
 	var right_id := str(right_button.get_meta("match_id"))
 	var correct := false
+
 	for i in current_question.match_left_ids.size():
 		if current_question.match_left_ids[i] == left_id:
 			correct = (
@@ -348,10 +420,14 @@ func _on_match_right_pressed(index: int) -> void:
 			right_button.modulate = Color.WHITE
 
 	_match_left_selected = -1
-	_update_match_progress(current_question)
+	if current_question != null:
+		_update_match_progress(current_question)
+
 	if _all_match_pairs_complete():
 		_resolving = true
 		await get_tree().create_timer(0.18).timeout
+		if not is_instance_valid(self) or current_question == null:
+			return
 		_emit_answer({
 			"pairs": _match_pairs.duplicate(true),
 			"mistakes": _match_mistakes,
@@ -361,15 +437,17 @@ func _on_match_right_pressed(index: int) -> void:
 
 
 func _update_match_progress(question: QuizQuestion) -> void:
-	if not is_instance_valid(_match_progress_label):
-		return
 	_match_progress_label.text = "MATCHED  %d / %d" % [
-		_match_pairs.size(), question.match_left_ids.size()
+		_match_pairs.size(),
+		question.match_left_ids.size()
 	]
 
 
 func _all_match_pairs_complete() -> bool:
-	return current_question != null and _match_pairs.size() >= current_question.match_left_ids.size()
+	return (
+		current_question != null
+		and _match_pairs.size() >= current_question.match_left_ids.size()
+	)
 
 
 func _on_sentence_token_pressed(button: Button) -> void:
@@ -377,14 +455,14 @@ func _on_sentence_token_pressed(button: Button) -> void:
 		return
 
 	var token_id := str(button.get_meta("token_id"))
-	var token_text := str(button.text)
+	var token_text := button.text
 	_sentence_order.append(token_id)
 	button.disabled = true
-	button.modulate = Color(0.58, 0.60, 0.57)
+	button.modulate = Color(0.62, 0.66, 0.58)
 
 	var placed := _make_choice_button(token_text)
-	placed.custom_minimum_size = Vector2(112, 40)
-	placed.modulate = Color(0.92, 0.82, 0.46)
+	placed.custom_minimum_size = Vector2(112.0, 40.0)
+	placed.modulate = Color(0.96, 0.84, 0.47)
 	placed.pressed.connect(_remove_sentence_token.bind(token_id, placed, button))
 	_sentence_bar.add_child(placed)
 	_sentence_check_button.disabled = _sentence_order.is_empty()
@@ -393,6 +471,7 @@ func _on_sentence_token_pressed(button: Button) -> void:
 func _remove_sentence_token(token_id: String, placed: Button, source: Button) -> void:
 	if _resolving:
 		return
+
 	var index := _sentence_order.find(token_id)
 	if index >= 0:
 		_sentence_order.remove_at(index)
@@ -418,6 +497,7 @@ func _submit_sentence() -> void:
 func _timeout() -> void:
 	if _resolving or current_question == null:
 		return
+
 	_resolving = true
 	match current_question.quiz_type:
 		QuizQuestion.QuizType.MULTIPLE_CHOICE, \
@@ -440,20 +520,27 @@ func _timeout() -> void:
 
 
 func _emit_answer(payload: Dictionary) -> void:
+	set_process(false)
 	answer_selected.emit(payload)
 	_hide_quiz()
 
 
 func _hide_quiz() -> void:
+	if _transition_tween != null and _transition_tween.is_running():
+		_transition_tween.kill()
+
+	_transition_tween = create_tween()
+	_transition_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_transition_tween.tween_property(self, "modulate:a", 0.0, 0.12)
+	_transition_tween.tween_callback(_finish_hide)
+
+
+func _finish_hide() -> void:
+	visible = false
 	set_process(false)
-	var tw := create_tween()
-	tw.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tw.tween_property(self, "modulate:a", 0.0, 0.12)
-	tw.tween_callback(func(): visible = false)
 
 
 func _clear_dynamic_content() -> void:
-	# Remove only per-question controls. The serialized scene layout remains intact.
 	var containers: Array[Node] = [
 		_answer_grid,
 		_match_left_buttons_box,
@@ -461,17 +548,17 @@ func _clear_dynamic_content() -> void:
 		_sentence_bar,
 		_sentence_bank
 	]
+
 	for container in containers:
 		for child in container.get_children():
 			child.free()
 
-	_standard_hint.visible = false
+	_standard_buttons.clear()
 	_answer_grid.visible = false
 	_match_root.visible = false
 	_sentence_root.visible = false
-	_sword_panel.modulate = Color.WHITE
-	_sword_panel.scale = Vector2.ONE
-	_answer_cards.clear()
+	_sword_panel.visible = false
+	_standard_hint.visible = false
 	_match_pairs.clear()
 	_match_left_selected = -1
 	_match_mistakes = 0
@@ -482,31 +569,16 @@ func _clear_dynamic_content() -> void:
 	_sentence_source_buttons.clear()
 
 
-func _sword_feedback(correct: bool) -> void:
-	if not is_instance_valid(_sword_panel) or not _sword_panel.visible:
-		return
-	var tw := create_tween()
-	if correct:
-		tw.set_parallel(true)
-		tw.tween_property(_sword_panel, "modulate", Color(0.70, 1.20, 0.78), 0.10)
-		tw.tween_property(_sword_panel, "scale", Vector2(1.04, 1.04), 0.10)
-		tw.chain().tween_property(_sword_panel, "scale", Vector2.ONE, 0.14)
-	else:
-		tw.tween_property(_sword_panel, "modulate", Color(1.30, 0.60, 0.55), 0.08)
-		tw.tween_property(_sword_panel, "position:x", _sword_panel.position.x + 6.0, 0.045)
-		tw.tween_property(_sword_panel, "position:x", _sword_panel.position.x - 6.0, 0.045)
-		tw.tween_property(_sword_panel, "position:x", _sword_panel.position.x, 0.045)
-	await tw.finished
-	if is_instance_valid(_sword_panel):
-		_sword_panel.modulate = Color.WHITE
-
-
 func _make_choice_button(label_text: String) -> Button:
-	# Duplicate one pre-styled template. This avoids building new StyleBoxes per button.
+	# Reuse the one scene-configured style template rather than allocating new
+	# StyleBox resources for each answer.
 	var button := _choice_button_template.duplicate() as Button
 	button.visible = true
 	button.disabled = false
 	button.text = label_text
 	button.modulate = Color.WHITE
 	button.focus_mode = Control.FOCUS_ALL
+	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return button

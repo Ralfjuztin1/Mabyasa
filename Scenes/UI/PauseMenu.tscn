@@ -37,68 +37,6 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2bpff"]
-atlas = ExtResource("3_2bpff")
-region = Rect2(1, 64, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_n"]
-texture = SubResource("AtlasTexture_2bpff")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8hc20"]
-atlas = ExtResource("4_8hc20")
-region = Rect2(1, 64, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_p"]
-texture = SubResource("AtlasTexture_8hc20")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ixmtu"]
-atlas = ExtResource("3_2bpff")
-region = Rect2(49, 64, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_n"]
-texture = SubResource("AtlasTexture_ixmtu")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yl58v"]
-atlas = ExtResource("4_8hc20")
-region = Rect2(49, 64, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_p"]
-texture = SubResource("AtlasTexture_yl58v")
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2bpff"]
-load_path = "res://.godot/imported/UIIcons_1 (1).png-08c935056e6c09d09be3354e158a9652.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gdh0q"]
-atlas = SubResource("CompressedTexture2D_2bpff")
-region = Rect2(113, 96, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdh0q"]
-texture = SubResource("AtlasTexture_gdh0q")
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_djuuc"]
-load_path = "res://.godot/imported/UIIcons_1 (2).png-c24cb5a94a6f4b57d3274d26f5cfff2a.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_85qas"]
-atlas = SubResource("CompressedTexture2D_djuuc")
-region = Rect2(113, 96, 14, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qjuxo"]
-texture = SubResource("AtlasTexture_85qas")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5oc23"]
-atlas = ExtResource("3_2bpff")
-region = Rect2(49, 0, 45, 15)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_n"]
-texture = SubResource("AtlasTexture_5oc23")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xeiyh"]
-atlas = ExtResource("4_8hc20")
-region = Rect2(49, 17, 45, 14)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_p"]
-texture = SubResource("AtlasTexture_xeiyh")
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_button_normal"]
 content_margin_left = 12.0
 content_margin_top = 6.0
@@ -146,6 +84,67 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bpff"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(1, 64, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_n"]
+texture = SubResource("AtlasTexture_2bpff")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hc20"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(1, 64, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_missions_p"]
+texture = SubResource("AtlasTexture_8hc20")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixmtu"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(49, 64, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_n"]
+texture = SubResource("AtlasTexture_ixmtu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yl58v"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(49, 64, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv_p"]
+texture = SubResource("AtlasTexture_yl58v")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2bpff"]
+load_path = "res://.godot/imported/UIIcons_1 (1).png-08c935056e6c09d09be3354e158a9652.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdh0q"]
+atlas = SubResource("CompressedTexture2D_2bpff")
+region = Rect2(113, 96, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdh0q"]
+texture = SubResource("AtlasTexture_gdh0q")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_djuuc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85qas"]
+atlas = SubResource("CompressedTexture2D_djuuc")
+region = Rect2(113, 96, 14, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qjuxo"]
+texture = SubResource("AtlasTexture_85qas")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5oc23"]
+atlas = ExtResource("3_2bpff")
+region = Rect2(49, 0, 45, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_n"]
+texture = SubResource("AtlasTexture_5oc23")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xeiyh"]
+atlas = ExtResource("4_8hc20")
+region = Rect2(49, 17, 45, 14)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_quit_p"]
+texture = SubResource("AtlasTexture_xeiyh")
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1552715194]
 process_mode = 3
@@ -248,7 +247,6 @@ custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxTexture_xp_bg")
 theme_override_styles/fill = SubResource("StyleBoxTexture_xp_fill")
-value = 0.0
 show_percentage = false
 
 [node name="XPLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=695597973]
@@ -257,13 +255,13 @@ theme_override_colors/font_color = Color(0.39637682, 0.63056165, 0.27618918, 1)
 theme_override_font_sizes/font_size = 22
 text = "EXP  0 / 100"
 
-[node name="GoldLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info"]
+[node name="GoldLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1910176428]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
 theme_override_font_sizes/font_size = 20
 text = "🪙 0"
 
-[node name="StatsButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info"]
+[node name="StatsButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1936782235]
 custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)

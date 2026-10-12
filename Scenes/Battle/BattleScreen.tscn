@@ -3,23 +3,28 @@
 [ext_resource type="Script" uid="uid://cf6de1186363b" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
 [ext_resource type="PackedScene" uid="uid://dcgk3tfigt0lo" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
 [ext_resource type="Texture2D" uid="uid://csm6q1ormbtf2" path="res://Assets/Battle/morning-battle.png" id="2_sqvdo"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="3_045us"]
+[ext_resource type="Texture2D" uid="uid://xyydtqdb2jbs" path="res://Assets/Battle/Mabiyasa_panel_flower.png" id="4_2bb1p"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="5_4bbuo"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="6_ji14m"]
 
-[sub_resource type="StyleBoxFlat" id="PanelActor"]
-bg_color = Color(0.02, 0.03, 0.025, 0)
-
-[sub_resource type="StyleBoxFlat" id="PanelGlass"]
-bg_color = Color(0.025, 0.045, 0.04, 0.88)
+[sub_resource type="StyleBoxFlat" id="PanelPlatform"]
+bg_color = Color(0.015, 0.025, 0.018, 0.68)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.72, 0.61, 0.36, 0.78)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0.01, 0.02, 0.015, 0.42)
-shadow_size = 10
+border_color = Color(0.35, 0.39, 0.22, 0.25)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="PanelActor"]
+bg_color = Color(0.02, 0.03, 0.025, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6wf7"]
+atlas = ExtResource("3_045us")
 
 [sub_resource type="StyleBoxFlat" id="BarBG"]
 bg_color = Color(0.015, 0.025, 0.02, 0.96)
@@ -47,6 +52,15 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y2ec"]
+atlas = ExtResource("4_2bb1p")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2bb1p"]
+load_path = "res://.godot/imported/Mabiyasa_panel_flower.png-3400ca75803caaf3d6e04256eb31c6a6.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhesy"]
+atlas = SubResource("CompressedTexture2D_2bb1p")
+
 [sub_resource type="StyleBoxFlat" id="BarHP"]
 bg_color = Color(0.42, 0.72, 0.38, 1)
 corner_radius_top_left = 4
@@ -61,81 +75,62 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="PanelMessage"]
-bg_color = Color(0.025, 0.035, 0.03, 0.91)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.55, 0.48, 0.3, 0.62)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 8
+[sub_resource type="AtlasTexture" id="AtlasTexture_8a144"]
+atlas = ExtResource("3_045us")
+region = Rect2(8, 0, 552, 428)
 
-[sub_resource type="StyleBoxFlat" id="PanelCommand"]
-bg_color = Color(0.035, 0.045, 0.035, 0.96)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.78, 0.64, 0.35, 0.95)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.5)
-shadow_size = 12
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbvpm"]
+atlas = ExtResource("4_2bb1p")
 
-[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
-bg_color = Color(0.09, 0.12, 0.085, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.44, 0.46, 0.32, 0.8)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qhesy"]
+load_path = "res://.godot/imported/Mabiyasa_panel_flower.png-3400ca75803caaf3d6e04256eb31c6a6.ctex"
 
-[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
-bg_color = Color(0.16, 0.15, 0.09, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.82, 0.68, 0.34, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bbuo"]
+atlas = SubResource("CompressedTexture2D_qhesy")
 
-[sub_resource type="StyleBoxFlat" id="ButtonHover"]
-bg_color = Color(0.2, 0.2, 0.12, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.79, 0.39, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y1nyt"]
 
-[sub_resource type="StyleBoxFlat" id="ButtonFocus"]
-bg_color = Color(0.09, 0.12, 0.085, 0.98)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.83, 0.43, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0brw"]
+atlas = ExtResource("5_4bbuo")
+region = Rect2(0, 0, 584, 121)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4bbuo"]
+texture = SubResource("AtlasTexture_q0brw")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7r6e"]
+atlas = ExtResource("6_ji14m")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ji14m"]
+texture = SubResource("AtlasTexture_h7r6e")
+expand_margin_right = 1.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_etdbc"]
+load_path = "res://.godot/imported/Mabiyasa_Button_Selected.png-4306dacb3b4013a89fdfefbc9b9c5e3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc511"]
+atlas = SubResource("CompressedTexture2D_etdbc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q0brw"]
+texture = SubResource("AtlasTexture_sc511")
+expand_margin_right = 1.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q41pe"]
+texture = SubResource("AtlasTexture_q0brw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o0sci"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a4i37"]
+texture = SubResource("AtlasTexture_sc511")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rcuvj"]
+texture = SubResource("AtlasTexture_q0brw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0281g"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_06lii"]
+texture = SubResource("AtlasTexture_sc511")
 
 [node name="BattleScreen" type="CanvasLayer" unique_id=1985453315]
 process_mode = 3
@@ -151,7 +146,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Background" type="TextureRect" parent="Root" unique_id=992651142]
+[node name="Background" type="TextureRect" parent="Root" unique_id=1879376056]
 texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
@@ -164,7 +159,8 @@ texture = ExtResource("2_sqvdo")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="AtmosphereTint" type="ColorRect" parent="Root" unique_id=1788982420]
+[node name="AtmosphereTint" type="ColorRect" parent="Root" unique_id=245521956]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -174,7 +170,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.035, 0.055, 0.05, 0.22)
 
-[node name="EncounterCaption" type="Label" parent="Root" unique_id=985244930]
+[node name="EncounterCaption" type="Label" parent="Root" unique_id=1898943993]
 layout_mode = 0
 anchor_left = 0.4
 anchor_top = 0.035
@@ -186,16 +182,36 @@ text = "MABIYASA  /  ENCOUNTER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="EnemyPlatform" type="Panel" parent="Root" unique_id=426354453]
+visible = false
+layout_mode = 0
+anchor_left = 0.18
+anchor_top = 0.685
+anchor_right = 0.42
+anchor_bottom = 0.735
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelPlatform")
+
+[node name="PlayerPlatform" type="Panel" parent="Root" unique_id=1635451131]
+visible = false
+layout_mode = 0
+anchor_left = 0.58
+anchor_top = 0.685
+anchor_right = 0.82
+anchor_bottom = 0.735
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelPlatform")
+
 [node name="EnemySpriteBox" type="Panel" parent="Root" unique_id=1212823918]
 layout_mode = 0
-anchor_left = 0.17
-anchor_top = 0.26
-anchor_right = 0.45
-anchor_bottom = 0.64
+anchor_left = 0.19
+anchor_top = 0.35
+anchor_right = 0.39
+anchor_bottom = 0.76
 mouse_filter = 2
 theme_override_styles/panel = SubResource("PanelActor")
 
-[node name="EnemySprite" type="Sprite2D" parent="Root/EnemySpriteBox" unique_id=542986562]
+[node name="EnemySprite" type="Sprite2D" parent="Root/EnemySpriteBox" unique_id=1749037363]
 visible = false
 texture_filter = 1
 
@@ -207,19 +223,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.97, 0.93, 0.81, 0.88)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "Enemy sprite not assigned"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="PlayerSpriteBox" type="Panel" parent="Root" unique_id=1943677206]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.58
-anchor_top = 0.255
-anchor_right = 0.85
-anchor_bottom = 0.65
+layout_mode = 0
+anchor_left = 0.61
+anchor_top = 0.35
+anchor_right = 0.81
+anchor_bottom = 0.76
 mouse_filter = 2
 theme_override_styles/panel = SubResource("PanelActor")
 
@@ -234,19 +249,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.95, 0.93, 0.86, 0.9)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "Player sprite unavailable"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyInfoBox" type="Panel" parent="Root" unique_id=1891202777]
-layout_mode = 0
-anchor_left = 0.035
-anchor_top = 0.045
-anchor_right = 0.355
+[node name="EnemyInfoBox" type="NinePatchRect" parent="Root" unique_id=1548091010]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.075
+anchor_right = 0.32
 anchor_bottom = 0.235
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PanelGlass")
+offset_left = 28.0
+texture = SubResource("AtlasTexture_t6wf7")
+region_rect = Rect2(8, 8, 552, 416)
+patch_margin_left = 154
+patch_margin_right = 17
+patch_margin_bottom = 30
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Margin" type="MarginContainer" parent="Root/EnemyInfoBox" unique_id=657560104]
 layout_mode = 1
@@ -322,14 +345,50 @@ theme_override_styles/fill = SubResource("BarEnemyHP")
 value = 100.0
 show_percentage = false
 
-[node name="PlayerInfoBox" type="Panel" parent="Root" unique_id=1460860406]
-layout_mode = 0
-anchor_left = 0.69
-anchor_top = 0.045
-anchor_right = 0.965
-anchor_bottom = 0.205
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PanelGlass")
+[node name="TextureRect" type="TextureRect" parent="Root/EnemyInfoBox" unique_id=373865062]
+layout_mode = 1
+offset_left = -10.0
+offset_top = 0.9999962
+offset_right = 90.891304
+offset_bottom = 92.0
+texture = SubResource("AtlasTexture_5y2ec")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Root/EnemyInfoBox" unique_id=207882651]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -65.599976
+offset_top = -69.2
+offset_right = 5.5782776
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_qhesy")
+expand_mode = 1
+flip_h = true
+flip_v = true
+
+[node name="PlayerInfoBox" type="NinePatchRect" parent="Root" unique_id=421793408]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.075
+anchor_right = 0.975
+anchor_bottom = 0.235
+offset_left = -40.87506
+offset_right = -17.674683
+texture = SubResource("AtlasTexture_t6wf7")
+region_rect = Rect2(8, 8, 552, 416)
+patch_margin_left = 154
+patch_margin_right = 17
+patch_margin_bottom = 30
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Margin" type="MarginContainer" parent="Root/PlayerInfoBox" unique_id=1042905157]
 layout_mode = 1
@@ -397,41 +456,85 @@ theme_override_styles/fill = SubResource("BarEXP")
 show_percentage = false
 
 [node name="BottomBar" type="HBoxContainer" parent="Root" unique_id=1290900752]
-layout_mode = 0
-anchor_top = 0.755
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.62
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_right = -24.0
+anchor_bottom = 0.93
+offset_left = 54.0
+offset_right = -48.0
 offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 12
 
-[node name="MessageBox" type="PanelContainer" parent="Root/BottomBar" unique_id=853427006]
+[node name="MessageBox" type="NinePatchRect" parent="Root/BottomBar" unique_id=399985154]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("PanelMessage")
+size_flags_vertical = 12
+offset_transform_enabled = true
+offset_transform_position = Vector2(-110.375, 0)
+offset_transform_scale = Vector2(0.735, 1.151)
+offset_transform_visual_only = false
+texture = SubResource("AtlasTexture_8a144")
+region_rect = Rect2(0, 0, 552, 428)
+patch_margin_bottom = 30
+axis_stretch_vertical = 1
+
+[node name="TextureRect" type="TextureRect" parent="Root/BottomBar/MessageBox" unique_id=1430537997]
+layout_mode = 1
+offset_left = -11.463209
+offset_top = 8.599976
+offset_right = 117.94856
+offset_bottom = 83.599976
+texture = SubResource("AtlasTexture_nbvpm")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Root/BottomBar/MessageBox" unique_id=2138089233]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -78.05145
+offset_top = 20.599976
+offset_right = 8.497253
+offset_bottom = 71.599976
+grow_horizontal = 0
+texture = SubResource("AtlasTexture_4bbuo")
+expand_mode = 1
+flip_h = true
+flip_v = true
 
 [node name="MessageMargin" type="MarginContainer" parent="Root/BottomBar/MessageBox" unique_id=7251069]
-layout_mode = 2
-theme_override_constants/margin_left = 22
-theme_override_constants/margin_top = 13
-theme_override_constants/margin_right = 22
-theme_override_constants/margin_bottom = 13
+layout_mode = 0
+offset_right = 896.0
+offset_bottom = 84.0
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
 
 [node name="MessageLabel" type="Label" parent="Root/BottomBar/MessageBox/MessageMargin" unique_id=1221069]
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(280, 0)
+offset_transform_scale = Vector2(1.51, 1)
 theme_override_colors/font_color = Color(0.96, 0.94, 0.87, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 27
 text = "A wild enemy appears!"
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ActionBox" type="PanelContainer" parent="Root/BottomBar" unique_id=3332454]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(270, 142)
 layout_mode = 2
-theme_override_styles/panel = SubResource("PanelCommand")
+size_flags_vertical = 12
+theme_override_styles/panel = SubResource("StyleBoxTexture_y1nyt")
 
 [node name="ActionMargin" type="MarginContainer" parent="Root/BottomBar/ActionBox" unique_id=780028205]
+texture_filter = 5
 layout_mode = 2
 theme_override_constants/margin_left = 11
 theme_override_constants/margin_top = 8
@@ -440,49 +543,45 @@ theme_override_constants/margin_bottom = 8
 
 [node name="ActionVBox" type="VBoxContainer" parent="Root/BottomBar/ActionBox/ActionMargin" unique_id=402546735]
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 8.38)
+offset_transform_scale = Vector2(1, 1.12)
+offset_transform_visual_only = false
 theme_override_constants/separation = 4
-
-[node name="CommandTitle" type="Label" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=17525297]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.77, 0.4, 1)
-theme_override_font_sizes/font_size = 12
-text = "COMMAND"
 
 [node name="AttackButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=1732527074]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.97, 0.94, 0.86, 1)
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("ButtonNormal")
-theme_override_styles/pressed = SubResource("ButtonPressed")
-theme_override_styles/hover = SubResource("ButtonHover")
-theme_override_styles/focus = SubResource("ButtonFocus")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_4bbuo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ji14m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q0brw")
 text = "Attack"
 
 [node name="PotionButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=1745360010]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.97, 0.94, 0.86, 1)
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("ButtonNormal")
-theme_override_styles/pressed = SubResource("ButtonPressed")
-theme_override_styles/hover = SubResource("ButtonHover")
-theme_override_styles/focus = SubResource("ButtonFocus")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_q41pe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_o0sci")
+theme_override_styles/hover = SubResource("StyleBoxTexture_a4i37")
 text = "Use Potion"
 
 [node name="ContinueButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=1019242765]
 visible = false
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.82, 0.47, 1)
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("ButtonNormal")
-theme_override_styles/pressed = SubResource("ButtonPressed")
-theme_override_styles/hover = SubResource("ButtonHover")
-theme_override_styles/focus = SubResource("ButtonFocus")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_rcuvj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0281g")
+theme_override_styles/hover = SubResource("StyleBoxTexture_06lii")
 text = "Continue"
 
 [node name="QuizUI" parent="Root" unique_id=535122943 instance=ExtResource("2_quiz_ui")]
-process_mode = 0
-process_priority = 0
 layout_mode = 1
