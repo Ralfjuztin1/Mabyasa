@@ -7,6 +7,13 @@
 script = ExtResource("1_na7uk")
 metadata/_custom_type_script = "uid://c4mr7ni5a2s41"
 
+[node name="tp_player" type="Node" parent="." unique_id=1542467420]
+script = ExtResource("2_veii0")
+action_type = 1
+actor_id = "Player"
+target_id = "Apu_player_pos"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
 [node name="01_face_apu" type="Node" parent="." unique_id=1260106137]
 script = ExtResource("2_veii0")
 action_type = 3

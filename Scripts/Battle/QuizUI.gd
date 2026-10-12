@@ -79,7 +79,9 @@ func _setup_base_style() -> void:
 	_type_label.add_theme_color_override("font_color", GOLD)
 	_timer_label.add_theme_color_override("font_color", TEXT)
 	_prompt_label.add_theme_color_override("font_color", TEXT)
-	_prompt_label.add_theme_font_size_override("font_size", 32)
+	_prompt_label.add_theme_font_size_override("font_size", 38)
+	_prompt_label.custom_minimum_size.y = 96.0
+	_prompt_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sub_prompt.add_theme_color_override("font_color", MUTED)
 	_match_progress_label.add_theme_color_override("font_color", GOLD)
 	_standard_hint.visible = false
@@ -171,11 +173,21 @@ func start_quiz(question: QuizQuestion) -> void:
 	_type_label.text = question.get_type_label().to_upper()
 	_prompt_label.text = question.prompt
 
-	# Short vocabulary prompts get more emphasis; long instructions stay readable.
-	_prompt_label.add_theme_font_size_override(
-		"font_size",
-		36 if question.prompt.length() <= 24 else 27
-	)
+	# Keep the main question large, while allowing longer prompts to wrap cleanly.
+	var prompt_length: int = question.prompt.length()
+	var prompt_font_size: int = 44
+	var prompt_min_height: float = 88.0
+
+	if prompt_length > 48:
+		prompt_font_size = 32
+		prompt_min_height = 116.0
+	elif prompt_length > 24:
+		prompt_font_size = 36
+		prompt_min_height = 100.0
+
+	_prompt_label.add_theme_font_size_override("font_size", prompt_font_size)
+	_prompt_label.custom_minimum_size.y = prompt_min_height
+	_prompt_label.size_flags_vertical = Control.SIZE_FILL
 
 	_sub_prompt.text = "Choose the correct answer."
 	_sub_prompt.visible = true
@@ -196,7 +208,6 @@ func start_quiz(question: QuizQuestion) -> void:
 
 	visible = true
 	set_process(true)
-	call_deferred("_focus_first_choice")
 	modulate.a = 0.0
 	_card.scale = Vector2(0.985, 0.985)
 	_card.pivot_offset = _card.size * 0.5
@@ -207,19 +218,6 @@ func start_quiz(question: QuizQuestion) -> void:
 	_transition_tween.tween_property(self, "modulate:a", 1.0, 0.16)
 	_transition_tween.tween_property(_card, "scale", Vector2.ONE, 0.18)
 
-
-func _focus_first_choice() -> void:
-	# Keyboard users start on the first available action; mouse input still works.
-	if not visible or _resolving:
-		return
-	if not _standard_buttons.is_empty():
-		_standard_buttons[0].grab_focus()
-	elif not _match_left_buttons.is_empty():
-		_match_left_buttons[0].grab_focus()
-	elif not _sentence_source_buttons.is_empty():
-		var first_button: Variant = _sentence_source_buttons.values()[0]
-		if first_button is Button:
-			(first_button as Button).grab_focus()
 
 
 func _build_standard_answers(question: QuizQuestion) -> void:

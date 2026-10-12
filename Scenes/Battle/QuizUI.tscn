@@ -1,24 +1,16 @@
 [gd_scene format=3 uid="uid://dcgk3tfigt0lo"]
 
 [ext_resource type="Script" uid="uid://el3p32eyk6rp" path="res://Scripts/Battle/QuizUI.gd" id="1_quiz_ui"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="2_60rmt"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="2_gxclh"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="3_60rmt"]
 
-[sub_resource type="StyleBoxFlat" id="QuizCardPanel"]
-content_margin_left = 28.0
-content_margin_top = 24.0
-content_margin_right = 28.0
-content_margin_bottom = 22.0
-bg_color = Color(0.025, 0.035, 0.03, 0.985)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.72, 0.61, 0.36, 0.92)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.52)
-shadow_size = 18
+[sub_resource type="AtlasTexture" id="AtlasTexture_wh55e"]
+atlas = ExtResource("2_60rmt")
+region = Rect2(8, 8, 552, 416)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1qari"]
+texture = SubResource("AtlasTexture_wh55e")
 
 [sub_resource type="StyleBoxFlat" id="TimerBackground"]
 bg_color = Color(0.09, 0.11, 0.085, 1)
@@ -105,10 +97,31 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0brw"]
+atlas = ExtResource("2_gxclh")
+region = Rect2(0, 0, 584, 121)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gxclh"]
+texture = SubResource("AtlasTexture_q0brw")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7r6e"]
+atlas = ExtResource("3_60rmt")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_60rmt"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_etdbc"]
+load_path = "res://.godot/imported/Mabiyasa_Button_Selected.png-4306dacb3b4013a89fdfefbc9b9c5e3d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc511"]
+atlas = SubResource("CompressedTexture2D_etdbc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar8yx"]
+texture = SubResource("AtlasTexture_sc511")
+
 [node name="QuizUI" type="Control" unique_id=1404315678]
 process_mode = 3
 process_priority = 1001
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -141,10 +154,12 @@ offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-theme_override_styles/panel = SubResource("QuizCardPanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_1qari")
 
 [node name="RootBox" type="VBoxContainer" parent="Card" unique_id=699611487]
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.84, 0.918)
 theme_override_constants/separation = 9
 
 [node name="Header" type="HBoxContainer" parent="Card/RootBox" unique_id=851018424]
@@ -157,7 +172,7 @@ custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 46
 text = "KAPAMPANGAN CHALLENGE"
 vertical_alignment = 1
 
@@ -183,18 +198,17 @@ custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
-theme_override_font_sizes/font_size = 27
+theme_override_font_sizes/font_size = 80
 text = "Question prompt goes here"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="SubPrompt" type="Label" parent="Card/RootBox" unique_id=689040220]
-visible = false
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.65, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 35
 text = "Choose the correct answer."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -226,7 +240,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AnswerGrid" type="GridContainer" parent="Card/RootBox/Content" unique_id=762307995]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -239,7 +252,6 @@ theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 12
 
 [node name="StandardHint" type="Label" parent="Card/RootBox/Content" unique_id=1849352966]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.91
@@ -252,7 +264,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MatchRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=109204434]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -316,7 +327,6 @@ size_flags_vertical = 3
 theme_override_constants/separation = 8
 
 [node name="SentenceRoot" type="VBoxContainer" parent="Card/RootBox/Content" unique_id=1085140847]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -369,10 +379,10 @@ custom_minimum_size = Vector2(0, 46)
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 46.0
-theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("ChoiceNormal")
-theme_override_styles/pressed = SubResource("ChoicePressed")
-theme_override_styles/hover = SubResource("ChoiceHover")
-theme_override_styles/focus = SubResource("ChoiceFocus")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 45
+theme_override_styles/normal = SubResource("StyleBoxTexture_gxclh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_60rmt")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ar8yx")
 text = "Choice"

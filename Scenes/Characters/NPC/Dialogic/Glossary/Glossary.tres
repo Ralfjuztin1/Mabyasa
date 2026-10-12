@@ -1,66 +1,2042 @@
-[gd_resource type="Resource" script_class="DialogicGlossary" format=3 uid="uid://dlw8oui7c181j"]
+[gd_resource type="Resource" script_class="DialogicGlossary" format=3 uid="uid://clcqargr7lgbr"]
 
 [ext_resource type="Script" uid="uid://80elcodyqohb" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_nd4oi"]
 
 [resource]
 script = ExtResource("1_nd4oi")
 entries = {
-"Aldo": {
+"Ala pung nanu man": {
 "case_sensitive": false,
-"name": "Aldo",
-"text": "Morning",
+"name": "Ala pung nanu man",
+"text": "You're welcome",
 "title": "Translation"
 },
-"Apu": {
-"name": "Apu",
-"text": "Grandmother/Grandfather",
+"Ali?": {
+"case_sensitive": false,
+"name": "Ali?",
+"text": "Right? (No)",
+"title": "Translation"
+},
+"Anak": {
+"case_sensitive": false,
+"name": "Anak",
+"text": "Son/Daughter",
+"title": "Translation"
+},
+"Apu king kuku": {
+"case_sensitive": false,
+"name": "Apu king kuku",
+"text": "Great-great-great grandparent",
+"title": "Translation"
+},
+"Apu king talampakan": {
+"case_sensitive": false,
+"name": "Apu king talampakan",
+"text": "Great-great grandparent",
+"title": "Translation"
+},
+"Apu king tud": {
+"case_sensitive": false,
+"name": "Apu king tud",
+"text": "Great-grandparent",
+"title": "Translation"
+},
+"Apú": {
+"case_sensitive": false,
+"name": "Apú",
+"text": "Grandson/Granddaughter",
+"title": "Translation"
+},
+"Aro!": {
+"case_sensitive": false,
+"name": "Aro!",
+"text": "Watch out!",
+"title": "Translation"
+},
+"Asawa": {
+"case_sensitive": false,
+"name": "Asawa",
+"text": "Husband/Wife; Husband and Wife",
+"title": "Translation"
+},
+"Asawa ning pangane": {
+"case_sensitive": false,
+"name": "Asawa ning pangane",
+"text": "Wife of eldest child",
+"title": "Translation"
+},
+"Balayi": {
+"case_sensitive": false,
+"name": "Balayi",
+"text": "Fellow Parent-in-law (Reciprocal term for parents of married couple)",
 "title": "Translation"
 },
 "Bapa": {
+"case_sensitive": false,
 "name": "Bapa",
-"text": "Uncle",
+"text": "Uncle/Stepfather; Their children call their parents' brothers \"bapa\"",
+"title": "Translation"
+},
+"Bayo": {
+"case_sensitive": false,
+"name": "Bayo",
+"text": "Brother-in-law/Sister-in-law; The Second Child calls her \"bayo\" (sister-in-law)",
+"title": "Translation"
+},
+"Bilas": {
+"case_sensitive": false,
+"name": "Bilas",
+"text": "Fellow Son/Daughter-in-law (Reciprocal term for spouses of siblings); The Second Child's spouse calls her \"bilas\" (fellow in-law)",
+"title": "Translation"
+},
+"Bungsu": {
+"case_sensitive": false,
+"name": "Bungsu",
+"text": "Youngest child/sibling; Youngest",
+"title": "Translation"
+},
+"Dakal a salamat": {
+"case_sensitive": false,
+"name": "Dakal a salamat",
+"text": "Thank you very much",
+"title": "Translation"
+},
+"Dara": {
+"case_sensitive": false,
+"name": "Dara",
+"text": "Aunt/Stepmother; Their children call their parents' sisters \"dara\"",
+"title": "Translation"
+},
+"Deng anak da": {
+"case_sensitive": false,
+"name": "Deng anak da",
+"text": "Their children",
+"title": "Translation"
+},
+"Deng pengari da": {
+"case_sensitive": false,
+"name": "Deng pengari da",
+"text": "Their respective parents",
+"title": "Translation"
+},
+"Ibpa": {
+"case_sensitive": false,
+"name": "Ibpa",
+"text": "Father",
 "title": "Translation"
 },
 "Ima": {
+"case_sensitive": false,
 "name": "Ima",
 "text": "Mother",
 "title": "Translation"
 },
-"Istu": {
-"name": "Istu",
-"text": "Right/correct",
+"Indu": {
+"case_sensitive": false,
+"name": "Indu",
+"text": "Mother",
 "title": "Translation"
 },
-"Keka": {
-"name": "Keka",
-"text": "To you (singular)",
+"Kaduang bungsu": {
+"case_sensitive": false,
+"name": "Kaduang bungsu",
+"text": "Second to the youngest",
 "title": "Translation"
 },
-"Kekayu": {
-"name": "Kekayu",
-"text": "To you (plural)",
+"Kaduang pangane": {
+"case_sensitive": false,
+"name": "Kaduang pangane",
+"text": "Second child",
 "title": "Translation"
 },
-"Kekayu ngan": {
-"name": "Kekayu ngan",
-"text": "To all of you",
+"Kapatad": {
+"case_sensitive": false,
+"name": "Kapatad",
+"text": "Brother/Sister",
+"title": "Translation"
+},
+"Kaputul": {
+"case_sensitive": false,
+"name": "Kaputul",
+"text": "Brother/Sister",
+"title": "Translation"
+},
+"Katuwangan": {
+"case_sensitive": false,
+"name": "Katuwangan",
+"text": "Mother-in-law/Father-in-law; She calls them \"katuwangan\" (parents-in-law)",
+"title": "Translation"
+},
+"Katuyangan": {
+"case_sensitive": false,
+"name": "Katuyangan",
+"text": "Mother-in-law/Father-in-law; She calls them \"katuwangan\" (parents-in-law)",
+"title": "Translation"
+},
+"Komusta kayu?": {
+"case_sensitive": false,
+"name": "Komusta kayu?",
+"text": "How are you?",
+"title": "Translation"
+},
+"Komusta na kayu?": {
+"case_sensitive": false,
+"name": "Komusta na kayu?",
+"text": "How are you?",
+"title": "Translation"
+},
+"Lola": {
+"case_sensitive": false,
+"name": "Lola",
+"text": "Grandfather/Grandmother",
+"title": "Translation"
+},
+"Lolo": {
+"case_sensitive": false,
+"name": "Lolo",
+"text": "Grandfather/Grandmother",
+"title": "Translation"
+},
+"Lwid ka!": {
+"case_sensitive": false,
+"name": "Lwid ka!",
+"text": "Long live to you!",
+"title": "Translation"
+},
+"Lwid!": {
+"case_sensitive": false,
+"name": "Lwid!",
+"text": "Long live! (Congratulations!)",
+"title": "Translation"
+},
+"Makilabas ku pu": {
+"case_sensitive": false,
+"name": "Makilabas ku pu",
+"text": "Excuse me",
+"title": "Translation"
+},
+"Makirame ku pu": {
+"case_sensitive": false,
+"name": "Makirame ku pu",
+"text": "Condolences",
+"title": "Translation"
+},
+"Malaus kayu pu": {
+"case_sensitive": false,
+"name": "Malaus kayu pu",
+"text": "Please come in",
+"title": "Translation"
+},
+"Malaus na ku pu": {
+"case_sensitive": false,
+"name": "Malaus na ku pu",
+"text": "Good-bye",
+"title": "Translation"
+},
+"Mangan ta na": {
+"case_sensitive": false,
+"name": "Mangan ta na",
+"text": "Let's eat",
+"title": "Translation"
+},
+"Manuyang": {
+"case_sensitive": false,
+"name": "Manuyang",
+"text": "Son-in-law/daughter-in-law; His parents call her \"manuyang\" (daughter-in-law)",
+"title": "Translation"
+},
+"Masayang kebaitan": {
+"case_sensitive": false,
+"name": "Masayang kebaitan",
+"text": "Happy birthday",
 "title": "Translation"
 },
 "Mayap a abak": {
-"alternatives": [],
-"extra": "Greeting",
+"case_sensitive": false,
 "name": "Mayap a abak",
 "text": "Good morning",
 "title": "Translation"
 },
+"Mayap a abak keka": {
+"case_sensitive": false,
+"name": "Mayap a abak keka",
+"text": "Good morning to you (singular)",
+"title": "Translation"
+},
+"Mayap a abak kekayu": {
+"case_sensitive": false,
+"name": "Mayap a abak kekayu",
+"text": "Good morning to you (plural)",
+"title": "Translation"
+},
+"Mayap a abak kekayu ngan": {
+"case_sensitive": false,
+"name": "Mayap a abak kekayu ngan",
+"text": "Good morning to all of you",
+"title": "Translation"
+},
+"Mayap a aldo": {
+"case_sensitive": false,
+"name": "Mayap a aldo",
+"text": "Good day",
+"title": "Translation"
+},
+"Mayap a bengi": {
+"case_sensitive": false,
+"name": "Mayap a bengi",
+"text": "Good evening",
+"title": "Translation"
+},
+"Mayap a gatpanapun": {
+"case_sensitive": false,
+"name": "Mayap a gatpanapun",
+"text": "Good afternoon",
+"title": "Translation"
+},
+"Mayap a oras": {
+"case_sensitive": false,
+"name": "Mayap a oras",
+"text": "Have a pleasant time. (idiomatic)",
+"title": "Translation"
+},
+"Mayap naman.": {
+"case_sensitive": false,
+"name": "Mayap naman.",
+"text": "I am fine",
+"title": "Translation"
+},
+"Mi-balayi la": {
+"case_sensitive": false,
+"name": "Mi-balayi la",
+"text": "Their respective parents call each other \"balayi\"",
+"title": "Translation"
+},
+"Ne?": {
+"case_sensitive": false,
+"name": "Ne?",
+"text": "Okay? (Is it not?)",
+"title": "Translation"
+},
+"Nu ka menibat?": {
+"case_sensitive": false,
+"name": "Nu ka menibat?",
+"text": "Where have you been?",
+"title": "Translation"
+},
+"Nunu": {
+"case_sensitive": false,
+"name": "Nunu",
+"text": "Ancestor",
+"title": "Translation"
+},
+"Pangane": {
+"case_sensitive": false,
+"name": "Pangane",
+"text": "Eldest child/sibling; Eldest",
+"title": "Translation"
+},
+"Pangunakan": {
+"case_sensitive": false,
+"name": "Pangunakan",
+"text": "Nephew/Niece; Nephews and nieces",
+"title": "Translation"
+},
+"Paunakan": {
+"case_sensitive": false,
+"name": "Paunakan",
+"text": "Nephew/Niece; Nephews and nieces",
+"title": "Translation"
+},
+"Pengari": {
+"case_sensitive": false,
+"name": "Pengari",
+"text": "Parent",
+"title": "Translation"
+},
+"Pengaring babayi": {
+"case_sensitive": false,
+"name": "Pengaring babayi",
+"text": "Mother",
+"title": "Translation"
+},
+"Pengaring lalaki": {
+"case_sensitive": false,
+"name": "Pengaring lalaki",
+"text": "Father",
+"title": "Translation"
+},
+"Pisan": {
+"case_sensitive": false,
+"name": "Pisan",
+"text": "Cousin",
+"title": "Translation"
+},
+"Pisan alang pilatan": {
+"case_sensitive": false,
+"name": "Pisan alang pilatan",
+"text": "First cousin",
+"title": "Translation"
+},
+"Pisan kakadua": {
+"case_sensitive": false,
+"name": "Pisan kakadua",
+"text": "Second cousin",
+"title": "Translation"
+},
+"Salamat": {
+"case_sensitive": false,
+"name": "Salamat",
+"text": "Thank you",
+"title": "Translation"
+},
+"Sige": {
+"case_sensitive": false,
+"name": "Sige",
+"text": "See you",
+"title": "Translation"
+},
+"Taga nu karin ka?": {
+"case_sensitive": false,
+"name": "Taga nu karin ka?",
+"text": "Where are you from?",
+"title": "Translation"
+},
 "Tatang": {
+"case_sensitive": false,
 "name": "Tatang",
 "text": "Father",
 "title": "Translation"
 },
-"ylang-ylang": {
-"name": "ylang-ylang",
-"text": "A rare soothing flower that can heal curses due to its magical scent.",
-"title": "Description"
+"Ume kakeni": {
+"case_sensitive": false,
+"name": "Ume kakeni",
+"text": "Come here",
+"title": "Translation"
+},
+"Ume ta na": {
+"case_sensitive": false,
+"name": "Ume ta na",
+"text": "Let's go",
+"title": "Translation"
+},
+"Wali": {
+"case_sensitive": false,
+"name": "Wali",
+"text": "Younger brother/sister",
+"title": "Translation"
+},
+"adwa": {
+"case_sensitive": false,
+"name": "adwa",
+"text": "two",
+"title": "Translation"
+},
+"adwang apulu": {
+"case_sensitive": false,
+"name": "adwang apulu",
+"text": "twenty",
+"title": "Translation"
+},
+"adwang apulu libu": {
+"case_sensitive": false,
+"name": "adwang apulu libu",
+"text": "twenty thousand",
+"title": "Translation"
+},
+"adwang apulu't adwa": {
+"case_sensitive": false,
+"name": "adwang apulu't adwa",
+"text": "twenty-two",
+"title": "Translation"
+},
+"adwang apulu't atlu": {
+"case_sensitive": false,
+"name": "adwang apulu't atlu",
+"text": "twenty-three",
+"title": "Translation"
+},
+"adwang apulu't metung": {
+"case_sensitive": false,
+"name": "adwang apulu't metung",
+"text": "twenty-one",
+"title": "Translation"
+},
+"adwang dalan": {
+"case_sensitive": false,
+"name": "adwang dalan",
+"text": "two hundred",
+"title": "Translation"
+},
+"adwang dalan a libu": {
+"case_sensitive": false,
+"name": "adwang dalan a libu",
+"text": "two hundred thousand",
+"title": "Translation"
+},
+"adwang dalan a metung": {
+"case_sensitive": false,
+"name": "adwang dalan a metung",
+"text": "two hundred and one",
+"title": "Translation"
+},
+"adwang dalan siyam apulu't siyam": {
+"case_sensitive": false,
+"name": "adwang dalan siyam apulu't siyam",
+"text": "two hundred ninety-nine",
+"title": "Translation"
+},
+"adwang libu": {
+"case_sensitive": false,
+"name": "adwang libu",
+"text": "two thousand",
+"title": "Translation"
+},
+"adwang yuta": {
+"case_sensitive": false,
+"name": "adwang yuta",
+"text": "two million",
+"title": "Translation"
+},
+"almunan": {
+"case_sensitive": false,
+"name": "almunan",
+"text": "aesophagus",
+"title": "Translation"
+},
+"anam": {
+"case_sensitive": false,
+"name": "anam",
+"text": "six",
+"title": "Translation"
+},
+"anam a apulu": {
+"case_sensitive": false,
+"name": "anam a apulu",
+"text": "sixty",
+"title": "Translation"
+},
+"anam a dalan": {
+"case_sensitive": false,
+"name": "anam a dalan",
+"text": "six hundred",
+"title": "Translation"
+},
+"apat": {
+"case_sensitive": false,
+"name": "apat",
+"text": "four",
+"title": "Translation"
+},
+"apat a apulu": {
+"case_sensitive": false,
+"name": "apat a apulu",
+"text": "forty",
+"title": "Translation"
+},
+"apat a dalan": {
+"case_sensitive": false,
+"name": "apat a dalan",
+"text": "four hundred",
+"title": "Translation"
+},
+"apat a libu": {
+"case_sensitive": false,
+"name": "apat a libu",
+"text": "four thousand",
+"title": "Translation"
+},
+"apulo": {
+"case_sensitive": false,
+"name": "apulo",
+"text": "ten",
+"title": "Translation"
+},
+"apulu": {
+"case_sensitive": false,
+"name": "apulu",
+"text": "ten",
+"title": "Translation"
+},
+"apulung libu": {
+"case_sensitive": false,
+"name": "apulung libu",
+"text": "ten thousand",
+"title": "Translation"
+},
+"arung": {
+"case_sensitive": false,
+"name": "arung",
+"text": "nose",
+"title": "Translation"
+},
+"asbuk": {
+"case_sensitive": false,
+"name": "asbuk",
+"text": "mouth",
+"title": "Translation"
+},
+"atdo": {
+"case_sensitive": false,
+"name": "atdo",
+"text": "gall bladder",
+"title": "Translation"
+},
+"ate": {
+"case_sensitive": false,
+"name": "ate",
+"text": "liver",
+"title": "Translation"
+},
+"atian": {
+"case_sensitive": false,
+"name": "atian",
+"text": "belly",
+"title": "Translation"
+},
+"atlo": {
+"case_sensitive": false,
+"name": "atlo",
+"text": "three",
+"title": "Translation"
+},
+"atlu": {
+"case_sensitive": false,
+"name": "atlu",
+"text": "three",
+"title": "Translation"
+},
+"atlung apulu": {
+"case_sensitive": false,
+"name": "atlung apulu",
+"text": "thirty",
+"title": "Translation"
+},
+"atlung apulu libu": {
+"case_sensitive": false,
+"name": "atlung apulu libu",
+"text": "thirty thousand",
+"title": "Translation"
+},
+"atlung dalan": {
+"case_sensitive": false,
+"name": "atlung dalan",
+"text": "three hundred",
+"title": "Translation"
+},
+"atlung dalan a adwalibu": {
+"case_sensitive": false,
+"name": "atlung dalan a adwalibu",
+"text": "three hundred two thousand",
+"title": "Translation"
+},
+"atlung dalan a adwang apulu libu": {
+"case_sensitive": false,
+"name": "atlung dalan a adwang apulu libu",
+"text": "three hundred and twenty thousand",
+"title": "Translation"
+},
+"atlung dalan a libu": {
+"case_sensitive": false,
+"name": "atlung dalan a libu",
+"text": "three hundred thousand",
+"title": "Translation"
+},
+"atlung dalan a yuta": {
+"case_sensitive": false,
+"name": "atlung dalan a yuta",
+"text": "three hundred million",
+"title": "Translation"
+},
+"atlung dalan adwang apulu at lima libu": {
+"case_sensitive": false,
+"name": "atlung dalan adwang apulu at lima libu",
+"text": "three hundred twenty-five thousand",
+"title": "Translation"
+},
+"atlung dalan adwang apulu lima libu at dinalan": {
+"case_sensitive": false,
+"name": "atlung dalan adwang apulu lima libu at dinalan",
+"text": "three hundred twenty-five thousand and one hundred",
+"title": "Translation"
+},
+"atlung dalan adwang apulu lima libu at dinalan a adwang pulu't metung": {
+"case_sensitive": false,
+"name": "atlung dalan adwang apulu lima libu at dinalan a adwang pulu't metung",
+"text": "three hundred twenty-five thousand one hundred and twenty-one",
+"title": "Translation"
+},
+"atlung libu": {
+"case_sensitive": false,
+"name": "atlung libu",
+"text": "three thousand",
+"title": "Translation"
+},
+"atlung yuta": {
+"case_sensitive": false,
+"name": "atlung yuta",
+"text": "three million",
+"title": "Translation"
+},
+"atlung yuta at pitung libu": {
+"case_sensitive": false,
+"name": "atlung yuta at pitung libu",
+"text": "three million and seven thousand",
+"title": "Translation"
+},
+"atlung yuta pitung dalan a libu": {
+"case_sensitive": false,
+"name": "atlung yuta pitung dalan a libu",
+"text": "three million seven hundred thousand",
+"title": "Translation"
+},
+"awakan": {
+"case_sensitive": false,
+"name": "awakan",
+"text": "waist",
+"title": "Translation"
+},
+"baba": {
+"case_sensitive": false,
+"name": "baba",
+"text": "chin",
+"title": "Translation"
+},
+"bagang": {
+"case_sensitive": false,
+"name": "bagang",
+"text": "molars",
+"title": "Translation"
+},
+"balat": {
+"case_sensitive": false,
+"name": "balat",
+"text": "skin",
+"title": "Translation"
+},
+"balbas": {
+"case_sensitive": false,
+"name": "balbas",
+"text": "moustache, beard",
+"title": "Translation"
+},
+"balikat": {
+"case_sensitive": false,
+"name": "balikat",
+"text": "clavicle",
+"title": "Translation"
+},
+"balugbug": {
+"case_sensitive": false,
+"name": "balugbug",
+"text": "ears",
+"title": "Translation"
+},
+"balungus": {
+"case_sensitive": false,
+"name": "balungus",
+"text": "mouth",
+"title": "Translation"
+},
+"batal": {
+"case_sensitive": false,
+"name": "batal",
+"text": "neck",
+"title": "Translation"
+},
+"bato": {
+"case_sensitive": false,
+"name": "bato",
+"text": "kidneys",
+"title": "Translation"
+},
+"bayag": {
+"case_sensitive": false,
+"name": "bayag",
+"text": "testicles",
+"title": "Translation"
+},
+"bikan": {
+"case_sensitive": false,
+"name": "bikan",
+"text": "skull",
+"title": "Translation"
+},
+"bitis": {
+"case_sensitive": false,
+"name": "bitis",
+"text": "foot",
+"title": "Translation"
+},
+"bituka": {
+"case_sensitive": false,
+"name": "bituka",
+"text": "large intestines",
+"title": "Translation"
+},
+"bubung talampakan": {
+"case_sensitive": false,
+"name": "bubung talampakan",
+"text": "instep",
+"title": "Translation"
+},
+"bukung bukung": {
+"case_sensitive": false,
+"name": "bukung bukung",
+"text": "ankle",
+"title": "Translation"
+},
+"buldit": {
+"case_sensitive": false,
+"name": "buldit",
+"text": "buttocks",
+"title": "Translation"
+},
+"bumbunan": {
+"case_sensitive": false,
+"name": "bumbunan",
+"text": "crown",
+"title": "Translation"
+},
+"bunganga": {
+"case_sensitive": false,
+"name": "bunganga",
+"text": "mouth",
+"title": "Translation"
+},
+"buntuk": {
+"case_sensitive": false,
+"name": "buntuk",
+"text": "head",
+"title": "Translation"
+},
+"butit": {
+"case_sensitive": false,
+"name": "butit",
+"text": "calf",
+"title": "Translation"
+},
+"butu": {
+"case_sensitive": false,
+"name": "butu",
+"text": "penis",
+"title": "Translation"
+},
+"butul": {
+"case_sensitive": false,
+"name": "butul",
+"text": "bone",
+"title": "Translation"
+},
+"buwak": {
+"case_sensitive": false,
+"name": "buwak",
+"text": "hair",
+"title": "Translation"
+},
+"dakal a": {
+"name": "dakal a",
+"text": "Much / So much 
+\"a\" as connector",
+"title": "Translation"
+},
+"dila": {
+"case_sensitive": false,
+"name": "dila",
+"text": "tongue",
+"title": "Translation"
+},
+"dinalan": {
+"case_sensitive": false,
+"name": "dinalan",
+"text": "one hundred",
+"title": "Translation"
+},
+"dinalan a adwa": {
+"case_sensitive": false,
+"name": "dinalan a adwa",
+"text": "one hundred and two",
+"title": "Translation"
+},
+"dinalan a adwang apulu": {
+"case_sensitive": false,
+"name": "dinalan a adwang apulu",
+"text": "one hundred and twenty",
+"title": "Translation"
+},
+"dinalan a adwang apulu't metung": {
+"case_sensitive": false,
+"name": "dinalan a adwang apulu't metung",
+"text": "one hundred and twenty-one",
+"title": "Translation"
+},
+"dinalan a apulu": {
+"case_sensitive": false,
+"name": "dinalan a apulu",
+"text": "one hundred and ten",
+"title": "Translation"
+},
+"dinalan a atlu": {
+"case_sensitive": false,
+"name": "dinalan a atlu",
+"text": "one hundred and three",
+"title": "Translation"
+},
+"dinalan a labing metung": {
+"case_sensitive": false,
+"name": "dinalan a labing metung",
+"text": "one hundred and eleven",
+"title": "Translation"
+},
+"dinalan a libu": {
+"case_sensitive": false,
+"name": "dinalan a libu",
+"text": "one hundred thousand",
+"title": "Translation"
+},
+"dinalan a metung": {
+"case_sensitive": false,
+"name": "dinalan a metung",
+"text": "one hundred and one",
+"title": "Translation"
+},
+"dinalan a siyam a apulu't siyam": {
+"case_sensitive": false,
+"name": "dinalan a siyam a apulu't siyam",
+"text": "one hundred and ninety-nine",
+"title": "Translation"
+},
+"dungus": {
+"case_sensitive": false,
+"name": "dungus",
+"text": "stomach",
+"title": "Translation"
+},
+"galudgud": {
+"case_sensitive": false,
+"name": "galudgud",
+"text": "backbone",
+"title": "Translation"
+},
+"gamat": {
+"case_sensitive": false,
+"name": "gamat",
+"text": "hand",
+"title": "Translation"
+},
+"gilagid": {
+"case_sensitive": false,
+"name": "gilagid",
+"text": "gums",
+"title": "Translation"
+},
+"gumi": {
+"case_sensitive": false,
+"name": "gumi",
+"text": "moustache, beard",
+"title": "Translation"
+},
+"ipan": {
+"case_sensitive": false,
+"name": "ipan",
+"text": "teeth",
+"title": "Translation"
+},
+"irap": {
+"case_sensitive": false,
+"name": "irap",
+"text": "eyelashes",
+"title": "Translation"
+},
+"iso": {
+"case_sensitive": false,
+"name": "iso",
+"text": "small intestines",
+"title": "Translation"
+},
+"ita": {
+"case_sensitive": false,
+"name": "ita",
+"text": "inner thigh",
+"title": "Translation"
+},
+"kadinalan": {
+"case_sensitive": false,
+"name": "kadinalan",
+"text": "one hundredth",
+"title": "Translation"
+},
+"kaduang apulu": {
+"case_sensitive": false,
+"name": "kaduang apulu",
+"text": "twentieth",
+"title": "Translation"
+},
+"kadwa": {
+"case_sensitive": false,
+"name": "kadwa",
+"text": "second",
+"title": "Translation"
+},
+"kadwang apulu't metung": {
+"case_sensitive": false,
+"name": "kadwang apulu't metung",
+"text": "twenty-first",
+"title": "Translation"
+},
+"kadwang dalan a libu": {
+"case_sensitive": false,
+"name": "kadwang dalan a libu",
+"text": "two hundred thousandth",
+"title": "Translation"
+},
+"kadwang dalan a yuta": {
+"case_sensitive": false,
+"name": "kadwang dalan a yuta",
+"text": "two hundred millionth",
+"title": "Translation"
+},
+"kadwang yuta": {
+"case_sensitive": false,
+"name": "kadwang yuta",
+"text": "two millionth",
+"title": "Translation"
+},
+"kalabing adwa": {
+"case_sensitive": false,
+"name": "kalabing adwa",
+"text": "twelfth",
+"title": "Translation"
+},
+"kalabing metung": {
+"case_sensitive": false,
+"name": "kalabing metung",
+"text": "eleventh",
+"title": "Translation"
+},
+"kalibu": {
+"case_sensitive": false,
+"name": "kalibu",
+"text": "one thousandth",
+"title": "Translation"
+},
+"kalima": {
+"case_sensitive": false,
+"name": "kalima",
+"text": "fifth",
+"title": "Translation"
+},
+"kamao": {
+"case_sensitive": false,
+"name": "kamao",
+"text": "fist",
+"title": "Translation"
+},
+"kanam": {
+"case_sensitive": false,
+"name": "kanam",
+"text": "sixth",
+"title": "Translation"
+},
+"kanwan": {
+"case_sensitive": false,
+"name": "kanwan",
+"text": "forehead",
+"title": "Translation"
+},
+"kapat": {
+"case_sensitive": false,
+"name": "kapat",
+"text": "fourth",
+"title": "Translation"
+},
+"kapitna": {
+"case_sensitive": false,
+"name": "kapitna",
+"text": "one-half",
+"title": "Translation"
+},
+"kapitnga": {
+"case_sensitive": false,
+"name": "kapitnga",
+"text": "one-half",
+"title": "Translation"
+},
+"kapitu": {
+"case_sensitive": false,
+"name": "kapitu",
+"text": "seventh",
+"title": "Translation"
+},
+"kapulu": {
+"case_sensitive": false,
+"name": "kapulu",
+"text": "tenth",
+"title": "Translation"
+},
+"kasiyam": {
+"case_sensitive": false,
+"name": "kasiyam",
+"text": "ninth",
+"title": "Translation"
+},
+"katakata": {
+"case_sensitive": false,
+"name": "katakata",
+"text": "(too numerous to count)",
+"title": "Translation"
+},
+"katat": {
+"case_sensitive": false,
+"name": "katat",
+"text": "skin",
+"title": "Translation"
+},
+"katlu": {
+"case_sensitive": false,
+"name": "katlu",
+"text": "third",
+"title": "Translation"
+},
+"kaunan": {
+"case_sensitive": false,
+"name": "kaunan",
+"text": "first",
+"title": "Translation"
+},
+"kawalu": {
+"case_sensitive": false,
+"name": "kawalu",
+"text": "eighth",
+"title": "Translation"
+},
+"kayukut": {
+"case_sensitive": false,
+"name": "kayukut",
+"text": "tip of spinal column",
+"title": "Translation"
+},
+"kayuta": {
+"case_sensitive": false,
+"name": "kayuta",
+"text": "one millionth",
+"title": "Translation"
+},
+"kile": {
+"case_sensitive": false,
+"name": "kile",
+"text": "eyebrows",
+"title": "Translation"
+},
+"kilikili": {
+"case_sensitive": false,
+"name": "kilikili",
+"text": "armpit",
+"title": "Translation"
+},
+"kuluung": {
+"case_sensitive": false,
+"name": "kuluung",
+"text": "torso",
+"title": "Translation"
+},
+"labi": {
+"case_sensitive": false,
+"name": "labi",
+"text": "lips",
+"title": "Translation"
+},
+"labing adwa": {
+"case_sensitive": false,
+"name": "labing adwa",
+"text": "twelve",
+"title": "Translation"
+},
+"labing atlu": {
+"case_sensitive": false,
+"name": "labing atlu",
+"text": "thirteen",
+"title": "Translation"
+},
+"labing metung": {
+"case_sensitive": false,
+"name": "labing metung",
+"text": "eleven",
+"title": "Translation"
+},
+"laman": {
+"case_sensitive": false,
+"name": "laman",
+"text": "flesh, muscles",
+"title": "Translation"
+},
+"lima": {
+"case_sensitive": false,
+"name": "lima",
+"text": "five",
+"title": "Translation"
+},
+"limang apulu": {
+"case_sensitive": false,
+"name": "limang apulu",
+"text": "fifty",
+"title": "Translation"
+},
+"limang dalan": {
+"case_sensitive": false,
+"name": "limang dalan",
+"text": "five hundred",
+"title": "Translation"
+},
+"lulud": {
+"case_sensitive": false,
+"name": "lulud",
+"text": "shin",
+"title": "Translation"
+},
+"lungs": {
+"case_sensitive": false,
+"name": "lungs",
+"text": "baga",
+"title": "Translation"
+},
+"makaladwa": {
+"case_sensitive": false,
+"name": "makaladwa",
+"text": "twice",
+"title": "Translation"
+},
+"makasiyam": {
+"case_sensitive": false,
+"name": "makasiyam",
+"text": "nine times",
+"title": "Translation"
+},
+"makatadinalan": {
+"case_sensitive": false,
+"name": "makatadinalan",
+"text": "one hundred times",
+"title": "Translation"
+},
+"makatadwang dalan": {
+"case_sensitive": false,
+"name": "makatadwang dalan",
+"text": "two hundred times",
+"title": "Translation"
+},
+"makatadwang dalan a libu": {
+"case_sensitive": false,
+"name": "makatadwang dalan a libu",
+"text": "two hundred thousand times",
+"title": "Translation"
+},
+"makatadwang dalan a yuta": {
+"case_sensitive": false,
+"name": "makatadwang dalan a yuta",
+"text": "two hundred million times",
+"title": "Translation"
+},
+"makatadwang libu": {
+"case_sensitive": false,
+"name": "makatadwang libu",
+"text": "two thousand times",
+"title": "Translation"
+},
+"makatadwang pulu": {
+"case_sensitive": false,
+"name": "makatadwang pulu",
+"text": "twenty times",
+"title": "Translation"
+},
+"makatalabing metung": {
+"case_sensitive": false,
+"name": "makatalabing metung",
+"text": "eleven times",
+"title": "Translation"
+},
+"makatalibu": {
+"case_sensitive": false,
+"name": "makatalibu",
+"text": "one thousand times",
+"title": "Translation"
+},
+"makatalima": {
+"case_sensitive": false,
+"name": "makatalima",
+"text": "five times",
+"title": "Translation"
+},
+"makatalimangpulu": {
+"case_sensitive": false,
+"name": "makatalimangpulu",
+"text": "fifty times",
+"title": "Translation"
+},
+"makatanam": {
+"case_sensitive": false,
+"name": "makatanam",
+"text": "six times",
+"title": "Translation"
+},
+"makatanam a pulu": {
+"case_sensitive": false,
+"name": "makatanam a pulu",
+"text": "sixty times",
+"title": "Translation"
+},
+"makatapat": {
+"case_sensitive": false,
+"name": "makatapat",
+"text": "four times",
+"title": "Translation"
+},
+"makatapat a pulu": {
+"case_sensitive": false,
+"name": "makatapat a pulu",
+"text": "forty times",
+"title": "Translation"
+},
+"makatapitu": {
+"case_sensitive": false,
+"name": "makatapitu",
+"text": "seven times",
+"title": "Translation"
+},
+"makatapitungpulu": {
+"case_sensitive": false,
+"name": "makatapitungpulu",
+"text": "seventy times",
+"title": "Translation"
+},
+"makatapulu": {
+"case_sensitive": false,
+"name": "makatapulu",
+"text": "ten times",
+"title": "Translation"
+},
+"makatasiyam a pulu": {
+"case_sensitive": false,
+"name": "makatasiyam a pulu",
+"text": "ninety times",
+"title": "Translation"
+},
+"makatatdwang yuta": {
+"case_sensitive": false,
+"name": "makatatdwang yuta",
+"text": "two million times",
+"title": "Translation"
+},
+"makatatlung dalan": {
+"case_sensitive": false,
+"name": "makatatlung dalan",
+"text": "three hundred times",
+"title": "Translation"
+},
+"makatatlung pulu": {
+"case_sensitive": false,
+"name": "makatatlung pulu",
+"text": "thirty times",
+"title": "Translation"
+},
+"makatawalu": {
+"case_sensitive": false,
+"name": "makatawalu",
+"text": "eight times",
+"title": "Translation"
+},
+"makatawalungpulu": {
+"case_sensitive": false,
+"name": "makatawalungpulu",
+"text": "eighty times",
+"title": "Translation"
+},
+"makatayuta": {
+"case_sensitive": false,
+"name": "makatayuta",
+"text": "one million times",
+"title": "Translation"
+},
+"makatlu": {
+"case_sensitive": false,
+"name": "makatlu",
+"text": "thrice",
+"title": "Translation"
+},
+"malingmingan": {
+"case_sensitive": false,
+"name": "malingmingan",
+"text": "temples",
+"title": "Translation"
+},
+"mata": {
+"case_sensitive": false,
+"name": "mata",
+"text": "eyes",
+"title": "Translation"
+},
+"metung": {
+"case_sensitive": false,
+"name": "metung",
+"text": "one",
+"title": "Translation"
+},
+"metung a libu": {
+"case_sensitive": false,
+"name": "metung a libu",
+"text": "one thousand",
+"title": "Translation"
+},
+"metung a libu adwang apulu't atlu": {
+"case_sensitive": false,
+"name": "metung a libu adwang apulu't atlu",
+"text": "one thousand twenty-three",
+"title": "Translation"
+},
+"metung a libu adwang dalan apat a apulu't anam": {
+"case_sensitive": false,
+"name": "metung a libu adwang dalan apat a apulu't anam",
+"text": "one thousand two hundred forty-six",
+"title": "Translation"
+},
+"metung a libu at adwang apulu": {
+"case_sensitive": false,
+"name": "metung a libu at adwang apulu",
+"text": "one thousand and twenty",
+"title": "Translation"
+},
+"metung a libu at dinalan": {
+"case_sensitive": false,
+"name": "metung a libu at dinalan",
+"text": "one thousand one hundred",
+"title": "Translation"
+},
+"metung a libu at metung": {
+"case_sensitive": false,
+"name": "metung a libu at metung",
+"text": "one thousand and one",
+"title": "Translation"
+},
+"metung a libu dinalan limang apulu't lima": {
+"case_sensitive": false,
+"name": "metung a libu dinalan limang apulu't lima",
+"text": "one thousand one hundred fifty-five",
+"title": "Translation"
+},
+"metung a milyun": {
+"case_sensitive": false,
+"name": "metung a milyun",
+"text": "one million",
+"title": "Translation"
+},
+"metung a yuta": {
+"case_sensitive": false,
+"name": "metung a yuta",
+"text": "one million",
+"title": "Translation"
+},
+"misan": {
+"case_sensitive": false,
+"name": "misan",
+"text": "once",
+"title": "Translation"
+},
+"ngala ngala": {
+"case_sensitive": false,
+"name": "ngala ngala",
+"text": "palate",
+"title": "Translation"
+},
+"pago": {
+"case_sensitive": false,
+"name": "pago",
+"text": "shoulders",
+"title": "Translation"
+},
+"palad": {
+"case_sensitive": false,
+"name": "palad",
+"text": "palm",
+"title": "Translation"
+},
+"paling": {
+"case_sensitive": false,
+"name": "paling",
+"text": "jaws",
+"title": "Translation"
+},
+"pantog": {
+"case_sensitive": false,
+"name": "pantog",
+"text": "bladder",
+"title": "Translation"
+},
+"papaluan": {
+"case_sensitive": false,
+"name": "papaluan",
+"text": "back of thigh",
+"title": "Translation"
+},
+"piadwan": {
+"case_sensitive": false,
+"name": "piadwan",
+"text": "divide by two",
+"title": "Translation"
+},
+"piadwang dalan": {
+"case_sensitive": false,
+"name": "piadwang dalan",
+"text": "divide by two hundred",
+"title": "Translation"
+},
+"piadwang dalan a libu": {
+"case_sensitive": false,
+"name": "piadwang dalan a libu",
+"text": "divide by two hundred thousand",
+"title": "Translation"
+},
+"piadwang dalan a yuta": {
+"case_sensitive": false,
+"name": "piadwang dalan a yuta",
+"text": "divide by two hundred million",
+"title": "Translation"
+},
+"piadwang libu": {
+"case_sensitive": false,
+"name": "piadwang libu",
+"text": "divide by two thousand",
+"title": "Translation"
+},
+"piadwang pulu": {
+"case_sensitive": false,
+"name": "piadwang pulu",
+"text": "divide by twenty",
+"title": "Translation"
+},
+"piadwang pulu libu": {
+"case_sensitive": false,
+"name": "piadwang pulu libu",
+"text": "divide by twenty thousand",
+"title": "Translation"
+},
+"piadwang pulung yuta": {
+"case_sensitive": false,
+"name": "piadwang pulung yuta",
+"text": "divide by twenty million",
+"title": "Translation"
+},
+"piadwang yuta": {
+"case_sensitive": false,
+"name": "piadwang yuta",
+"text": "divide by two million",
+"title": "Translation"
+},
+"pianam": {
+"case_sensitive": false,
+"name": "pianam",
+"text": "divide by six",
+"title": "Translation"
+},
+"piapatan": {
+"case_sensitive": false,
+"name": "piapatan",
+"text": "divide by four",
+"title": "Translation"
+},
+"piapulu": {
+"case_sensitive": false,
+"name": "piapulu",
+"text": "divide by ten",
+"title": "Translation"
+},
+"piatluan": {
+"case_sensitive": false,
+"name": "piatluan",
+"text": "divide by three",
+"title": "Translation"
+},
+"pidinalan": {
+"case_sensitive": false,
+"name": "pidinalan",
+"text": "divide by one hundred",
+"title": "Translation"
+},
+"pilibu": {
+"case_sensitive": false,
+"name": "pilibu",
+"text": "divide by one thousand",
+"title": "Translation"
+},
+"piliman": {
+"case_sensitive": false,
+"name": "piliman",
+"text": "divide by five",
+"title": "Translation"
+},
+"pipituan": {
+"case_sensitive": false,
+"name": "pipituan",
+"text": "divide by seven",
+"title": "Translation"
+},
+"pisiyam": {
+"case_sensitive": false,
+"name": "pisiyam",
+"text": "divide by nine",
+"title": "Translation"
+},
+"pisngi": {
+"case_sensitive": false,
+"name": "pisngi",
+"text": "cheeks",
+"title": "Translation"
+},
+"pitaklan": {
+"case_sensitive": false,
+"name": "pitaklan",
+"text": "anus",
+"title": "Translation"
+},
+"pito": {
+"case_sensitive": false,
+"name": "pito",
+"text": "seven",
+"title": "Translation"
+},
+"pitu": {
+"case_sensitive": false,
+"name": "pitu",
+"text": "seven",
+"title": "Translation"
+},
+"pitung apulu": {
+"case_sensitive": false,
+"name": "pitung apulu",
+"text": "seventy",
+"title": "Translation"
+},
+"pitung dalan": {
+"case_sensitive": false,
+"name": "pitung dalan",
+"text": "seven hundred",
+"title": "Translation"
+},
+"piwaluan": {
+"case_sensitive": false,
+"name": "piwaluan",
+"text": "divide by eight",
+"title": "Translation"
+},
+"piyuta": {
+"case_sensitive": false,
+"name": "piyuta",
+"text": "divide by one million",
+"title": "Translation"
+},
+"puad": {
+"case_sensitive": false,
+"name": "puad",
+"text": "thigh",
+"title": "Translation"
+},
+"puki": {
+"case_sensitive": false,
+"name": "puki",
+"text": "vagina",
+"title": "Translation"
+},
+"pulupulu": {
+"case_sensitive": false,
+"name": "pulupulu",
+"text": "crown",
+"title": "Translation"
+},
+"pun ningita": {
+"case_sensitive": false,
+"name": "pun ningita",
+"text": "groin area",
+"title": "Translation"
+},
+"pusad": {
+"case_sensitive": false,
+"name": "pusad",
+"text": "navel",
+"title": "Translation"
+},
+"pusu": {
+"case_sensitive": false,
+"name": "pusu",
+"text": "heart",
+"title": "Translation"
+},
+"pusû": {
+"case_sensitive": false,
+"name": "pusû",
+"text": "pubic area",
+"title": "Translation"
+},
+"salu": {
+"case_sensitive": false,
+"name": "salu",
+"text": "chest",
+"title": "Translation"
+},
+"sepupunan": {
+"case_sensitive": false,
+"name": "sepupunan",
+"text": "bosom, lap",
+"title": "Translation"
+},
+"sikadinalan": {
+"case_sensitive": false,
+"name": "sikadinalan",
+"text": "one-hundredth",
+"title": "Translation"
+},
+"sikadinalan a libu": {
+"case_sensitive": false,
+"name": "sikadinalan a libu",
+"text": "one-hundred thousandth",
+"title": "Translation"
+},
+"sikadinalan a yuta": {
+"case_sensitive": false,
+"name": "sikadinalan a yuta",
+"text": "one-hundred millionth",
+"title": "Translation"
+},
+"sikaduang dalan a yuta": {
+"case_sensitive": false,
+"name": "sikaduang dalan a yuta",
+"text": "one-two hundred millionth",
+"title": "Translation"
+},
+"sikadwang dalan": {
+"case_sensitive": false,
+"name": "sikadwang dalan",
+"text": "one-two hundredth",
+"title": "Translation"
+},
+"sikadwang pulu": {
+"case_sensitive": false,
+"name": "sikadwang pulu",
+"text": "one-twentieth",
+"title": "Translation"
+},
+"sikalabing metung": {
+"case_sensitive": false,
+"name": "sikalabing metung",
+"text": "one-eleventh",
+"title": "Translation"
+},
+"sikalibu": {
+"case_sensitive": false,
+"name": "sikalibu",
+"text": "one-thousandth",
+"title": "Translation"
+},
+"sikalima": {
+"case_sensitive": false,
+"name": "sikalima",
+"text": "one-fifth",
+"title": "Translation"
+},
+"sikanam": {
+"case_sensitive": false,
+"name": "sikanam",
+"text": "one-sixth",
+"title": "Translation"
+},
+"sikapat": {
+"case_sensitive": false,
+"name": "sikapat",
+"text": "one-fourth",
+"title": "Translation"
+},
+"sikapitu": {
+"case_sensitive": false,
+"name": "sikapitu",
+"text": "one-seventh",
+"title": "Translation"
+},
+"sikapulu": {
+"case_sensitive": false,
+"name": "sikapulu",
+"text": "one-tenth",
+"title": "Translation"
+},
+"sikasiyam": {
+"case_sensitive": false,
+"name": "sikasiyam",
+"text": "one-ninth",
+"title": "Translation"
+},
+"sikatlu": {
+"case_sensitive": false,
+"name": "sikatlu",
+"text": "one-third",
+"title": "Translation"
+},
+"sikawalu": {
+"case_sensitive": false,
+"name": "sikawalu",
+"text": "one-eighth",
+"title": "Translation"
+},
+"sikayuta": {
+"case_sensitive": false,
+"name": "sikayuta",
+"text": "one-millionth",
+"title": "Translation"
+},
+"siku": {
+"case_sensitive": false,
+"name": "siku",
+"text": "elbow",
+"title": "Translation"
+},
+"singit": {
+"case_sensitive": false,
+"name": "singit",
+"text": "groin area",
+"title": "Translation"
+},
+"siyam": {
+"case_sensitive": false,
+"name": "siyam",
+"text": "nine",
+"title": "Translation"
+},
+"siyam a apulu": {
+"case_sensitive": false,
+"name": "siyam a apulu",
+"text": "ninety",
+"title": "Translation"
+},
+"siyam a dalan": {
+"case_sensitive": false,
+"name": "siyam a dalan",
+"text": "nine hundred",
+"title": "Translation"
+},
+"susu": {
+"case_sensitive": false,
+"name": "susu",
+"text": "breasts",
+"title": "Translation"
+},
+"talampakan": {
+"case_sensitive": false,
+"name": "talampakan",
+"text": "sole",
+"title": "Translation"
+},
+"taliri": {
+"case_sensitive": false,
+"name": "taliri",
+"text": "fingers",
+"title": "Translation"
+},
+"taliring bitis": {
+"case_sensitive": false,
+"name": "taliring bitis",
+"text": "toes",
+"title": "Translation"
+},
+"taliring libutad": {
+"case_sensitive": false,
+"name": "taliring libutad",
+"text": "middle finger",
+"title": "Translation"
+},
+"talukabmata": {
+"case_sensitive": false,
+"name": "talukabmata",
+"text": "eyelids",
+"title": "Translation"
+},
+"tidwa tidwa": {
+"case_sensitive": false,
+"name": "tidwa tidwa",
+"text": "two by two",
+"title": "Translation"
+},
+"tilawo": {
+"case_sensitive": false,
+"name": "tilawo",
+"text": "Adam's apple",
+"title": "Translation"
+},
+"tindaragul": {
+"case_sensitive": false,
+"name": "tindaragul",
+"text": "thumb, big toe",
+"title": "Translation"
+},
+"titlu titlu": {
+"case_sensitive": false,
+"name": "titlu titlu",
+"text": "three by three",
+"title": "Translation"
+},
+"tud": {
+"case_sensitive": false,
+"name": "tud",
+"text": "knee",
+"title": "Translation"
+},
+"tumbung": {
+"case_sensitive": false,
+"name": "tumbung",
+"text": "anus",
+"title": "Translation"
+},
+"tundun": {
+"case_sensitive": false,
+"name": "tundun",
+"text": "nape",
+"title": "Translation"
+},
+"tungdun": {
+"case_sensitive": false,
+"name": "tungdun",
+"text": "nape",
+"title": "Translation"
+},
+"tunggal tunggal": {
+"case_sensitive": false,
+"name": "tunggal tunggal",
+"text": "one by one",
+"title": "Translation"
+},
+"tya adwang dalan a libu": {
+"case_sensitive": false,
+"name": "tya adwang dalan a libu",
+"text": "by two hundred thousand",
+"title": "Translation"
+},
+"tya adwang dalan a yuta": {
+"case_sensitive": false,
+"name": "tya adwang dalan a yuta",
+"text": "by two hundred million",
+"title": "Translation"
+},
+"tya adwang libu": {
+"case_sensitive": false,
+"name": "tya adwang libu",
+"text": "by two thousand",
+"title": "Translation"
+},
+"tya adwang pulu": {
+"case_sensitive": false,
+"name": "tya adwang pulu",
+"text": "twenty by twenty",
+"title": "Translation"
+},
+"tya adwang pulu libu": {
+"case_sensitive": false,
+"name": "tya adwang pulu libu",
+"text": "by twenty thousand",
+"title": "Translation"
+},
+"tya adwang pulung yuta": {
+"case_sensitive": false,
+"name": "tya adwang pulung yuta",
+"text": "by twenty million",
+"title": "Translation"
+},
+"tya adwang yuta": {
+"case_sensitive": false,
+"name": "tya adwang yuta",
+"text": "by two million",
+"title": "Translation"
+},
+"tya apat": {
+"case_sensitive": false,
+"name": "tya apat",
+"text": "four by four",
+"title": "Translation"
+},
+"tya apulu": {
+"case_sensitive": false,
+"name": "tya apulu",
+"text": "ten by ten",
+"title": "Translation"
+},
+"tya dinalan": {
+"case_sensitive": false,
+"name": "tya dinalan",
+"text": "by one hundred",
+"title": "Translation"
+},
+"tya libu": {
+"case_sensitive": false,
+"name": "tya libu",
+"text": "by one thousand",
+"title": "Translation"
+},
+"tya lima": {
+"case_sensitive": false,
+"name": "tya lima",
+"text": "five by five",
+"title": "Translation"
+},
+"tya yuta": {
+"case_sensitive": false,
+"name": "tya yuta",
+"text": "by one million",
+"title": "Translation"
+},
+"tyaadwa": {
+"case_sensitive": false,
+"name": "tyaadwa",
+"text": "two by two",
+"title": "Translation"
+},
+"tyaatlu": {
+"case_sensitive": false,
+"name": "tyaatlu",
+"text": "three by three",
+"title": "Translation"
+},
+"tyametung": {
+"case_sensitive": false,
+"name": "tyametung",
+"text": "one by one",
+"title": "Translation"
+},
+"utak": {
+"case_sensitive": false,
+"name": "utak",
+"text": "brain",
+"title": "Translation"
+},
+"walo": {
+"case_sensitive": false,
+"name": "walo",
+"text": "eight",
+"title": "Translation"
+},
+"walu": {
+"case_sensitive": false,
+"name": "walu",
+"text": "eight",
+"title": "Translation"
+},
+"walung apulu": {
+"case_sensitive": false,
+"name": "walung apulu",
+"text": "eighty",
+"title": "Translation"
+},
+"walung dalan": {
+"case_sensitive": false,
+"name": "walung dalan",
+"text": "eight hundred",
+"title": "Translation"
+},
+"Ápu": {
+"case_sensitive": false,
+"name": "Ápu",
+"text": "Grandfather/Grandmother",
+"title": "Translation"
 }
 }
