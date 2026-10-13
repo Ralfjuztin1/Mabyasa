@@ -1,44 +1,60 @@
 [gd_scene format=3 uid="uid://dxvpt3rxexyja"]
 
 [ext_resource type="Script" uid="uid://buc73a5selp34" path="res://Scenes/UI/TutorialUI.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="2_panel"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="3_button_normal"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="4_button_selected"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_retro"]
-content_margin_left = 18.0
-content_margin_top = 14.0
-content_margin_right = 18.0
-content_margin_bottom = 14.0
-bg_color = Color(0.1, 0.08, 0.15, 0.95)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 4
-border_color = Color(0.9, 0.7, 0.2, 1)
+[sub_resource type="AtlasTexture" id="TutorialPanelAtlas"]
+atlas = ExtResource("2_panel")
+region = Rect2(8, 8, 552, 416)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
-bg_color = Color(0.2, 0.15, 0.25, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 4
-border_color = Color(0.9, 0.7, 0.2, 1)
+[sub_resource type="StyleBoxTexture" id="TutorialPanelStyle"]
+content_margin_left = 28.0
+content_margin_top = 25.0
+content_margin_right = 28.0
+content_margin_bottom = 25.0
+texture = SubResource("TutorialPanelAtlas")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
-bg_color = Color(0.05, 0.05, 0.08, 1)
+[sub_resource type="AtlasTexture" id="TutorialButtonNormalAtlas"]
+atlas = ExtResource("3_button_normal")
+region = Rect2(0, 0, 584, 121)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
-bg_color = Color(0.9, 0.7, 0.2, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_complete"]
+[sub_resource type="StyleBoxTexture" id="TutorialButtonNormal"]
 content_margin_left = 24.0
-content_margin_top = 20.0
+content_margin_top = 10.0
 content_margin_right = 24.0
-content_margin_bottom = 20.0
-bg_color = Color(0.08, 0.1, 0.14, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 5
-border_color = Color(0.3, 1, 0.45, 1)
+content_margin_bottom = 10.0
+texture = SubResource("TutorialButtonNormalAtlas")
+
+[sub_resource type="AtlasTexture" id="TutorialButtonSelectedAtlas"]
+atlas = ExtResource("4_button_selected")
+
+[sub_resource type="StyleBoxTexture" id="TutorialButtonSelected"]
+content_margin_left = 24.0
+content_margin_top = 10.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+texture = SubResource("TutorialButtonSelectedAtlas")
+
+[sub_resource type="StyleBoxFlat" id="TutorialProgressBackground"]
+bg_color = Color(0.015, 0.025, 0.02, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.6, 0.48, 0.35)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="TutorialProgressFill"]
+bg_color = Color(0.91, 0.75, 0.34, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="TutorialUI" type="CanvasLayer" unique_id=215205986]
 script = ExtResource("1_script")
@@ -60,7 +76,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.02, 0.02, 0.04, 0.55)
+color = Color(0.005, 0.012, 0.009, 0.68)
 
 [node name="PanelContainer" type="PanelContainer" parent="WelcomeBox" unique_id=306753136]
 layout_mode = 1
@@ -69,74 +85,96 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -120.0
-offset_right = 220.0
-offset_bottom = 120.0
+offset_left = -360.0
+offset_top = -170.0
+offset_right = 360.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(220, 120)
-theme_override_styles/panel = SubResource("StyleBoxFlat_retro")
+pivot_offset = Vector2(360, 170)
+mouse_filter = 1
+theme_override_styles/panel = SubResource("TutorialPanelStyle")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WelcomeBox/PanelContainer" unique_id=903956402]
 layout_mode = 2
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=292758955]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 36
+theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
+theme_override_font_sizes/font_size = 34
 text = "WELCOME TO MABIYASA"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DescLabel" type="Label" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=478386946]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
-theme_override_font_sizes/font_size = 28
-text = "Before exploring the world, complete your system calibration."
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 21
+text = "Before exploring the world, learn the basic controls."
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="StartButton" type="Button" parent="WelcomeBox/PanelContainer/VBoxContainer" unique_id=836705138]
+custom_minimum_size = Vector2(260, 54)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "Start Calibration"
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.55, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.55, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("TutorialButtonNormal")
+theme_override_styles/pressed = SubResource("TutorialButtonSelected")
+theme_override_styles/hover = SubResource("TutorialButtonSelected")
+theme_override_styles/focus = SubResource("TutorialButtonSelected")
+text = "BEGIN TUTORIAL"
 
 [node name="SidebarBox" type="PanelContainer" parent="." unique_id=512364908]
-offset_left = 30.0
-offset_top = 30.0
-offset_right = 330.0
-offset_bottom = 180.0
-pivot_offset = Vector2(150, 75)
-theme_override_styles/panel = SubResource("StyleBoxFlat_retro")
+offset_left = 28.0
+offset_top = 28.0
+offset_right = 438.0
+offset_bottom = 200.0
+pivot_offset = Vector2(205, 86)
+theme_override_styles/panel = SubResource("TutorialPanelStyle")
 
 [node name="MarginContainer" type="MarginContainer" parent="SidebarBox" unique_id=504981854]
 layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SidebarBox/MarginContainer" unique_id=188420520]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="TaskTitle" type="Label" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=202928305]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
+theme_override_font_sizes/font_size = 22
 text = "1. Basic Mobility"
+vertical_alignment = 1
 
 [node name="TaskDesc" type="Label" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=1389129761]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
-theme_override_font_sizes/font_size = 28
-text = "Walk 25 meters..."
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 17
+text = "Walk using the WASD keys."
 autowrap_mode = 3
 
 [node name="ProgressBar" type="ProgressBar" parent="SidebarBox/MarginContainer/VBoxContainer" unique_id=35002047]
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+theme_override_styles/background = SubResource("TutorialProgressBackground")
+theme_override_styles/fill = SubResource("TutorialProgressFill")
 max_value = 25.0
+show_percentage = false
 
 [node name="CompletionBox" type="Control" parent="." unique_id=1963147823]
 z_index = 20
@@ -146,6 +184,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Dimmer" type="ColorRect" parent="CompletionBox" unique_id=344203143]
 layout_mode = 1
@@ -155,7 +194,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-color = Color(0.02, 0.04, 0.03, 0.65)
+color = Color(0.005, 0.012, 0.009, 0.72)
 
 [node name="PanelContainer" type="PanelContainer" parent="CompletionBox" unique_id=1963147824]
 layout_mode = 1
@@ -164,37 +203,50 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -150.0
-offset_right = 250.0
-offset_bottom = 150.0
+offset_left = -350.0
+offset_top = -165.0
+offset_right = 350.0
+offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(250, 150)
-theme_override_styles/panel = SubResource("StyleBoxFlat_complete")
+pivot_offset = Vector2(350, 165)
+mouse_filter = 1
+theme_override_styles/panel = SubResource("TutorialPanelStyle")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CompletionBox/PanelContainer" unique_id=1963147825]
 layout_mode = 2
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="CompletionBox/PanelContainer/VBoxContainer" unique_id=2068000130]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.35, 1, 0.45, 1)
-theme_override_font_sizes/font_size = 36
-text = "ALL SET!"
+theme_override_colors/font_color = Color(0.72, 0.88, 0.64, 1)
+theme_override_font_sizes/font_size = 34
+text = "TUTORIAL COMPLETE"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DescLabel" type="Label" parent="CompletionBox/PanelContainer/VBoxContainer" unique_id=562669200]
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.95, 0.92, 1)
-theme_override_font_sizes/font_size = 26
-text = "Tutorial  complete. Welcome to MABYASA!"
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 21
+text = "You are ready to explore MABIYASA."
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="ContinueButton" type="Button" parent="CompletionBox/PanelContainer/VBoxContainer" unique_id=1711272945]
+custom_minimum_size = Vector2(220, 52)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.35, 1, 0.45, 1)
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "Continue"
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.88, 0.55, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.55, 1)
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("TutorialButtonNormal")
+theme_override_styles/pressed = SubResource("TutorialButtonSelected")
+theme_override_styles/hover = SubResource("TutorialButtonSelected")
+theme_override_styles/focus = SubResource("TutorialButtonSelected")
+text = "CONTINUE"

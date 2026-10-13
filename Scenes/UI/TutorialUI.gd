@@ -1,11 +1,12 @@
 extends CanvasLayer
 
-
 signal tutorial_finished
 
+const COLOR_GOLD := Color(0.91, 0.75, 0.38, 1.0)
+const COLOR_CREAM := Color(0.97, 0.95, 0.89, 1.0)
+const COLOR_SUCCESS := Color(0.72, 0.88, 0.64, 1.0)
 
 @onready var welcome_box: Control = $WelcomeBox
-@onready var welcome_dimmer: ColorRect = $WelcomeBox/Dimmer
 @onready var welcome_panel: PanelContainer = $WelcomeBox/PanelContainer
 @onready var start_button: Button = $WelcomeBox/PanelContainer/VBoxContainer/StartButton
 
@@ -15,15 +16,13 @@ signal tutorial_finished
 @onready var progress_bar: ProgressBar = $SidebarBox/MarginContainer/VBoxContainer/ProgressBar
 
 @onready var completion_box: Control = $CompletionBox
-@onready var completion_dimmer: ColorRect = $CompletionBox/Dimmer
 @onready var completion_panel: PanelContainer = $CompletionBox/PanelContainer
 @onready var completion_button: Button = $CompletionBox/PanelContainer/VBoxContainer/ContinueButton
-
 
 var text_database: Dictionary = {
 	"movement": {
 		"title": "1. Basic Mobility",
-		"desc": " Try to walk using WASD keys on your keyboard.",
+		"desc": "Walk using the WASD keys.",
 		"show_bar": true
 	},
 	"camera": {
@@ -33,103 +32,95 @@ var text_database: Dictionary = {
 	},
 	"sprint": {
 		"title": "3. Sprint Burst",
-		"desc": "While walking in any direction, press and hold [SHIFT] to do a sprint.",
+		"desc": "Move in any direction while holding SHIFT to sprint.",
 		"show_bar": false
 	},
 	"alt_mouse": {
 		"title": "4. Cursor Toggle",
-		"desc": "Press and hold [ALT] to free your mouse cursor.",
+		"desc": "Hold ALT to free your mouse cursor.",
 		"show_bar": false
 	},
 	"finished": {
 		"title": "ALL SET!",
-		"desc": "Complete. Welcome to MABYASA!",
+		"desc": "Tutorial complete. Welcome to MABIYASA!",
 		"show_bar": false
 	}
 }
-
 
 var progress_tween: Tween
 var sidebar_tween: Tween
 var welcome_tween: Tween
 var completion_tween: Tween
-var button_tween: Tween
+var step_text_tween: Tween
+var sidebar_flash_tween: Tween
+var settle_flash_tween: Tween
+var button_tweens: Dictionary = {}
+
+var _step_change_version: int = 0
+var _finishing_tutorial: bool = false
 
 
 func _ready() -> void:
-	# ========================================================
-	# REGISTER THIS UI
-	# ========================================================
-
 	add_to_group("tutorial_ui")
-
-	# ========================================================
-	# INITIAL VISIBILITY
-	# ========================================================
 
 	welcome_box.visible = false
 	sidebar_box.visible = false
 	completion_box.visible = false
 	progress_bar.visible = false
 
-	# ========================================================
-	# INITIAL ANIMATION STATES
-	# ========================================================
-
 	welcome_box.modulate.a = 0.0
-	welcome_panel.scale = Vector2(0.92, 0.92)
-
+	welcome_panel.scale = Vector2(0.96, 0.96)
 	sidebar_box.modulate.a = 0.0
-	sidebar_box.scale = Vector2(0.96, 0.96)
-
+	sidebar_box.scale = Vector2(0.98, 0.98)
 	completion_box.modulate.a = 0.0
-	completion_panel.scale = Vector2(0.9, 0.9)
-
-	# ========================================================
-	# CONNECT UI BUTTONS
-	# ========================================================
+	completion_panel.scale = Vector2(0.96, 0.96)
 
 	if not start_button.pressed.is_connected(_on_start_pressed):
 		start_button.pressed.connect(_on_start_pressed)
-
 	if not completion_button.pressed.is_connected(_on_completion_continue_pressed):
 		completion_button.pressed.connect(_on_completion_continue_pressed)
 
-	# ========================================================
-	# BUTTON HOVER ANIMATIONS
-	# ========================================================
-
 	if not start_button.mouse_entered.is_connected(_on_start_button_mouse_entered):
 		start_button.mouse_entered.connect(_on_start_button_mouse_entered)
-
 	if not start_button.mouse_exited.is_connected(_on_start_button_mouse_exited):
 		start_button.mouse_exited.connect(_on_start_button_mouse_exited)
-
 	if not completion_button.mouse_entered.is_connected(_on_completion_button_mouse_entered):
 		completion_button.mouse_entered.connect(_on_completion_button_mouse_entered)
-
 	if not completion_button.mouse_exited.is_connected(_on_completion_button_mouse_exited):
 		completion_button.mouse_exited.connect(_on_completion_button_mouse_exited)
 
-	# ========================================================
-	# TUTORIAL MANAGER SIGNALS
-	# ========================================================
-
 	if not TutorialManager.step_changed.is_connected(_on_step_changed):
 		TutorialManager.step_changed.connect(_on_step_changed)
-
 	if not TutorialManager.progress_updated.is_connected(_on_progress_bar_updated):
 		TutorialManager.progress_updated.connect(_on_progress_bar_updated)
-
 	if not TutorialManager.tutorial_step_completed.is_connected(_on_step_completed):
 		TutorialManager.tutorial_step_completed.connect(_on_step_completed)
 
-	# ========================================================
-	# BRAND NEW TUTORIAL
-	# ========================================================
-
 	if TutorialManager.current_active_step == "intro":
 		show_welcome()
+
+
+func _exit_tree() -> void:
+	# Disconnect autoload signals so a replaced scene cannot leave stale callbacks.
+	if is_instance_valid(TutorialManager):
+		if TutorialManager.step_changed.is_connected(_on_step_changed):
+			TutorialManager.step_changed.disconnect(_on_step_changed)
+		if TutorialManager.progress_updated.is_connected(_on_progress_bar_updated):
+			TutorialManager.progress_updated.disconnect(_on_progress_bar_updated)
+		if TutorialManager.tutorial_step_completed.is_connected(_on_step_completed):
+			TutorialManager.tutorial_step_completed.disconnect(_on_step_completed)
+
+	_kill_tween(progress_tween)
+	_kill_tween(sidebar_tween)
+	_kill_tween(welcome_tween)
+	_kill_tween(completion_tween)
+	_kill_tween(step_text_tween)
+	_kill_tween(sidebar_flash_tween)
+	_kill_tween(settle_flash_tween)
+	for tween_variant in button_tweens.values():
+		if tween_variant is Tween:
+			_kill_tween(tween_variant)
+	button_tweens.clear()
 
 
 func show_welcome() -> void:
@@ -137,472 +128,205 @@ func show_welcome() -> void:
 		return
 
 	welcome_box.visible = true
-
-	Input.set_mouse_mode(
-		Input.MOUSE_MODE_VISIBLE
-	)
-
-	if welcome_tween and welcome_tween.is_valid():
-		welcome_tween.kill()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_kill_tween(welcome_tween)
 
 	welcome_box.modulate.a = 0.0
-	welcome_panel.scale = Vector2(0.92, 0.92)
-
+	welcome_panel.scale = Vector2(0.96, 0.96)
 	welcome_tween = create_tween()
 	welcome_tween.set_parallel(true)
-
-	welcome_tween.tween_property(
-		welcome_box,
-		"modulate:a",
-		1.0,
-		0.3
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	welcome_tween.tween_property(
-		welcome_panel,
-		"scale",
-		Vector2.ONE,
-		0.35
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
+	welcome_tween.tween_property(welcome_box, "modulate:a", 1.0, 0.24)
+	welcome_tween.tween_property(welcome_panel, "scale", Vector2.ONE, 0.30).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _on_start_pressed() -> void:
-	_play_button_press(start_button)
-
+	_animate_button_scale(start_button, Vector2(0.97, 0.97), 0.06, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	await _hide_welcome()
-
-	await get_tree().create_timer(0.12).timeout
+	if not is_inside_tree():
+		return
 
 	sidebar_box.visible = true
 	_show_sidebar()
-
 	TutorialManager.start_tutorial()
 
 
 func _hide_welcome() -> void:
-	if welcome_tween and welcome_tween.is_valid():
-		welcome_tween.kill()
-
+	_kill_tween(welcome_tween)
 	welcome_tween = create_tween()
 	welcome_tween.set_parallel(true)
-
-	welcome_tween.tween_property(
-		welcome_box,
-		"modulate:a",
-		0.0,
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
-	welcome_tween.tween_property(
-		welcome_panel,
-		"scale",
-		Vector2(0.95, 0.95),
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
+	welcome_tween.tween_property(welcome_box, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	welcome_tween.tween_property(welcome_panel, "scale", Vector2(0.97, 0.97), 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await welcome_tween.finished
-
-	welcome_box.visible = false
+	if is_inside_tree():
+		welcome_box.visible = false
 
 
 func _show_sidebar() -> void:
-	if sidebar_tween and sidebar_tween.is_valid():
-		sidebar_tween.kill()
+	_kill_tween(sidebar_tween)
+	_kill_tween(sidebar_flash_tween)
+	_kill_tween(settle_flash_tween)
 
+	sidebar_box.modulate = Color.WHITE
 	sidebar_box.modulate.a = 0.0
-	sidebar_box.scale = Vector2(0.96, 0.96)
-
+	sidebar_box.scale = Vector2(0.98, 0.98)
 	sidebar_tween = create_tween()
 	sidebar_tween.set_parallel(true)
-
-	sidebar_tween.tween_property(
-		sidebar_box,
-		"modulate:a",
-		1.0,
-		0.3
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	sidebar_tween.tween_property(
-		sidebar_box,
-		"scale",
-		Vector2.ONE,
-		0.35
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
+	sidebar_tween.tween_property(sidebar_box, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	sidebar_tween.tween_property(sidebar_box, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _hide_sidebar() -> void:
-	if sidebar_tween and sidebar_tween.is_valid():
-		sidebar_tween.kill()
-
+	_kill_tween(sidebar_tween)
+	_kill_tween(sidebar_flash_tween)
+	_kill_tween(settle_flash_tween)
 	sidebar_tween = create_tween()
 	sidebar_tween.set_parallel(true)
-
-	sidebar_tween.tween_property(
-		sidebar_box,
-		"modulate:a",
-		0.0,
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
-	sidebar_tween.tween_property(
-		sidebar_box,
-		"scale",
-		Vector2(0.96, 0.96),
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
+	sidebar_tween.tween_property(sidebar_box, "modulate:a", 0.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	sidebar_tween.tween_property(sidebar_box, "scale", Vector2(0.98, 0.98), 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await sidebar_tween.finished
-
-	sidebar_box.visible = false
+	if is_inside_tree():
+		sidebar_box.visible = false
 
 
 func _on_step_changed(step_name: String) -> void:
+	_step_change_version += 1
+	var this_version := _step_change_version
+
 	if step_name == "finished":
 		_handle_tutorial_finished()
 		return
-
 	if not text_database.has(step_name):
 		return
 
 	var data: Dictionary = text_database[step_name]
-
-	# Make sure sidebar is visible.
 	if not sidebar_box.visible:
 		sidebar_box.visible = true
 		_show_sidebar()
 
-	# Smooth text transition.
-	var text_tween := create_tween()
+	_kill_tween(step_text_tween)
+	step_text_tween = create_tween()
+	step_text_tween.set_parallel(true)
+	step_text_tween.tween_property(task_title, "modulate:a", 0.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	step_text_tween.tween_property(task_desc, "modulate:a", 0.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	await step_text_tween.finished
 
-	text_tween.tween_property(
-		task_title,
-		"modulate:a",
-		0.0,
-		0.12
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
+	# A newer tutorial step may have arrived while the fade was running.
+	if not is_inside_tree() or this_version != _step_change_version:
+		return
 
-	text_tween.parallel().tween_property(
-		task_desc,
-		"modulate:a",
-		0.0,
-		0.12
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
+	task_title.text = str(data.get("title", "Tutorial"))
+	task_desc.text = str(data.get("desc", ""))
+	task_title.add_theme_color_override("font_color", COLOR_GOLD)
+	_kill_tween(progress_tween)
+	progress_bar.value = 0.0
+	progress_bar.visible = bool(data.get("show_bar", false))
 
-	await text_tween.finished
-
-	# Update text while hidden.
-	task_title.text = data["title"]
-	task_desc.text = data["desc"]
-
-	# Reset tutorial title color.
-	task_title.add_theme_color_override(
-		"font_color",
-		Color(1.0, 0.85, 0.3)
-	)
-
-	# Reset progress.
-	if progress_tween and progress_tween.is_valid():
-		progress_tween.kill()
-
-	progress_bar.value = 0
-	progress_bar.visible = data["show_bar"]
-
-	# Fade text back in.
-	var fade_tween := create_tween()
-	fade_tween.set_parallel(true)
-
-	fade_tween.tween_property(
-		task_title,
-		"modulate:a",
-		1.0,
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	fade_tween.tween_property(
-		task_desc,
-		"modulate:a",
-		1.0,
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
+	step_text_tween = create_tween()
+	step_text_tween.set_parallel(true)
+	step_text_tween.tween_property(task_title, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	step_text_tween.tween_property(task_desc, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 func _on_step_completed(_step_name: String) -> void:
-	# Hide progress bar once this objective is complete.
 	progress_bar.visible = false
-
-	# Green success color.
-	task_title.add_theme_color_override(
-		"font_color",
-		Color(0.35, 1.0, 0.45)
-	)
-
-	# Add completion mark.
+	task_title.add_theme_color_override("font_color", COLOR_SUCCESS)
 	if not task_title.text.ends_with("  ✔"):
 		task_title.text += "  ✔"
-
 	_play_completion_flash()
 
 
 func _play_completion_flash() -> void:
-	if sidebar_tween and sidebar_tween.is_valid():
-		sidebar_tween.kill()
+	_kill_tween(sidebar_flash_tween)
+	_kill_tween(settle_flash_tween)
+	sidebar_box.self_modulate = Color.WHITE
+	sidebar_flash_tween = create_tween()
+	sidebar_flash_tween.set_parallel(true)
+	sidebar_flash_tween.tween_property(sidebar_box, "self_modulate", Color(0.78, 0.91, 0.69, 1.0), 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	sidebar_flash_tween.tween_property(sidebar_box, "scale", Vector2(1.025, 1.025), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	await sidebar_flash_tween.finished
+	if not is_inside_tree():
+		return
 
-	# Start from normal state.
-	sidebar_box.modulate = Color.WHITE
-	sidebar_box.scale = Vector2.ONE
-
-	# Quick bright pulse.
-	var glow_tween := create_tween()
-	glow_tween.set_parallel(true)
-
-	glow_tween.tween_property(
-		sidebar_box,
-		"self_modulate",
-		Color(0.7, 1.0, 0.75, 1.0),
-		0.12
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	glow_tween.tween_property(
-		sidebar_box,
-		"scale",
-		Vector2(1.04, 1.04),
-		0.12
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
-
-	await glow_tween.finished
-
-	var settle_tween := create_tween()
-	settle_tween.set_parallel(true)
-
-	settle_tween.tween_property(
-		sidebar_box,
-		"self_modulate",
-		Color.WHITE,
-		0.3
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN_OUT
-	)
-
-	settle_tween.tween_property(
-		sidebar_box,
-		"scale",
-		Vector2.ONE,
-		0.3
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_IN_OUT
-	)
+	settle_flash_tween = create_tween()
+	settle_flash_tween.set_parallel(true)
+	settle_flash_tween.tween_property(sidebar_box, "self_modulate", Color.WHITE, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	settle_flash_tween.tween_property(sidebar_box, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
 
 
-func _on_progress_bar_updated(
-	current: float,
-	target: float
-) -> void:
-	progress_bar.max_value = target
-
-	if progress_tween and progress_tween.is_valid():
-		progress_tween.kill()
-
+func _on_progress_bar_updated(current: float, target: float) -> void:
+	progress_bar.max_value = maxf(target, 1.0)
+	_kill_tween(progress_tween)
 	progress_tween = create_tween()
-
-	progress_tween.tween_property(
-		progress_bar,
-		"value",
-		current,
-		0.25
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
+	progress_tween.tween_property(progress_bar, "value", clampf(current, 0.0, progress_bar.max_value), 0.20).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 func _handle_tutorial_finished() -> void:
-	# Hide the tutorial task panel.
+	if _finishing_tutorial:
+		return
+	_finishing_tutorial = true
 	await _hide_sidebar()
-
-	# Show completion window.
+	if not is_inside_tree():
+		return
 	_show_completion_popup()
 
 
 func _show_completion_popup() -> void:
-	if completion_tween and completion_tween.is_valid():
-		completion_tween.kill()
-
-	# Make sure the mouse is free while completion popup is shown.
-	Input.set_mouse_mode(
-		Input.MOUSE_MODE_VISIBLE
-	)
-
+	_kill_tween(completion_tween)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	completion_box.visible = true
 	completion_box.modulate.a = 0.0
-	completion_panel.scale = Vector2(0.9, 0.9)
+	completion_panel.scale = Vector2(0.96, 0.96)
 
 	completion_tween = create_tween()
 	completion_tween.set_parallel(true)
-
-	completion_tween.tween_property(
-		completion_box,
-		"modulate:a",
-		1.0,
-		0.35
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	completion_tween.tween_property(
-		completion_panel,
-		"scale",
-		Vector2.ONE,
-		0.45
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
+	completion_tween.tween_property(completion_box, "modulate:a", 1.0, 0.24).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	completion_tween.tween_property(completion_panel, "scale", Vector2.ONE, 0.30).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _on_completion_continue_pressed() -> void:
-	_play_button_press(completion_button)
-
-	if completion_tween and completion_tween.is_valid():
-		completion_tween.kill()
-
+	_animate_button_scale(completion_button, Vector2(0.97, 0.97), 0.06, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	_kill_tween(completion_tween)
 	completion_tween = create_tween()
 	completion_tween.set_parallel(true)
-
-	completion_tween.tween_property(
-		completion_box,
-		"modulate:a",
-		0.0,
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
-	completion_tween.tween_property(
-		completion_panel,
-		"scale",
-		Vector2(0.95, 0.95),
-		0.2
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_IN
-	)
-
+	completion_tween.tween_property(completion_box, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	completion_tween.tween_property(completion_panel, "scale", Vector2(0.97, 0.97), 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await completion_tween.finished
+	if not is_inside_tree():
+		return
 
 	completion_box.visible = false
-
-	# Lock the mouse only after the popup is completely closed.
-	Input.set_mouse_mode(
-		Input.MOUSE_MODE_CAPTURED
-	)
-
-	# ========================================================
-	# TELL THE STORY SYSTEM:
-	# THE TUTORIAL IS NOW COMPLETELY FINISHED.
-	# ========================================================
-
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	tutorial_finished.emit()
 
 
 func _on_start_button_mouse_entered() -> void:
-	_animate_button_hover(
-		start_button,
-		true
-	)
+	_animate_button_scale(start_button, Vector2(1.025, 1.025), 0.10, Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 
 func _on_start_button_mouse_exited() -> void:
-	_animate_button_hover(
-		start_button,
-		false
-	)
+	_animate_button_scale(start_button, Vector2.ONE, 0.10, Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 
 func _on_completion_button_mouse_entered() -> void:
-	_animate_button_hover(
-		completion_button,
-		true
-	)
+	_animate_button_scale(completion_button, Vector2(1.025, 1.025), 0.10, Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 
 func _on_completion_button_mouse_exited() -> void:
-	_animate_button_hover(
-		completion_button,
-		false
-	)
+	_animate_button_scale(completion_button, Vector2.ONE, 0.10, Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 
-func _animate_button_hover(
-	button: Button,
-	hovered: bool
-) -> void:
+func _animate_button_scale(button: Control, target_scale: Vector2, duration: float, transition: Tween.TransitionType, ease: Tween.EaseType) -> void:
+	if not is_instance_valid(button):
+		return
+	if button_tweens.has(button):
+		var old_tween: Tween = button_tweens[button]
+		_kill_tween(old_tween)
 
-	if button_tween and button_tween.is_valid():
-		button_tween.kill()
-
-	button_tween = create_tween()
-
-	var target_scale := (
-		Vector2(1.04, 1.04)
-		if hovered
-		else Vector2.ONE
-	)
-
-	button_tween.tween_property(
-		button,
-		"scale",
-		target_scale,
-		0.12
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
+	var tween := create_tween()
+	button_tweens[button] = tween
+	tween.tween_property(button, "scale", target_scale, duration).set_trans(transition).set_ease(ease)
 
 
-func _play_button_press(button: Button) -> void:
-	if button_tween and button_tween.is_valid():
-		button_tween.kill()
-
-	button_tween = create_tween()
-
-	button_tween.tween_property(
-		button,
-		"scale",
-		Vector2(0.96, 0.96),
-		0.06
-	).set_trans(Tween.TRANS_QUAD).set_ease(
-		Tween.EASE_OUT
-	)
-
-	button_tween.tween_property(
-		button,
-		"scale",
-		Vector2.ONE,
-		0.1
-	).set_trans(Tween.TRANS_BACK).set_ease(
-		Tween.EASE_OUT
-	)
+func _kill_tween(tween: Tween) -> void:
+	if tween != null and tween.is_valid():
+		tween.kill()

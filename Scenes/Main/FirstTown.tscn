@@ -2280,6 +2280,181 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_f3fox"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppes2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q40f8")
+}],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhapq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_reiwr")
+}],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxy8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_us574")
+}],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isq7i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upfgr")
+}],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oulam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtbp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qfcs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fupmx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4khdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xtgde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0owyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv8oj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdj4a")
+}],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbn8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bilm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwwm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtn1h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vecf4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y63y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vx5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsq37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbvrm")
+}],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gppu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3yq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8eq87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb6nw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vtx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rkti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lj54f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnrsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_guqq1")
+}],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tebna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uohxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tloxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2bt7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gp31")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1hy1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhe28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20jr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6t71")
+}],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcpmb"]
 resource_name = "Farm_Mat_01"
 vertex_color_use_as_albedo = true
@@ -3083,12 +3258,11 @@ dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0md02")
 npc_frames = SubResource("SpriteFrames_ox5xy")
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 22.54606, 0.7949018, -26.656929)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 24.839958, 0.7949018, -27.6767)
 npc_name = "Rids"
 npc_id = "rids"
 dialogue_id = "rids_first_talk"
 npc_frames = SubResource("SpriteFrames_5jb8g")
-can_wander = true
 
 [node name="chief" parent="npc" unique_id=1287002890 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.3126698, 0.8666879, -61.822964)
@@ -3122,18 +3296,28 @@ npc_frames = SubResource("SpriteFrames_rhapq")
 
 [node name="BaseNPC2" parent="npc" unique_id=1993873775 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2171311, 0.7279935, -36.00447)
+npc_name = ""
+npc_frames = SubResource("SpriteFrames_f3fox")
 
 [node name="BaseNPC3" parent="npc" unique_id=1746388400 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -5.285363, 0.7279935, -33.010353)
+npc_name = ""
+npc_frames = SubResource("SpriteFrames_f3fox")
 
 [node name="BaseNPC4" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.120516, 0.7279935, -30.54102)
+npc_name = ""
+npc_frames = SubResource("SpriteFrames_f3fox")
 
 [node name="BaseNPC5" parent="npc" unique_id=681462549 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.2579975, 0.7279935, -29.089441)
+npc_name = ""
+npc_frames = SubResource("SpriteFrames_f3fox")
 
 [node name="BaseNPC6" parent="npc" unique_id=40337071 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5315228, 0.7279935, -32.624363)
+npc_name = ""
+npc_frames = SubResource("SpriteFrames_f3fox")
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
 script = ExtResource("8_bm7lg")
@@ -3757,13 +3941,13 @@ transform = Transform3D(0.8651849, 0, 0.50145316, 0, 1, 0, -0.50145304, 0, 0.865
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.976, 0.45, -1.101)
 
 [node name="litik_narrow_path" type="Marker3D" parent="StoryMarkers" unique_id=1322605257]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.268445, 0.7, 9.961439)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.33251, 0.7, 12.154837)
 
 [node name="player_narrow_path" type="Marker3D" parent="StoryMarkers" unique_id=1574847417]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.859, 0.45, 11.864)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.923065, 0.45, 14.057398)
 
 [node name="narrowcamera" type="Marker3D" parent="StoryMarkers" unique_id=264174366]
-transform = Transform3D(-0.82150257, -0.19476344, 0.5359109, 0.013195328, 0.9331119, 0.3593436, -0.570052, 0.30227324, -0.763984, -6.2334657, 1.2932727, 8.263487)
+transform = Transform3D(-0.80655503, -0.33844095, 0.4846925, -0.02457311, 0.8383873, 0.5445207, -0.59064835, 0.42727533, -0.684522, -7.297531, 1.3152956, 10.456884)
 
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
@@ -3778,7 +3962,7 @@ transform = Transform3D(0.9454734, 0, 0.32569942, 0, 1, 0, -0.32569942, 0, 0.945
 shape = SubResource("BoxShape3D_7xnph")
 
 [node name="narrow" type="Area3D" parent="StoryTrigger" unique_id=427526047 node_paths=PackedStringArray("narrow_cutscene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.785137, 0, 10.224583)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.849203, 0, 12.41798)
 script = ExtResource("35_87cgx")
 narrow_cutscene = NodePath("../../narrow_path_litik")
 story_flag = "narrow_path_litik"
