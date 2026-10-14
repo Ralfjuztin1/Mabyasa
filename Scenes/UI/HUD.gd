@@ -355,7 +355,7 @@ func _refresh_location() -> void:
 	var scene_name := level_path.get_file().get_basename()
 
 	if scene_name.is_empty():
-		location_label.text = "YATU VILLAGE"
+		location_label.text = "VILLAGE"
 		return
 
 	match scene_name.to_lower():

@@ -4,6 +4,7 @@ signal closed
 signal quest_selected(quest_id: String)
 
 @onready var close_button: Button = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/CloseButton
+@onready var subtitle_label: Label = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/Subtitle
 
 @onready var all_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/AllButton
 @onready var active_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/ActiveButton
@@ -12,15 +13,24 @@ signal quest_selected(quest_id: String)
 @onready var quest_list: VBoxContainer = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList
 @onready var quest_row_template: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList/QuestRowTemplate
 
+@onready var quest_type_row: HBoxContainer = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow
 @onready var quest_type_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow/QuestTypeLabel
 @onready var quest_status_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow/QuestStatusLabel
 @onready var quest_title: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTitle
 @onready var quest_description: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestDescription
+@onready var objective_header: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectiveHeader
+@onready var objectives_scroll: ScrollContainer = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll
+@onready var rewards_separator: HSeparator = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/Separator
+@onready var rewards_header: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsHeader
+@onready var rewards_row: HBoxContainer = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow
 
 @onready var objectives_container: VBoxContainer = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer
 @onready var objective_template: PanelContainer = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate
 
-@onready var rewards_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsLabel
+@onready var exp_icon: TextureRect = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/ExpIcon
+@onready var rewards_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/RewardsLabel
+@onready var gold_icon: TextureRect = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/GoldIcon
+@onready var gold_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/GoldLabel
 @onready var empty_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/EmptyLabel
 
 
@@ -67,6 +77,24 @@ func _connect_quest_signals() -> void:
 
 	if not QuestManager.dialogue_flag_changed.is_connected(_on_dialogue_flag_changed):
 		QuestManager.dialogue_flag_changed.connect(_on_dialogue_flag_changed)
+
+
+func _exit_tree() -> void:
+	_disconnect_quest_signals()
+
+
+func _disconnect_quest_signals() -> void:
+	if QuestManager == null:
+		return
+
+	if QuestManager.quest_started.is_connected(_on_quest_changed):
+		QuestManager.quest_started.disconnect(_on_quest_changed)
+	if QuestManager.quest_objective_updated.is_connected(_on_quest_changed):
+		QuestManager.quest_objective_updated.disconnect(_on_quest_changed)
+	if QuestManager.quest_completed.is_connected(_on_quest_changed):
+		QuestManager.quest_completed.disconnect(_on_quest_changed)
+	if QuestManager.dialogue_flag_changed.is_connected(_on_dialogue_flag_changed):
+		QuestManager.dialogue_flag_changed.disconnect(_on_dialogue_flag_changed)
 
 
 func _on_quest_changed(_quest_id: String, _value_1 = null, _value_2 = null) -> void:
@@ -123,6 +151,7 @@ func _refresh() -> void:
 	if QuestManager == null:
 		return
 
+	_update_filter_labels()
 	_clear_quest_rows()
 
 	var quest_ids: Array[String] = _get_filtered_quest_ids()
@@ -144,10 +173,13 @@ func _refresh() -> void:
 func _get_filtered_quest_ids() -> Array[String]:
 	var result: Array[String] = []
 
-	var database: Dictionary = QuestManager.quest_database
-
-	for quest_id_variant in database.keys():
+	for quest_id_variant in QuestManager.quest_database.keys():
 		var quest_id: String = str(quest_id_variant)
+
+		# A quest is discovered only after the player starts it or completes it.
+		# Resources in the database alone must not appear in the log.
+		if not _is_quest_discovered(quest_id):
+			continue
 
 		match current_filter:
 			QuestFilter.ACTIVE:
@@ -163,6 +195,36 @@ func _get_filtered_quest_ids() -> Array[String]:
 
 	result.sort_custom(_sort_quest_ids)
 	return result
+
+
+func _is_quest_discovered(quest_id: String) -> bool:
+	return QuestManager.is_quest_active(quest_id) or QuestManager.completed_quests.has(quest_id)
+
+
+func _update_filter_labels() -> void:
+	var discovered_count: int = 0
+	var active_count: int = 0
+	var completed_count: int = 0
+
+	for quest_id_variant in QuestManager.quest_database.keys():
+		var quest_id: String = str(quest_id_variant)
+		if QuestManager.is_quest_active(quest_id):
+			active_count += 1
+			discovered_count += 1
+		elif QuestManager.completed_quests.has(quest_id):
+			completed_count += 1
+			discovered_count += 1
+
+	all_button.text = "ALL  ·  %d" % discovered_count
+	active_button.text = "ACTIVE  ·  %d" % active_count
+	completed_button.text = "COMPLETED  ·  %d" % completed_count
+
+	all_button.button_pressed = current_filter == QuestFilter.ALL
+	active_button.button_pressed = current_filter == QuestFilter.ACTIVE
+	completed_button.button_pressed = current_filter == QuestFilter.COMPLETED
+
+	if subtitle_label != null:
+		subtitle_label.text = "%d discovered quest%s" % [discovered_count, "" if discovered_count == 1 else "s"]
 
 
 func _sort_quest_ids(a: String, b: String) -> bool:
@@ -213,17 +275,31 @@ func _add_quest_row(quest_id: String) -> void:
 
 	row.visible = true
 	row.name = "Quest_" + quest_id
+	row.toggle_mode = true
 	row.text = _get_row_text(quest_id, quest_data)
+	row.button_pressed = quest_id == current_quest_id
+
+	if QuestManager.is_quest_active(quest_id):
+		row.add_theme_color_override("font_color", Color(0.82, 0.91, 0.77, 1.0))
+	elif QuestManager.completed_quests.has(quest_id):
+		row.add_theme_color_override("font_color", Color(0.82, 0.80, 0.70, 1.0))
 
 	var callable := func() -> void:
+		current_quest_id = quest_id
 		_show_quest(quest_id)
+		_update_selected_row_states()
 
 	row.pressed.connect(callable)
-
 	quest_list.add_child(row)
 
 	if quest_id == current_quest_id:
 		row.grab_focus()
+
+
+func _update_selected_row_states() -> void:
+	for child in quest_list.get_children():
+		if child is Button and child != quest_row_template:
+			child.button_pressed = child.name == "Quest_" + current_quest_id
 
 
 func _get_row_text(quest_id: String, quest_data: QuestData) -> String:
@@ -251,12 +327,20 @@ func _get_row_text(quest_id: String, quest_data: QuestData) -> String:
 func _show_quest(quest_id: String) -> void:
 	var quest_data: QuestData = QuestManager.get_quest(quest_id)
 
-	if quest_data == null:
+	if quest_data == null or not _is_quest_discovered(quest_id):
 		_show_empty_state()
 		return
 
 	current_quest_id = quest_id
 	empty_label.visible = false
+	quest_type_row.show()
+	quest_title.show()
+	quest_description.show()
+	objective_header.show()
+	objectives_scroll.show()
+	rewards_separator.show()
+	rewards_header.show()
+	rewards_row.show()
 
 	quest_type_label.text = "MAIN QUEST" if quest_data.is_main_quest else "SIDE QUEST"
 
@@ -267,8 +351,9 @@ func _show_quest(quest_id: String) -> void:
 		quest_status_label.text = "ACTIVE"
 		quest_status_label.modulate = Color(0.42, 0.67, 0.49, 1.0)
 	else:
-		quest_status_label.text = "AVAILABLE"
-		quest_status_label.modulate = Color(0.94, 0.82, 0.42, 1.0)
+		# Defensive guard: the quest list should never allow an undiscovered quest here.
+		_show_empty_state()
+		return
 
 	quest_title.text = _get_title(quest_id, quest_data)
 	quest_description.text = quest_data.description
@@ -283,12 +368,33 @@ func _show_quest(quest_id: String) -> void:
 
 
 func _show_empty_state() -> void:
+	quest_type_row.hide()
+	quest_title.hide()
+	quest_description.hide()
+	objective_header.hide()
+	objectives_scroll.hide()
+	rewards_separator.hide()
+	rewards_header.hide()
+	rewards_row.hide()
 	quest_title.text = ""
 	quest_description.text = ""
 	quest_type_label.text = ""
 	quest_status_label.text = ""
 	rewards_label.text = ""
+	rewards_label.visible = false
+	exp_icon.visible = false
+	gold_icon.visible = false
+	gold_label.visible = false
 	_clear_objectives()
+
+	match current_filter:
+		QuestFilter.ACTIVE:
+			empty_label.text = "No active quests yet.\n\nStart a quest by speaking with a character or progressing through the story."
+		QuestFilter.COMPLETED:
+			empty_label.text = "No completed quests yet.\n\nYour finished quests will be recorded here."
+		_:
+			empty_label.text = "No quests discovered yet.\n\nSpeak with characters and follow the story to discover quests."
+
 	empty_label.visible = true
 
 
@@ -433,20 +539,30 @@ func _format_target(target: String) -> String:
 # ============================================================
 
 func _update_rewards(quest_data: QuestData) -> void:
-	if quest_data.rewards == null:
-		rewards_label.text = "No rewards"
-		return
+	var has_exp: bool = false
+	var has_gold: bool = false
+	var exp_amount: int = 0
+	var gold_amount: int = 0
 
-	var rewards: QuestReward = quest_data.rewards
-	var parts: Array[String] = []
+	if quest_data.rewards != null:
+		var rewards: QuestReward = quest_data.rewards
+		exp_amount = rewards.exp
+		gold_amount = rewards.gold
+		has_exp = exp_amount > 0
+		has_gold = gold_amount > 0
 
-	if rewards.exp > 0:
-		parts.append("⭐ %d EXP" % rewards.exp)
+	exp_icon.visible = has_exp
+	gold_icon.visible = has_gold
+	gold_label.visible = has_gold
+	rewards_label.visible = has_exp or (not has_exp and not has_gold)
 
-	if rewards.gold > 0:
-		parts.append("🪙 %d GOLD" % rewards.gold)
-
-	if parts.is_empty():
+	if has_exp:
+		rewards_label.text = "+%d EXP" % exp_amount
+	elif not has_gold:
 		rewards_label.text = "No rewards"
 	else:
-		rewards_label.text = "   ".join(parts)
+		rewards_label.text = ""
+
+	if has_gold:
+		gold_label.text = "+%d GOLD" % gold_amount
+

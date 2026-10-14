@@ -66,7 +66,7 @@ atlas = ExtResource("3_icon_atlas")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="StyleBoxFlat" id="PortraitFrame"]
-bg_color = Color(0.025, 0.035, 0.028, 0.96)
+bg_color = Color(0.023529412, 0.03529412, 0.02745098, 0.31764707)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2

@@ -197,6 +197,7 @@ mouse_filter = 1
 color = Color(0.005, 0.012, 0.009, 0.72)
 
 [node name="PanelContainer" type="PanelContainer" parent="CompletionBox" unique_id=1963147824]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
