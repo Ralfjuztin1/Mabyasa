@@ -40,8 +40,10 @@
 [ext_resource type="PackedScene" uid="uid://c0prbcekd5ay7" path="res://Scenes/Characters/NPC/litik.tscn" id="35_0oc6g"]
 [ext_resource type="Script" uid="uid://dqu32my70ep3k" path="res://Scenes/Main/narrow.gd" id="35_87cgx"]
 [ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
+[ext_resource type="Script" uid="uid://76ei7w3pfinm" path="res://Scenes/Main/TriggerUletUlet.gd" id="36_jc31u"]
 [ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://bnk8jjq5y0wns" path="res://Scenes/Main/narrow_path_litik.tscn" id="40_f3fox"]
+[ext_resource type="PackedScene" uid="uid://dhv5dn57ae1q0" path="res://Data/Quests/pacing_move.tscn" id="42_ahwvf"]
 [ext_resource type="PackedScene" uid="uid://c7a0rqybof5to" path="res://Scenes/World/CheckpointMarker.tscn" id="43_jbd24"]
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="44_2ujky"]
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="45_qwqmh"]
@@ -3205,6 +3207,9 @@ size = Vector3(17.076538, 1, 19.684097)
 [sub_resource type="BoxShape3D" id="BoxShape3D_nbvpm"]
 size = Vector3(4.5473633, 2.3758545, 4.227783)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_5y2ec"]
+size = Vector3(9.326172, 1, 5.9885254)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_b66by"]
 size = Vector3(13.472656, 4.5057373, 1)
 
@@ -3612,7 +3617,7 @@ npc_frames = SubResource("SpriteFrames_ppes2")
 move_speed = 1.5
 wander_radius = 1.0
 
-[node name="Ale Pacing" parent="npc" unique_id=1680407098 instance=ExtResource("8_fbikn")]
+[node name="pacing" parent="npc" unique_id=1680407098 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -8.738551, 0.8268018, -10.901878)
 npc_name = "Ale Pacing"
 npc_id = "pacing"
@@ -4283,6 +4288,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.923065, 0.45, 14.057398)
 [node name="narrowcamera" type="Marker3D" parent="StoryMarkers" unique_id=264174366]
 transform = Transform3D(-0.80655503, -0.33844095, 0.4846925, -0.02457311, 0.8383873, 0.5445207, -0.59064835, 0.42727533, -0.684522, -7.297531, 1.3152956, 10.456884)
 
+[node name="pacingmovecamera" type="Marker3D" parent="StoryMarkers" unique_id=1463380224]
+transform = Transform3D(0.20992285, -0.20153594, 0.9567213, -0.093155764, 0.9699503, 0.22476286, -0.97327, -0.13630694, 0.1848405, -8.25651, 3.3915772, 17.352875)
+
+[node name="movepacing" type="Marker3D" parent="StoryMarkers" unique_id=472898697]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.529512, 0.4718461, 21.30646)
+
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
 
@@ -4305,6 +4316,16 @@ story_flag = "narrow_path_litik"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875276, 0.68792725, 3.0457916)
 shape = SubResource("BoxShape3D_nbvpm")
 
+[node name="PacingMove" type="Area3D" parent="StoryTrigger" unique_id=2086567975 node_paths=PackedStringArray("cutscene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.59484, 0, 20.686144)
+script = ExtResource("36_jc31u")
+cutscene = NodePath("../../pacing_move")
+story_flag = "pacing_move"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/PacingMove" unique_id=2076401743]
+transform = Transform3D(0.84923893, 0, -0.52800876, 0, 1, 0, 0.52800876, 0, 0.84923893, 0.110839844, 0, 2.1863556)
+shape = SubResource("BoxShape3D_5y2ec")
+
 [node name="LitikCutscene" type="Node3D" parent="." unique_id=83601087]
 
 [node name="FirstTownIntro" type="Node" parent="." unique_id=811207447]
@@ -4318,6 +4339,8 @@ intro_timeline = "uid://n1t8vy8wgy1n"
 [node name="Scene3" parent="." unique_id=1949823004 instance=ExtResource("36_vu2ah")]
 
 [node name="narrow_path_litik" parent="." unique_id=762053646 instance=ExtResource("40_f3fox")]
+
+[node name="pacing_move" parent="." unique_id=1414608135 instance=ExtResource("42_ahwvf")]
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)
@@ -4347,7 +4370,7 @@ shape = SubResource("CapsuleShape3D_nbvpm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.900277, 0.07549882, -3.7217789)
 
 [node name="Enemy2" parent="." unique_id=1154355743 instance=ExtResource("44_2ujky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48137665, 0.23670536, -30.078304)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.724621, 0.23670536, -2.3971307)
 enemy_id = "what_the_fox"
 enemy_name = "What the Fox"
 world_sprite_frames = SubResource("SpriteFrames_t4itd")

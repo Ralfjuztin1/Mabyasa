@@ -22,4 +22,5 @@ title = "Walk to Apu"
 description = "Your Ima asked you to go to apu to find out more about the curse."
 rewards = SubResource("Resource_notq6")
 steps = Array[ExtResource("2_x4rd4")]([SubResource("Resource_ik6am")])
+is_main_quest = true
 metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

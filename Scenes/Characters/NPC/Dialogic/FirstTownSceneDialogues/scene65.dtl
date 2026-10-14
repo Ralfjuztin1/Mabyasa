@@ -19,9 +19,9 @@ label continue
 "Ale Pacing": Unfortunate but i wish you all the best for your journey!
 [wait time="0.5"]
 Litik: Quick—to thank someone in Kapampangan, you say "Salamat"!
-[signal arg="[signal arg="learn_salamat"]"]
+[signal arg="[signal arg="encounter_salamat"]"]
 Litik: But when someone is extra generous or hospitable like Ale Pacing, add "Dakal a" in front—"Dakal a salamat" means thank you very much!
-[signal arg="[signal arg="learn_dakal_a_salamat"]"]
+[signal arg="[signal arg="encounter_dakal_a_salamat"]"]
 [wait time="0.5"]
 You: Dakal a salamat!
 "Ale Pacing": Alang nanu man!
