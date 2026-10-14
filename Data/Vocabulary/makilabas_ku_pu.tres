@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://bn52shfl1lldd"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -8,9 +8,9 @@ id = "makilabas_ku_pu"
 kapampangan = "Makilabas ku pu"
 english = "Excuse me"
 category = "phrase"
-difficulty = 1
-source_npc = ""
-allowed_types = PackedStringArray("multiple_choice", "translate", "match")
-hint = "Remember: Makilabas ku pu means Excuse me."
 lesson_group = "common_greetings"
 source_section = "common_greetings"
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: Makilabas ku pu means Excuse me."
+parts = PackedStringArray()
+sentence_distractors = null

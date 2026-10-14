@@ -4381,11 +4381,12 @@ battle_attack_animation = &"attack_right"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.069744, 0.20828927, 48.566254)
 is_boss = true
 enemy_max_hp = 99999
-enemy_atk = 35
+enemy_atk = 1
 enemy_exp_reward = 500
 enemy_gold_reward = 1000
 world_sprite_frames = SubResource("SpriteFrames_76u0i")
 battle_sprite_animation = &"idle_right"
+battle_hit_animation = &""
 battle_attack_duration = 1.6
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]

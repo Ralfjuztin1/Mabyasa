@@ -1,159 +1,90 @@
 extends Control
 
-## Scene-based post-boss assessment. Edit layout, controls, colours, spacing,
-## and panel styles in BossAssessmentOverlay.tscn. This script only fills data
-## and manages the close/continue action.
+## Sequential, learner-focused post-boss review.
+## Battle/combat logic remains in BattleManager; this script only presents its report.
 
 signal finished(victory: bool)
 
-const REVIEW_ROW_SCENE: PackedScene = preload(
-	"res://Scenes/Battle/BossAssessmentReviewRow.tscn"
-)
-const OVERLAY_SCENE_PATH: String = "res://Scenes/Battle/BossAssessmentOverlay.tscn"
+const GOLD: Color = Color(0.88, 0.70, 0.36, 1.0)
+const CREAM: Color = Color(0.96, 0.93, 0.84, 1.0)
+const MUTED: Color = Color(0.69, 0.72, 0.65, 1.0)
+const GREEN: Color = Color(0.48, 0.79, 0.52, 1.0)
+const RED: Color = Color(0.93, 0.48, 0.39, 1.0)
+const AMBER: Color = Color(0.94, 0.72, 0.34, 1.0)
 
-const GOLD: Color = Color(0.82, 0.67, 0.36, 1.0)
-const CREAM: Color = Color(0.94, 0.89, 0.76, 1.0)
-const MUTED: Color = Color(0.68, 0.70, 0.61, 1.0)
-const GREEN: Color = Color(0.49, 0.76, 0.50, 1.0)
-const RED: Color = Color(0.86, 0.43, 0.35, 1.0)
-
-# Resolve controls by their names instead of fixed full paths. This keeps the UI
-# script working when the editable scene's containers are rearranged.
 var title_label: Label
 var subtitle_label: Label
 var outcome_label: Label
 var accuracy_value: Label
-var perfect_value: Label
 var words_value: Label
 var mistakes_value: Label
-var review_list: VBoxContainer
+var review_panel: PanelContainer
 var empty_state_panel: PanelContainer
-var review_scroll: ScrollContainer
+var review_counter_label: Label
+var review_state_label: Label
+var review_progress: ProgressBar
+var your_answer_label: Label
+var correct_sentence_label: Label
+var meaning_label: Label
+var lesson_label: Label
+var extra_mistakes_label: Label
+var previous_button: Button
+var next_button: Button
 var finish_button: Button
 
 var _controls_ready: bool = false
-var _scene_repair_scheduled: bool = false
-var _presentation_requested: bool = false
-var _pending_presentation: bool = false
-var _pending_victory: bool = false
-var _pending_report: Dictionary = {}
-var _pending_boss_name: String = ""
-
 var _victory: bool = false
 var _finish_clicked: bool = false
+var _rows: Array[Dictionary] = []
+var _review_index: int = 0
+var _transition_tween: Tween
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# Assessment overlays must never appear merely because a scene or stray
-	# script-only instance entered the tree. BattleScreen.show/present() opens it.
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	# The layout lives in the editable .tscn; only bind to the existing controls.
 	title_label = _find_control("TitleLabel") as Label
 	subtitle_label = _find_control("SubtitleLabel") as Label
 	outcome_label = _find_control("OutcomeLabel") as Label
 	accuracy_value = _find_card_value("AccuracyCard")
-	perfect_value = _find_card_value("PerfectCard")
 	words_value = _find_card_value("WordsCard")
 	mistakes_value = _find_card_value("MistakesCard")
-	review_list = _find_control("ReviewList") as VBoxContainer
+	review_panel = _find_control("ReviewPanel") as PanelContainer
 	empty_state_panel = _find_control("EmptyStatePanel") as PanelContainer
-	review_scroll = _find_control("ReviewScroll") as ScrollContainer
+	review_counter_label = _find_control("ReviewCounterLabel") as Label
+	review_state_label = _find_control("ReviewStateLabel") as Label
+	review_progress = _find_control("ReviewProgress") as ProgressBar
+	your_answer_label = _find_control("YourAnswerLabel") as Label
+	correct_sentence_label = _find_control("CorrectSentenceLabel") as Label
+	meaning_label = _find_control("MeaningLabel") as Label
+	lesson_label = _find_control("LessonLabel") as Label
+	extra_mistakes_label = _find_control("ExtraMistakesLabel") as Label
+	previous_button = _find_control("PreviousButton") as Button
+	next_button = _find_control("NextButton") as Button
 	finish_button = _find_control("FinishButton") as Button
 
-	var missing: Array[String] = []
-	for required: Array in [
-		["TitleLabel", title_label],
-		["SubtitleLabel", subtitle_label],
-		["OutcomeLabel", outcome_label],
-		["AccuracyCard/ValueLabel", accuracy_value],
-		["PerfectCard/ValueLabel", perfect_value],
-		["WordsCard/ValueLabel", words_value],
-		["MistakesCard/ValueLabel", mistakes_value],
-		["ReviewList", review_list],
-		["EmptyStatePanel", empty_state_panel],
-		["ReviewScroll", review_scroll],
-		["FinishButton", finish_button],
-	]:
-		if required[1] == null:
-			missing.append(str(required[0]))
-
-	if not missing.is_empty():
-		# Recover from older code that created this script with .new() instead
-		# of instantiating the .tscn. Such a node has no scene path or children.
-		# The deferred repair runs after the caller's present() call, so that
-		# request can be forwarded into the real scene instance.
-		if scene_file_path.is_empty() and get_child_count() == 0:
-			_scene_repair_scheduled = true
-			call_deferred("_repair_script_only_instance")
+	var required_controls: Array = [
+		title_label, subtitle_label, outcome_label,
+		accuracy_value, words_value, mistakes_value,
+		review_panel, empty_state_panel, review_counter_label,
+		review_state_label, review_progress, your_answer_label,
+		correct_sentence_label, meaning_label, lesson_label,
+		extra_mistakes_label, previous_button, next_button, finish_button
+	]
+	for control: Variant in required_controls:
+		if control == null:
+			push_error(
+			"[BOSS ASSESSMENT] Missing controls in BossAssessmentOverlay.tscn. "
+			+ "Restore the matching scene and script files from the package."
+		)
 			return
 
-		push_error(
-			"[BOSS ASSESSMENT] Controls not found in scene '%s' at node '%s': %s. " % [
-				str(scene_file_path), str(get_path()), ", ".join(PackedStringArray(missing))
-			] + "Open res://Scenes/Battle/BossAssessmentOverlay.tscn and check its node names."
-		)
-		return
-
 	_controls_ready = true
+	previous_button.pressed.connect(_on_previous_pressed)
+	next_button.pressed.connect(_on_next_pressed)
 	finish_button.pressed.connect(_on_finish_pressed)
-
-
-func _repair_script_only_instance() -> void:
-	if not is_instance_valid(self) or _controls_ready:
-		return
-
-	if not scene_file_path.is_empty() or get_child_count() > 0:
-		push_error(
-			"[BOSS ASSESSMENT] Auto-recovery stopped: this node is not a bare script-only instance. "
-			+ "Scene path='%s', child count=%d. Check the matching .tscn file."
-			% [str(scene_file_path), get_child_count()]
-		)
-		return
-
-	var parent_node: Node = get_parent()
-	if parent_node == null:
-		push_error(
-			"[BOSS ASSESSMENT] Created with GDScript.new() but has no parent; "
-			+ "instantiate res://Scenes/Battle/BossAssessmentOverlay.tscn instead."
-		)
-		return
-
-	var packed_scene: PackedScene = load(OVERLAY_SCENE_PATH) as PackedScene
-	if packed_scene == null:
-		push_error("[BOSS ASSESSMENT] Cannot load " + OVERLAY_SCENE_PATH)
-		return
-
-	var replacement: Control = packed_scene.instantiate() as Control
-	if replacement == null:
-		push_error("[BOSS ASSESSMENT] The assessment scene root is not a Control.")
-		return
-
-	replacement.name = "BossAssessmentOverlaySceneInstance"
-	replacement.process_mode = Node.PROCESS_MODE_ALWAYS
-	parent_node.add_child(replacement)
-	parent_node.move_child(replacement, get_index())
-	visible = false
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	# Keep this node alive as a signal relay because BattleScreen may already
-	# have connected to its finished signal before recovery ran.
-	replacement.connect("finished", Callable(self, "_forward_replacement_finished"))
-
-	if _pending_presentation:
-		replacement.call_deferred(
-			"present",
-			_pending_victory,
-			_pending_report.duplicate(true),
-			_pending_boss_name
-		)
-
-
-func _forward_replacement_finished(victory: bool) -> void:
-	finished.emit(victory)
-	queue_free()
 
 
 func _find_control(control_name: String) -> Node:
@@ -168,18 +99,8 @@ func _find_card_value(card_name: String) -> Label:
 
 
 func present(victory: bool, report: Dictionary, boss_name: String) -> void:
-	_presentation_requested = true
 	if not _controls_ready:
-		if _scene_repair_scheduled:
-			_pending_presentation = true
-			_pending_victory = victory
-			_pending_report = report.duplicate(true)
-			_pending_boss_name = boss_name
-			return
-		push_error(
-			"[BOSS ASSESSMENT] Cannot present: controls are missing. "
-			+ "Check the loaded BossAssessmentOverlay.tscn and the node this script is attached to."
-		)
+		push_error("[BOSS ASSESSMENT] Cannot present because the overlay controls are not ready.")
 		return
 
 	_victory = victory
@@ -187,73 +108,169 @@ func present(victory: bool, report: Dictionary, boss_name: String) -> void:
 	visible = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
-	title_label.text = "BOSS ASSESSMENT"
-	subtitle_label.text = "TRIAL COMPLETE  •  %s" % boss_name.to_upper()
-	outcome_label.text = "VICTORY" if victory else "DEFEAT · REVIEW YOUR MISTAKES"
-	outcome_label.add_theme_color_override(
-		"font_color",
-		GREEN if victory else RED
-	)
-	finish_button.text = "CONTINUE" if victory else "RETURN TO CHECKPOINT"
+	title_label.text = "BATTLE REVIEW"
+	subtitle_label.text = "BOSS TRIAL  ·  %s" % boss_name.to_upper()
+	outcome_label.text = "BOSS DEFEATED" if victory else "TRIAL FAILED · PRACTICE MAKES PROGRESS"
+	outcome_label.add_theme_color_override("font_color", GREEN if victory else RED)
 
-	var accuracy: int = int(report.get("accuracy_percent", 0))
-	var correct_sentences: int = int(report.get("correct_sentences", 0))
-	var total_sentences: int = int(report.get("total_sentences", 0))
+	var accuracy: int = clampi(int(report.get("accuracy_percent", 0)), 0, 100)
 	var words_correct: int = int(report.get("words_correct", 0))
 	var words_total: int = int(report.get("words_total", 0))
 	var mistake_count: int = int(report.get("mistake_count", 0))
-
 	accuracy_value.text = "%d%%" % accuracy
-	perfect_value.text = "%d / %d" % [correct_sentences, total_sentences]
 	words_value.text = "%d / %d" % [words_correct, words_total]
 	mistakes_value.text = str(mistake_count)
-	mistakes_value.add_theme_color_override(
-		"font_color",
-		RED if mistake_count > 0 else GREEN
-	)
+	mistakes_value.add_theme_color_override("font_color", RED if mistake_count > 0 else GREEN)
 
-	_clear_review_rows()
+	_rows.clear()
 	var raw_rows: Variant = report.get("rows", [])
-	var rows: Array = raw_rows if raw_rows is Array else []
-	if rows.is_empty():
-		empty_state_panel.visible = true
+	if raw_rows is Array:
+		for raw_row: Variant in raw_rows:
+			if raw_row is Dictionary:
+				var row_data: Dictionary = raw_row
+				_rows.append(row_data.duplicate(true))
+
+	_review_index = 0
+	if _rows.is_empty():
+		review_panel.hide()
+		empty_state_panel.show()
+		review_counter_label.text = "NO RESPONSES TO REVIEW"
+		review_progress.max_value = 1.0
+		review_progress.value = 0.0
+		previous_button.disabled = true
+		next_button.disabled = true
+		finish_button.disabled = false
+		finish_button.text = "CONTINUE" if victory else "RETURN TO CHECKPOINT"
 	else:
-		empty_state_panel.visible = false
-		for index in range(rows.size()):
-			if not (rows[index] is Dictionary):
-				continue
-			var review_row: Control = REVIEW_ROW_SCENE.instantiate() as Control
-			if review_row == null:
-				push_error("[BOSS ASSESSMENT] Could not instantiate review row scene.")
-				continue
-			review_list.add_child(review_row)
-			review_row.call("setup", index + 1, rows[index] as Dictionary)
+		review_panel.show()
+		empty_state_panel.hide()
+		_show_result(0, false)
 
-		# Make sure the list starts at the top for every battle report.
-		review_scroll.scroll_vertical = 0
-
+	visible = true
 	modulate.a = 0.0
-	var tween: Tween = create_tween()
+	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "modulate:a", 1.0, 0.18)
-	finish_button.grab_focus()
+	tween.tween_property(self, "modulate:a", 1.0, 0.20)
+	if not _rows.is_empty() and not next_button.disabled:
+		next_button.grab_focus()
+	else:
+		finish_button.grab_focus()
 
 
-func _clear_review_rows() -> void:
-	for child: Node in review_list.get_children():
-		if child == empty_state_panel:
-			continue
-		child.queue_free()
+func _show_result(index: int, animate: bool = true) -> void:
+	if _rows.is_empty():
+		return
+
+	_review_index = clampi(index, 0, _rows.size() - 1)
+	var row: Dictionary = _rows[_review_index]
+	var is_correct: bool = bool(row.get("correct", false))
+	var timed_out: bool = bool(row.get("timed_out", false))
+	var score_percent: int = clampi(int(row.get("score_percent", 0)), 0, 100)
+
+	review_counter_label.text = "RESULT %02d  /  %02d" % [_review_index + 1, _rows.size()]
+	review_progress.max_value = maxi(_rows.size(), 1)
+	review_progress.value = _review_index + 1
+
+	if timed_out and not is_correct:
+		review_state_label.text = "TIME RAN OUT"
+		review_state_label.add_theme_color_override("font_color", AMBER)
+	elif is_correct:
+		review_state_label.text = "CORRECT  ·  %d%%" % score_percent
+		review_state_label.add_theme_color_override("font_color", GREEN)
+	else:
+		review_state_label.text = "LET'S FIX THIS  ·  %d%%" % score_percent
+		review_state_label.add_theme_color_override("font_color", RED)
+
+	your_answer_label.text = str(row.get("submitted_sentence", "(no answer submitted)"))
+	correct_sentence_label.text = str(row.get("correct_sentence", "—"))
+	meaning_label.text = str(row.get("english_meaning", "Meaning not recorded."))
+	lesson_label.text = _build_learning_tip(row, is_correct, timed_out)
+
+	var raw_mistakes: Variant = row.get("mistakes", [])
+	var mistakes: Array = raw_mistakes if raw_mistakes is Array else []
+	if mistakes.size() > 1:
+		extra_mistakes_label.text = "There are %d more word placements to check. Use the correct sentence above as your model." % (mistakes.size() - 1)
+		extra_mistakes_label.show()
+	else:
+		extra_mistakes_label.hide()
+
+	previous_button.disabled = _review_index <= 0
+	next_button.disabled = _review_index >= _rows.size() - 1
+	finish_button.disabled = _review_index < _rows.size() - 1
+	finish_button.text = "CONTINUE" if _victory else "RETURN TO CHECKPOINT"
+
+	if animate:
+		if is_instance_valid(_transition_tween) and _transition_tween.is_running():
+			_transition_tween.kill()
+		review_panel.modulate.a = 0.45
+		_transition_tween = create_tween()
+		_transition_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_transition_tween.tween_property(review_panel, "modulate:a", 1.0, 0.16)
+	else:
+		review_panel.modulate.a = 1.0
+
+	# Keep keyboard navigation usable without stealing input from text controls.
+	if animate:
+		if not next_button.disabled:
+			next_button.grab_focus()
+		else:
+			finish_button.grab_focus()
+
+
+func _build_learning_tip(row: Dictionary, is_correct: bool, timed_out: bool) -> String:
+	if is_correct:
+		return "Why it works: your words are in the expected order. Read the phrase once and connect it to the meaning so you can recall both next time."
+
+	if timed_out:
+		return "Practice tip: build the phrase slowly, one word at a time. Aim for the correct order first; speed comes after you remember the pattern."
+
+	var raw_mistakes: Variant = row.get("mistakes", [])
+	var mistakes: Array = raw_mistakes if raw_mistakes is Array else []
+	if mistakes.is_empty():
+		return "Study the corrected sentence, say it aloud, then try rebuilding it from memory. Focus on the word order rather than speed."
+
+	var first_mistake: String = str(mistakes[0])
+	var regex := RegEx.new()
+	regex.compile("^Position ([0-9]+): expected '([^']*)', got '([^']*)'\\.$")
+	var match_result := regex.search(first_mistake)
+	if match_result != null:
+		var position: String = match_result.get_string(1)
+		var expected: String = match_result.get_string(2)
+		var chosen: String = match_result.get_string(3)
+		return (
+			"Focus on word %s: you placed “%s”, but the phrase needs “%s” here. "
+			+ "Compare that position with the corrected sentence, then read the full phrase aloud."
+		) % [position, chosen, expected]
+
+	regex.compile("^Position ([0-9]+): expected '([^']*)', but no word was placed\\.$")
+	match_result = regex.search(first_mistake)
+	if match_result != null:
+		return "Word %s is missing. Find “%s” in the corrected sentence, then read the phrase from left to right." % [match_result.get_string(1), match_result.get_string(2)]
+
+	regex.compile("^Extra word at position ([0-9]+): '([^']*)'\\.$")
+	match_result = regex.search(first_mistake)
+	if match_result != null:
+		return "You added “%s” at word %s. Check whether every selected word belongs in the target phrase, then compare the final order." % [match_result.get_string(2), match_result.get_string(1)]
+
+	return (
+		"Focus point: %s. Read the corrected sentence, notice how the words are ordered, "
+		+ "then try saying it without looking."
+	) % first_mistake
+
+
+func _on_previous_pressed() -> void:
+	if _review_index > 0:
+		_show_result(_review_index - 1)
+
+
+func _on_next_pressed() -> void:
+	if _review_index < _rows.size() - 1:
+		_show_result(_review_index + 1)
 
 
 func _on_finish_pressed() -> void:
-	if _finish_clicked:
+	if _finish_clicked or finish_button.disabled:
 		return
 	_finish_clicked = true
 	finish_button.disabled = true
-	var has_listener: bool = not get_signal_connection_list("finished").is_empty()
 	finished.emit(_victory)
-	# If this scene was accidentally instanced outside BattleScreen, no owner
-	# will handle the signal. Let the user dismiss the stray overlay anyway.
-	if not has_listener:
-		queue_free()
