@@ -1,55 +1,64 @@
 [gd_scene format=3 uid="uid://ibdxu7vki5au"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8a144"]
+[ext_resource type="Script" uid="uid://bcxw4t7opigm0" path="res://Scenes/Characters/NPC/Enemy/Enemy.gd" id="1_enemy_script"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_2iftj"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_Enemy"]
 animations = [{
 "frames": [],
 "loop": 1,
-"name": &"idle_back",
+"name": &"attack_right",
 "speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 3.0
 }, {
 "frames": [],
 "loop": 1,
 "name": &"idle_front",
-"speed": 5.0
+"speed": 3.0
 }, {
 "frames": [],
 "loop": 1,
 "name": &"idle_left",
-"speed": 5.0
+"speed": 3.0
 }, {
 "frames": [],
 "loop": 1,
 "name": &"idle_right",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": 1,
-"name": &"walk_back",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": 1,
-"name": &"walk_front",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": 1,
-"name": &"walk_left",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": 1,
-"name": &"walk_right",
-"speed": 5.0
+"speed": 3.0
 }]
 
-[node name="Enemy" type="CharacterBody3D" unique_id=1508831342]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_EnemyBody"]
+radius = 0.3
+height = 1.25
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=439394894]
-shape = SubResource("CapsuleShape3D_8a144")
+[sub_resource type="SphereShape3D" id="SphereShape3D_Detection"]
+radius = 1.0
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1809814860]
-sprite_frames = SubResource("SpriteFrames_2iftj")
-animation = &"idle_back"
+[node name="Enemy" type="CharacterBody3D" unique_id=1154355743]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_enemy_script")
+world_sprite_frames = SubResource("SpriteFrames_Enemy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1999133421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
+shape = SubResource("CapsuleShape3D_EnemyBody")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=641565087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+pixel_size = 0.045
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_Enemy")
+animation = &"attack_right"
+
+[node name="DetectionArea" type="Area3D" parent="." unique_id=395571099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea" unique_id=1972772206]
+shape = SubResource("SphereShape3D_Detection")

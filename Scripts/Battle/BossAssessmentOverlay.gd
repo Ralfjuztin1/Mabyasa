@@ -9,6 +9,7 @@ signal finished(victory: bool)
 const REVIEW_ROW_SCENE: PackedScene = preload(
 	"res://Scenes/Battle/BossAssessmentReviewRow.tscn"
 )
+const OVERLAY_SCENE_PATH: String = "res://Scenes/Battle/BossAssessmentOverlay.tscn"
 
 const GOLD: Color = Color(0.82, 0.67, 0.36, 1.0)
 const CREAM: Color = Color(0.94, 0.89, 0.76, 1.0)
@@ -31,6 +32,12 @@ var review_scroll: ScrollContainer
 var finish_button: Button
 
 var _controls_ready: bool = false
+var _scene_repair_scheduled: bool = false
+var _presentation_requested: bool = false
+var _pending_presentation: bool = false
+var _pending_victory: bool = false
+var _pending_report: Dictionary = {}
+var _pending_boss_name: String = ""
 
 var _victory: bool = false
 var _finish_clicked: bool = false
@@ -38,7 +45,10 @@ var _finish_clicked: bool = false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	mouse_filter = Control.MOUSE_FILTER_STOP
+	# Assessment overlays must never appear merely because a scene or stray
+	# script-only instance entered the tree. BattleScreen.show/present() opens it.
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	# The layout lives in the editable .tscn; only bind to the existing controls.
 	title_label = _find_control("TitleLabel") as Label
@@ -71,15 +81,79 @@ func _ready() -> void:
 			missing.append(str(required[0]))
 
 	if not missing.is_empty():
+		# Recover from older code that created this script with .new() instead
+		# of instantiating the .tscn. Such a node has no scene path or children.
+		# The deferred repair runs after the caller's present() call, so that
+		# request can be forwarded into the real scene instance.
+		if scene_file_path.is_empty() and get_child_count() == 0:
+			_scene_repair_scheduled = true
+			call_deferred("_repair_script_only_instance")
+			return
+
 		push_error(
-			"[BOSS ASSESSMENT] Controls not found in %s: %s. " % [
-				str(scene_file_path), ", ".join(PackedStringArray(missing))
-			] + "Make sure the matching BossAssessmentOverlay.tscn is installed."
+			"[BOSS ASSESSMENT] Controls not found in scene '%s' at node '%s': %s. " % [
+				str(scene_file_path), str(get_path()), ", ".join(PackedStringArray(missing))
+			] + "Open res://Scenes/Battle/BossAssessmentOverlay.tscn and check its node names."
 		)
 		return
 
 	_controls_ready = true
 	finish_button.pressed.connect(_on_finish_pressed)
+
+
+func _repair_script_only_instance() -> void:
+	if not is_instance_valid(self) or _controls_ready:
+		return
+
+	if not scene_file_path.is_empty() or get_child_count() > 0:
+		push_error(
+			"[BOSS ASSESSMENT] Auto-recovery stopped: this node is not a bare script-only instance. "
+			+ "Scene path='%s', child count=%d. Check the matching .tscn file."
+			% [str(scene_file_path), get_child_count()]
+		)
+		return
+
+	var parent_node: Node = get_parent()
+	if parent_node == null:
+		push_error(
+			"[BOSS ASSESSMENT] Created with GDScript.new() but has no parent; "
+			+ "instantiate res://Scenes/Battle/BossAssessmentOverlay.tscn instead."
+		)
+		return
+
+	var packed_scene: PackedScene = load(OVERLAY_SCENE_PATH) as PackedScene
+	if packed_scene == null:
+		push_error("[BOSS ASSESSMENT] Cannot load " + OVERLAY_SCENE_PATH)
+		return
+
+	var replacement: Control = packed_scene.instantiate() as Control
+	if replacement == null:
+		push_error("[BOSS ASSESSMENT] The assessment scene root is not a Control.")
+		return
+
+	replacement.name = "BossAssessmentOverlaySceneInstance"
+	replacement.process_mode = Node.PROCESS_MODE_ALWAYS
+	parent_node.add_child(replacement)
+	parent_node.move_child(replacement, get_index())
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	# Keep this node alive as a signal relay because BattleScreen may already
+	# have connected to its finished signal before recovery ran.
+	replacement.connect("finished", Callable(self, "_forward_replacement_finished"))
+
+	if _pending_presentation:
+		replacement.call_deferred(
+			"present",
+			_pending_victory,
+			_pending_report.duplicate(true),
+			_pending_boss_name
+		)
+
+
+func _forward_replacement_finished(victory: bool) -> void:
+	finished.emit(victory)
+	queue_free()
 
 
 func _find_control(control_name: String) -> Node:
@@ -94,8 +168,18 @@ func _find_card_value(card_name: String) -> Label:
 
 
 func present(victory: bool, report: Dictionary, boss_name: String) -> void:
+	_presentation_requested = true
 	if not _controls_ready:
-		push_error("[BOSS ASSESSMENT] Cannot present assessment because required scene controls were not found.")
+		if _scene_repair_scheduled:
+			_pending_presentation = true
+			_pending_victory = victory
+			_pending_report = report.duplicate(true)
+			_pending_boss_name = boss_name
+			return
+		push_error(
+			"[BOSS ASSESSMENT] Cannot present: controls are missing. "
+			+ "Check the loaded BossAssessmentOverlay.tscn and the node this script is attached to."
+		)
 		return
 
 	_victory = victory
@@ -167,4 +251,9 @@ func _on_finish_pressed() -> void:
 		return
 	_finish_clicked = true
 	finish_button.disabled = true
+	var has_listener: bool = not get_signal_connection_list("finished").is_empty()
 	finished.emit(_victory)
+	# If this scene was accidentally instanced outside BattleScreen, no owner
+	# will handle the signal. Let the user dismiss the stray overlay anyway.
+	if not has_listener:
+		queue_free()

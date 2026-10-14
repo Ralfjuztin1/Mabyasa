@@ -39,12 +39,7 @@ func _load_database() -> void:
 	_entries.clear()
 
 
-	var files: PackedStringArray = (
-		DirAccess.get_files_at(
-			VOCAB_PATH
-		)
-	)
-
+	var files: PackedStringArray = ResourceLoader.list_directory(VOCAB_PATH)
 
 	for file_name: String in files:
 

@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const BossAssessmentOverlayScene: PackedScene = preload(
-    "res://Scenes/Battle/BossAssessmentOverlay.tscn"
+	"res://Scenes/Battle/BossAssessmentOverlay.tscn"
 )
 ## Presentation-only battle layer.
 ## BattleManager retains all combat, quiz, damage, reward and turn logic.
@@ -16,7 +16,7 @@ signal closed
 @onready var enemy_hp_bar: ProgressBar = $Root/EnemyInfoBox/Margin/VBox/EnemyHPBar
 @onready var barrier_value_label: Label = $Root/EnemyInfoBox/Margin/VBox/BarrierRow/BarrierValueLabel
 @onready var barrier_bar: ProgressBar = $Root/EnemyInfoBox/Margin/VBox/BarrierBar
-@onready var enemy_sprite: Sprite2D = $Root/EnemySpriteBox/EnemySprite
+@onready var enemy_sprite: AnimatedSprite2D = $Root/EnemySpriteBox/EnemySprite
 @onready var enemy_sprite_slot: Control = $Root/EnemySpriteBox
 @onready var enemy_sprite_label: Label = $Root/EnemySpriteBox/EnemySpriteLabel
 
@@ -32,6 +32,7 @@ signal closed
 @onready var message_label: Label = $Root/BottomBar/MessageBox/MessageMargin/MessageLabel
 @onready var attack_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/AttackButton
 @onready var potion_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/PotionButton
+@onready var flee_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/FleeButton
 @onready var continue_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/ContinueButton
 @onready var quiz_ui: QuizUI = $Root/QuizUI
 
@@ -39,6 +40,10 @@ var _last_enemy_hp: int = -1
 var _last_player_hp: int = -1
 var _entry_animation_played: bool = false
 var _previous_mouse_mode: int = Input.MOUSE_MODE_VISIBLE
+var _current_enemy_idle_animation: StringName = &""
+var _current_enemy_attack_animation: StringName = &""
+var _current_enemy_hit_animation: StringName = &""
+var _current_enemy_action_animation: StringName = &""
 
 
 # ============================================================
@@ -58,6 +63,7 @@ func _ready() -> void:
 
 	attack_button.pressed.connect(_on_attack_pressed)
 	potion_button.pressed.connect(_on_potion_pressed)
+	flee_button.pressed.connect(_on_flee_pressed)
 	continue_button.pressed.connect(_on_continue_pressed)
 
 	quiz_ui.answer_selected.connect(_on_quiz_answer_selected)
@@ -69,6 +75,12 @@ func _ready() -> void:
 	BattleManager.quiz_requested.connect(_on_quiz_requested)
 	BattleManager.battle_log.connect(_on_battle_log)
 	BattleManager.battle_ended.connect(_on_battle_ended)
+	BattleManager.battle_fled.connect(_on_battle_fled)
+	BattleManager.enemy_attack_animation_requested.connect(_on_enemy_attack_animation_requested)
+	BattleManager.enemy_hit_animation_requested.connect(_on_enemy_hit_animation_requested)
+
+	if not enemy_sprite.animation_finished.is_connected(_on_enemy_animation_finished):
+		enemy_sprite.animation_finished.connect(_on_enemy_animation_finished)
 
 	if PlayerProgression:
 		PlayerProgression.stats_changed.connect(_refresh_player_exp)
@@ -245,57 +257,152 @@ func _show_player_sprite_fallback(message: String) -> void:
 func _fit_enemy_sprite() -> void:
 	if not is_instance_valid(enemy_sprite):
 		return
-
-	if enemy_sprite.texture == null:
+	if enemy_sprite.sprite_frames == null or enemy_sprite.animation.is_empty():
+		return
+	if not enemy_sprite.sprite_frames.has_animation(enemy_sprite.animation):
+		return
+	if enemy_sprite.sprite_frames.get_frame_count(enemy_sprite.animation) <= 0:
 		return
 
-	var texture_size := enemy_sprite.texture.get_size()
+	var texture: Texture2D = enemy_sprite.sprite_frames.get_frame_texture(
+		enemy_sprite.animation,
+		0
+	)
+	if texture == null:
+		return
 
+	var texture_size: Vector2 = texture.get_size()
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return
 
-	var fit_scale := minf(
+	var fit_scale: float = minf(
 		enemy_sprite_slot.size.x * 0.90 / texture_size.x,
 		enemy_sprite_slot.size.y * 0.90 / texture_size.y
 	)
-
-	var integer_scale := floorf(
-		minf(battle_sprite_scale, fit_scale)
-	)
-
-	enemy_sprite.scale = (
-		Vector2.ONE * maxf(1.0, integer_scale)
-	)
-
+	var integer_scale: float = floorf(minf(battle_sprite_scale, fit_scale))
+	enemy_sprite.scale = Vector2.ONE * maxf(1.0, integer_scale)
 	enemy_sprite.position = enemy_sprite_slot.size * 0.5
 
 
+func _choose_enemy_battle_animation(
+	frames: SpriteFrames,
+	preferred: StringName,
+	flip_h: bool
+) -> StringName:
+	if frames == null:
+		return &""
+
+	var side_animation: StringName = &"idle_left" if not flip_h else &"idle_right"
+	var other_side_animation: StringName = &"idle_right" if not flip_h else &"idle_left"
+	var candidates: Array[StringName] = [
+		preferred,
+		&"battle_idle",
+		side_animation,
+		&"idle_front",
+		&"idle",
+		&"default",
+		other_side_animation,
+		&"idle_back"
+	]
+
+	for animation_name: StringName in candidates:
+		if (
+			frames.has_animation(animation_name)
+			and frames.get_frame_count(animation_name) > 0
+		):
+			return animation_name
+
+	# Last-resort fallback: use the first animation that actually has frames.
+	for animation_text: String in frames.get_animation_names():
+		var animation_name: StringName = StringName(animation_text)
+		if frames.get_frame_count(animation_name) > 0:
+			return animation_name
+
+	return &""
+
+
+func _find_enemy_animation(
+	frames: SpriteFrames,
+	preferred: StringName,
+	fallback_names: Array[StringName]
+) -> StringName:
+	if frames == null:
+		return &""
+
+	var candidates: Array[StringName] = []
+	if not preferred.is_empty():
+		candidates.append(preferred)
+	for candidate: StringName in fallback_names:
+		if not candidates.has(candidate):
+			candidates.append(candidate)
+
+	# Exact match first, then case-insensitive match (SpriteFrames names are user-authored).
+	for candidate: StringName in candidates:
+		if frames.has_animation(candidate) and frames.get_frame_count(candidate) > 0:
+			return candidate
+		for actual_text: String in frames.get_animation_names():
+			if actual_text.to_lower() == str(candidate).to_lower():
+				var actual: StringName = StringName(actual_text)
+				if frames.get_frame_count(actual) > 0:
+					return actual
+	return &""
+
+
 func _show_enemy_sprite(enemy: EnemyData) -> void:
-	enemy_sprite.texture = enemy.battle_sprite
-	enemy_sprite.visible = enemy.battle_sprite != null
+	var frames: SpriteFrames = enemy.battle_sprite_frames
+
+	# Keep old BattleTrigger.gd instances working while migrating them to SpriteFrames.
+	if frames == null and enemy.battle_sprite != null:
+		frames = SpriteFrames.new()
+		if not frames.has_animation(&"idle"):
+			frames.add_animation(&"idle")
+		frames.set_animation_loop(&"idle", true)
+		frames.add_frame(&"idle", enemy.battle_sprite)
+
+	enemy_sprite.stop()
+	enemy_sprite.sprite_frames = frames
 	enemy_sprite.flip_h = enemy.battle_sprite_flip_h
 
-	if enemy.battle_sprite != null:
-		enemy_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var preferred_idle: StringName = enemy.battle_sprite_animation
+	if preferred_idle.is_empty():
+		preferred_idle = &"idle_left" if not enemy.battle_sprite_flip_h else &"idle_right"
+
+	var chosen_animation: StringName = _find_enemy_animation(
+		frames,
+		preferred_idle,
+		[&"battle_idle", &"idle_left", &"idle_right", &"idle_front", &"idle_back", &"idle", &"default"]
+	)
+	_current_enemy_idle_animation = chosen_animation
+	_current_enemy_attack_animation = _find_enemy_animation(
+		frames,
+		enemy.battle_attack_animation,
+		[&"attack_left", &"attack", &"atk_left", &"atk", &"attack_right", &"attack_front", &"attack_back"]
+	)
+	_current_enemy_hit_animation = _find_enemy_animation(
+		frames,
+		enemy.battle_hit_animation,
+		[&"hit", &"hurt", &"hit_left", &"hurt_left", &"damage", &"hit_right", &"hurt_right"]
+	)
+	_current_enemy_action_animation = &""
+
+	if frames != null and not chosen_animation.is_empty():
+		enemy_sprite.visible = true
 		enemy_sprite_label.visible = false
+		enemy_sprite.play(chosen_animation)
+		enemy_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		_fit_enemy_sprite()
 	else:
+		enemy_sprite.visible = false
 		enemy_sprite_label.visible = true
 		enemy_sprite_label.text = enemy.display_name
-
 		push_warning(
-			"[BATTLE UI] No battle sprite assigned for '"
+			"[BATTLE UI] No usable SpriteFrames assigned for '"
 			+ enemy.display_name
-			+ "'. Set enemy_battle_sprite on the BattleTrigger."
+			+ "'. Assign battle_sprite_frames or world_sprite_frames."
 		)
 
-	if not enemy_sprite_slot.resized.is_connected(
-		_fit_enemy_sprite
-	):
-		enemy_sprite_slot.resized.connect(
-			_fit_enemy_sprite
-		)
-
+	if not enemy_sprite_slot.resized.is_connected(_fit_enemy_sprite):
+		enemy_sprite_slot.resized.connect(_fit_enemy_sprite)
 
 # ============================================================
 # BATTLE ENTRY ANIMATION
@@ -374,6 +481,50 @@ func _on_battle_started(enemy: EnemyData) -> void:
 	call_deferred("_play_battle_entry")
 
 
+func _play_enemy_action_animation(animation_name: StringName) -> bool:
+	if (
+		not is_instance_valid(enemy_sprite)
+		or not enemy_sprite.visible
+		or enemy_sprite.sprite_frames == null
+		or animation_name.is_empty()
+		or not enemy_sprite.sprite_frames.has_animation(animation_name)
+		or enemy_sprite.sprite_frames.get_frame_count(animation_name) <= 0
+	):
+		return false
+
+	# Attack/hit clips are one-shot actions. If one was accidentally left looping
+	# in the SpriteFrames editor, turn looping off so animation_finished can restore idle.
+	enemy_sprite.sprite_frames.set_animation_loop(animation_name, false)
+	_current_enemy_action_animation = animation_name
+	enemy_sprite.play(animation_name)
+	return true
+
+
+func _on_enemy_attack_animation_requested() -> void:
+	_play_enemy_action_animation(_current_enemy_attack_animation)
+
+
+func _on_enemy_hit_animation_requested() -> void:
+	if not _play_enemy_action_animation(_current_enemy_hit_animation):
+		_play_hit_feedback(enemy_sprite)
+
+
+func _on_enemy_animation_finished() -> void:
+	if _current_enemy_action_animation.is_empty():
+		return
+	if StringName(enemy_sprite.animation) != _current_enemy_action_animation:
+		return
+
+	_current_enemy_action_animation = &""
+	if (
+		not _current_enemy_idle_animation.is_empty()
+		and enemy_sprite.sprite_frames != null
+		and enemy_sprite.sprite_frames.has_animation(_current_enemy_idle_animation)
+		and enemy_sprite.sprite_frames.get_frame_count(_current_enemy_idle_animation) > 0
+	):
+		enemy_sprite.play(_current_enemy_idle_animation)
+
+
 func _on_enemy_hp_changed(
 	current: int,
 	max_hp: int
@@ -385,7 +536,11 @@ func _on_enemy_hp_changed(
 	else:
 		enemy_hp_bar.value = 0.0
 
-	if _last_enemy_hp >= 0 and current < _last_enemy_hp:
+	if (
+		_last_enemy_hp >= 0
+		and current < _last_enemy_hp
+		and _current_enemy_action_animation != _current_enemy_hit_animation
+	):
 		_play_hit_feedback(enemy_sprite)
 
 	_last_enemy_hp = current
@@ -529,6 +684,7 @@ func _on_battle_ended(victory: bool) -> void:
 		bottom_bar.visible = false
 		attack_button.visible = false
 		potion_button.visible = false
+		flee_button.visible = false
 		continue_button.visible = false
 
 		# Instantiate the editable assessment scene, not a script-generated UI.
@@ -561,6 +717,7 @@ func _on_battle_ended(victory: bool) -> void:
 
 	attack_button.visible = false
 	potion_button.visible = false
+	flee_button.visible = false
 	continue_button.visible = true
 
 
@@ -603,6 +760,12 @@ func _show_action_buttons() -> void:
 	attack_button.visible = true
 	potion_button.visible = true
 
+	# Fleeing is only offered in normal (non-boss) battles.
+	flee_button.visible = (
+		BattleManager.current_enemy != null
+		and not BattleManager.current_enemy.is_boss
+	)
+
 
 func _on_attack_pressed() -> void:
 	BattleManager.player_attack()
@@ -610,6 +773,15 @@ func _on_attack_pressed() -> void:
 
 func _on_potion_pressed() -> void:
 	BattleManager.player_use_potion()
+
+
+func _on_flee_pressed() -> void:
+	BattleManager.flee_battle()
+
+
+func _on_battle_fled() -> void:
+	closed.emit()
+	queue_free()
 
 
 func _on_continue_pressed() -> void:

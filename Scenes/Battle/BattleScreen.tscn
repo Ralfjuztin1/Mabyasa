@@ -211,7 +211,7 @@ anchor_bottom = 0.76
 mouse_filter = 2
 theme_override_styles/panel = SubResource("PanelActor")
 
-[node name="EnemySprite" type="Sprite2D" parent="Root/EnemySpriteBox" unique_id=1749037363]
+[node name="EnemySprite" type="AnimatedSprite2D" parent="Root/EnemySpriteBox" unique_id=621462675]
 visible = false
 texture_filter = 1
 
@@ -571,6 +571,10 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_o0sci")
 theme_override_styles/hover = SubResource("StyleBoxTexture_a4i37")
 text = "Use Potion"
 
+[node name="FleeButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=2033926995]
+layout_mode = 2
+text = "Flee"
+
 [node name="ContinueButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=1019242765]
 visible = false
 custom_minimum_size = Vector2(0, 31)
@@ -584,4 +588,5 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_06lii")
 text = "Continue"
 
 [node name="QuizUI" parent="Root" unique_id=535122943 instance=ExtResource("2_quiz_ui")]
+visible = false
 layout_mode = 1

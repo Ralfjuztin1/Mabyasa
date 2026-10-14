@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="1_base_enemy"]
+
+[node name="WildBoar" instance=ExtResource("1_base_enemy")]
+enemy_id = "wild_boar"
+enemy_name = "Wild Boar"
+enemy_max_hp = 35
+enemy_max_barrier = 0
+enemy_atk = 6
+enemy_exp_reward = 20
+enemy_gold_reward = 10
+is_boss = false

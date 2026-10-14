@@ -1,0 +1,8 @@
+EDIT THIS ONCE BEFORE RUNNING THE PATCH
+
+Open res://Scenes/Battle/BattleScreen.tscn. In the Scene tree select:
+Root > EnemySpriteBox > EnemySprite
+
+Right-click EnemySprite > Change Type... > AnimatedSprite2D, then save the scene.
+
+The updated BattleScreen.gd requires AnimatedSprite2D because it assigns SpriteFrames and plays named animations. Do not replace the whole BattleScreen.tscn with an old sample scene; changing this node's type preserves all your UI styling and layout.

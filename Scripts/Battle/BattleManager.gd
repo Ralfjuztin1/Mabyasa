@@ -15,6 +15,10 @@ signal feedback_requested(result: AnswerResult)
 signal battle_log(message: String)
 signal battle_streak_changed(streak: int, best_streak: int)
 signal battle_ended(victory: bool)
+signal battle_fled
+## Presentation signals consumed by BattleScreen. Combat rules stay here.
+signal enemy_attack_animation_requested
+signal enemy_hit_animation_requested
 
 
 const MIN_DAMAGE_MULT: float = 0.40
@@ -33,6 +37,7 @@ const WRONG_FEEDBACK_DELAY: float = 1.2
 var battle_active: bool = false
 var awaiting_quiz_response: bool = false
 var awaiting_feedback: bool = false
+var enemy_turn_in_progress: bool = false
 
 
 var current_enemy: EnemyData = null
@@ -106,6 +111,7 @@ func start_battle(enemy_data: EnemyData) -> void:
 	battle_active = true
 	awaiting_quiz_response = false
 	awaiting_feedback = false
+	enemy_turn_in_progress = false
 
 	current_question = null
 
@@ -697,6 +703,9 @@ func _apply_attack(
 	)
 
 
+	# Play the enemy's one-shot hit reaction before updating the battle presentation.
+	enemy_hit_animation_requested.emit()
+
 	# --------------------------------------------------------
 	# BARRIER
 	# --------------------------------------------------------
@@ -853,13 +862,34 @@ func _enemy_turn() -> void:
 		return
 
 
+	enemy_turn_in_progress = true
+
+
 	await get_tree().create_timer(
 		0.28
 	).timeout
 
 
 	if not battle_active:
+		enemy_turn_in_progress = false
 		return
+
+
+	# Play the enemy's attack animation before applying damage. The wait is
+	# configurable per enemy so the animation can line up with its contact frame.
+	if (
+		current_enemy != null
+		and not current_enemy.battle_attack_animation.is_empty()
+		and current_enemy.battle_attack_duration > 0.0
+	):
+		enemy_attack_animation_requested.emit()
+		await get_tree().create_timer(
+			current_enemy.battle_attack_duration
+		).timeout
+
+		if not battle_active:
+			enemy_turn_in_progress = false
+			return
 
 
 	var mitigation: int = int(
@@ -894,9 +924,63 @@ func _enemy_turn() -> void:
 
 	if PlayerProgression.current_hp <= 0:
 
+		enemy_turn_in_progress = false
+
 		_end_battle(
 			false
 		)
+
+		return
+
+
+	enemy_turn_in_progress = false
+
+
+# ============================================================
+# FLEE BATTLE
+# ============================================================
+
+func flee_battle() -> void:
+
+	if not battle_active:
+		return
+
+	# Boss battles must use their existing win/defeat assessment flow.
+	if is_boss_battle:
+		battle_log.emit("You cannot flee from a boss battle.")
+		return
+
+	# Don't cancel a quiz, feedback result, or a resolving enemy turn.
+	if (
+		awaiting_quiz_response
+		or awaiting_feedback
+		or enemy_turn_in_progress
+	):
+		battle_log.emit("Wait until the current action finishes before fleeing.")
+		return
+
+	battle_active = false
+	awaiting_quiz_response = false
+	awaiting_feedback = false
+	enemy_turn_in_progress = false
+	current_question = null
+	_enemy_dead_pending = false
+
+	var fled_from: String = (
+		current_enemy.display_name
+		if current_enemy != null
+		else "the encounter"
+	)
+
+	battle_log.emit("You fled from %s." % fled_from)
+	battle_fled.emit()
+
+	GameManager.set_game_state(
+		GameManager.GameState.EXPLORATION
+	)
+
+	if GameManager.has_method("request_save"):
+		GameManager.request_save()
 
 
 # ============================================================
@@ -914,6 +998,7 @@ func _end_battle(
 	battle_active = false
 	awaiting_quiz_response = false
 	awaiting_feedback = false
+	enemy_turn_in_progress = false
 
 	current_question = null
 

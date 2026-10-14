@@ -1,56 +1,93 @@
 extends Area3D
 
-## Reusable trigger for fixed encounters.
-## Set is_boss=true for a sentence-building boss fight.
-## enemy_battle_sprite is optional; leave empty until the enemy art is ready.
+## Touch-triggered fixed encounter. Kept for existing encounter areas in maps.
+## Walking into this Area3D starts battle; no E/interact input is required.
 
 @export var enemy_id: String = "training_enemy"
 @export var enemy_name: String = "Training Enemy"
-@export var enemy_max_hp: int = 30
-@export var enemy_max_barrier: int = 15
-@export var enemy_atk: int = 6
-@export var enemy_exp_reward: int = 20
-@export var enemy_gold_reward: int = 10
+@export_range(1, 99999, 1) var enemy_max_hp: int = 30
+@export_range(0, 99999, 1) var enemy_max_barrier: int = 15
+@export_range(1, 9999, 1) var enemy_atk: int = 6
+@export_range(0, 999999, 1) var enemy_exp_reward: int = 20
+@export_range(0, 999999, 1) var enemy_gold_reward: int = 10
 @export var is_boss: bool = false
 @export var enemy_battle_sprite: Texture2D
 @export var enemy_battle_flip_h: bool = false
 
 const BATTLE_SCREEN_SCENE: PackedScene = preload("res://Scenes/Battle/BattleScreen.tscn")
 
-var player_in_range: bool = false
+var _encounter_started: bool = false
+var _active_enemy_data: EnemyData = null
+var _defeated: bool = false
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not player_in_range or BattleManager.battle_active:
-		return
-
-	if event.is_action_pressed("interact"):
-		_start_battle()
+func _ready() -> void:
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	if not body_exited.is_connected(_on_body_exited):
+		body_exited.connect(_on_body_exited)
+	if not BattleManager.battle_ended.is_connected(_on_battle_ended):
+		BattleManager.battle_ended.connect(_on_battle_ended)
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		player_in_range = true
+	if not body.is_in_group("player"):
+		return
+	if _encounter_started or _defeated or BattleManager.battle_active:
+		return
+	if GameManager.current_state != GameManager.GameState.EXPLORATION:
+		return
+	_start_battle()
 
 
 func _on_body_exited(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		player_in_range = false
+	if not body.is_in_group("player"):
+		return
+	if not _defeated and not BattleManager.battle_active:
+		_encounter_started = false
+		_active_enemy_data = null
 
 
 func _start_battle() -> void:
-	var enemy_data := EnemyData.new()
-	enemy_data.enemy_id = enemy_id
-	enemy_data.display_name = enemy_name
-	enemy_data.max_hp = enemy_max_hp
-	enemy_data.max_barrier = enemy_max_barrier
-	enemy_data.atk = enemy_atk
-	enemy_data.exp_reward = enemy_exp_reward
-	enemy_data.gold_reward = enemy_gold_reward
-	enemy_data.is_boss = is_boss
-	enemy_data.battle_sprite = enemy_battle_sprite
-	enemy_data.battle_sprite_flip_h = enemy_battle_flip_h
+	if _encounter_started or BattleManager.battle_active:
+		return
+	if get_tree().current_scene == null:
+		push_error("[BATTLE TRIGGER] Cannot start battle: current_scene is null.")
+		return
 
-	var battle_screen := BATTLE_SCREEN_SCENE.instantiate()
+	_encounter_started = true
+	_active_enemy_data = EnemyData.new()
+	_active_enemy_data.enemy_id = enemy_id
+	_active_enemy_data.display_name = enemy_name
+	_active_enemy_data.max_hp = maxi(enemy_max_hp, 1)
+	_active_enemy_data.max_barrier = maxi(enemy_max_barrier, 0)
+	_active_enemy_data.atk = maxi(enemy_atk, 1)
+	_active_enemy_data.exp_reward = maxi(enemy_exp_reward, 0)
+	_active_enemy_data.gold_reward = maxi(enemy_gold_reward, 0)
+	_active_enemy_data.is_boss = is_boss
+	_active_enemy_data.battle_sprite = enemy_battle_sprite
+	_active_enemy_data.battle_sprite_flip_h = enemy_battle_flip_h
+
+	var battle_screen: CanvasLayer = BATTLE_SCREEN_SCENE.instantiate() as CanvasLayer
+	if battle_screen == null:
+		push_error("[BATTLE TRIGGER] Could not instantiate BattleScreen.tscn.")
+		_encounter_started = false
+		_active_enemy_data = null
+		return
+
 	get_tree().current_scene.add_child(battle_screen)
-	BattleManager.start_battle(enemy_data)
+	BattleManager.start_battle(_active_enemy_data)
+	if not BattleManager.battle_active:
+		battle_screen.queue_free()
+		_encounter_started = false
+		_active_enemy_data = null
+
+
+func _on_battle_ended(victory: bool) -> void:
+	if _active_enemy_data == null or BattleManager.current_enemy != _active_enemy_data:
+		return
+	if victory:
+		_defeated = true
+		set_deferred("monitoring", false)
+		queue_free()
+	# On defeat, this trigger is re-armed only when the player leaves its area.

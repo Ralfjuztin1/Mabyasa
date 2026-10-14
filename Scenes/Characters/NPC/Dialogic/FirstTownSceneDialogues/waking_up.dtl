@@ -1,4 +1,5 @@
 Ima: Mayap a abak! You're finally up.
+[signal arg="encounter_mayap_a_abak"]
 You: Maya...p .... ........... huh?!
 You: (inner voice) I know this word... but why wont it come out of my mouth?!
 [wait time="2.0"]
