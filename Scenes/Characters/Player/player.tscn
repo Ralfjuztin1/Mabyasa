@@ -632,4 +632,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07255714, 0)
 spring_length = 1.4
 
 [node name="Camera3D" type="Camera3D" parent="Head/SpringArm3D" unique_id=152253725]
-fov = 60.0
+fov = 50.0
+size = 4.0

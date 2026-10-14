@@ -21,7 +21,7 @@ Abak = Morning
 [signal arg="[signal arg="learn_mayap_a_abak"]"]
 Litik: Are you getting it?
 - I get it.
-	Litik: Good
+	Litik: Very good!
 - Can you repeat that?
 	jump 1st lesson
 	[wait time="0.5"]

@@ -18,7 +18,7 @@ Apu: Okay, how can you [color=yellow]greet everyone all at once?[/color]
 	[signal arg="[signal arg="learn_mayap_a_abak_kekayu"]"]
 	jump Apu_continuation
 - Mayap a abak!
-	Apu: Hmmm... yes its correct but there's a more proper way to greet [color=yellow]everyone.[/color]
+	Apu: Hmmm... yes it's correct but there's a more proper way to greet [color=yellow]everyone.[/color]
 	[wait time="1.0"]
 	jump greet everyone
 - Mayap a gatpanapun!

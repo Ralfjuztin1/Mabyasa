@@ -53,8 +53,13 @@ sky_material = SubResource("ProceduralSkyMaterial_j2cfa")
 
 [sub_resource type="Environment" id="Environment_rxw54"]
 background_mode = 2
+background_energy_multiplier = 1.5
 sky = SubResource("Sky_vm1ce")
+tonemap_exposure = 1.7
 glow_enabled = true
+glow_normalized = true
+glow_strength = 1.42
+glow_bloom = 0.2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kgegj"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -3263,6 +3268,8 @@ npc_name = "Rids"
 npc_id = "rids"
 dialogue_id = "rids_first_talk"
 npc_frames = SubResource("SpriteFrames_5jb8g")
+can_wander = true
+wander_radius = 1.0
 
 [node name="chief" parent="npc" unique_id=1287002890 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.3126698, 0.8666879, -61.822964)
@@ -3287,6 +3294,8 @@ dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_8qoby")
 interaction_cutscenes = [NodePath("../../Scene3")]
 cutscene_flags = Array[String](["scene_3_apu"])
 npc_frames = SubResource("SpriteFrames_ppes2")
+move_speed = 1.5
+wander_radius = 1.0
 
 [node name="Ale Pacing" parent="npc" unique_id=1680407098 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -8.738551, 0.8268018, -10.901878)
@@ -3298,26 +3307,36 @@ npc_frames = SubResource("SpriteFrames_rhapq")
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2171311, 0.7279935, -36.00447)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
+can_wander = true
+wander_radius = 1.0
 
 [node name="BaseNPC3" parent="npc" unique_id=1746388400 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -5.285363, 0.7279935, -33.010353)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
+can_wander = true
+wander_radius = 1.0
 
 [node name="BaseNPC4" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.120516, 0.7279935, -30.54102)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
+can_wander = true
+wander_radius = 1.0
 
 [node name="BaseNPC5" parent="npc" unique_id=681462549 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.2579975, 0.7279935, -29.089441)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
+can_wander = true
+wander_radius = 1.0
 
 [node name="BaseNPC6" parent="npc" unique_id=40337071 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5315228, 0.7279935, -32.624363)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
+can_wander = true
+wander_radius = 1.0
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
 script = ExtResource("8_bm7lg")

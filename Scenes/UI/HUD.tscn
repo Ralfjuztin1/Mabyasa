@@ -1,0 +1,670 @@
+[gd_scene format=3 uid="uid://d1qvp4hjddmhn"]
+
+[ext_resource type="Script" uid="uid://dqglpty76cs88" path="res://Scenes/UI/HUD.gd" id="1_hud_script"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="2_panel_texture"]
+[ext_resource type="Texture2D" uid="uid://dn3u31egwdlia" path="res://Assets/UI/HUD/HUD_Icons.png" id="3_icon_atlas"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="3_ykvyr"]
+
+[sub_resource type="StyleBoxTexture" id="PanelFrame"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_panel_texture")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxLine" id="GoldDivider"]
+color = Color(0.79, 0.64, 0.34, 0.62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y2ec"]
+atlas = ExtResource("3_ykvyr")
+region = Rect2(0, 0, 553, 121)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ree7"]
+texture = SubResource("AtlasTexture_5y2ec")
+texture_margin_left = 30.0
+texture_margin_top = 30.0
+texture_margin_right = 30.0
+texture_margin_bottom = 30.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ykvyr"]
+load_path = "res://.godot/imported/Mabiyasa_Button_Normal.png-2510f667fb08582fcd1530e162f62094.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lelo4"]
+atlas = SubResource("CompressedTexture2D_ykvyr")
+region = Rect2(0, 0, 553, 121)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d2sja"]
+texture = SubResource("AtlasTexture_lelo4")
+texture_margin_left = 30.0
+texture_margin_top = 30.0
+texture_margin_right = 30.0
+texture_margin_bottom = 30.0
+modulate_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i4i0y"]
+texture = SubResource("AtlasTexture_lelo4")
+texture_margin_left = 30.0
+texture_margin_top = 30.0
+texture_margin_right = 30.0
+texture_margin_bottom = 30.0
+modulate_color = Color(1, 1, 0, 1)
+
+[sub_resource type="AtlasTexture" id="InventoryIcon"]
+atlas = ExtResource("3_icon_atlas")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="WordbookIcon"]
+atlas = ExtResource("3_icon_atlas")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="QuestLogIcon"]
+atlas = ExtResource("3_icon_atlas")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="StyleBoxFlat" id="PortraitFrame"]
+bg_color = Color(0.025, 0.035, 0.028, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.82, 0.67, 0.37, 0.96)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="BarBackground"]
+bg_color = Color(0.025, 0.035, 0.028, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.49, 0.43, 0.27, 0.72)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="HPFill"]
+bg_color = Color(0.78, 0.28, 0.24, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="EXPFill"]
+bg_color = Color(0.26, 0.58, 0.78, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="KeyCapStyle"]
+content_margin_left = 7.0
+content_margin_top = 1.0
+content_margin_right = 7.0
+content_margin_bottom = 1.0
+bg_color = Color(0.8, 0.67, 0.38, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.98, 0.86, 0.56, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HUD" type="Control" unique_id=484085075]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud_script")
+
+[node name="QuestPanel" type="PanelContainer" parent="." unique_id=1583270645]
+visible = false
+custom_minimum_size = Vector2(340, 148)
+layout_mode = 1
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 362.0
+offset_bottom = 170.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelFrame")
+
+[node name="QuestMargin" type="MarginContainer" parent="QuestPanel" unique_id=1076199214]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 1
+
+[node name="QuestVBox" type="VBoxContainer" parent="QuestPanel/QuestMargin" unique_id=1501200576]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="QuestHeader" type="Label" parent="QuestPanel/QuestMargin/QuestVBox" unique_id=1508256347]
+custom_minimum_size = Vector2(0, 19)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.72, 0.38, 1)
+theme_override_font_sizes/font_size = 14
+text = "CURRENT QUEST"
+vertical_alignment = 1
+
+[node name="QuestDivider" type="HSeparator" parent="QuestPanel/QuestMargin/QuestVBox" unique_id=2025955978]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("GoldDivider")
+
+[node name="QuestTitleLabel" type="Label" parent="QuestPanel/QuestMargin/QuestVBox" unique_id=1866388501]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)
+theme_override_font_sizes/font_size = 21
+text = "Talk to Chief"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ObjectiveRow" type="HBoxContainer" parent="QuestPanel/QuestMargin/QuestVBox" unique_id=547668866]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ObjectiveStateLabel" type="Label" parent="QuestPanel/QuestMargin/QuestVBox/ObjectiveRow" unique_id=1067138447]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.87, 0.72, 0.42, 1)
+theme_override_font_sizes/font_size = 20
+text = "○"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ObjectiveLabel" type="Label" parent="QuestPanel/QuestMargin/QuestVBox/ObjectiveRow" unique_id=862707828]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.91, 0.89, 0.81, 1)
+theme_override_font_sizes/font_size = 15
+text = "Talk to Chief"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ObjectiveProgressLabel" type="Label" parent="QuestPanel/QuestMargin/QuestVBox/ObjectiveRow" unique_id=1685699765]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 12
+text = "0 / 1"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ShortcutBar" type="HBoxContainer" parent="." unique_id=686911829]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -302.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 124.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="InventoryButton" type="Button" parent="ShortcutBar" unique_id=1386570960]
+texture_filter = 1
+custom_minimum_size = Vector2(88, 100)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+tooltip_text = "Inventory is not available yet."
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ree7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d2sja")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i4i0y")
+
+[node name="TileVBox" type="VBoxContainer" parent="ShortcutBar/InventoryButton" unique_id=479129873]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="IconTexture" type="TextureRect" parent="ShortcutBar/InventoryButton/TileVBox" unique_id=1963332236]
+texture_filter = 1
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = SubResource("InventoryIcon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="ShortcutBar/InventoryButton/TileVBox" unique_id=778520824]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.91, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "Inventory"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyLabel" type="Label" parent="ShortcutBar/InventoryButton/TileVBox" unique_id=44542730]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.69, 0.39, 1)
+theme_override_font_sizes/font_size = 11
+text = "I"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WordbookButton" type="Button" parent="ShortcutBar" unique_id=80569300]
+texture_filter = 1
+custom_minimum_size = Vector2(88, 100)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+tooltip_text = "Wordbook is not available yet."
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ree7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d2sja")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i4i0y")
+
+[node name="TileVBox" type="VBoxContainer" parent="ShortcutBar/WordbookButton" unique_id=1403710748]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="IconTexture" type="TextureRect" parent="ShortcutBar/WordbookButton/TileVBox" unique_id=2046038464]
+texture_filter = 1
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = SubResource("WordbookIcon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="ShortcutBar/WordbookButton/TileVBox" unique_id=139174511]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.91, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "Wordbook"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyLabel" type="Label" parent="ShortcutBar/WordbookButton/TileVBox" unique_id=1455104836]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.69, 0.39, 1)
+theme_override_font_sizes/font_size = 11
+text = "J"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestLogButton" type="Button" parent="ShortcutBar" unique_id=1862325959]
+texture_filter = 1
+custom_minimum_size = Vector2(88, 100)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+tooltip_text = "Open Quest Log"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ree7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d2sja")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i4i0y")
+
+[node name="TileVBox" type="VBoxContainer" parent="ShortcutBar/QuestLogButton" unique_id=1601583525]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="IconTexture" type="TextureRect" parent="ShortcutBar/QuestLogButton/TileVBox" unique_id=581208983]
+texture_filter = 1
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = SubResource("QuestLogIcon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="ShortcutBar/QuestLogButton/TileVBox" unique_id=1634894853]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.91, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "Quest Log"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyLabel" type="Label" parent="ShortcutBar/QuestLogButton/TileVBox" unique_id=2013089710]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.69, 0.39, 1)
+theme_override_font_sizes/font_size = 11
+text = "L"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusPanel" type="PanelContainer" parent="." unique_id=8967388]
+texture_filter = 1
+custom_minimum_size = Vector2(300, 110)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -132.0
+offset_right = 322.0
+offset_bottom = -22.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelFrame")
+
+[node name="StatusMargin" type="MarginContainer" parent="StatusPanel" unique_id=497288277]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 0
+
+[node name="StatusRow" type="HBoxContainer" parent="StatusPanel/StatusMargin" unique_id=553990796]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.91, 0.785)
+mouse_filter = 2
+theme_override_constants/separation = 9
+
+[node name="PortraitFrame" type="PanelContainer" parent="StatusPanel/StatusMargin/StatusRow" unique_id=1901226168]
+custom_minimum_size = Vector2(70, 82)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PortraitFrame")
+
+[node name="PortraitMargin" type="MarginContainer" parent="StatusPanel/StatusMargin/StatusRow/PortraitFrame" unique_id=1298575605]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Portrait" type="TextureRect" parent="StatusPanel/StatusMargin/StatusRow/PortraitFrame/PortraitMargin" unique_id=1679389365]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoBox" type="VBoxContainer" parent="StatusPanel/StatusMargin/StatusRow" unique_id=253817948]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="HeaderRow" type="HBoxContainer" parent="StatusPanel/StatusMargin/StatusRow/InfoBox" unique_id=1116398740]
+custom_minimum_size = Vector2(0, 19)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="LevelLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/HeaderRow" unique_id=1375508470]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.77, 0.4, 1)
+theme_override_font_sizes/font_size = 15
+text = "LV. 1"
+vertical_alignment = 1
+
+[node name="GoldLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/HeaderRow" unique_id=504387803]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.86, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+text = "0 G"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HPRow" type="HBoxContainer" parent="StatusPanel/StatusMargin/StatusRow/InfoBox" unique_id=1110470090]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HPLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/HPRow" unique_id=1272435004]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.68, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+text = "HP"
+vertical_alignment = 1
+
+[node name="HPValueLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/HPRow" unique_id=814552174]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 10
+text = "100 / 100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="StatusPanel/StatusMargin/StatusRow/InfoBox" unique_id=1171548936]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("BarBackground")
+theme_override_styles/fill = SubResource("HPFill")
+value = 100.0
+show_percentage = false
+
+[node name="EXPRow" type="HBoxContainer" parent="StatusPanel/StatusMargin/StatusRow/InfoBox" unique_id=227859070]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="EXPLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/EXPRow" unique_id=1552738704]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.76, 0.4, 1)
+theme_override_font_sizes/font_size = 10
+text = "EXP"
+vertical_alignment = 1
+
+[node name="EXPBar" type="ProgressBar" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/EXPRow" unique_id=396040759]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("BarBackground")
+theme_override_styles/fill = SubResource("EXPFill")
+show_percentage = false
+
+[node name="EXPValueLabel" type="Label" parent="StatusPanel/StatusMargin/StatusRow/InfoBox/EXPRow" unique_id=529349876]
+custom_minimum_size = Vector2(47, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.79, 0.68, 1)
+theme_override_font_sizes/font_size = 9
+text = "0 / 150"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="InteractionPrompt" type="PanelContainer" parent="." unique_id=1717545094]
+visible = false
+custom_minimum_size = Vector2(310, 54)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -155.0
+offset_top = -104.0
+offset_right = 155.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelFrame")
+
+[node name="PromptMargin" type="MarginContainer" parent="InteractionPrompt" unique_id=837478080]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 1
+
+[node name="PromptRow" type="HBoxContainer" parent="InteractionPrompt/PromptMargin" unique_id=1614743464]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="KeyCap" type="PanelContainer" parent="InteractionPrompt/PromptMargin/PromptRow" unique_id=1599146146]
+custom_minimum_size = Vector2(34, 32)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("KeyCapStyle")
+
+[node name="KeyLabel" type="Label" parent="InteractionPrompt/PromptMargin/PromptRow/KeyCap" unique_id=1531756736]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.12, 0.07, 1)
+theme_override_font_sizes/font_size = 16
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PromptText" type="Label" parent="InteractionPrompt/PromptMargin/PromptRow" unique_id=1647838233]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.92, 0.8, 1)
+theme_override_font_sizes/font_size = 16
+text = "Talk to Chief"
+vertical_alignment = 1
+clip_text = true
+
+[node name="LocationPanel" type="PanelContainer" parent="." unique_id=580092979]
+texture_filter = 1
+custom_minimum_size = Vector2(210, 52)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -232.0
+offset_top = -72.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelFrame")
+
+[node name="LocationRow" type="HBoxContainer" parent="LocationPanel" unique_id=1887582395]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="LocationIcon" type="Label" parent="LocationPanel/LocationRow" unique_id=1022989429]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.75, 0.39, 1)
+theme_override_font_sizes/font_size = 20
+text = "⌖"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LocationLabel" type="Label" parent="LocationPanel/LocationRow" unique_id=1250701166]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.69, 1)
+theme_override_font_sizes/font_size = 14
+text = "VILLAGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NoticePanel" type="PanelContainer" parent="." unique_id=479354753]
+visible = false
+custom_minimum_size = Vector2(270, 42)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -292.0
+offset_top = 132.0
+offset_right = -20.0
+offset_bottom = 174.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PanelFrame")
+
+[node name="NoticeLabel" type="Label" parent="NoticePanel" unique_id=1157329892]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.89, 0.72, 1)
+theme_override_font_sizes/font_size = 12
+text = "Not available yet"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NoticeTimer" type="Timer" parent="." unique_id=732144237]
+wait_time = 2.2
+one_shot = true

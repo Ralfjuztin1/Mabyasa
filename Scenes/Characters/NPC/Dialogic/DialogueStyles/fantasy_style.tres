@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="DialogicStyle" format=3 uid="uid://dbnvp4luftliv"]
+
+[ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_w81vp"]
+[ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="2_e1rt4"]
+
+[sub_resource type="Resource" id="Resource_ebqmy"]
+script = ExtResource("1_w81vp")
+
+[resource]
+script = ExtResource("2_e1rt4")
+name = "fantasy_style"
+layer_info = {
+"": SubResource("Resource_ebqmy")
+}
+metadata/_latest_layer = ""

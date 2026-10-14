@@ -4,6 +4,6 @@ You: (inner voice) I know this word... but why wont it come out of my mouth?!
 [wait time="2.0"]
 Ima: Oh I see it took yours too...
 Ima: Don't worry child, don't force it.
-Ima: Walk to the village center... Apu will tell you what to do.
+Ima: Walk to the big tree in the village... Apu will tell you what to do.
 [signal arg="start_walk_to_apu"]
 [end_timeline]
