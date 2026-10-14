@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+
+[resource]
+script = ExtResource("1_vocab")
+id = "apulo"
+kapampangan = "apulo"
+english = ""
+category = "word"
+difficulty = 1
+source_npc = ""
+lesson_group = ""
+source_section = "__internal_sentence_component__"
+allowed_types = PackedStringArray()
+hint = "Internal sentence component used to build a phrase."
+pronunciation = ""
+parts = PackedStringArray()
+fill_blank_variants = Array[Dictionary]([])
+sentence_distractors = PackedStringArray()

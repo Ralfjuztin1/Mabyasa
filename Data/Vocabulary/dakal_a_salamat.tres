@@ -10,7 +10,20 @@ english = "Thank you very much"
 category = "phrase"
 lesson_group = "common_greetings"
 source_section = "common_greetings"
-allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
 hint = "Remember: Dakal a salamat means Thank you very much."
-parts = PackedStringArray()
+parts = PackedStringArray("dakal", "a", "salamat")
+fill_blank_variants = Array[Dictionary]([{
+"answer_id": "dakal",
+"prompt": "Complete the phrase:
+____ a salamat"
+}, {
+"answer_id": "a",
+"prompt": "Complete the phrase:
+Dakal ____ salamat"
+}, {
+"answer_id": "salamat",
+"prompt": "Complete the phrase:
+Dakal a ____"
+}])
 sentence_distractors = null

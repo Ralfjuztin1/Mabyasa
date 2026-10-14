@@ -138,14 +138,15 @@ func _validate_database() -> void:
 			_entries[id]
 		)
 
-
-		if entry.english.is_empty():
-
-			push_warning(
-				"[LANGUAGE] Missing English meaning: "
-				+ id
-			)
-
+#-----------------------------------------------------------------
+#  removed this for now to avoid spam in console about missing english meanings
+#		if entry.english.is_empty():
+#			push_warning(
+#				"[LANGUAGE] Missing English meaning: "
+#				+ id
+#			)
+#			
+#-----------------------------------------------------------------
 
 		for part_id: String in entry.parts:
 

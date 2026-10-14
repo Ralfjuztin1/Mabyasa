@@ -13,9 +13,5 @@ source_section = "common_greetings"
 allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
 hint = "Use this greeting for morning. The source gives: Good morning"
 parts = PackedStringArray("mayap", "a", "abak")
-fill_blank_variants = Array[Dictionary]([{
-"answer_id": "abak",
-"prompt": "It is morning. Complete the greeting:
-Mayap a ____"
-}])
+fill_blank_variants = Array[Dictionary]([{"prompt": "It is morning. Complete the greeting:\nMayap a ____", "answer_id": "abak"}, {"prompt": "Complete the phrase:\n____ a abak", "answer_id": "mayap"}, {"prompt": "Complete the phrase:\nMayap ____ abak", "answer_id": "a"}, {"prompt": "Complete the greeting:\n____ a abak", "answer_id": "mayap"}, {"prompt": "Complete the greeting:\nMayap ____ abak", "answer_id": "a"}, {"prompt": "Complete the greeting:\nMayap a ____", "answer_id": "abak"}])
 sentence_distractors = PackedStringArray("bengi", "gatpanapun", "aldo")

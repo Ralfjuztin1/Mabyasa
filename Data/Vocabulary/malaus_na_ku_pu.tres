@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://xootm13jtx4g"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -8,9 +8,10 @@ id = "malaus_na_ku_pu"
 kapampangan = "Malaus na ku pu"
 english = "Good-bye"
 category = "phrase"
-difficulty = 1
-source_npc = ""
-allowed_types = PackedStringArray("multiple_choice", "translate", "match")
-hint = "Remember: Malaus na ku pu means Good-bye."
 lesson_group = "common_greetings"
 source_section = "common_greetings"
+allowed_types = PackedStringArray("multiple_choice", "translate", "match", "sentence_build", "fill_blank")
+hint = "Remember: Malaus na ku pu means Good-bye."
+parts = PackedStringArray("malaus", "na", "ku", "pu")
+fill_blank_variants = Array[Dictionary]([{"prompt": "Complete the phrase:\n____ na ku pu", "answer_id": "malaus"}, {"prompt": "Complete the phrase:\nMalaus ____ ku pu", "answer_id": "na"}, {"prompt": "Complete the phrase:\nMalaus na ____ pu", "answer_id": "ku"}, {"prompt": "Complete the phrase:\nMalaus na ku ____", "answer_id": "pu"}])
+sentence_distractors = null

@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://bc7o8v167ejmw"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -9,8 +9,10 @@ kapampangan = "bukung bukung"
 english = "ankle"
 category = "phrase"
 difficulty = 2
-source_npc = ""
-allowed_types = PackedStringArray("multiple_choice", "translate", "match")
-hint = "Remember: bukung bukung means ankle."
 lesson_group = "body_parts"
 source_section = "body_parts"
+allowed_types = PackedStringArray("multiple_choice", "translate", "match", "sentence_build", "fill_blank")
+hint = "Remember: bukung bukung means ankle."
+parts = PackedStringArray("bukung", "bukung")
+fill_blank_variants = Array[Dictionary]([{"prompt": "Complete the phrase:\n____ bukung", "answer_id": "bukung"}, {"prompt": "Complete the phrase:\nbukung ____", "answer_id": "bukung"}])
+sentence_distractors = null

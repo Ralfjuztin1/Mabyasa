@@ -4380,8 +4380,8 @@ battle_attack_animation = &"attack_right"
 [node name="Enemy" parent="." unique_id=1980562007 instance=ExtResource("44_2ujky")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.069744, 0.20828927, 48.566254)
 is_boss = true
-enemy_max_hp = 99999
-enemy_atk = 1
+enemy_max_hp = 200
+enemy_atk = 20
 enemy_exp_reward = 500
 enemy_gold_reward = 1000
 world_sprite_frames = SubResource("SpriteFrames_76u0i")
