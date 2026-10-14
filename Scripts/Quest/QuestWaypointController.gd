@@ -6,15 +6,17 @@ extends Node3D
 ## common ID properties such as npc_id, enemy_id, location_id and object_id.
 
 @export_category("Quest Waypoint")
-@export_range(3.0, 5.0, 0.5) var intro_show_seconds: float = 4.0
+@export_range(3.0, 5.0, 0.5) var intro_show_seconds: float = 5.0
 @export_range(1.0, 4.0, 0.25) var arrow_spacing: float = 2.1
 @export_range(2, 16, 1) var max_arrow_count: int = 12
 @export_range(0.1, 1.0, 0.05) var arrow_ground_offset: float = 0.42
-@export var arrow_color: Color = Color(1.0, 0.722, 0.22, 0.533)
+@export var arrow_color: Color = Color(1.0, 0.72, 0.22, 1.0)
 
 const HINT_NODE_NAME: String = "QuestTrackHint"
 const ROUTE_REFRESH_INTERVAL: float = 0.16
 const TARGET_RETRY_INTERVAL: float = 0.75
+
+signal tracked_quest_changed(quest_id: String)
 
 var _player: Node3D = null
 var _target: Node3D = null
@@ -27,8 +29,10 @@ var _arrow_material: StandardMaterial3D
 var _hint_label: Label = null
 
 var _route_visible: bool = false
-var _manual_tracking: bool = false
+var _user_selected_quest: bool = false
 var _auto_hide_remaining: float = 0.0
+var _quest_log: Node = null
+var _track_button: Button = null
 var _route_refresh_elapsed: float = 0.0
 var _target_retry_elapsed: float = 0.0
 
@@ -36,6 +40,7 @@ var _target_retry_elapsed: float = 0.0
 func _ready() -> void:
 	name = "QuestWaypointController"
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("quest_tracking_controller")
 
 	_arrow_material = _make_arrow_material()
 	_create_arrow_pool()
@@ -61,8 +66,9 @@ func _exit_tree() -> void:
 
 func _process(delta: float) -> void:
 	_ensure_hint_label()
+	_ensure_quest_log_track_button()
 
-	if _auto_hide_remaining > 0.0 and not _manual_tracking:
+	if _auto_hide_remaining > 0.0:
 		_auto_hide_remaining = maxf(_auto_hide_remaining - delta, 0.0)
 		if _auto_hide_remaining <= 0.0:
 			_set_route_visible(false)
@@ -87,10 +93,11 @@ func _process(delta: float) -> void:
 			_target = _find_target_node(_target_id, _target_type)
 			if is_instance_valid(_target):
 				_update_hint_label()
-				if _manual_tracking:
+				if _auto_hide_remaining > 0.0:
 					_set_route_visible(true)
 
 	_update_hint_label()
+	_update_quest_log_track_button()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -112,10 +119,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_instance_valid(_target):
 		return
 
-	# V turns persistent tracking on. Press V again to hide it.
-	_manual_tracking = not _manual_tracking
-	_auto_hide_remaining = 0.0
-	_set_route_visible(_manual_tracking)
+	# V is a timed reveal, never a toggle. Every press starts a fresh 5-second window.
+	_show_temporarily()
 	_update_hint_label()
 	get_viewport().set_input_as_handled()
 
@@ -144,24 +149,54 @@ func _disconnect_signal_if_connected(signal_ref: Signal, callback: Callable) -> 
 
 
 func _on_quest_started(quest_id: String, _quest_data: QuestData) -> void:
-	# Track the quest that just started, even if another quest is also active.
-	_tracked_quest_id = quest_id
-	call_deferred("_refresh_for_current_quest", true)
+	var previous_id := _tracked_quest_id
+
+	# New side quests never steal tracking. Automatic selection prefers the
+	# main quest and otherwise keeps the currently tracked active quest.
+	if not _user_selected_quest:
+		_tracked_quest_id = _get_default_active_quest_id()
+		if _tracked_quest_id.is_empty() and QuestManager.is_quest_active(quest_id):
+			_tracked_quest_id = quest_id
+
+	if previous_id != _tracked_quest_id:
+		tracked_quest_changed.emit(_tracked_quest_id)
+
+	call_deferred("_refresh_for_current_quest", false)
 
 
 func _on_objective_updated(quest_id: String, _step_index: int, _step: QuestStep) -> void:
-	if _tracked_quest_id.is_empty() or quest_id == _tracked_quest_id:
-		if not _tracked_quest_id.is_empty() and not QuestManager.is_quest_active(_tracked_quest_id):
-			_tracked_quest_id = ""
-		call_deferred("_refresh_for_current_quest", true)
+	if quest_id == _tracked_quest_id:
+		call_deferred("_refresh_for_current_quest", false)
+		return
+
+	# HUD.gd also reacts to every objective event and may pick its default quest.
+	# Re-apply the explicit selection after that callback so the HUD always stays
+	# synchronized with the Quest Log selection, even when another quest updates.
+	call_deferred("_sync_hud_tracker")
+	call_deferred("_update_quest_log_track_button")
+
+	# Recover if the previously tracked quest is no longer active.
+	if not _user_selected_quest and (
+		_tracked_quest_id.is_empty()
+		or not QuestManager.is_quest_active(_tracked_quest_id)
+	):
+		call_deferred("_refresh_for_current_quest", false)
 
 
 func _on_quest_completed(quest_id: String, _quest_data: QuestData) -> void:
-	if quest_id == _tracked_quest_id:
-		_tracked_quest_id = ""
-	_manual_tracking = false
-	_auto_hide_remaining = 0.0
-	call_deferred("_refresh_for_current_quest", true)
+	if quest_id != _tracked_quest_id:
+		# Completing an unrelated quest must not change tracking, and must not
+		# leave HUD.gd's fallback selection displayed instead of the chosen one.
+		call_deferred("_sync_hud_tracker")
+		call_deferred("_update_quest_log_track_button")
+		return
+
+	var previous_id := _tracked_quest_id
+	_user_selected_quest = false
+	_tracked_quest_id = _get_default_active_quest_id()
+	if previous_id != _tracked_quest_id:
+		tracked_quest_changed.emit(_tracked_quest_id)
+	call_deferred("_refresh_for_current_quest", false)
 
 
 func _on_level_loaded() -> void:
@@ -169,30 +204,66 @@ func _on_level_loaded() -> void:
 	call_deferred("_refresh_for_current_quest", false)
 
 
+func get_tracked_quest_id() -> String:
+	return _tracked_quest_id
+
+
+func set_tracked_quest(quest_id: String) -> void:
+	# Public entry point used by the Quest Log's Track Quest button.
+	if not is_instance_valid(QuestManager) or not QuestManager.is_quest_active(quest_id):
+		return
+
+	var previous_id := _tracked_quest_id
+	_tracked_quest_id = quest_id
+	_user_selected_quest = true
+
+	if previous_id != _tracked_quest_id:
+		tracked_quest_changed.emit(_tracked_quest_id)
+
+	call_deferred("_refresh_for_current_quest", false)
+	# Clicking Track also gives a five-second route preview. It does not make
+	# the arrows stay visible permanently.
+	_show_temporarily()
+	_sync_hud_tracker()
+	_update_quest_log_track_button()
+
+
+
 # ============================================================
 # CHOOSE AND RESOLVE DESTINATION
 # ============================================================
 
-func _refresh_for_current_quest(show_intro: bool = false) -> void:
+func _refresh_for_current_quest(_show_intro: bool = false) -> void:
 	if not is_instance_valid(QuestManager):
 		_clear_target()
+		_sync_hud_tracker()
 		return
 
 	if _tracked_quest_id.is_empty() or not QuestManager.is_quest_active(_tracked_quest_id):
+		if _user_selected_quest:
+			_user_selected_quest = false
+		var previous_id := _tracked_quest_id
 		_tracked_quest_id = _get_default_active_quest_id()
+		if previous_id != _tracked_quest_id:
+			tracked_quest_changed.emit(_tracked_quest_id)
 
 	if _tracked_quest_id.is_empty():
 		_clear_target()
+		_sync_hud_tracker()
+		_update_quest_log_track_button()
 		return
 
 	var quest_data: QuestData = QuestManager.get_quest(_tracked_quest_id)
 	if quest_data == null:
 		_clear_target()
+		_sync_hud_tracker()
 		return
 
 	var step_index: int = QuestManager.get_current_step(_tracked_quest_id)
 	if step_index < 0 or step_index >= quest_data.steps.size():
 		_clear_target()
+		_sync_hud_tracker()
+		_update_quest_log_track_button()
 		return
 
 	var step: QuestStep = quest_data.steps[step_index]
@@ -205,35 +276,34 @@ func _refresh_for_current_quest(show_intro: bool = false) -> void:
 	if not is_instance_valid(_target):
 		_set_route_visible(false)
 		_update_hint_label()
+		_sync_hud_tracker()
+		_update_quest_log_track_button()
 		return
 
-	if show_intro and not _manual_tracking:
-		_show_temporarily()
-	elif _manual_tracking:
-		_set_route_visible(true)
-	else:
-		_set_route_visible(false)
-
+	# An objective update changes the destination, not the visibility timer.
+	# Routes only remain visible during the V/Track five-second reveal window.
+	_set_route_visible(_auto_hide_remaining > 0.0)
 	_update_arrow_positions()
 	_update_hint_label()
+	_sync_hud_tracker()
+	_update_quest_log_track_button()
 
 
 func _get_default_active_quest_id() -> String:
 	if not is_instance_valid(QuestManager):
 		return ""
 
-	var hud := _find_hud()
-	if is_instance_valid(hud) and hud.get("_current_quest_id") != null:
-		var hud_quest_id: String = str(hud.get("_current_quest_id"))
-		if not hud_quest_id.is_empty() and QuestManager.is_quest_active(hud_quest_id):
-			return hud_quest_id
-
-	# Prefer a main quest, matching the current HUD tracker behavior.
+	# Prefer an active main quest if one exists.
 	for raw_id in QuestManager.active_quests.keys():
 		var quest_id: String = str(raw_id)
 		var data: QuestData = QuestManager.get_quest(quest_id)
 		if data != null and data.is_main_quest:
 			return quest_id
+
+	# With no main quest active, retain the previous valid selection instead
+	# of switching every time a side quest starts.
+	if not _tracked_quest_id.is_empty() and QuestManager.is_quest_active(_tracked_quest_id):
+		return _tracked_quest_id
 
 	if not QuestManager.active_quests.is_empty():
 		return str(QuestManager.active_quests.keys()[0])
@@ -395,8 +465,13 @@ func _create_arrow_pool() -> void:
 
 func _show_temporarily() -> void:
 	_auto_hide_remaining = maxf(intro_show_seconds, 0.1)
-	_manual_tracking = false
-	_set_route_visible(true)
+	if not is_instance_valid(_target):
+		_refresh_for_current_quest(false)
+	if is_instance_valid(_target):
+		_set_route_visible(true)
+	else:
+		_set_route_visible(false)
+
 
 func _set_route_visible(should_show: bool) -> void:
 	_route_visible = should_show and is_instance_valid(_target) and is_instance_valid(_player)
@@ -481,11 +556,172 @@ func _clear_target() -> void:
 	_target = null
 	_target_id = ""
 	_target_type = ""
-	_tracked_quest_id = ""
-	_manual_tracking = false
 	_auto_hide_remaining = 0.0
 	_set_route_visible(false)
 	_update_hint_label()
+
+
+# ============================================================
+# QUEST LOG TRACK BUTTON + HUD SYNC
+# ============================================================
+
+func _ensure_quest_log_track_button() -> void:
+	if is_instance_valid(_track_button) and is_instance_valid(_quest_log):
+		return
+
+	var root := get_tree().root
+	var quest_log := root.find_child("QuestLog", true, false)
+	if not is_instance_valid(quest_log):
+		return
+
+	var detail_vbox := quest_log.get_node_or_null(
+		"Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"
+	) as VBoxContainer
+	if detail_vbox == null:
+		return
+
+	_quest_log = quest_log
+	_track_button = Button.new()
+	_track_button.name = "TrackQuestButton"
+	_track_button.custom_minimum_size = Vector2(0.0, 42.0)
+	_track_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_track_button.text = "TRACK QUEST"
+	_track_button.tooltip_text = "Track this active quest on the HUD and show arrows for 5 seconds."
+	_track_button.add_theme_font_size_override("font_size", 14)
+	_track_button.add_theme_color_override("font_color", Color(0.94, 0.86, 0.64, 1.0))
+
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.12, 0.15, 0.10, 0.96)
+	normal.border_width_left = 1
+	normal.border_width_top = 1
+	normal.border_width_right = 1
+	normal.border_width_bottom = 1
+	normal.border_color = Color(0.72, 0.62, 0.36, 0.75)
+	normal.corner_radius_top_left = 5
+	normal.corner_radius_top_right = 5
+	normal.corner_radius_bottom_left = 5
+	normal.corner_radius_bottom_right = 5
+	_track_button.add_theme_stylebox_override("normal", normal)
+
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.20, 0.22, 0.12, 1.0)
+	_track_button.add_theme_stylebox_override("hover", hover)
+	_track_button.add_theme_stylebox_override("pressed", hover.duplicate())
+
+	_track_button.pressed.connect(_on_track_button_pressed)
+	var objective_header := detail_vbox.get_node_or_null("ObjectiveHeader")
+	detail_vbox.add_child(_track_button)
+	if objective_header != null:
+		detail_vbox.move_child(_track_button, objective_header.get_index())
+
+	if _quest_log.has_signal("quest_selected"):
+		var selected_signal := Signal(_quest_log, "quest_selected")
+		if not selected_signal.is_connected(_on_quest_log_selection_changed):
+			selected_signal.connect(_on_quest_log_selection_changed)
+
+	if not tracked_quest_changed.is_connected(_on_tracked_quest_changed):
+		tracked_quest_changed.connect(_on_tracked_quest_changed)
+
+	_update_quest_log_track_button()
+
+
+func _on_track_button_pressed() -> void:
+	if not is_instance_valid(_quest_log):
+		return
+	var selected_id: String = str(_quest_log.get("current_quest_id"))
+	set_tracked_quest(selected_id)
+
+
+func _on_quest_log_selection_changed(_quest_id: String) -> void:
+	_update_quest_log_track_button()
+
+
+func _on_tracked_quest_changed(_quest_id: String) -> void:
+	_update_quest_log_track_button()
+	_sync_hud_tracker()
+
+
+func _update_quest_log_track_button() -> void:
+	if not is_instance_valid(_track_button) or not is_instance_valid(_quest_log):
+		return
+
+	var selected_id := str(_quest_log.get("current_quest_id"))
+	var active := not selected_id.is_empty() and is_instance_valid(QuestManager) and QuestManager.is_quest_active(selected_id)
+	_track_button.disabled = not active
+	if not active:
+		_track_button.text = "TRACK QUEST"
+	elif selected_id == _tracked_quest_id:
+		_track_button.text = "TRACKED ✓"
+	else:
+		_track_button.text = "TRACK QUEST"
+
+
+func _sync_hud_tracker() -> void:
+	var hud := _find_hud()
+	if not is_instance_valid(hud):
+		return
+
+	var quest_panel := hud.get_node_or_null("QuestPanel") as Control
+	var title_label := hud.get_node_or_null("QuestPanel/QuestMargin/QuestVBox/QuestTitleLabel") as Label
+	var state_label := hud.get_node_or_null("QuestPanel/QuestMargin/QuestVBox/ObjectiveRow/ObjectiveStateLabel") as Label
+	var objective_label := hud.get_node_or_null("QuestPanel/QuestMargin/QuestVBox/ObjectiveRow/ObjectiveLabel") as Label
+	var progress_label := hud.get_node_or_null("QuestPanel/QuestMargin/QuestVBox/ObjectiveRow/ObjectiveProgressLabel") as Label
+
+	if not is_instance_valid(quest_panel):
+		return
+
+	hud.set("_current_quest_id", _tracked_quest_id)
+	if _tracked_quest_id.is_empty() or not is_instance_valid(QuestManager) or not QuestManager.is_quest_active(_tracked_quest_id):
+		quest_panel.hide()
+		return
+
+	var quest_data: QuestData = QuestManager.get_quest(_tracked_quest_id)
+	if quest_data == null:
+		quest_panel.hide()
+		return
+
+	if is_instance_valid(title_label):
+		title_label.text = quest_data.title if not quest_data.title.strip_edges().is_empty() else _tracked_quest_id.replace("_", " ").capitalize()
+
+	var step_index: int = QuestManager.get_current_step(_tracked_quest_id)
+	if step_index < 0 or step_index >= quest_data.steps.size():
+		if is_instance_valid(state_label):
+			state_label.text = "✓"
+		if is_instance_valid(objective_label):
+			objective_label.text = "Quest objectives complete"
+		if is_instance_valid(progress_label):
+			progress_label.text = ""
+		quest_panel.show()
+		return
+
+	var step: QuestStep = quest_data.steps[step_index]
+	var count: int = QuestManager.get_objective_count(_tracked_quest_id, step_index)
+	var required: int = maxi(QuestManager.get_objective_required_count(_tracked_quest_id, step_index), 1)
+	var completed: bool = QuestManager.is_objective_completed(_tracked_quest_id, step_index)
+	if is_instance_valid(state_label):
+		state_label.text = "✓" if completed else "○"
+	if is_instance_valid(objective_label):
+		objective_label.text = _format_hud_objective(step)
+	if is_instance_valid(progress_label):
+		progress_label.text = "%d / %d" % [mini(count, required), required]
+	quest_panel.show()
+
+
+func _format_hud_objective(step: QuestStep) -> String:
+	var target := step.target.strip_edges().replace("_", " ").replace("-", " ")
+	if target.is_empty():
+		target = "the objective"
+	else:
+		target = target.capitalize()
+	match step.type:
+		"talk_npc": return "Talk to " + target
+		"reach_location": return "Go to " + target
+		"wait_time": return "Wait until " + target
+		"solve_puzzle": return "Solve " + target
+		"enemy_killed": return "Defeat " + target
+		"item_collected": return "Collect " + target
+		"interact_object": return "Interact with " + target
+		_: return target
 
 
 # ============================================================
@@ -517,7 +753,7 @@ func _ensure_hint_label() -> void:
 	_hint_label.add_theme_color_override("font_shadow_color", Color(0.04, 0.05, 0.035, 0.9))
 	_hint_label.add_theme_constant_override("shadow_offset_x", 1)
 	_hint_label.add_theme_constant_override("shadow_offset_y", 1)
-	_hint_label.text = "Press V to track quest"
+	_hint_label.text = "Press V to show arrows for 5 seconds"
 	_hint_label.visible = false
 
 
@@ -529,7 +765,4 @@ func _update_hint_label() -> void:
 	var hud := _find_hud()
 	var hud_visible: bool = is_instance_valid(hud) and hud.visible
 	_hint_label.visible = has_target and hud_visible
-	if _manual_tracking:
-		_hint_label.text = "Press V to hide quest arrows"
-	else:
-		_hint_label.text = "Press V to track quest"
+	_hint_label.text = "Press V to show arrows for 5 seconds"

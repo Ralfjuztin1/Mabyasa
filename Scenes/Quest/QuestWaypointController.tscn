@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://t0biml4b8niv"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://ctf03w314i2lq" path="res://Scripts/Quest/QuestWaypointController.gd" id="1_controller"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestWaypointController.gd" id="1_controller"]
 
-[node name="QuestWaypointController" type="Node3D" unique_id=1622555130]
+[node name="QuestWaypointController" type="Node3D"]
 script = ExtResource("1_controller")
