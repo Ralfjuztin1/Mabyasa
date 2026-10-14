@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ibdxu7vki5au"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8a144"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2iftj"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="CharacterBody3D" unique_id=1508831342]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=439394894]
+shape = SubResource("CapsuleShape3D_8a144")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1809814860]
+sprite_frames = SubResource("SpriteFrames_2iftj")
+animation = &"idle_back"
