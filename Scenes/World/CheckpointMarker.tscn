@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c7a0rqybof5to"]
+
+[ext_resource type="Script" uid="uid://ccdih5m3gclqy" path="res://Scripts/World/CheckpointMarker.gd" id="1_checkpoint_script"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_checkpoint"]
+radius = 1.6
+
+[node name="CheckpointMarker" type="Area3D" unique_id=517598036]
+collision_layer = 0
+script = ExtResource("1_checkpoint_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1145535710]
+shape = SubResource("SphereShape3D_checkpoint")

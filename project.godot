@@ -29,6 +29,8 @@ QuestManager="*uid://d2akdm0u3p2n3"
 DialogueManager="*uid://cwbawur3d386e"
 Dialogic="*uid://ds2q0uclmolvu"
 BattleManager="*uid://cdv3581eacjts"
+CheckpointManager="*uid://bqfus1a3ow3ks"
+BossAssessmentOverlay="*uid://c55mj1lqw2mb2"
 
 [dialogic]
 

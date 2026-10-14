@@ -57,6 +57,15 @@ var _best_battle_streak: int = 0
 
 var _enemy_dead_pending: bool = false
 
+# Boss-only assessment data. Normal battles do not use these fields.
+var is_boss_battle: bool = false
+var _boss_assessment_rows: Array[Dictionary] = []
+var _boss_words_correct: int = 0
+var _boss_words_total: int = 0
+var _boss_correct_sentences: int = 0
+var _boss_sentence_attempts: int = 0
+var _boss_mistake_count: int = 0
+
 
 # ============================================================
 # START BATTLE
@@ -72,6 +81,17 @@ func start_battle(enemy_data: EnemyData) -> void:
 		return
 
 	current_enemy = enemy_data
+
+	is_boss_battle = enemy_data.is_boss
+	_boss_assessment_rows.clear()
+	_boss_words_correct = 0
+	_boss_words_total = 0
+	_boss_correct_sentences = 0
+	_boss_sentence_attempts = 0
+	_boss_mistake_count = 0
+
+	if is_boss_battle:
+		CheckpointManager.ensure_checkpoint_at_player()
 
 	enemy_hp = maxi(
 		enemy_data.max_hp,
@@ -293,6 +313,16 @@ func submit_quiz_answer(
 		return
 
 
+	if (
+		is_boss_battle
+		and current_question.quiz_type == QuizQuestion.QuizType.SENTENCE_BUILD
+	):
+		_record_boss_sentence_result(
+			current_question,
+			payload,
+			result
+		)
+
 	current_question = null
 
 	_answered_questions += 1
@@ -382,6 +412,115 @@ func submit_quiz_answer(
 		multiplier,
 		result
 	)
+
+
+# ============================================================
+# BOSS ASSESSMENT REPORT
+# ============================================================
+
+func get_boss_assessment_report() -> Dictionary:
+	var accuracy_percent: int = 0
+	if _boss_words_total > 0:
+		accuracy_percent = int(
+			round(
+				float(_boss_words_correct) / float(_boss_words_total) * 100.0
+			)
+		)
+
+	return {
+		"rows": _boss_assessment_rows.duplicate(true),
+		"accuracy_percent": accuracy_percent,
+		"words_correct": _boss_words_correct,
+		"words_total": _boss_words_total,
+		"correct_sentences": _boss_correct_sentences,
+		"total_sentences": _boss_sentence_attempts,
+		"mistake_count": _boss_mistake_count
+	}
+
+
+func _record_boss_sentence_result(
+	question: QuizQuestion,
+	payload: Variant,
+	result: AnswerResult
+) -> void:
+	var answer_data: Dictionary = payload if payload is Dictionary else {}
+	var raw_order: Variant = answer_data.get("order", [])
+	var order: Array = raw_order if raw_order is Array else []
+
+	# Map token IDs to the visible words so the review reads naturally.
+	var text_by_id: Dictionary = {}
+	for i in range(question.sentence_token_ids.size()):
+		if i < question.sentence_token_texts.size():
+			text_by_id[str(question.sentence_token_ids[i])] = str(question.sentence_token_texts[i])
+
+	for i in range(question.sentence_distractor_ids.size()):
+		if i < question.sentence_distractor_texts.size():
+			text_by_id[str(question.sentence_distractor_ids[i])] = str(question.sentence_distractor_texts[i])
+
+	var submitted_words: PackedStringArray = []
+	for raw_id: Variant in order:
+		var token_id: String = str(raw_id)
+		submitted_words.append(str(text_by_id.get(token_id, token_id)))
+
+	var correct_words: PackedStringArray = []
+	for word: String in question.sentence_token_texts:
+		correct_words.append(word)
+
+	var mistakes: Array[String] = []
+	var correct_positions: int = 0
+	for i in range(question.sentence_token_ids.size()):
+		var expected_id: String = str(question.sentence_token_ids[i])
+		var expected_text: String = str(text_by_id.get(expected_id, expected_id))
+		var chosen_id: String = str(order[i]) if i < order.size() else ""
+
+		if chosen_id == expected_id:
+			correct_positions += 1
+		elif chosen_id.is_empty():
+			mistakes.append(
+				"Position %d: expected '%s', but no word was placed."
+				% [i + 1, expected_text]
+			)
+		else:
+			mistakes.append(
+				"Position %d: expected '%s', got '%s'."
+				% [i + 1, expected_text, str(text_by_id.get(chosen_id, chosen_id))]
+			)
+
+	for i in range(question.sentence_token_ids.size(), order.size()):
+		var extra_id: String = str(order[i])
+		mistakes.append(
+			"Extra word at position %d: '%s'."
+			% [i + 1, str(text_by_id.get(extra_id, extra_id))]
+		)
+
+	var expected_count: int = maxi(question.sentence_token_ids.size(), 1)
+	var score_percent: int = int(
+		round(float(correct_positions) / float(expected_count) * 100.0)
+	)
+
+	var english_meaning: String = ""
+	var phrase_entry: VocabEntry = LanguageProgress.get_entry(question.vocab_id)
+	if phrase_entry != null:
+		english_meaning = phrase_entry.english
+	if english_meaning.is_empty():
+		english_meaning = question.prompt.get_slice("\n", 1)
+
+	_boss_sentence_attempts += 1
+	_boss_words_correct += correct_positions
+	_boss_words_total += question.sentence_token_ids.size()
+	_boss_mistake_count += mistakes.size()
+	if result.correct:
+		_boss_correct_sentences += 1
+
+	_boss_assessment_rows.append({
+		"submitted_sentence": " ".join(submitted_words) if not submitted_words.is_empty() else "(no words submitted)",
+		"correct_sentence": " ".join(correct_words),
+		"english_meaning": english_meaning,
+		"score_percent": score_percent,
+		"correct": result.correct,
+		"timed_out": result.timed_out,
+		"mistakes": mistakes.duplicate()
+	})
 
 
 # ============================================================
@@ -826,16 +965,17 @@ func _end_battle(
 		victory
 	)
 
-	GameManager.set_game_state(
-		GameManager.GameState.EXPLORATION
-	)
+	# Boss battles remain in COMBAT state behind the assessment overlay.
+	# The overlay resumes exploration/saves after the player dismisses it.
+	if not is_boss_battle:
+		GameManager.set_game_state(
+			GameManager.GameState.EXPLORATION
+		)
 
-
-	if GameManager.has_method(
-		"request_save"
-	):
-
-		GameManager.request_save()
+		if GameManager.has_method(
+			"request_save"
+		):
+			GameManager.request_save()
 
 
 # ============================================================

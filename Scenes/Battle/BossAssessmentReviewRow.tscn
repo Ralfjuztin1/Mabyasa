@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://b6la3dcvrgv3"]
+
+[ext_resource type="Script" uid="uid://cbrqj1p63jhhy" path="res://Scripts/Battle/BossAssessmentReviewRow.gd" id="1_row_script"]
+
+[sub_resource type="StyleBoxFlat" id="ReviewRowStyle"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.095, 0.12, 0.09, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.3, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="BossAssessmentReviewRow" type="PanelContainer" unique_id=756683641]
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("ReviewRowStyle")
+script = ExtResource("1_row_script")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1119243582]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Body" type="VBoxContainer" parent="Margin" unique_id=1596866692]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Header" type="HBoxContainer" parent="Margin/Body" unique_id=1160571782]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NumberLabel" type="Label" parent="Margin/Body/Header" unique_id=720661111]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 12
+text = "SENTENCE 01"
+
+[node name="ScoreLabel" type="Label" parent="Margin/Body/Header" unique_id=2074762027]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.43, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "0% • REVIEW"
+horizontal_alignment = 2
+
+[node name="YourSentenceBlock" type="VBoxContainer" parent="Margin/Body" unique_id=1194001827]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="CaptionLabel" type="Label" parent="Margin/Body/YourSentenceBlock" unique_id=1783879428]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 10
+text = "YOUR SENTENCE"
+
+[node name="ValueLabel" type="Label" parent="Margin/Body/YourSentenceBlock" unique_id=1985246349]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "(no answer)"
+autowrap_mode = 3
+
+[node name="CorrectSentenceBlock" type="VBoxContainer" parent="Margin/Body" unique_id=1641732101]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="CaptionLabel" type="Label" parent="Margin/Body/CorrectSentenceBlock" unique_id=554944702]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 10
+text = "CORRECT SENTENCE"
+
+[node name="ValueLabel" type="Label" parent="Margin/Body/CorrectSentenceBlock" unique_id=1330631472]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.76, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "—"
+autowrap_mode = 3
+
+[node name="MeaningBlock" type="VBoxContainer" parent="Margin/Body" unique_id=1645748157]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="CaptionLabel" type="Label" parent="Margin/Body/MeaningBlock" unique_id=11981789]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 10
+text = "ENGLISH MEANING"
+
+[node name="ValueLabel" type="Label" parent="Margin/Body/MeaningBlock" unique_id=2071683837]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.74, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "—"
+autowrap_mode = 3
+
+[node name="MistakesBlock" type="VBoxContainer" parent="Margin/Body" unique_id=45907650]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="CaptionLabel" type="Label" parent="Margin/Body/MistakesBlock" unique_id=2126813864]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.43, 0.35, 1)
+theme_override_font_sizes/font_size = 10
+text = "MISTAKES"
+
+[node name="ValueLabel" type="Label" parent="Margin/Body/MistakesBlock" unique_id=556582861]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.55, 0.47, 1)
+theme_override_font_sizes/font_size = 13
+text = "No mistakes recorded."
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="Margin/Body" unique_id=374708906]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.76, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "All words were placed correctly."
+autowrap_mode = 3

@@ -42,6 +42,7 @@
 [ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://bnk8jjq5y0wns" path="res://Scenes/Main/narrow_path_litik.tscn" id="40_f3fox"]
+[ext_resource type="PackedScene" uid="uid://c7a0rqybof5to" path="res://Scenes/World/CheckpointMarker.tscn" id="43_jbd24"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -3206,6 +3207,9 @@ size = Vector3(13.472656, 4.5057373, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nbvpm"]
 height = 2.650879
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_5y2ec"]
+size = Vector3(2.8544922, 2.6884766, 2.3779297)
+
 [node name="FirstTown" type="Node3D" unique_id=524938763]
 script = ExtResource("1_8k2fn")
 
@@ -4028,5 +4032,20 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0.012
 transform = Transform3D(0.99999976, 0, 0, 0, 0.99999946, 0, 0, 0, 1, 0, 0.32543945, 0)
 shape = SubResource("CapsuleShape3D_nbvpm")
 
+[node name="CheckpointMarker" parent="." unique_id=517598036 instance=ExtResource("43_jbd24")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.900277, 0.07549882, -3.7217789)
+
+[node name="Area3D2" type="Area3D" parent="." unique_id=1056128972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.423674, 0, 20.805775)
+script = ExtResource("25_sgv20")
+enemy_atk = 99
+is_boss = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2" unique_id=377420196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9272461, 0.8442383, -0.68896484)
+shape = SubResource("BoxShape3D_5y2ec")
+
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
+[connection signal="body_entered" from="Area3D2" to="Area3D2" method="_on_body_entered"]
+[connection signal="body_exited" from="Area3D2" to="Area3D2" method="_on_body_exited"]

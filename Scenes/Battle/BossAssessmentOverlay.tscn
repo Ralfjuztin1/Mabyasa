@@ -1,0 +1,348 @@
+[gd_scene format=3 uid="uid://sw5si47hvpbm"]
+
+[ext_resource type="Script" uid="uid://c55mj1lqw2mb2" path="res://Scripts/Battle/BossAssessmentOverlay.gd" id="1_overlay_script"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.045, 0.075, 0.055, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 0.63, 0.34, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="CardStyle"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.075, 0.115, 0.082, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.38, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="EmptyStateStyle"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.065, 0.095, 0.07, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.32, 0.19, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.15, 0.2, 0.13, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 0.63, 0.34, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09, 0.14, 0.09, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.63, 0.49, 0.25, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.22, 0.28, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.81, 0.42, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="BossAssessmentOverlay" type="Control" unique_id=1471060990]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_overlay_script")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=173281122]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012, 0.022, 0.016, 0.88)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1178498363]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AssessmentPanel" type="PanelContainer" parent="CenterContainer" unique_id=1171630465]
+custom_minimum_size = Vector2(1040, 620)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel" unique_id=1534593010]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin" unique_id=795129169]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=753319482]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeadingBox" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/Header" unique_id=1373043449]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox" unique_id=1932133738]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.76, 1)
+theme_override_font_sizes/font_size = 26
+text = "BOSS ASSESSMENT"
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox" unique_id=308516466]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 13
+text = "TRIAL COMPLETE • BOSS NAME"
+
+[node name="OutcomeLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header" unique_id=551527900]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.76, 0.5, 1)
+theme_override_font_sizes/font_size = 15
+text = "VICTORY"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HeaderSeparator" type="ColorRect" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=343554191]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.53, 0.4, 0.2, 1)
+
+[node name="StatsRow" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1889186964]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AccuracyCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=1649346886]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("CardStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard" unique_id=1723168471]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin" unique_id=993758811]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack" unique_id=1334986540]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.7, 0.61, 1)
+theme_override_font_sizes/font_size = 10
+text = "WORD-ORDER ACCURACY"
+
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack" unique_id=1919809828]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 22
+text = "0%"
+
+[node name="PerfectCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=941037933]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("CardStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/PerfectCard" unique_id=1695670357]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/PerfectCard/Margin" unique_id=168170817]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/PerfectCard/Margin/Stack" unique_id=1911659170]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.7, 0.61, 1)
+theme_override_font_sizes/font_size = 10
+text = "PERFECT SENTENCES"
+
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/PerfectCard/Margin/Stack" unique_id=2048009034]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.76, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+text = "0 / 0"
+
+[node name="WordsCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=832291342]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("CardStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard" unique_id=1514578630]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin" unique_id=1919890561]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack" unique_id=1237715917]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.7, 0.61, 1)
+theme_override_font_sizes/font_size = 10
+text = "WORDS IN PLACE"
+
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack" unique_id=1412011837]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.76, 1)
+theme_override_font_sizes/font_size = 22
+text = "0 / 0"
+
+[node name="MistakesCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=1949844093]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("CardStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard" unique_id=455278465]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin" unique_id=200991221]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack" unique_id=263111968]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.7, 0.61, 1)
+theme_override_font_sizes/font_size = 10
+text = "MISTAKES"
+
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack" unique_id=1550422171]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.43, 0.35, 1)
+theme_override_font_sizes/font_size = 22
+text = "0"
+
+[node name="ReviewHeading" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1930342330]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.67, 0.36, 1)
+theme_override_font_sizes/font_size = 15
+text = "SENTENCE REVIEW"
+
+[node name="ReviewScroll" type="ScrollContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=589560178]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ReviewList" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll" unique_id=2109910617]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="EmptyStatePanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewList" unique_id=759060623]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("EmptyStateStyle")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewList/EmptyStatePanel" unique_id=427656971]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 18
+
+[node name="EmptyStateLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewList/EmptyStatePanel/Margin" unique_id=381225043]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.7, 0.61, 1)
+theme_override_font_sizes/font_size = 16
+text = "No sentence responses were recorded. Encounter and practice a complete phrase to build a review here."
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1880654350]
+layout_mode = 2
+alignment = 2
+
+[node name="FinishButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/Footer" unique_id=1120220847]
+custom_minimum_size = Vector2(250, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.76, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/pressed = SubResource("ButtonPressed")
+theme_override_styles/hover = SubResource("ButtonHover")
+text = "CONTINUE"

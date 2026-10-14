@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+const BossAssessmentOverlayScene: PackedScene = preload(
+    "res://Scenes/Battle/BossAssessmentOverlay.tscn"
+)
 ## Presentation-only battle layer.
 ## BattleManager retains all combat, quiz, damage, reward and turn logic.
 ## Uses side-facing sprites, so 4-direction sprites are enough.
@@ -516,7 +519,39 @@ func _on_battle_log(message: String) -> void:
 	message_label.text = message
 
 
+
 func _on_battle_ended(victory: bool) -> void:
+	# Boss battles show the full assessment instead of the normal end screen.
+	if (
+		BattleManager.current_enemy != null
+		and BattleManager.current_enemy.is_boss
+	):
+		bottom_bar.visible = false
+		attack_button.visible = false
+		potion_button.visible = false
+		continue_button.visible = false
+
+		# Instantiate the editable assessment scene, not a script-generated UI.
+		var assessment: Control = BossAssessmentOverlayScene.instantiate() as Control
+		if assessment == null:
+			push_error("[BOSS ASSESSMENT] Could not instantiate BossAssessmentOverlay.tscn.")
+			return
+
+		assessment.name = "BossAssessmentOverlay"
+		assessment.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(assessment)
+
+		assessment.connect(
+			"finished",
+			Callable(self, "_on_boss_assessment_finished")
+		)
+
+		var boss_name: String = BattleManager.current_enemy.display_name
+		var report: Dictionary = BattleManager.get_boss_assessment_report()
+		assessment.call("present", victory, report, boss_name)
+		return
+
+	# Preserve the existing normal-battle ending.
 	bottom_bar.visible = true
 
 	if victory:
@@ -527,6 +562,36 @@ func _on_battle_ended(victory: bool) -> void:
 	attack_button.visible = false
 	potion_button.visible = false
 	continue_button.visible = true
+
+
+func _on_boss_assessment_finished(victory: bool) -> void:
+	if victory:
+		GameManager.set_game_state(
+			GameManager.GameState.EXPLORATION
+		)
+
+		if GameManager.has_method("request_save"):
+			GameManager.request_save()
+
+		closed.emit()
+		queue_free()
+		return
+
+	# Defeat: return to the checkpoint after reviewing mistakes.
+	var restored: bool = await CheckpointManager.restore_checkpoint()
+
+	if not restored:
+		GameManager.set_game_state(
+			GameManager.GameState.EXPLORATION
+		)
+
+		if GameManager.has_method("request_save"):
+			GameManager.request_save()
+
+	if is_instance_valid(self):
+		closed.emit()
+		queue_free()
+
 
 
 # ============================================================
