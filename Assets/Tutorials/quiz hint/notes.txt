@@ -1,0 +1,1 @@
+add a placeholder iamge here or just make a hint that if the player choose right answer = higher damage, if wrong low damage only.

@@ -1,0 +1,1 @@
+right after encountering a boss the hint wil pop up and pausing the game so the player know what boss fight is.
