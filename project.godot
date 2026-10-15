@@ -31,6 +31,7 @@ BattleManager="*uid://cdv3581eacjts"
 CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="*uid://c55mj1lqw2mb2"
 TransitionManager="*uid://ddqj11m4lwktm"
+InventoryManager="*uid://cfaseglcs7qjr"
 
 [dialogic]
 

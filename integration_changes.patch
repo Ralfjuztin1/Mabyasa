@@ -1,0 +1,780 @@
+diff --git a/project.godot b/project.godot
+--- a/project.godot
++++ b/project.godot
+@@ -21,7 +21,8 @@ GameManager="*uid://c0g2g73lnjsd0"
+ LanguageProgress="*res://Scripts/Learning/LanguageProgress.gd"
+ SaveManager="*uid://b5q4pq0a7jrnb"
+ TutorialManager="*uid://bocr1ftvonao"
+ PlayerProgression="*uid://b8ddoi7ofgj23"
++InventoryManager="*res://Scripts/Managers/InventoryManager.gd"
+ GameEvents="*uid://qqbjeor7y7gb"
+ TimeManager="*uid://bldwd52t0h1o3"
+ QuestManager="*uid://d2akdm0u3p2n3"
+diff --git a/Scripts/Managers/SaveManager.gd b/Scripts/Managers/SaveManager.gd
+--- a/Scripts/Managers/SaveManager.gd
++++ b/Scripts/Managers/SaveManager.gd
+@@ -237,5 +237,10 @@ func save_game(
+ 		"quests":
+ 			QuestManager.get_save_data()
+ 			if QuestManager
+-			else {}
++			else {},
++
++		"inventory":
++			InventoryManager.get_save_data()
++			if InventoryManager
++			else {}
+ 	}
+@@ -445,5 +450,6 @@ func write_raw_save_data(
+ 		"progression",
+ 		"language",
+ 		"time",
+-		"quests"
++		"quests",
++		"inventory"
+ 	]
+@@ -688,8 +694,18 @@ func load_game() -> Dictionary:
+ 			QuestManager.load_save_data(
+ 				quest_data as Dictionary
+ 			)
+ 
++	# --------------------------------------------------------
++	# INVENTORY (isolated by the account save path above)
++	# --------------------------------------------------------
++	if InventoryManager:
++		var inventory_data: Variant = data.get("inventory", {})
++		if inventory_data is Dictionary:
++			InventoryManager.load_save_data(
++				inventory_data as Dictionary
++			)
++
+ 
+ 	# --------------------------------------------------------
+ 	# DEBUG
+ 	# --------------------------------------------------------
+
+diff --git a/Scripts/Managers/GameManager.gd b/Scripts/Managers/GameManager.gd
+--- a/Scripts/Managers/GameManager.gd
++++ b/Scripts/Managers/GameManager.gd
+@@ -648,7 +648,11 @@ func _reset_runtime_state() -> void:
+ 	if LanguageProgress:
+ 
+ 		LanguageProgress.reset()
++
++	# Prevent food quantities carrying over when another account signs in.
++	if InventoryManager:
++		InventoryManager.reset_for_account()
+ 
+ 
+ 	# TUTORIAL
+ 	if TutorialManager:
+
+diff --git a/Scripts/Battle/BattleManager.gd b/Scripts/Battle/BattleManager.gd
+--- a/Scripts/Battle/BattleManager.gd
++++ b/Scripts/Battle/BattleManager.gd
+@@ -23,7 +23,6 @@ signal enemy_hit_animation_requested
+ 
+ const MIN_DAMAGE_MULT: float = 0.40
+ const MAX_DAMAGE_MULT: float = 1.55
+-const POTION_HEAL_AMOUNT: int = 30
+ 
+ const RECENT_MEMORY: int = 3
+ const RECENT_KIND_MEMORY: int = 2
+@@ -54,6 +53,7 @@ var _recent_ids: Array[String] = []
+ var _recent_kinds: Array[String] = []
+ 
+ var _retry_queue: Array[Dictionary] = []
++var _active_food_effects: Array[Dictionary] = []
+ 
+ 
+ var _answered_questions: int = 0
+@@ -116,6 +116,7 @@ func start_battle(enemy_data: EnemyData) -> void:
+ 	current_question = null
+ 
+ 	_enemy_dead_pending = false
++	_active_food_effects.clear()
+ 
+ 	_recent_ids.clear()
+ 	_recent_kinds.clear()
+@@ -590,29 +591,82 @@ func _auto_acknowledge_wrong_feedback() -> void:
+ # ============================================================
+-# POTION
++# FOOD
+ # ============================================================
+ 
+-func player_use_potion() -> void:
++func player_use_food(item_id: String) -> bool:
+ 
+ 	if (
+ 		not battle_active
+ 		or awaiting_quiz_response
+ 		or awaiting_feedback
++		or enemy_turn_in_progress
+ 	):
+-		return
++		return false
+ 
++	if InventoryManager == null or PlayerProgression == null:
++		return false
++	if InventoryManager.get_quantity(item_id) <= 0:
++		battle_log.emit("You do not have that food.")
++		return false
+ 
+-	PlayerProgression.heal(
+-		POTION_HEAL_AMOUNT
+-	)
++	var food: Dictionary = InventoryManager.get_food(item_id)
++	if food.is_empty():
++		return false
++	PlayerProgression.ensure_hp_initialized()
++	var instant_healing: int = maxi(int(food.get("heal_amount", 0)), 0)
++	var healing_per_turn: int = maxi(int(food.get("heal_per_turn", 0)), 0)
++	var duration: int = maxi(int(food.get("duration", 0)), 0)
++	var has_regeneration: bool = healing_per_turn > 0 and duration > 0
++	if PlayerProgression.current_hp >= PlayerProgression.get_total_max_hp():
++		battle_log.emit("Your HP is already full. Save that food for later.")
++		return false
++	if not InventoryManager.consume_food(item_id):
++		return false
++
++	if instant_healing > 0:
++		PlayerProgression.heal(instant_healing)
++		battle_log.emit("You ate %s and restored up to %d HP." % [
++			str(food.get("name", item_id)), instant_healing
++		])
++	if has_regeneration:
++		_active_food_effects.append({
++			"item_id": item_id,
++			"heal_per_turn": healing_per_turn,
++			"turns_remaining": duration
++		})
++		battle_log.emit("%s will restore %d HP for %d turns." % [
++			str(food.get("name", item_id)), healing_per_turn, duration
++		])
+ 
+ 	player_hp_changed.emit(
+ 		PlayerProgression.current_hp,
+ 		PlayerProgression.get_total_max_hp()
+ 	)
+-
+-	battle_log.emit(
+-		"You recover %d HP."
+-		% POTION_HEAL_AMOUNT
+-	)
+-
+ 	_enemy_turn()
++	return true
++
++
++func _tick_food_effects() -> void:
++	if _active_food_effects.is_empty():
++		return
++	var healed: bool = false
++	for index: int in range(_active_food_effects.size() - 1, -1, -1):
++		var effect: Dictionary = _active_food_effects[index]
++		var amount: int = maxi(int(effect.get("heal_per_turn", 0)), 0)
++		var turns_left: int = maxi(int(effect.get("turns_remaining", 0)) - 1, 0)
++		if amount > 0:
++			PlayerProgression.heal(amount)
++			var food: Dictionary = InventoryManager.get_food(str(effect.get("item_id", "")))
++			battle_log.emit("%s restores up to %d HP." % [
++				str(food.get("name", "Food")), amount
++			])
++			healed = true
++		if turns_left <= 0:
++			_active_food_effects.remove_at(index)
++		else:
++			effect["turns_remaining"] = turns_left
++			_active_food_effects[index] = effect
++	if healed:
++		player_hp_changed.emit(
++			PlayerProgression.current_hp,
++			PlayerProgression.get_total_max_hp()
++		)
+@@ -933,6 +987,7 @@ func _enemy_turn() -> void:
+ 		return
+ 
+ 
++	_tick_food_effects()
+ 	enemy_turn_in_progress = false
+ 
+ 
+@@ -965,4 +1020,5 @@ func flee_battle() -> void:
+ 	current_question = null
+ 	_enemy_dead_pending = false
++	_active_food_effects.clear()
+ 
+ 	var fled_from: String = (
+@@ -1003,6 +1059,7 @@ func _end_battle(
+ 	current_question = null
+ 
+ 	_enemy_dead_pending = false
++	_active_food_effects.clear()
+ 
+ 
+ 	if victory:
+
+diff --git a/Scenes/Battle/BattleScreen.gd b/Scenes/Battle/BattleScreen.gd
+--- a/Scenes/Battle/BattleScreen.gd
++++ b/Scenes/Battle/BattleScreen.gd
+@@ -32,8 +32,8 @@ var _current_enemy_action_animation: StringName = &""
+ 
+ @onready var bottom_bar: HBoxContainer = $Root/BottomBar
+ @onready var message_label: Label = $Root/BottomBar/MessageBox/MessageMargin/MessageLabel
+ @onready var attack_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/AttackButton
+-@onready var potion_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/PotionButton
++@onready var food_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/PotionButton
+ @onready var flee_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/FleeButton
+ @onready var continue_button: Button = $Root/BottomBar/ActionBox/ActionMargin/ActionVBox/ContinueButton
+ @onready var quiz_ui: QuizUI = $Root/QuizUI
+@@ -63,6 +63,8 @@ func _ready() -> void:
+ 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+ 
+ 	attack_button.pressed.connect(_on_attack_pressed)
+-	potion_button.pressed.connect(_on_potion_pressed)
++	food_button.pressed.connect(_on_food_pressed)
++	InventoryManager.battle_food_selected.connect(_on_battle_food_selected)
++	InventoryManager.inventory_changed.connect(_refresh_food_button)
+ 	flee_button.pressed.connect(_on_flee_pressed)
+ 	continue_button.pressed.connect(_on_continue_pressed)
+@@ -83,5 +85,6 @@ func _ready() -> void:
+ 	if not enemy_sprite.animation_finished.is_connected(_on_enemy_animation_finished):
+ 		enemy_sprite.animation_finished.connect(_on_enemy_animation_finished)
+ 
++	_refresh_food_button()
+ 	_show_action_buttons()
+ 	call_deferred("_setup_player_battle_sprite")
+@@ -767,7 +770,7 @@ func _show_action_buttons() -> void:
+ func _show_action_buttons() -> void:
+ 	continue_button.visible = false
+ 	attack_button.visible = true
+-	potion_button.visible = true
++	food_button.visible = true
+ 
+ 	# Fleeing is only offered in normal (non-boss) battles.
+ 	flee_button.visible = (
+@@ -779,8 +782,17 @@ func _on_attack_pressed() -> void:
+ 	BattleManager.player_attack()
+ 
+ 
+-func _on_potion_pressed() -> void:
+-	BattleManager.player_use_potion()
++func _on_food_pressed() -> void:
++	InventoryManager.open_battle_food_picker()
++
++
++func _on_battle_food_selected(item_id: String) -> void:
++	BattleManager.player_use_food(item_id)
++
++
++func _refresh_food_button() -> void:
++	if is_instance_valid(food_button):
++		food_button.text = "Food Bag (%d)" % InventoryManager.get_total_food_count()
+ 
+ 
+ func _on_flee_pressed() -> void:
+diff --git a/Scenes/Battle/BattleScreen.tscn b/Scenes/Battle/BattleScreen.tscn
+--- a/Scenes/Battle/BattleScreen.tscn
++++ b/Scenes/Battle/BattleScreen.tscn
+@@ -569,3 +569,3 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_q41pe")
+ theme_override_styles/pressed = SubResource("StyleBoxTexture_o0sci")
+ theme_override_styles/hover = SubResource("StyleBoxTexture_a4i37")
+-text = "Use Potion"
++text = "Food Bag (0)"
+diff --git a/Scripts/Managers/InventoryManager.gd b/Scripts/Managers/InventoryManager.gd
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Scripts/Managers/InventoryManager.gd
+@@ -0,0 +1,215 @@
++extends Node
++
++## Account-owned food inventory shared by exploration, market UI and battles.
++signal inventory_changed
++signal battle_food_selected(item_id: String)
++
++const FOOD_DATABASE: Dictionary = {
++	"tibuk_tibuk": {
++		"id": "tibuk_tibuk", "name": "Tibuk-tibuk", "price": 15,
++		"heal_amount": 10, "heal_per_turn": 0, "duration": 0,
++		"description": "A small sweet treat. Restores 10 HP immediately."
++	},
++	"tamales": {
++		"id": "tamales", "name": "Tamales", "price": 30,
++		"heal_amount": 25, "heal_per_turn": 0, "duration": 0,
++		"description": "A filling local dish. Restores 25 HP immediately."
++	},
++	"bringhe": {
++		"id": "bringhe", "name": "Bringhe", "price": 45,
++		"heal_amount": 0, "heal_per_turn": 10, "duration": 2,
++		"description": "Restores 10 HP after each of your next 2 enemy turns."
++	},
++	"bulanglang": {
++		"id": "bulanglang", "name": "Bulanglang", "price": 60,
++		"heal_amount": 0, "heal_per_turn": 12, "duration": 3,
++		"description": "Restores 12 HP after each of your next 3 enemy turns."
++	},
++	"sisig": {
++		"id": "sisig", "name": "Sisig", "price": 85,
++		"heal_amount": 40, "heal_per_turn": 0, "duration": 0,
++		"description": "A hearty meal. Restores 40 HP immediately."
++	}
++}
++
++## Food ID -> quantity. This dictionary is serialized in each account's save.
++var food_quantities: Dictionary = {}
++var _active_menu: Node = null
++
++
++func _unhandled_input(event: InputEvent) -> void:
++	if not (event is InputEventKey):
++		return
++	var key_event: InputEventKey = event as InputEventKey
++	if not key_event.pressed or key_event.echo:
++		return
++	if is_instance_valid(_active_menu):
++		if key_event.keycode == KEY_ESCAPE:
++			_active_menu.queue_free()
++			get_viewport().set_input_as_handled()
++		return
++	if key_event.keycode == KEY_I:
++		if BattleManager == null or not BattleManager.battle_active:
++			open_inventory()
++			get_viewport().set_input_as_handled()
++
++
++func get_food_database() -> Dictionary:
++	return FOOD_DATABASE.duplicate(true)
++
++
++func get_food(item_id: String) -> Dictionary:
++	var value: Variant = FOOD_DATABASE.get(item_id, {})
++	if value is Dictionary:
++		return (value as Dictionary).duplicate(true)
++	return {}
++
++
++func get_quantity(item_id: String) -> int:
++	return maxi(int(food_quantities.get(item_id, 0)), 0)
++
++
++func get_total_food_count() -> int:
++	var total: int = 0
++	for value: Variant in food_quantities.values():
++		total += maxi(int(value), 0)
++	return total
++
++
++func get_owned_foods() -> Dictionary:
++	var result: Dictionary = {}
++	for key: Variant in food_quantities.keys():
++		var item_id: String = str(key)
++		var quantity: int = get_quantity(item_id)
++		if quantity > 0 and FOOD_DATABASE.has(item_id):
++			result[item_id] = quantity
++	return result
++
++
++func can_buy_food(item_id: String, quantity: int = 1) -> bool:
++	if not FOOD_DATABASE.has(item_id) or quantity < 1 or quantity > 99:
++		return false
++	var food: Dictionary = FOOD_DATABASE[item_id]
++	var price: int = int(food.get("price", 0)) * quantity
++	return PlayerProgression != null and PlayerProgression.gold >= price
++
++
++func buy_food(item_id: String, quantity: int = 1) -> bool:
++	if not can_buy_food(item_id, quantity):
++		return false
++	var food: Dictionary = FOOD_DATABASE[item_id]
++	var total_cost: int = int(food.get("price", 0)) * quantity
++	if not PlayerProgression.spend_gold(total_cost):
++		return false
++	food_quantities[item_id] = get_quantity(item_id) + quantity
++	inventory_changed.emit()
++	_request_account_save()
++	return true
++
++
++func consume_food(item_id: String) -> bool:
++	if not FOOD_DATABASE.has(item_id) or get_quantity(item_id) <= 0:
++		return false
++	var remaining: int = get_quantity(item_id) - 1
++	if remaining <= 0:
++		food_quantities.erase(item_id)
++	else:
++		food_quantities[item_id] = remaining
++	inventory_changed.emit()
++	_request_account_save()
++	return true
++
++
++## Outside combat, timed food's full listed healing is applied at once. In
++## combat, BattleManager handles action locks and the enemy's response.
++func use_food(item_id: String) -> bool:
++	if not FOOD_DATABASE.has(item_id) or get_quantity(item_id) <= 0:
++		return false
++	if BattleManager != null and BattleManager.battle_active:
++		return BattleManager.player_use_food(item_id)
++	if PlayerProgression == null:
++		return false
++
++	var food: Dictionary = get_food(item_id)
++	var total_healing: int = int(food.get("heal_amount", 0)) + (
++		int(food.get("heal_per_turn", 0)) * int(food.get("duration", 0))
++	)
++	PlayerProgression.ensure_hp_initialized()
++	if PlayerProgression.current_hp >= PlayerProgression.get_total_max_hp():
++		return false
++	if not consume_food(item_id):
++		return false
++	PlayerProgression.heal(total_healing)
++	_request_account_save()
++	return true
++
++
++func open_inventory() -> void:
++	_open_menu("inventory")
++
++
++func open_market() -> void:
++	_open_menu("market")
++
++
++func open_battle_food_picker() -> void:
++	_open_menu("battle")
++
++
++func _open_menu(mode: String) -> void:
++	if is_instance_valid(_active_menu):
++		_active_menu.queue_free()
++		_active_menu = null
++
++	var packed: PackedScene = load("res://Scenes/UI/FoodMenu.tscn") as PackedScene
++	if packed == null:
++		push_error("[INVENTORY] Could not load FoodMenu.tscn.")
++		return
++	var menu: Node = packed.instantiate()
++	menu.set("mode", mode)
++	if menu.has_signal("food_selected"):
++		menu.food_selected.connect(_on_menu_food_selected)
++	menu.tree_exited.connect(_on_menu_closed.bind(menu))
++	_active_menu = menu
++	get_tree().root.add_child(menu)
++
++
++func _on_menu_food_selected(item_id: String) -> void:
++	battle_food_selected.emit(item_id)
++
++
++func _on_menu_closed(menu: Node) -> void:
++	if _active_menu == menu:
++		_active_menu = null
++
++
++func get_save_data() -> Dictionary:
++	return {"food_quantities": food_quantities.duplicate(true)}
++
++
++func load_save_data(data: Dictionary) -> void:
++	food_quantities.clear()
++	var saved: Variant = data.get("food_quantities", {})
++	if saved is Dictionary:
++		for key: Variant in (saved as Dictionary).keys():
++			var item_id: String = str(key)
++			var quantity: int = maxi(int((saved as Dictionary).get(key, 0)), 0)
++			if FOOD_DATABASE.has(item_id) and quantity > 0:
++				food_quantities[item_id] = quantity
++	inventory_changed.emit()
++
++
++## Called at login/logout before restoring another account's own save.
++## This method deliberately does not request a save.
++func reset_for_account() -> void:
++	# Never leave the previous account's inventory visible during login swap.
++	if is_instance_valid(_active_menu):
++		_active_menu.queue_free()
++		_active_menu = null
++	food_quantities.clear()
++	inventory_changed.emit()
++
++
++func _request_account_save() -> void:
++	if GameManager != null and GameManager.has_method("request_save"):
++		GameManager.request_save()
+
+diff --git a/Scenes/UI/FoodMenu.gd b/Scenes/UI/FoodMenu.gd
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Scenes/UI/FoodMenu.gd
+@@ -0,0 +1,202 @@
++extends CanvasLayer
++
++signal food_selected(item_id: String)
++
++## Supported modes: inventory, market, battle.
++var mode: String = "inventory"
++var _list: VBoxContainer
++var _gold_label: Label
++var _message_label: Label
++var _title_label: Label
++var _updating: bool = false
++
++
++func _ready() -> void:
++	layer = 90
++	process_mode = Node.PROCESS_MODE_ALWAYS
++	_build_interface()
++	InventoryManager.inventory_changed.connect(_refresh)
++	if PlayerProgression != null:
++		PlayerProgression.stats_changed.connect(_refresh)
++	_refresh()
++
++
++func _build_interface() -> void:
++	var dim: ColorRect = ColorRect.new()
++	dim.color = Color(0.015, 0.02, 0.025, 0.78)
++	dim.mouse_filter = Control.MOUSE_FILTER_STOP
++	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	add_child(dim)
++
++	var center: CenterContainer = CenterContainer.new()
++	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	add_child(center)
++
++	var panel: PanelContainer = PanelContainer.new()
++	panel.custom_minimum_size = Vector2(760, 510)
++	panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
++	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
++	center.add_child(panel)
++
++	var margins: MarginContainer = MarginContainer.new()
++	margins.add_theme_constant_override("margin_left", 20)
++	margins.add_theme_constant_override("margin_right", 20)
++	margins.add_theme_constant_override("margin_top", 16)
++	margins.add_theme_constant_override("margin_bottom", 16)
++	panel.add_child(margins)
++
++	var layout: VBoxContainer = VBoxContainer.new()
++	layout.add_theme_constant_override("separation", 12)
++	margins.add_child(layout)
++
++	var header: HBoxContainer = HBoxContainer.new()
++	header.add_theme_constant_override("separation", 14)
++	layout.add_child(header)
++
++	_title_label = Label.new()
++	_title_label.add_theme_font_size_override("font_size", 28)
++	_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	header.add_child(_title_label)
++
++	_gold_label = Label.new()
++	_gold_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
++	_gold_label.add_theme_font_size_override("font_size", 18)
++	header.add_child(_gold_label)
++
++	var close_button: Button = Button.new()
++	close_button.text = "Close"
++	close_button.custom_minimum_size = Vector2(86, 36)
++	close_button.pressed.connect(queue_free)
++	header.add_child(close_button)
++
++	layout.add_child(HSeparator.new())
++	var scroll: ScrollContainer = ScrollContainer.new()
++	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
++	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	scroll.custom_minimum_size = Vector2(0, 360)
++	layout.add_child(scroll)
++
++	_list = VBoxContainer.new()
++	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	_list.add_theme_constant_override("separation", 8)
++	scroll.add_child(_list)
++
++	_message_label = Label.new()
++	_message_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++	_message_label.modulate = Color(0.84, 0.82, 0.72, 1.0)
++	layout.add_child(_message_label)
++
++
++func _refresh() -> void:
++	if not is_instance_valid(_list) or _updating:
++		return
++	_updating = true
++	match mode:
++		"market":
++			_title_label.text = "Palengke"
++			_message_label.text = "Buy local food using Gold earned from battles and quests."
++		"battle":
++			_title_label.text = "Choose Food"
++			_message_label.text = "Eating uses your turn. The enemy still attacks, and timed healing triggers after enemy turns."
++		_:
++			_title_label.text = "Food Inventory"
++			_message_label.text = "Outside battle, food restores its full listed healing amount."
++	_gold_label.text = "Gold: %d" % PlayerProgression.gold
++
++	for child: Node in _list.get_children():
++		_list.remove_child(child)
++		child.queue_free()
++
++	var database: Dictionary = InventoryManager.get_food_database()
++	var displayed: int = 0
++	for key: Variant in database.keys():
++		var item_id: String = str(key)
++		var food: Dictionary = database[item_id]
++		var quantity: int = InventoryManager.get_quantity(item_id)
++		if mode != "market" and quantity <= 0:
++			continue
++		displayed += 1
++		_add_food_row(item_id, food, quantity)
++
++	if displayed == 0:
++		var empty: Label = Label.new()
++		empty.text = "Your food bag is empty. Visit the palengke to buy something."
++		empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++		empty.custom_minimum_size = Vector2(0, 70)
++		_list.add_child(empty)
++	_updating = false
++
++
++func _add_food_row(item_id: String, food: Dictionary, quantity: int) -> void:
++	var card: PanelContainer = PanelContainer.new()
++	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	_list.add_child(card)
++
++	var row: HBoxContainer = HBoxContainer.new()
++	row.add_theme_constant_override("separation", 12)
++	card.add_child(row)
++
++	var text_column: VBoxContainer = VBoxContainer.new()
++	text_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	row.add_child(text_column)
++
++	var name_label: Label = Label.new()
++	name_label.text = "%s   x%d" % [str(food.get("name", item_id)), quantity]
++	name_label.add_theme_font_size_override("font_size", 18)
++	text_column.add_child(name_label)
++
++	var detail_label: Label = Label.new()
++	detail_label.text = "%s   •   %d Gold" % [
++		str(food.get("description", "")), int(food.get("price", 0))
++	]
++	detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++	detail_label.modulate = Color(0.83, 0.82, 0.76, 1.0)
++	text_column.add_child(detail_label)
++
++	match mode:
++		"market":
++			var buy_button: Button = Button.new()
++			buy_button.text = "Buy"
++			buy_button.custom_minimum_size = Vector2(95, 38)
++			buy_button.disabled = not InventoryManager.can_buy_food(item_id)
++			buy_button.pressed.connect(_on_buy_pressed.bind(item_id))
++			row.add_child(buy_button)
++		"battle":
++			var select_button: Button = Button.new()
++			select_button.text = "Eat"
++			select_button.custom_minimum_size = Vector2(95, 38)
++			select_button.pressed.connect(_on_select_pressed.bind(item_id))
++			row.add_child(select_button)
++		_:
++			var use_button: Button = Button.new()
++			use_button.text = "Use"
++			use_button.custom_minimum_size = Vector2(95, 38)
++			use_button.pressed.connect(_on_use_pressed.bind(item_id))
++			row.add_child(use_button)
++
++
++func _on_buy_pressed(item_id: String) -> void:
++	var purchased: bool = InventoryManager.buy_food(item_id)
++	_refresh()
++	if purchased:
++		_message_label.text = "Purchased %s." % InventoryManager.get_food(item_id).get("name", item_id)
++	else:
++		_message_label.text = "Not enough Gold to buy that food."
++
++
++func _on_select_pressed(item_id: String) -> void:
++	if InventoryManager.get_quantity(item_id) <= 0:
++		_message_label.text = "You do not have that food anymore."
++		_refresh()
++		return
++	food_selected.emit(item_id)
++	queue_free()
++
++
++func _on_use_pressed(item_id: String) -> void:
++	if InventoryManager.use_food(item_id):
++		queue_free()
++	else:
++		_message_label.text = "You cannot use that food right now, or your HP is already full."
++		_refresh()
+
+diff --git a/Scenes/UI/FoodMenu.tscn b/Scenes/UI/FoodMenu.tscn
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Scenes/UI/FoodMenu.tscn
+@@ -0,0 +1,6 @@
++[gd_scene format=3]
++
++[ext_resource type="Script" path="res://Scenes/UI/FoodMenu.gd" id="1"]
++
++[node name="FoodMenu" type="CanvasLayer"]
++script = ExtResource("1")
+
+diff --git a/Scenes/Characters/NPC/BaseNPC.gd b/Scenes/Characters/NPC/BaseNPC.gd
+--- a/Scenes/Characters/NPC/BaseNPC.gd
++++ b/Scenes/Characters/NPC/BaseNPC.gd
+@@ -14,4 +14,8 @@
+ @export var npc_id: String = ""
+ 
+ 
++@export_category("Food Market")
++@export var opens_food_market: bool = false
++
++
+ @export_category("Dialogue")
+@@ -107,6 +111,8 @@
+ 	# Hide interaction prompt until player is nearby.
+ 	if has_node("InteractionPrompt"):
+ 		interaction_prompt.visible = false
++		if opens_food_market:
++			interaction_prompt.text = "[E] Shop"
+ 
+ 	# Stop editor-only execution.
+ 	if Engine.is_editor_hint():
+@@ -500,6 +506,11 @@
+ 	if event.is_action_pressed(
+ 		"interact"
+ 	):
++		if opens_food_market:
++			InventoryManager.open_market()
++			get_viewport().set_input_as_handled()
++			return
++
+ 		QuestManager.handle_npc_interaction(
+ 			npc_id
+ 		)
+
+diff --git a/Scenes/Main/FirstTown.tscn b/Scenes/Main/FirstTown.tscn
+--- a/Scenes/Main/FirstTown.tscn
++++ b/Scenes/Main/FirstTown.tscn
+@@ -3626,6 +3626,8 @@
+-[node name="BaseNPC2" parent="npc" unique_id=1993873775 instance=ExtResource("8_fbikn")]
+-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2171311, 0.7279935, -36.00447)
+-npc_name = ""
+-npc_frames = SubResource("SpriteFrames_f3fox")
+-can_wander = true
+-wander_radius = 1.0
++[node name="BaseNPC2" parent="npc" unique_id=1993873775 instance=ExtResource("8_fbikn")]
++transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2171311, 0.7279935, -36.00447)
++npc_name = "Palengke Vendor"
++npc_id = "market_vendor"
++opens_food_market = true
++npc_frames = SubResource("SpriteFrames_f3fox")
++can_wander = false
++wander_radius = 1.0
+

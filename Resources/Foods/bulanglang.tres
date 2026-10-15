@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://dmy2dlfy1nvk2"]
+
+[ext_resource type="Script" uid="uid://b7ei7smwfv3ct" path="res://Resources/Foods/FoodData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bi3xo5axkdtyp" path="res://Assets/UI/Foods/bulanglang.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "bulanglang"
+display_name = "Bulanglang"
+description = "A warm vegetable soup that restores strength over time."
+icon = ExtResource("2_icon")
+price = 60
+heal_per_turn = 12
+duration = 3

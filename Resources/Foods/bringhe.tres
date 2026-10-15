@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://b55fp77yg4uwb"]
+
+[ext_resource type="Script" uid="uid://b7ei7smwfv3ct" path="res://Resources/Foods/FoodData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cmob75tfotjg5" path="res://Assets/UI/Foods/bringhe.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "bringhe"
+display_name = "Bringhe"
+description = "Rice cooked with coconut milk and local spices."
+icon = ExtResource("2_icon")
+price = 45
+heal_per_turn = 10
+duration = 2

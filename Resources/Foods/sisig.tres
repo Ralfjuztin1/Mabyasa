@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://cthpa8nx6lpow"]
+
+[ext_resource type="Script" uid="uid://b7ei7smwfv3ct" path="res://Resources/Foods/FoodData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://d0xienrpr5xxh" path="res://Assets/UI/Foods/sisig.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "sisig"
+display_name = "Sisig"
+description = "A hearty local dish that quickly restores health."
+icon = ExtResource("2_icon")
+price = 85
+heal_amount = 40

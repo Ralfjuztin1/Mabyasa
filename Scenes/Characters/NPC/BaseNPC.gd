@@ -46,6 +46,11 @@ extends CharacterBody3D
 @export var wander_radius: float = 3.0
 
 
+@export_category("Food Market")
+## When enabled, interacting with this NPC opens the food market.
+@export var opens_food_market: bool = false
+
+
 # ============================================================
 # MOVEMENT
 # ============================================================
@@ -106,6 +111,10 @@ func _ready() -> void:
 	# Hide interaction prompt until player is nearby.
 	if has_node("InteractionPrompt"):
 		interaction_prompt.visible = false
+
+	# Use a shop-specific prompt for NPCs that open the food market.
+	if opens_food_market and has_node("InteractionPrompt"):
+		interaction_prompt.text = "[E] Shop"
 
 	# Stop editor-only execution.
 	if Engine.is_editor_hint():
@@ -500,6 +509,12 @@ func _unhandled_input(
 	if event.is_action_pressed(
 		"interact"
 	):
+
+		# Food vendors open the market instead of starting dialogue.
+		# Return here so normal quest/cutscene/dialogue handling is untouched.
+		if opens_food_market:
+			InventoryManager.open_market()
+			return
 
 		QuestManager.handle_npc_interaction(
 			npc_id

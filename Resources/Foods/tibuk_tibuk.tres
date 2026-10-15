@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://lqem8pf85qyv"]
+
+[ext_resource type="Script" uid="uid://b7ei7smwfv3ct" path="res://Resources/Foods/FoodData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dhrlrkmkys475" path="res://Assets/UI/Foods/tibuk_tibuk.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "tibuk_tibuk"
+display_name = "Tibuk-tibuk"
+description = "A small sweet treat from Pampanga."
+icon = ExtResource("2_icon")
+price = 15
+heal_amount = 10

@@ -650,6 +650,9 @@ func _reset_runtime_state() -> void:
 
 		LanguageProgress.reset()
 
+	# INVENTORY
+	if InventoryManager:
+		InventoryManager.reset_for_account()
 
 	# TUTORIAL
 	if TutorialManager:

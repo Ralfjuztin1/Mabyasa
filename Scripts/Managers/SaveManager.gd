@@ -233,10 +233,14 @@ func save_game(
 			TimeManager.get_save_data()
 			if TimeManager
 			else {},
-
 		"quests":
 			QuestManager.get_save_data()
 			if QuestManager
+			else {},
+			
+		"inventory":
+			InventoryManager.get_save_data()
+			if InventoryManager
 			else {}
 	}
 
@@ -446,7 +450,8 @@ func write_raw_save_data(
 		"progression",
 		"language",
 		"time",
-		"quests"
+		"quests",
+		"inventory"
 	]
 
 
@@ -688,7 +693,20 @@ func load_game() -> Dictionary:
 			QuestManager.load_save_data(
 				quest_data as Dictionary
 			)
+	# --------------------------------------------------------
+	# INVENTORY
+	# --------------------------------------------------------
 
+	if InventoryManager:
+		var inventory_data: Variant = data.get(
+			"inventory",
+			{}
+		)
+		
+		if inventory_data is Dictionary:
+			InventoryManager.load_save_data(
+				inventory_data as Dictionary
+			)
 
 	# --------------------------------------------------------
 	# DEBUG

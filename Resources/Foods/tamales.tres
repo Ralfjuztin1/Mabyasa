@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://npafa5xx66o1"]
+
+[ext_resource type="Script" uid="uid://b7ei7smwfv3ct" path="res://Resources/Foods/FoodData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ccqgkfoj82teb" path="res://Assets/UI/Foods/tamales.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "tamales"
+display_name = "Tamales"
+description = "A filling Kapampangan dish wrapped in leaves."
+icon = ExtResource("2_icon")
+price = 30
+heal_amount = 25

@@ -3650,6 +3650,7 @@ npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
 wander_radius = 1.0
+opens_food_market = true
 
 [node name="BaseNPC6" parent="npc" unique_id=40337071 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5315228, 0.7279935, -32.624363)

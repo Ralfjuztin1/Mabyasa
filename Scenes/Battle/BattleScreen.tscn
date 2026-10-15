@@ -123,6 +123,15 @@ texture = SubResource("AtlasTexture_h7r6e")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a4i37"]
 texture = SubResource("AtlasTexture_sc511")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2mxav"]
+texture = SubResource("AtlasTexture_q0brw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y64j6"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yoyn3"]
+texture = SubResource("AtlasTexture_sc511")
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rcuvj"]
 texture = SubResource("AtlasTexture_q0brw")
 
@@ -290,7 +299,7 @@ theme_override_constants/separation = 4
 [node name="EnemyNameLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox" unique_id=1778402751]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.97, 0.94, 0.86, 1)
-theme_override_font_sizes/font_size = 21
+theme_override_font_sizes/font_size = 16
 text = "Enemy"
 
 [node name="BarrierRow" type="HBoxContainer" parent="Root/EnemyInfoBox/Margin/VBox" unique_id=703572391]
@@ -301,13 +310,13 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.63, 0.78, 0.96, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "BARRIER"
 
 [node name="BarrierValueLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/BarrierRow" unique_id=1896013656]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.85, 0.98, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "15 / 15"
 horizontal_alignment = 2
 
@@ -327,13 +336,13 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.98, 0.64, 0.52, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "HP"
 
 [node name="EnemyHPLabel" type="Label" parent="Root/EnemyInfoBox/Margin/VBox/HPRow" unique_id=2136057869]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.78, 0.7, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "30 / 30"
 horizontal_alignment = 2
 
@@ -413,13 +422,13 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.97, 0.94, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "Wanderer"
 
 [node name="LevelLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerNameRow" unique_id=114333481]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.75, 0.38, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 15
 text = "Lv. 1"
 horizontal_alignment = 2
 
@@ -430,13 +439,13 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.58, 0.81, 0.53, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "HP"
 
 [node name="PlayerHPLabel" type="Label" parent="Root/PlayerInfoBox/Margin/VBox/PlayerHPRow" unique_id=465016780]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.91, 0.67, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 10
 text = "100 / 100"
 horizontal_alignment = 2
 
@@ -522,7 +531,7 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(280, 0)
 offset_transform_scale = Vector2(1.51, 1)
 theme_override_colors/font_color = Color(0.96, 0.94, 0.87, 1)
-theme_override_font_sizes/font_size = 27
+theme_override_font_sizes/font_size = 20
 text = "A wild enemy appears!"
 vertical_alignment = 1
 autowrap_mode = 2
@@ -554,7 +563,7 @@ custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxTexture_4bbuo")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_ji14m")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q0brw")
@@ -565,14 +574,21 @@ custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxTexture_q41pe")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_o0sci")
 theme_override_styles/hover = SubResource("StyleBoxTexture_a4i37")
-text = "Use Potion"
+text = "Food Bag (0)"
 
 [node name="FleeButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=2033926995]
+custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxTexture_2mxav")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_y64j6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yoyn3")
 text = "Flee"
 
 [node name="ContinueButton" type="Button" parent="Root/BottomBar/ActionBox/ActionMargin/ActionVBox" unique_id=1019242765]
@@ -581,7 +597,7 @@ custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxTexture_rcuvj")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_0281g")
 theme_override_styles/hover = SubResource("StyleBoxTexture_06lii")
