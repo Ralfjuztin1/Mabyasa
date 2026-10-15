@@ -19,7 +19,6 @@ config/features=PackedStringArray("4.7", "Mobile")
 SupabaseManager="*uid://bgsvuf0ko0l67"
 GameManager="*uid://c0g2g73lnjsd0"
 LanguageProgress="*res://Scripts/Learning/LanguageProgress.gd"
-TransitionManager="*uid://cs8yx3ottg1hh"
 SaveManager="*uid://b5q4pq0a7jrnb"
 TutorialManager="*uid://bocr1ftvonao"
 PlayerProgression="*uid://b8ddoi7ofgj23"
@@ -31,6 +30,7 @@ Dialogic="*uid://ds2q0uclmolvu"
 BattleManager="*uid://cdv3581eacjts"
 CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="*uid://c55mj1lqw2mb2"
+TransitionManager="*uid://ddqj11m4lwktm"
 
 [dialogic]
 

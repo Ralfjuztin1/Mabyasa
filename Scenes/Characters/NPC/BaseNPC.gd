@@ -554,6 +554,10 @@ func _try_play_interaction_cutscene() -> bool:
 
 		await cutscene.play_sequence()
 
+# Cutscenes bypass DialogueManager, so notify the quest system
+# after the interaction cutscene finishes.
+		GameEvents.npc_talked.emit(npc_id)
+
 		# Only mark the cutscene complete after the cutscene
 		# itself has finished.
 		if not flag.is_empty():

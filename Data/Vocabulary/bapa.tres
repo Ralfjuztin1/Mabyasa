@@ -1,16 +1,16 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://nntqhlmbkkq1"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
 id = "bapa"
 kapampangan = "Bapa"
-english = "Uncle/Stepfather"
-category = "word"
+english = "Uncle"
 difficulty = 2
-source_npc = ""
-allowed_types = PackedStringArray("multiple_choice", "translate", "match")
-hint = "Remember: Bapa = Uncle/Stepfather."
 lesson_group = "family_relatives"
 source_section = "family_relatives"
+allowed_types = PackedStringArray("multiple_choice", "translate", "match")
+hint = "Remember: Bapa = Uncle"
+parts = null
+sentence_distractors = null
