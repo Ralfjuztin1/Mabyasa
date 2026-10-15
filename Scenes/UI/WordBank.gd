@@ -414,10 +414,50 @@ func _get_displayable_entries(entries: Array[VocabEntry]) -> Array[VocabEntry]:
 
 
 func _get_discovered_entries() -> Array[VocabEntry]:
-	var empty_entries: Array[VocabEntry] = []
+	# Start with normal encountered entries, then include the components of each
+	# encountered phrase. Internal components stay hidden unless a visible phrase
+	# explicitly references them. This lets phrases teach/expose their building
+	# blocks without dumping every internal resource into the collection.
+	var result: Array[VocabEntry] = []
 	if not is_instance_valid(LanguageProgress):
-		return empty_entries
-	return _get_displayable_entries(LanguageProgress.get_encountered_entries())
+		return result
+
+	var included_ids: Dictionary = {}
+	var encountered: Array[VocabEntry] = LanguageProgress.get_encountered_entries()
+	for entry: VocabEntry in encountered:
+		if entry == null or _is_internal_entry(entry):
+			continue
+		if not included_ids.has(entry.id):
+			included_ids[entry.id] = true
+			result.append(entry)
+		_append_phrase_components(entry, result, included_ids)
+
+	return result
+
+
+func _append_phrase_components(parent_entry: VocabEntry, result: Array[VocabEntry], included_ids: Dictionary) -> void:
+	# Resolve each `parts` ID recursively. Add IDs to the set before recursion so
+	# repeated or cyclic references cannot produce duplicates or loop forever.
+	for part_id_raw: String in parent_entry.parts:
+		var part_id := part_id_raw.strip_edges()
+		if part_id.is_empty() or included_ids.has(part_id):
+			continue
+
+		var part: VocabEntry = LanguageProgress.get_entry(part_id)
+		if part == null:
+			continue
+
+		included_ids[part_id] = true
+		result.append(part)
+		if not part.parts.is_empty():
+			_append_phrase_components(part, result, included_ids)
+
+
+func _is_available_in_word_bank(entry_id: String) -> bool:
+	for discovered_entry: VocabEntry in _get_discovered_entries():
+		if discovered_entry.id == entry_id:
+			return true
+	return false
 
 
 func _is_learned_or_mastered(entry: VocabEntry) -> bool:
@@ -786,7 +826,7 @@ func _show_entry(entry_id: String) -> void:
 		_show_no_selection()
 		return
 	var entry: VocabEntry = LanguageProgress.get_entry(entry_id)
-	if entry == null or _is_internal_entry(entry):
+	if entry == null or not _is_available_in_word_bank(entry_id):
 		_show_no_selection()
 		return
 
@@ -810,9 +850,9 @@ func _show_entry(entry_id: String) -> void:
 	_feedback_label.visible = false
 
 	_update_parts(entry)
-	var discovered := true
-	if LanguageProgress.has_method("is_encountered"):
-		discovered = LanguageProgress.is_encountered(entry.id)
+	# Components of encountered phrases count as discovered in this UI, even
+	# if they are intentionally not marked as standalone encounters globally.
+	var discovered := _is_available_in_word_bank(entry.id)
 	var learned := _is_learned_or_mastered(entry)
 	var stage := LanguageProgress.get_stage(entry.id)
 	var mastery: Dictionary = LanguageProgress.get_mastery(entry.id) if LanguageProgress.has_method("get_mastery") else {}
@@ -863,13 +903,12 @@ func _update_parts(entry: VocabEntry) -> void:
 			part_meaning if not part_meaning.is_empty() else "Meaning not available"
 		)
 		var open_entry_button := part_card.get_node("CardStack/OpenEntryButton") as Button
-		if _is_internal_entry(part):
-			# Components stay out of the main list, so don't offer a broken navigation target.
-			open_entry_button.text = "Component"
-			open_entry_button.disabled = true
-			open_entry_button.tooltip_text = "This word appears here as part of a phrase."
-		else:
-			open_entry_button.pressed.connect(_open_component_entry.bind(part.id))
+		# Components now appear in the collection when a discovered phrase references them,
+		# so their Open Entry buttons should work just like regular vocabulary entries.
+		open_entry_button.text = "Open entry  ›"
+		open_entry_button.disabled = false
+		open_entry_button.tooltip_text = "View this word in your Word Bank."
+		open_entry_button.pressed.connect(_open_component_entry.bind(part.id))
 
 		if index < visible_parts.size() - 1:
 			var plus := Label.new()

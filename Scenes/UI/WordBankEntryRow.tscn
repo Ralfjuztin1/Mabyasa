@@ -1,6 +1,10 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cvnsakjpw71k6"]
 
 [sub_resource type="StyleBoxFlat" id="RowNormal"]
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
 bg_color = Color(0.075, 0.11, 0.082, 1)
 border_width_left = 1
 border_width_top = 1
@@ -11,10 +15,6 @@ corner_radius_top_left = 7
 corner_radius_top_right = 7
 corner_radius_bottom_right = 7
 corner_radius_bottom_left = 7
-content_margin_left = 6.0
-content_margin_top = 2.0
-content_margin_right = 6.0
-content_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StatusBoxStyle"]
 bg_color = Color(0.169, 0.141, 0.063, 1)
@@ -27,16 +27,16 @@ corner_radius_bottom_left = 8
 bg_color = Color(0, 0, 0, 0)
 border_color = Color(0, 0, 0, 0)
 
-[node name="WordBankEntryRow" type="PanelContainer"]
+[node name="WordBankEntryRow" type="PanelContainer" unique_id=687798630]
 custom_minimum_size = Vector2(0, 46)
 theme_override_styles/panel = SubResource("RowNormal")
 
-[node name="RowOverlay" type="Control" parent="."]
+[node name="RowOverlay" type="Control" parent="." unique_id=271099819]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="RowContent" type="HBoxContainer" parent="RowOverlay"]
-anchors_preset = 15
+[node name="RowContent" type="HBoxContainer" parent="RowOverlay" unique_id=1585591201]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 6.0
@@ -45,17 +45,17 @@ offset_right = -6.0
 offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 9
 mouse_filter = 2
+theme_override_constants/separation = 9
 
-[node name="StatusBox" type="PanelContainer" parent="RowOverlay/RowContent"]
+[node name="StatusBox" type="PanelContainer" parent="RowOverlay/RowContent" unique_id=1200749331]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StatusBoxStyle")
 
-[node name="StatusIcon" type="Label" parent="RowOverlay/RowContent/StatusBox"]
+[node name="StatusIcon" type="Label" parent="RowOverlay/RowContent/StatusBox" unique_id=347270872]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -63,64 +63,58 @@ theme_override_font_sizes/font_size = 15
 text = "◌"
 horizontal_alignment = 1
 vertical_alignment = 1
-mouse_filter = 2
 
-[node name="Words" type="VBoxContainer" parent="RowOverlay/RowContent"]
+[node name="Words" type="VBoxContainer" parent="RowOverlay/RowContent" unique_id=229042150]
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 1
-theme_override_constants/separation = 0
 mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="WordLabel" type="Label" parent="RowOverlay/RowContent/Words"]
+[node name="WordLabel" type="Label" parent="RowOverlay/RowContent/Words" unique_id=1514690693]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.88, 0.8, 1)
 theme_override_font_sizes/font_size = 15
 text = "Kapampangan word"
 autowrap_mode = 2
-mouse_filter = 2
 
-[node name="MeaningLabel" type="Label" parent="RowOverlay/RowContent/Words"]
+[node name="MeaningLabel" type="Label" parent="RowOverlay/RowContent/Words" unique_id=1336655916]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
 theme_override_font_sizes/font_size = 12
 text = "English meaning"
 autowrap_mode = 2
-mouse_filter = 2
 
-[node name="Side" type="VBoxContainer" parent="RowOverlay/RowContent"]
+[node name="Side" type="VBoxContainer" parent="RowOverlay/RowContent" unique_id=1504657670]
 layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 1
 mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
 
-[node name="CategoryLabel" type="Label" parent="RowOverlay/RowContent/Side"]
+[node name="CategoryLabel" type="Label" parent="RowOverlay/RowContent/Side" unique_id=881299040]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.56, 0.6, 0.545, 1)
 theme_override_font_sizes/font_size = 10
 text = "Category"
 horizontal_alignment = 2
-mouse_filter = 2
 
-[node name="MasteryDots" type="Label" parent="RowOverlay/RowContent/Side"]
+[node name="MasteryDots" type="Label" parent="RowOverlay/RowContent/Side" unique_id=342347570]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
 theme_override_font_sizes/font_size = 10
 text = "□□□"
 horizontal_alignment = 2
-mouse_filter = 2
 
-[node name="HitButton" type="Button" parent="RowOverlay"]
+[node name="HitButton" type="Button" parent="RowOverlay" unique_id=1905201319]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = ""
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("HitClear")
-theme_override_styles/hover = SubResource("HitClear")
 theme_override_styles/pressed = SubResource("HitClear")
+theme_override_styles/hover = SubResource("HitClear")
 theme_override_styles/focus = SubResource("HitClear")

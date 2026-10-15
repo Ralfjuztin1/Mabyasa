@@ -7,6 +7,7 @@ script = ExtResource("1_vocab")
 id = "dakal"
 kapampangan = "dakal"
 english = "many / much"
+category = "adjective"
 source_section = "__internal_sentence_component__"
 allowed_types = PackedStringArray()
 hint = "Internal sentence component used to build a phrase."
