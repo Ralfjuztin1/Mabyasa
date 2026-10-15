@@ -832,7 +832,9 @@ func _update_parts(entry: VocabEntry) -> void:
 	var visible_parts: Array[VocabEntry] = []
 	for part_id: String in entry.parts:
 		var part: VocabEntry = LanguageProgress.get_entry(part_id)
-		if part == null or _is_internal_entry(part):
+		# Internal components are hidden from the main collection, but they must
+		# still appear here when a phrase explicitly references them.
+		if part == null:
 			continue
 		visible_parts.append(part)
 
@@ -856,8 +858,18 @@ func _update_parts(entry: VocabEntry) -> void:
 		category_label.text = _category_label(part.category).to_upper()
 		category_label.add_theme_color_override("font_color", accent)
 		(part_card.get_node("CardStack/WordLabel") as Label).text = part.kapampangan
-		(part_card.get_node("CardStack/MeaningLabel") as Label).text = part.english
-		(part_card.get_node("CardStack/OpenEntryButton") as Button).pressed.connect(_open_component_entry.bind(part.id))
+		var part_meaning := part.english.strip_edges()
+		(part_card.get_node("CardStack/MeaningLabel") as Label).text = (
+			part_meaning if not part_meaning.is_empty() else "Meaning not available"
+		)
+		var open_entry_button := part_card.get_node("CardStack/OpenEntryButton") as Button
+		if _is_internal_entry(part):
+			# Components stay out of the main list, so don't offer a broken navigation target.
+			open_entry_button.text = "Component"
+			open_entry_button.disabled = true
+			open_entry_button.tooltip_text = "This word appears here as part of a phrase."
+		else:
+			open_entry_button.pressed.connect(_open_component_entry.bind(part.id))
 
 		if index < visible_parts.size() - 1:
 			var plus := Label.new()
