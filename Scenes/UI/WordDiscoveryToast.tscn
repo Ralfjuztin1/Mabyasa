@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://cmc6qr6ve3f2a"]
+
+[ext_resource type="Script" uid="uid://cq8edetfpfh1g" path="res://Scenes/UI/WordDiscoveryToast.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="2_panel"]
+[ext_resource type="Texture2D" uid="uid://dn3u31egwdlia" path="res://Assets/UI/HUD/HUD_Icons.png" id="3_icons"]
+[ext_resource type="FontFile" uid="uid://dtq7borvd1vss" path="res://Assets/UI/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="4_pixel_font"]
+
+[sub_resource type="StyleBoxTexture" id="ToastFrame"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_panel")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="AtlasTexture" id="WordbookIcon"]
+atlas = ExtResource("3_icons")
+region = Rect2(64, 0, 64, 64)
+
+[node name="WordDiscoveryToast" type="CanvasLayer" unique_id=1335093694]
+process_mode = 3
+layer = 127
+script = ExtResource("1_script")
+
+[node name="ToastPanel" type="PanelContainer" parent="." unique_id=1970463624]
+custom_minimum_size = Vector2(440, 92)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = -116.0
+offset_right = 220.0
+offset_bottom = -24.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ToastFrame")
+
+[node name="Margin" type="MarginContainer" parent="ToastPanel" unique_id=1760296696]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 1
+
+[node name="Content" type="HBoxContainer" parent="ToastPanel/Margin" unique_id=1126817816]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BookIcon" type="TextureRect" parent="ToastPanel/Margin/Content" unique_id=1782442416]
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("WordbookIcon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextStack" type="VBoxContainer" parent="ToastPanel/Margin/Content" unique_id=1941407810]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="EyebrowLabel" type="Label" parent="ToastPanel/Margin/Content/TextStack" unique_id=792055356]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
+theme_override_fonts/font = ExtResource("4_pixel_font")
+theme_override_font_sizes/font_size = 13
+text = "WORDBOOK UPDATED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="ToastPanel/Margin/Content/TextStack" unique_id=52593284]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.88, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "New phrase discovered!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EntryLabel" type="Label" parent="ToastPanel/Margin/Content/TextStack" unique_id=1528843093]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.42, 1)
+theme_override_fonts/font = ExtResource("4_pixel_font")
+theme_override_font_sizes/font_size = 20
+text = "mayap a abak"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3

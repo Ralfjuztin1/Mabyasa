@@ -81,18 +81,19 @@ content_margin_bottom = 3.0
 texture = ExtResource("4_button_selected")
 texture_margin_left = 30.0
 texture_margin_top = 10.0
-texture_margin_right = 40.0
 texture_margin_bottom = 10.0
 
-[sub_resource type="StyleBoxTexture" id="QuestRowHover"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ms0y"]
+load_path = "res://.godot/imported/button_selected.png-01ced1cb598f024fbb21b4150fdc2a08.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x7jed"]
 content_margin_left = 12.0
 content_margin_top = 3.0
 content_margin_right = 18.0
 content_margin_bottom = 3.0
-texture = ExtResource("4_button_selected")
+texture = SubResource("CompressedTexture2D_0ms0y")
 texture_margin_left = 30.0
 texture_margin_top = 10.0
-texture_margin_right = 40.0
 texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
@@ -295,7 +296,6 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="QuestRowTemplate" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList" unique_id=424663041]
-visible = false
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -303,7 +303,7 @@ theme_override_colors/font_color = Color(0.91, 0.86, 0.71, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("QuestRowNormal")
 theme_override_styles/pressed = SubResource("QuestRowPressed")
-theme_override_styles/hover = SubResource("QuestRowHover")
+theme_override_styles/hover = SubResource("StyleBoxTexture_x7jed")
 toggle_mode = true
 text = "◆ Quest"
 

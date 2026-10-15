@@ -44,4 +44,5 @@ script = ExtResource("2_7n6au")
 action_type = 12
 actor_id = "litik"
 reset_visual_state = false
+visible_state = false
 metadata/_custom_type_script = "uid://duhrpmind65fn"

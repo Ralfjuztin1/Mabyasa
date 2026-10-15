@@ -1,7 +1,9 @@
+
 extends Node
 
 
 signal encountered_changed(vocab_id: String)
+signal vocabulary_discovered(vocab_id: String)
 signal learned_changed(vocab_id: String)
 signal mastery_changed(vocab_id: String, correct: bool)
 signal progress_changed
@@ -38,7 +40,6 @@ func _load_database() -> void:
 
 	_entries.clear()
 
-
 	var files: PackedStringArray = ResourceLoader.list_directory(VOCAB_PATH)
 
 	for file_name: String in files:
@@ -49,13 +50,11 @@ func _load_database() -> void:
 
 			continue
 
-
 		var resource: Resource = (
 			ResourceLoader.load(
 				VOCAB_PATH + file_name
 			)
 		)
-
 
 		if (
 			resource == null
@@ -69,11 +68,9 @@ func _load_database() -> void:
 
 			continue
 
-
 		var entry: VocabEntry = (
 			resource as VocabEntry
 		)
-
 
 		if entry.id.is_empty():
 
@@ -84,7 +81,6 @@ func _load_database() -> void:
 
 			continue
 
-
 		if entry.kapampangan.is_empty():
 
 			push_warning(
@@ -93,7 +89,6 @@ func _load_database() -> void:
 			)
 
 			continue
-
 
 		if _entries.has(
 			entry.id
@@ -106,14 +101,11 @@ func _load_database() -> void:
 
 			continue
 
-
 		_entries[
 			entry.id
 		] = entry
 
-
 	_validate_database()
-
 
 	print(
 		"[LANGUAGE] Loaded ",
@@ -138,15 +130,8 @@ func _validate_database() -> void:
 			_entries[id]
 		)
 
-#-----------------------------------------------------------------
-#  removed this for now to avoid spam in console about missing english meanings
-#		if entry.english.is_empty():
-#			push_warning(
-#				"[LANGUAGE] Missing English meaning: "
-#				+ id
-#			)
-#			
-#-----------------------------------------------------------------
+		# English meaning warnings are currently disabled
+		# to avoid unnecessary console messages.
 
 		for part_id: String in entry.parts:
 
@@ -162,7 +147,6 @@ func _validate_database() -> void:
 					]
 				)
 
-
 		for variant: Dictionary in (
 			entry.fill_blank_variants
 		):
@@ -173,7 +157,6 @@ func _validate_database() -> void:
 					""
 				)
 			)
-
 
 			if (
 				not answer_id.is_empty()
@@ -206,13 +189,11 @@ func get_entry(
 		)
 	)
 
-
 	if raw_entry is VocabEntry:
 
 		return (
 			raw_entry as VocabEntry
 		)
-
 
 	return null
 
@@ -220,7 +201,6 @@ func get_entry(
 func get_all_entries() -> Array[VocabEntry]:
 
 	var result: Array[VocabEntry] = []
-
 
 	for raw_entry: Variant in (
 		_entries.values()
@@ -231,7 +211,6 @@ func get_all_entries() -> Array[VocabEntry]:
 			result.append(
 				raw_entry as VocabEntry
 			)
-
 
 	return result
 
@@ -253,7 +232,6 @@ func get_encountered_entries() -> Array[VocabEntry]:
 
 	var result: Array[VocabEntry] = []
 
-
 	for raw_id: Variant in (
 		_encountered.keys()
 	):
@@ -262,18 +240,15 @@ func get_encountered_entries() -> Array[VocabEntry]:
 			raw_id
 		)
 
-
 		if not _entries.has(
 			id
 		):
 
 			continue
 
-
 		var entry: VocabEntry = (
 			_entries[id] as VocabEntry
 		)
-
 
 		if entry != null:
 
@@ -281,14 +256,12 @@ func get_encountered_entries() -> Array[VocabEntry]:
 				entry
 			)
 
-
 	return result
 
 
 func get_encountered_combat_entries() -> Array[VocabEntry]:
 
 	var result: Array[VocabEntry] = []
-
 
 	for entry: VocabEntry in (
 		get_encountered_entries()
@@ -313,7 +286,6 @@ func get_encountered_combat_entries() -> Array[VocabEntry]:
 				entry
 			)
 
-
 	return result
 
 
@@ -323,7 +295,6 @@ func mark_encountered(
 
 	var changed: bool = false
 
-
 	var ids: PackedStringArray = (
 		vocab_ids.split(
 			"+",
@@ -331,17 +302,20 @@ func mark_encountered(
 		)
 	)
 
-
 	for id: String in ids:
 
 		var clean_id: String = (
 			id.strip_edges()
 		)
 
-
 		if clean_id.is_empty():
 			continue
 
+		# Record whether the directly requested entry was already
+		# encountered before processing it.
+		var was_encountered: bool = _encountered.has(
+			clean_id
+		)
 
 		if _mark_single_encountered(
 			clean_id,
@@ -350,6 +324,17 @@ func mark_encountered(
 
 			changed = true
 
+		# Notify the UI only for a newly encountered direct entry.
+		# Phrase components discovered recursively won't each produce
+		# their own notification.
+		if (
+			not was_encountered
+			and _encountered.has(clean_id)
+		):
+
+			vocabulary_discovered.emit(
+				clean_id
+			)
 
 	if changed:
 
@@ -369,11 +354,9 @@ func _mark_single_encountered(
 
 		return false
 
-
 	visited[
 		vocab_id
 	] = true
-
 
 	if not _entries.has(
 		vocab_id
@@ -386,9 +369,7 @@ func _mark_single_encountered(
 
 		return false
 
-
 	var changed: bool = false
-
 
 	# --------------------------------------------------------
 	# MARK PHRASE ITSELF
@@ -408,7 +389,6 @@ func _mark_single_encountered(
 
 		changed = true
 
-
 	# --------------------------------------------------------
 	# MARK PHRASE PARTS AS ENCOUNTERED
 	# --------------------------------------------------------
@@ -421,14 +401,13 @@ func _mark_single_encountered(
 	# a
 	# abak
 	#
-	# If the player encountered the phrase, they also encountered
-	# the words inside the phrase.
+	# Encountering a phrase also adds its component words
+	# to the encountered vocabulary collection.
 	# --------------------------------------------------------
 
 	var entry: VocabEntry = (
 		_entries[vocab_id] as VocabEntry
 	)
-
 
 	if entry != null:
 
@@ -440,7 +419,6 @@ func _mark_single_encountered(
 			):
 
 				changed = true
-
 
 	return changed
 
@@ -462,7 +440,6 @@ func get_learned_entries() -> Array[VocabEntry]:
 
 	var result: Array[VocabEntry] = []
 
-
 	for raw_id: Variant in (
 		_learned.keys()
 	):
@@ -471,18 +448,15 @@ func get_learned_entries() -> Array[VocabEntry]:
 			raw_id
 		)
 
-
 		if not _entries.has(
 			id
 		):
 
 			continue
 
-
 		var entry: VocabEntry = (
 			_entries[id] as VocabEntry
 		)
-
 
 		if entry != null:
 
@@ -490,14 +464,12 @@ func get_learned_entries() -> Array[VocabEntry]:
 				entry
 			)
 
-
 	return result
 
 
 func get_learned_combat_entries() -> Array[VocabEntry]:
 
 	var result: Array[VocabEntry] = []
-
 
 	for entry: VocabEntry in (
 		get_learned_entries()
@@ -522,7 +494,6 @@ func get_learned_combat_entries() -> Array[VocabEntry]:
 				entry
 			)
 
-
 	return result
 
 
@@ -536,7 +507,6 @@ func mark_learned(
 
 	var changed: bool = false
 
-
 	var ids: PackedStringArray = (
 		vocab_ids.split(
 			"+",
@@ -544,17 +514,14 @@ func mark_learned(
 		)
 	)
 
-
 	for id: String in ids:
 
 		var clean_id: String = (
 			id.strip_edges()
 		)
 
-
 		if clean_id.is_empty():
 			continue
-
 
 		if _mark_single_learned(
 			clean_id,
@@ -562,7 +529,6 @@ func mark_learned(
 		):
 
 			changed = true
-
 
 	if changed:
 
@@ -587,11 +553,9 @@ func _mark_single_learned(
 
 		return false
 
-
 	var changed: bool = false
 
-
-	# Learned automatically means encountered.
+	# Learned vocabulary is automatically encountered.
 
 	if not _encountered.has(
 		vocab_id
@@ -604,7 +568,6 @@ func _mark_single_learned(
 
 			changed = true
 
-
 	# Mark learned.
 
 	if not _learned.has(
@@ -615,7 +578,6 @@ func _mark_single_learned(
 			vocab_id
 		] = true
 
-
 		_mastery[
 			vocab_id
 		] = _mastery.get(
@@ -623,14 +585,11 @@ func _mark_single_learned(
 			_new_mastery()
 		)
 
-
 		learned_changed.emit(
 			vocab_id
 		)
 
-
 		changed = true
-
 
 	# Parts become learned when the phrase itself is learned.
 
@@ -639,7 +598,6 @@ func _mark_single_learned(
 		var entry: VocabEntry = (
 			_entries[vocab_id] as VocabEntry
 		)
-
 
 		if entry != null:
 
@@ -651,7 +609,6 @@ func _mark_single_learned(
 				):
 
 					changed = true
-
 
 	return changed
 
@@ -666,7 +623,6 @@ func debug_grant(
 
 	var changed: bool = false
 
-
 	for id: String in vocab_ids:
 
 		if _mark_single_learned(
@@ -675,7 +631,6 @@ func debug_grant(
 		):
 
 			changed = true
-
 
 	if changed:
 
@@ -699,13 +654,11 @@ func get_mastery(
 		)
 	)
 
-
 	if raw_mastery is Dictionary:
 
 		return (
 			raw_mastery as Dictionary
 		).duplicate(true)
-
 
 	return _new_mastery()
 
@@ -719,7 +672,6 @@ func get_stage(
 			vocab_id
 		)
 	)
-
 
 	return clampi(
 		int(
@@ -741,8 +693,6 @@ func record_result(
 	if vocab_id.is_empty():
 		return
 
-
-	# IMPORTANT:
 	# Battle uses encountered vocabulary.
 
 	if not _encountered.has(
@@ -751,13 +701,11 @@ func record_result(
 
 		return
 
-
 	var mastery: Dictionary = (
 		get_mastery(
 			vocab_id
 		)
 	)
-
 
 	var seen: int = int(
 		mastery.get(
@@ -766,14 +714,12 @@ func record_result(
 		)
 	)
 
-
 	var correct_count: int = int(
 		mastery.get(
 			"correct",
 			0
 		)
 	)
-
 
 	var wrong_count: int = int(
 		mastery.get(
@@ -782,14 +728,12 @@ func record_result(
 		)
 	)
 
-
 	var streak: int = int(
 		mastery.get(
 			"streak",
 			0
 		)
 	)
-
 
 	var stage: int = int(
 		mastery.get(
@@ -798,9 +742,7 @@ func record_result(
 		)
 	)
 
-
 	seen += 1
-
 
 	if correct:
 
@@ -812,7 +754,6 @@ func record_result(
 		wrong_count += 1
 		streak = 0
 
-
 	if (
 		correct_count >= 2
 		and seen >= 2
@@ -822,7 +763,6 @@ func record_result(
 			stage,
 			1
 		)
-
 
 	if (
 		correct_count >= 4
@@ -834,14 +774,12 @@ func record_result(
 			2
 		)
 
-
 	if (
 		correct_count >= 7
 		and wrong_count * 2 <= correct_count
 	):
 
 		stage = MAX_STAGE
-
 
 	mastery["seen"] = seen
 	mastery["correct"] = correct_count
@@ -853,11 +791,9 @@ func record_result(
 		MAX_STAGE
 	)
 
-
 	_mastery[
 		vocab_id
 	] = mastery
-
 
 	mastery_changed.emit(
 		vocab_id,
@@ -925,10 +861,8 @@ func load_save_data(
 
 	reset()
 
-
 	if data.is_empty():
 		return
-
 
 	# --------------------------------------------------------
 	# ENCOUNTERED
@@ -941,7 +875,6 @@ func load_save_data(
 		)
 	)
 
-
 	if saved_encountered is Array:
 
 		for raw_id: Variant in (
@@ -952,7 +885,6 @@ func load_save_data(
 				raw_id
 			)
 
-
 			if _entries.has(
 				id
 			):
@@ -961,7 +893,6 @@ func load_save_data(
 					id,
 					{}
 				)
-
 
 	# --------------------------------------------------------
 	# LEARNED
@@ -974,7 +905,6 @@ func load_save_data(
 		)
 	)
 
-
 	if saved_learned is Array:
 
 		for raw_id: Variant in (
@@ -985,7 +915,6 @@ func load_save_data(
 				raw_id
 			)
 
-
 			if _entries.has(
 				id
 			):
@@ -993,7 +922,6 @@ func load_save_data(
 				_learned[
 					id
 				] = true
-
 
 	# --------------------------------------------------------
 	# MASTERY
@@ -1006,13 +934,11 @@ func load_save_data(
 		)
 	)
 
-
 	if saved_mastery is Dictionary:
 
 		var mastery_data: Dictionary = (
 			saved_mastery as Dictionary
 		)
-
 
 		for raw_id: Variant in (
 			mastery_data.keys()
@@ -1022,7 +948,6 @@ func load_save_data(
 				raw_id
 			)
 
-
 			var raw_mastery: Variant = (
 				mastery_data.get(
 					id,
@@ -1030,20 +955,16 @@ func load_save_data(
 				)
 			)
 
-
 			if not raw_mastery is Dictionary:
 				continue
-
 
 			var source: Dictionary = (
 				raw_mastery as Dictionary
 			)
 
-
 			var mastery: Dictionary = (
 				_new_mastery()
 			)
-
 
 			for key: String in mastery.keys():
 
@@ -1054,11 +975,9 @@ func load_save_data(
 					)
 				)
 
-
 			_mastery[
 				id
 			] = mastery
-
 
 	# --------------------------------------------------------
 	# OLD SAVE COMPATIBILITY
@@ -1077,18 +996,15 @@ func load_save_data(
 			raw_id
 		)
 
-
 		if not _entries.has(
 			id
 		):
 			continue
 
-
 		_mark_single_encountered(
 			id,
 			{}
 		)
-
 
 	progress_changed.emit()
 
