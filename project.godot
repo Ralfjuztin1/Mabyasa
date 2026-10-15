@@ -133,6 +133,7 @@ folder_colors={
 
 [gui]
 
+theme/default_theme_scale=0.65
 theme/custom_font="uid://cjpgyqostallh"
 
 [input]
