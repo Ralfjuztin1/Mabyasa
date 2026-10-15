@@ -16,10 +16,12 @@ extends CanvasLayer
 
 const QUEST_LOG_SCENE: PackedScene = preload("res://Scenes/UI/QuestLog.tscn")
 const PLAYER_STATS_SCENE: PackedScene = preload("res://Scenes/UI/PlayerStats.tscn")
-
+const WORD_BANK_SCENE: PackedScene = preload("res://Scenes/UI/WordBank.tscn")
 
 var quest_log: CanvasLayer = null
 var player_stats: CanvasLayer = null
+var word_bank: CanvasLayer = null
+var _word_bank_opened_from_pause_menu: bool = false
 
 # Track which menu opened an overlay so the HUD can reuse the same
 # Quest Log/Stats instances without unexpectedly reopening the pause menu.
@@ -54,10 +56,9 @@ func _ready() -> void:
 				_on_unavailable_menu_pressed.bind("Inventory")
 			)
 		if is_instance_valid(wordbook_button):
-			_connect_if_needed(
-				wordbook_button.pressed,
-				_on_unavailable_menu_pressed.bind("Wordbook")
-			)
+			wordbook_button.disabled = false
+			wordbook_button.tooltip_text = "Review discovered Kapampangan words."
+			_connect_if_needed(wordbook_button.pressed, _on_wordbook_pressed)
 		if is_instance_valid(settings_button):
 			_connect_if_needed(
 				settings_button.pressed,
@@ -71,7 +72,7 @@ func _ready() -> void:
 
 	_create_quest_log()
 	_create_player_stats()
-
+	_create_word_bank()
 	# Connect progression updates once and clean them up on exit.
 	if is_instance_valid(PlayerProgression):
 		_connect_if_needed(
@@ -121,7 +122,6 @@ func _connect_if_needed(signal_ref: Signal, callback: Callable) -> void:
 func _disconnect_if_connected(signal_ref: Signal, callback: Callable) -> void:
 	if signal_ref.is_connected(callback):
 		signal_ref.disconnect(callback)
-
 
 func _create_quest_log() -> void:
 	if is_instance_valid(quest_log):
@@ -216,7 +216,46 @@ func _on_player_stats_closed() -> void:
 		show()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+func _create_word_bank() -> void:
+	if is_instance_valid(word_bank):
+		return
 
+	word_bank = WORD_BANK_SCENE.instantiate() as CanvasLayer
+	if word_bank == null:
+		push_error("[PAUSE MENU] Failed to create WordBank.")
+		return
+
+	add_child(word_bank)
+
+	if word_bank.has_signal("closed"):
+		_connect_if_needed(word_bank.closed, _on_word_bank_closed)
+
+	word_bank.visible = false
+
+
+func _on_wordbook_pressed() -> void:
+	if not is_instance_valid(word_bank):
+		return
+
+	_word_bank_opened_from_pause_menu = true
+	word_bank.layer = 60
+	hide()
+	word_bank.open()
+
+
+func _on_word_bank_closed() -> void:
+	if not _word_bank_opened_from_pause_menu:
+		return
+
+	_word_bank_opened_from_pause_menu = false
+
+	if is_instance_valid(word_bank):
+		word_bank.layer = 1
+
+	if get_tree().paused:
+		show()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
 func _on_unavailable_menu_pressed(menu_name: String) -> void:
 	print("[PAUSE MENU] %s menu is not available yet." % menu_name)
 
@@ -248,7 +287,10 @@ func _on_game_paused(is_paused: bool) -> void:
 	if not is_paused:
 		_quest_log_opened_from_pause_menu = false
 		_stats_opened_from_pause_menu = false
-
+		_word_bank_opened_from_pause_menu = false
+		if is_instance_valid(word_bank):
+			word_bank.visible = false
+			word_bank.layer = 1
 		if is_instance_valid(quest_log):
 			quest_log.visible = false
 			quest_log.layer = 1

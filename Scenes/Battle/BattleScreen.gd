@@ -24,6 +24,7 @@ signal closed
 @onready var player_battle_sprite: AnimatedSprite2D = $Root/PlayerSpriteBox/PlayerSprite
 @onready var player_sprite_label: Label = $Root/PlayerSpriteBox/PlayerSpriteLabel
 @onready var player_level_label: Label = $Root/PlayerInfoBox/Margin/VBox/PlayerNameRow/LevelLabel
+@onready var player_name_label: Label = $Root/PlayerInfoBox/Margin/VBox/PlayerNameRow/PlayerNameLabel
 @onready var player_hp_label: Label = $Root/PlayerInfoBox/Margin/VBox/PlayerHPRow/PlayerHPLabel
 @onready var player_hp_bar: ProgressBar = $Root/PlayerInfoBox/Margin/VBox/PlayerHPBar
 @onready var player_exp_bar: ProgressBar = $Root/PlayerInfoBox/Margin/VBox/EXPBar
@@ -583,6 +584,17 @@ func _on_player_hp_changed(
 
 
 func _refresh_player_exp() -> void:
+	# Display the logged-in Adventurer Name.
+	if is_instance_valid(player_name_label):
+		var display_name := "Adventurer"
+
+		if is_instance_valid(GameManager):
+			var saved_name := GameManager.adventurer_name.strip_edges()
+			if not saved_name.is_empty():
+				display_name = saved_name
+
+		player_name_label.text = display_name
+
 	if not PlayerProgression:
 		return
 
@@ -598,9 +610,6 @@ func _refresh_player_exp() -> void:
 			/ float(max_exp)
 			* 100.0
 		)
-	else:
-		player_exp_bar.value = 0.0
-
 
 # ============================================================
 # QUIZ

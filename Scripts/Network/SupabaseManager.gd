@@ -71,6 +71,7 @@ var refresh_token: String = ""
 var token_expires_at: int = 0 # unix seconds
 var current_user_email: String = "guest"
 var current_user_id: String = ""
+var current_adventurer_name: String = ""
 var pending_action: String = "" # Kept for debug/compatibility; response routing uses the active request.
 
 # HTTPRequest only permits one active request. Track the action and session
@@ -112,7 +113,7 @@ func register_user(email: String, password: String, username: String):
 		"email": email.strip_edges(),
 		"password": password,
 		"data": {
-			"username": username
+			"username": username.strip_edges()
 		}
 	})
 	_request_or_queue_auth(
@@ -329,9 +330,23 @@ func _store_session(data: Dictionary) -> bool:
 	var token_user_id: String = _user_id_from_jwt(access_token)
 
 	var body_user_id: String = ""
+	var profile_name: String = ""
 	var user: Variant = data.get("user", null)
 	if user is Dictionary:
-		body_user_id = str((user as Dictionary).get("id", "")).to_lower()
+		var user_data: Dictionary = user as Dictionary
+		body_user_id = str(user_data.get("id", "")).to_lower()
+
+		# The registration form stores Adventurer Name as Supabase user metadata.
+		# Read it from the user object returned by login/refresh, but do not apply
+		# it until the account ID has passed validation below.
+		var metadata: Variant = user_data.get("user_metadata", {})
+		if metadata is Dictionary:
+			profile_name = str(
+				(metadata as Dictionary).get(
+					"username",
+					(metadata as Dictionary).get("adventurer_name", "")
+				)
+			).strip_edges()
 
 	var user_id: String = token_user_id if not token_user_id.is_empty() else body_user_id
 
@@ -341,6 +356,9 @@ func _store_session(data: Dictionary) -> bool:
 		return false
 	if not current_user_id.is_empty() and user_id != current_user_id:
 		return false
+
+	if not profile_name.is_empty():
+		current_adventurer_name = profile_name
 
 	session_token = access_token
 
@@ -440,6 +458,7 @@ func clear_session() -> void:
 		GameManager._session_generation += 1
 		GameManager._session_ready = false
 		GameManager.active_user_email = ""
+		GameManager.adventurer_name = "Adventurer"
 		GameManager.quest_save_queued = false
 
 	session_token = ""
@@ -447,6 +466,7 @@ func clear_session() -> void:
 	token_expires_at = 0
 	current_user_id = ""
 	current_user_email = "guest"
+	current_adventurer_name = ""
 	_pending_cloud_sync_data = {}
 	_pending_cloud_sync_user_id = ""
 
@@ -476,7 +496,7 @@ func sync_save_to_cloud(save_data: Dictionary) -> void:
 		return # Guest or not logged in — nothing to sync.
 
 	# Deep copy: the save dictionary holds live references to manager data
-	# (e.g. quests) that gets cleared on logout. Upload a frozen snapshot.
+	# (quests, etc.) that gets cleared on logout. Upload a frozen snapshot.
 	var snapshot: Dictionary = save_data.duplicate(true)
 
 	if _cloud_sync_in_progress:

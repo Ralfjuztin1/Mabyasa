@@ -136,6 +136,10 @@ expand_margin_right = 25.0
 atlas = ExtResource("5_icon_atlas")
 region = Rect2(256, 0, 128, 128)
 
+[sub_resource type="AtlasTexture" id="Icon_Wordbook"]
+atlas = ExtResource("5_icon_atlas")
+region = Rect2(128, 0, 128, 128)
+
 [sub_resource type="StyleBoxTexture" id="MenuButtonHover"]
 content_margin_left = 14.0
 content_margin_top = 4.0
@@ -146,10 +150,6 @@ texture_margin_left = 30.0
 texture_margin_top = 22.0
 texture_margin_right = 40.0
 texture_margin_bottom = 22.0
-
-[sub_resource type="AtlasTexture" id="Icon_Wordbook"]
-atlas = ExtResource("5_icon_atlas")
-region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Icon_Inventory"]
 atlas = ExtResource("5_icon_atlas")
@@ -420,12 +420,11 @@ texture_filter = 1
 custom_minimum_size = Vector2(0, 57)
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Wordbook is not available yet."
+tooltip_text = "Review discovered Kapampangan words."
 theme_override_colors/font_disabled_color = Color(0.52, 0.52, 0.44, 0.9)
 theme_override_styles/normal = SubResource("MenuButtonNormal")
 theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("MenuButtonHover")
-disabled = true
+theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
 
 [node name="Contents" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Wordbook" unique_id=485080213]
 layout_mode = 1

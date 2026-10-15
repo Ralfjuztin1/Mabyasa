@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/WordBank.gd" id="1_word_bank"]
+
+[node name="WordBank" type="CanvasLayer"]
+process_mode = 3
+layer = 60
+script = ExtResource("1_word_bank")

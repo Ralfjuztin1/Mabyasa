@@ -16,6 +16,7 @@ enum GameState {
 
 
 var active_user_email: String = ""
+var adventurer_name: String = "Adventurer"
 var should_load_save: bool = false
 
 # Invalidates deferred save jobs and cloud-load continuations whenever the
@@ -454,6 +455,7 @@ func initialize_session(
 	_session_ready = false
 
 	active_user_email = ""
+	adventurer_name = "Adventurer"
 	_reset_runtime_state()
 	active_user_email = normalized_email
 
@@ -471,6 +473,11 @@ func initialize_session(
 
 	var session_user_id: String = SupabaseManager.current_user_id
 	SupabaseManager.current_user_email = normalized_email
+
+	# Use the name returned from this account's Supabase user metadata.
+	var account_name: String = SupabaseManager.current_adventurer_name.strip_edges()
+	if not account_name.is_empty():
+		adventurer_name = account_name
 
 	# Cloud save first. Capture account ID above and validate it again after
 	# await, because the player may log out or switch accounts while waiting.
@@ -595,6 +602,7 @@ func clear_session_data() -> void:
 
 	# Block any further saves first.
 	active_user_email = ""
+	adventurer_name = "Adventurer"
 
 
 	# --------------------------------------------------------

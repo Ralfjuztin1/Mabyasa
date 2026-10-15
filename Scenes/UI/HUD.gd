@@ -554,7 +554,7 @@ func _on_inventory_pressed() -> void:
 
 
 func _on_wordbook_pressed() -> void:
-	_show_notice("Wordbook is not available yet")
+	_open_pause_menu_overlay("word_bank")
 
 
 func _on_quest_log_pressed() -> void:
