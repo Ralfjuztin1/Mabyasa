@@ -3628,24 +3628,24 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2171311, 0.7279935, -36.00
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
-wander_radius = 1.0
+wander_radius = 0.5
 
 [node name="BaseNPC3" parent="npc" unique_id=1746388400 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -5.285363, 0.7279935, -33.010353)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
-wander_radius = 1.0
+wander_radius = 0.5
 
 [node name="BaseNPC4" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.120516, 0.7279935, -30.54102)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
-wander_radius = 1.0
+wander_radius = 0.5
 
 [node name="BaseNPC5" parent="npc" unique_id=681462549 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.2579975, 0.7279935, -29.089441)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -8.247202, 0.7279935, -24.214403)
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
@@ -3657,7 +3657,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5315228, 0.7279935, -32.62
 npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
-wander_radius = 1.0
+wander_radius = 0.5
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
 script = ExtResource("8_bm7lg")
