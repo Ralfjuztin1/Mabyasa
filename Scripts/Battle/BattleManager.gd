@@ -17,6 +17,11 @@ signal battle_ended(victory: bool)
 signal battle_fled
 signal enemy_attack_animation_requested
 signal enemy_hit_animation_requested
+signal enemy_attack_animation_finished
+signal enemy_hit_animation_finished
+signal enemy_hp_visuals_finished
+signal player_hp_visuals_finished
+signal turn_busy_changed(is_busy: bool)
 
 const MIN_DAMAGE_MULT: float = 0.40
 const MAX_DAMAGE_MULT: float = 1.55
@@ -33,6 +38,8 @@ var battle_active: bool = false
 var awaiting_quiz_response: bool = false
 var awaiting_feedback: bool = false
 var enemy_turn_in_progress: bool = false
+# Locks all player actions until the current turn and its visuals finish.
+var action_in_progress: bool = false
 
 var current_enemy: EnemyData = null
 
@@ -97,6 +104,7 @@ func start_battle(enemy_data: EnemyData) -> void:
 	awaiting_quiz_response = false
 	awaiting_feedback = false
 	enemy_turn_in_progress = false
+	action_in_progress = false
 
 	current_question = null
 	_enemy_dead_pending = false
@@ -151,6 +159,7 @@ func player_attack() -> void:
 		or awaiting_quiz_response
 		or awaiting_feedback
 		or enemy_turn_in_progress
+		or action_in_progress
 	):
 		return
 
@@ -194,6 +203,7 @@ func player_attack() -> void:
 		_recent_kinds.pop_front()
 
 	current_question = question
+	_set_action_in_progress(true)
 	awaiting_quiz_response = true
 
 	quiz_requested.emit(question)
@@ -212,6 +222,7 @@ func submit_quiz_answer(payload: Variant) -> void:
 		return
 
 	awaiting_quiz_response = false
+	_set_action_in_progress(true)
 
 	var result: AnswerResult = current_question.evaluate_answer(
 		payload
@@ -222,6 +233,7 @@ func submit_quiz_answer(payload: Variant) -> void:
             "[BATTLE] Quiz returned no AnswerResult."
 		)
 		current_question = null
+		_set_action_in_progress(false)
 		return
 
 	if (
@@ -279,7 +291,7 @@ func submit_quiz_answer(payload: Variant) -> void:
 	var multiplier: float = _calculate_damage_multiplier(result)
 	result.damage_multiplier = multiplier
 
-	_apply_attack(multiplier, result)
+	await _apply_attack(multiplier, result)
 
 
 # ============================================================
@@ -458,7 +470,7 @@ func acknowledge_feedback() -> void:
 	if enemy_dead:
 		_end_battle(true)
 	else:
-		_enemy_turn()
+		await _enemy_turn()
 
 
 func _auto_acknowledge_timeout_feedback() -> void:
@@ -469,7 +481,7 @@ func _auto_acknowledge_timeout_feedback() -> void:
 	if not battle_active or not awaiting_feedback:
 		return
 
-	acknowledge_feedback()
+	await acknowledge_feedback()
 
 
 func _auto_acknowledge_wrong_feedback() -> void:
@@ -480,7 +492,7 @@ func _auto_acknowledge_wrong_feedback() -> void:
 	if not battle_active or not awaiting_feedback:
 		return
 
-	acknowledge_feedback()
+	await acknowledge_feedback()
 
 
 # ============================================================
@@ -494,6 +506,7 @@ func player_use_food(item_id: String) -> bool:
 		or awaiting_quiz_response
 		or awaiting_feedback
 		or enemy_turn_in_progress
+		or action_in_progress
 	):
 		return false
 
@@ -535,7 +548,9 @@ func player_use_food(item_id: String) -> bool:
 		0
 	)
 
+	_set_action_in_progress(true)
 	if not InventoryManager.consume_food(item_id):
+		_set_action_in_progress(false)
 		return false
 
 	if instant_healing > 0:
@@ -575,9 +590,10 @@ func player_use_food(item_id: String) -> bool:
 		PlayerProgression.current_hp,
 		PlayerProgression.get_total_max_hp()
 	)
+	await player_hp_visuals_finished
 
-	# Eating uses the player's action. The enemy still gets a turn.
-	_enemy_turn()
+	# Eating uses the player's action. The enemy waits for the heal visuals.
+	await _enemy_turn()
 
 	return true
 
@@ -634,6 +650,7 @@ func _tick_food_effects() -> void:
 		PlayerProgression.current_hp,
 		PlayerProgression.get_total_max_hp()
 	)
+	await player_hp_visuals_finished
 
 
 # ============================================================
@@ -696,6 +713,10 @@ func _apply_attack(
 	)
 
 	enemy_hit_animation_requested.emit()
+	await enemy_hit_animation_finished
+
+	if not battle_active:
+		return
 
 	# Barrier absorbs damage before HP.
 	var barrier_damage: int = mini(
@@ -717,8 +738,13 @@ func _apply_attack(
 		enemy_hp,
 		current_enemy.max_hp
 	)
+	await enemy_hp_visuals_finished
+
+	if not battle_active:
+		return
 
 	if result == null:
+		_set_action_in_progress(false)
 		return
 
 	if result.correct:
@@ -759,16 +785,16 @@ func _apply_attack(
 		feedback_requested.emit(result)
 
 		if result.timed_out:
-			_auto_acknowledge_timeout_feedback()
+			await _auto_acknowledge_timeout_feedback()
 		else:
-			_auto_acknowledge_wrong_feedback()
+			await _auto_acknowledge_wrong_feedback()
 
 		return
 
 	if enemy_dead:
 		_end_battle(true)
 	else:
-		_enemy_turn()
+		await _enemy_turn()
 
 
 # ============================================================
@@ -776,67 +802,71 @@ func _apply_attack(
 # ============================================================
 
 func _enemy_turn() -> void:
-	if not battle_active:
+	if not battle_active or enemy_turn_in_progress:
 		return
 
+	_set_action_in_progress(true)
 	enemy_turn_in_progress = true
 
+	# Brief pause before the enemy begins its move.
 	await get_tree().create_timer(0.28).timeout
 
 	if not battle_active:
 		enemy_turn_in_progress = false
+		_set_action_in_progress(false)
 		return
 
-	# Play attack animation before applying damage.
-	if (
-		current_enemy != null
-		and not current_enemy.battle_attack_animation.is_empty()
-		and current_enemy.battle_attack_duration > 0.0
-	):
+	# The BattleScreen acknowledges this only after the attack animation ends.
+	# If no attack clip exists, its handler uses the configured fallback delay.
+	if current_enemy != null:
 		enemy_attack_animation_requested.emit()
+		await enemy_attack_animation_finished
 
-		await get_tree().create_timer(
-			current_enemy.battle_attack_duration
-		).timeout
-
-		if not battle_active:
-			enemy_turn_in_progress = false
-			return
+	if not battle_active or current_enemy == null:
+		enemy_turn_in_progress = false
+		_set_action_in_progress(false)
+		return
 
 	var mitigation: int = int(
 		PlayerProgression.get_total_def() * 0.5
 	)
-
 	var damage: int = maxi(
 		current_enemy.atk - mitigation,
 		1
 	)
 
 	PlayerProgression.take_damage(damage)
-
 	player_hp_changed.emit(
 		PlayerProgression.current_hp,
 		PlayerProgression.get_total_max_hp()
 	)
-
 	battle_log.emit(
-		"%s strikes for %d damage."
-		% [
+		"%s strikes for %d damage." % [
 			current_enemy.display_name,
 			damage
 		]
 	)
 
+	# Do not apply more effects or unlock input while the HP bar/hit reaction
+	# is still moving.
+	await player_hp_visuals_finished
+
+	if not battle_active:
+		enemy_turn_in_progress = false
+		_set_action_in_progress(false)
+		return
+
 	if PlayerProgression.current_hp <= 0:
 		enemy_turn_in_progress = false
-
 		_end_battle(false)
 		return
 
-	# Damage happens first. Food healing then restores HP, capped at max HP.
-	_tick_food_effects()
+	# Damage lands first; active food effects heal only after the hit visuals.
+	await _tick_food_effects()
 
 	enemy_turn_in_progress = false
+	if battle_active:
+		_set_action_in_progress(false)
 
 
 # ============================================================
@@ -857,6 +887,7 @@ func flee_battle() -> void:
 		awaiting_quiz_response
 		or awaiting_feedback
 		or enemy_turn_in_progress
+		or action_in_progress
 	):
 		battle_log.emit(
 			"Wait until the current action finishes before fleeing."
@@ -867,6 +898,7 @@ func flee_battle() -> void:
 	awaiting_quiz_response = false
 	awaiting_feedback = false
 	enemy_turn_in_progress = false
+	_set_action_in_progress(false)
 
 	current_question = null
 	_enemy_dead_pending = false
@@ -901,6 +933,7 @@ func _end_battle(victory: bool) -> void:
 	awaiting_quiz_response = false
 	awaiting_feedback = false
 	enemy_turn_in_progress = false
+	_set_action_in_progress(false)
 
 	current_question = null
 
@@ -948,6 +981,13 @@ func _end_battle(victory: bool) -> void:
 
 		if GameManager.has_method("request_save"):
 			GameManager.request_save()
+
+
+func _set_action_in_progress(is_busy: bool) -> void:
+	if action_in_progress == is_busy:
+		return
+	action_in_progress = is_busy
+	turn_busy_changed.emit(is_busy)
 
 
 # ============================================================

@@ -166,7 +166,8 @@ func use_food(item_id: String) -> bool:
 	if food.is_empty() or get_quantity(item_id) <= 0:
 		return false
 	if BattleManager != null and BattleManager.battle_active:
-		return BattleManager.player_use_food(item_id)
+		# Battle actions use the battle picker signal and are awaited by BattleScreen.
+		return false
 	if PlayerProgression == null:
 		return false
 

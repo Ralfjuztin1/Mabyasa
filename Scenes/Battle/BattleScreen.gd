@@ -45,6 +45,13 @@ var _current_enemy_idle_animation: StringName = &""
 var _current_enemy_attack_animation: StringName = &""
 var _current_enemy_hit_animation: StringName = &""
 var _current_enemy_action_animation: StringName = &""
+var _current_enemy_action_kind: StringName = &""
+var _enemy_hp_tween: Tween = null
+var _player_hp_tween: Tween = null
+var _player_hit_tween: Tween = null
+var _enemy_hp_visual_generation: int = 0
+var _player_hp_visual_generation: int = 0
+var _player_hp_visual_parts_remaining: int = 0
 
 
 # ============================================================
@@ -76,6 +83,7 @@ func _ready() -> void:
 	BattleManager.battle_fled.connect(_on_battle_fled)
 	BattleManager.enemy_attack_animation_requested.connect(_on_enemy_attack_animation_requested)
 	BattleManager.enemy_hit_animation_requested.connect(_on_enemy_hit_animation_requested)
+	BattleManager.turn_busy_changed.connect(_on_turn_busy_changed)
 
 	InventoryManager.battle_food_selected.connect(
 		_on_battle_food_selected
@@ -97,6 +105,7 @@ func _ready() -> void:
 
 	_refresh_food_button()
 	_show_action_buttons()
+	_on_turn_busy_changed(BattleManager.action_in_progress)
 
 	call_deferred("_setup_player_battle_sprite")
 
@@ -520,9 +529,20 @@ func _play_battle_entry() -> void:
 func _on_battle_started(enemy: EnemyData) -> void:
 	_entry_animation_played = false
 	_last_enemy_hp = enemy.max_hp
-	_last_player_hp = -1
+	_last_player_hp = PlayerProgression.current_hp
 
 	enemy_name_label.text = enemy.display_name
+	enemy_hp_label.text = "%d / %d" % [enemy.max_hp, enemy.max_hp]
+	enemy_hp_bar.value = 100.0
+	var player_max_hp: int = PlayerProgression.get_total_max_hp()
+	player_hp_label.text = "%d / %d" % [PlayerProgression.current_hp, player_max_hp]
+	if player_max_hp > 0:
+		player_hp_bar.value = (
+			float(PlayerProgression.current_hp)
+			/ float(player_max_hp) * 100.0
+		)
+	else:
+		player_hp_bar.value = 0.0
 	_show_enemy_sprite(enemy)
 
 	message_label.text = "A wild %s appears!" % enemy.display_name
@@ -534,7 +554,10 @@ func _on_battle_started(enemy: EnemyData) -> void:
 	call_deferred("_play_battle_entry")
 
 
-func _play_enemy_action_animation(animation_name: StringName) -> bool:
+func _play_enemy_action_animation(
+	animation_name: StringName,
+	action_kind: StringName
+) -> bool:
 	if (
 		not is_instance_valid(enemy_sprite)
 		or not enemy_sprite.visible
@@ -551,22 +574,65 @@ func _play_enemy_action_animation(animation_name: StringName) -> bool:
 	)
 
 	_current_enemy_action_animation = animation_name
+	_current_enemy_action_kind = action_kind
 	enemy_sprite.play(animation_name)
 
 	return true
 
 
 func _on_enemy_attack_animation_requested() -> void:
-	_play_enemy_action_animation(
-		_current_enemy_attack_animation
-	)
+	if _play_enemy_action_animation(
+		_current_enemy_attack_animation,
+		&"attack"
+	):
+		return
+
+	# Some enemies have no battle attack clip. Preserve the configured pause
+	# for those enemies, then acknowledge the turn so combat cannot deadlock.
+	var fallback_delay: float = 0.0
+	if BattleManager.current_enemy != null:
+		fallback_delay = maxf(
+			BattleManager.current_enemy.battle_attack_duration,
+			0.0
+		)
+	if fallback_delay > 0.0:
+		await _finish_enemy_attack_after_delay(fallback_delay)
+	else:
+		call_deferred("_emit_enemy_attack_animation_finished")
+
+
+func _finish_enemy_attack_after_delay(delay: float) -> void:
+	await get_tree().create_timer(delay).timeout
+	if is_instance_valid(self):
+		call_deferred("_emit_enemy_attack_animation_finished")
+
+
+func _emit_enemy_attack_animation_finished() -> void:
+	if is_instance_valid(BattleManager):
+		BattleManager.enemy_attack_animation_finished.emit()
 
 
 func _on_enemy_hit_animation_requested() -> void:
-	if not _play_enemy_action_animation(
-		_current_enemy_hit_animation
+	if _play_enemy_action_animation(
+		_current_enemy_hit_animation,
+		&"hit"
 	):
-		_play_hit_feedback(enemy_sprite)
+		return
+
+	# If this enemy has no hit clip, wait for the fallback hit reaction instead.
+	var feedback_tween: Tween = _play_hit_feedback(enemy_sprite)
+	if feedback_tween != null:
+		feedback_tween.finished.connect(
+			_emit_enemy_hit_animation_finished,
+			CONNECT_ONE_SHOT
+		)
+	else:
+		call_deferred("_emit_enemy_hit_animation_finished")
+
+
+func _emit_enemy_hit_animation_finished() -> void:
+	if is_instance_valid(BattleManager):
+		BattleManager.enemy_hit_animation_finished.emit()
 
 
 func _on_enemy_animation_finished() -> void:
@@ -576,7 +642,9 @@ func _on_enemy_animation_finished() -> void:
 	if StringName(enemy_sprite.animation) != _current_enemy_action_animation:
 		return
 
+	var finished_action_kind: StringName = _current_enemy_action_kind
 	_current_enemy_action_animation = &""
+	_current_enemy_action_kind = &""
 
 	if (
 		not _current_enemy_idle_animation.is_empty()
@@ -590,26 +658,55 @@ func _on_enemy_animation_finished() -> void:
 	):
 		enemy_sprite.play(_current_enemy_idle_animation)
 
+	if finished_action_kind == &"attack":
+		BattleManager.enemy_attack_animation_finished.emit()
+	elif finished_action_kind == &"hit":
+		BattleManager.enemy_hit_animation_finished.emit()
+
 
 func _on_enemy_hp_changed(
 	current: int,
 	max_hp: int
 ) -> void:
 	enemy_hp_label.text = "%d / %d" % [current, max_hp]
+	var target_value: float = (
+		float(current) / float(max_hp) * 100.0
+		if max_hp > 0 else 0.0
+	)
 
-	if max_hp > 0:
-		enemy_hp_bar.value = float(current) / float(max_hp) * 100.0
-	else:
-		enemy_hp_bar.value = 0.0
-
-	if (
-		_last_enemy_hp >= 0
-		and current < _last_enemy_hp
-		and _current_enemy_action_animation != _current_enemy_hit_animation
-	):
-		_play_hit_feedback(enemy_sprite)
-
+	_enemy_hp_tween = _animate_hp_bar(
+		enemy_hp_bar,
+		target_value,
+		_enemy_hp_tween
+	)
+	_track_enemy_hp_visuals(_enemy_hp_tween)
 	_last_enemy_hp = current
+
+
+func _track_enemy_hp_visuals(tween: Tween) -> void:
+	_enemy_hp_visual_generation += 1
+	var generation: int = _enemy_hp_visual_generation
+	if tween == null:
+		call_deferred(
+			"_emit_enemy_hp_visuals_finished_if_current",
+			generation
+		)
+		return
+	tween.finished.connect(
+		_on_enemy_hp_tween_finished.bind(generation),
+		CONNECT_ONE_SHOT
+	)
+
+
+func _on_enemy_hp_tween_finished(generation: int) -> void:
+	_emit_enemy_hp_visuals_finished_if_current(generation)
+
+
+func _emit_enemy_hp_visuals_finished_if_current(generation: int) -> void:
+	if generation != _enemy_hp_visual_generation:
+		return
+	if is_instance_valid(BattleManager):
+		BattleManager.enemy_hp_visuals_finished.emit()
 
 
 func _on_enemy_barrier_changed(
@@ -634,18 +731,100 @@ func _on_player_hp_changed(
 	max_hp: int
 ) -> void:
 	player_hp_label.text = "%d / %d" % [current, max_hp]
+	var target_value: float = (
+		float(current) / float(max_hp) * 100.0
+		if max_hp > 0 else 0.0
+	)
 
-	if max_hp > 0:
-		player_hp_bar.value = (
-			float(current) / float(max_hp) * 100.0
-		)
-	else:
-		player_hp_bar.value = 0.0
+	_player_hp_tween = _animate_hp_bar(
+		player_hp_bar,
+		target_value,
+		_player_hp_tween
+	)
 
+	var hit_tween: Tween = null
 	if _last_player_hp >= 0 and current < _last_player_hp:
-		_play_hit_feedback(player_battle_sprite)
-
+		if (
+			is_instance_valid(_player_hit_tween)
+			and _player_hit_tween.is_running()
+		):
+			_player_hit_tween.kill()
+		hit_tween = _play_hit_feedback(player_battle_sprite)
+	_player_hit_tween = hit_tween
 	_last_player_hp = current
+	_track_player_hp_visuals(_player_hp_tween, hit_tween)
+
+
+func _track_player_hp_visuals(
+	bar_tween: Tween,
+	hit_tween: Tween
+) -> void:
+	_player_hp_visual_generation += 1
+	var generation: int = _player_hp_visual_generation
+	_player_hp_visual_parts_remaining = 0
+
+	if bar_tween != null:
+		_player_hp_visual_parts_remaining += 1
+		bar_tween.finished.connect(
+			_on_player_hp_visual_part_finished.bind(generation),
+			CONNECT_ONE_SHOT
+		)
+	if hit_tween != null:
+		_player_hp_visual_parts_remaining += 1
+		hit_tween.finished.connect(
+			_on_player_hp_visual_part_finished.bind(generation),
+			CONNECT_ONE_SHOT
+		)
+
+	if _player_hp_visual_parts_remaining == 0:
+		call_deferred(
+			"_emit_player_hp_visuals_finished_if_current",
+			generation
+		)
+
+
+func _on_player_hp_visual_part_finished(generation: int) -> void:
+	if generation != _player_hp_visual_generation:
+		return
+	_player_hp_visual_parts_remaining -= 1
+	if _player_hp_visual_parts_remaining <= 0:
+		_emit_player_hp_visuals_finished_if_current(generation)
+
+
+func _emit_player_hp_visuals_finished_if_current(generation: int) -> void:
+	if generation != _player_hp_visual_generation:
+		return
+	if is_instance_valid(BattleManager):
+		BattleManager.player_hp_visuals_finished.emit()
+
+
+func _animate_hp_bar(
+	bar: ProgressBar,
+	target_value: float,
+	previous_tween: Tween
+) -> Tween:
+	if is_instance_valid(previous_tween) and previous_tween.is_running():
+		previous_tween.kill()
+
+	var distance: float = absf(target_value - bar.value)
+	if distance < 0.05:
+		bar.value = target_value
+		return null
+
+	# Larger HP changes get a slightly longer animation, capped to stay responsive.
+	var duration: float = clampf(
+		0.20 + distance * 0.012,
+		0.25,
+		0.72
+	)
+	var tween: Tween = create_tween()
+	tween.tween_property(
+		bar,
+		"value",
+		target_value,
+		duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	return tween
 
 
 func _refresh_player_exp() -> void:
@@ -691,16 +870,16 @@ func _on_quiz_requested(question: QuizQuestion) -> void:
 func _on_quiz_answer_selected(payload: Variant) -> void:
 	bottom_bar.visible = true
 
-	BattleManager.submit_quiz_answer(payload)
+	await BattleManager.submit_quiz_answer(payload)
 
 
 # ============================================================
 # HIT FEEDBACK
 # ============================================================
 
-func _play_hit_feedback(actor: Node2D) -> void:
+func _play_hit_feedback(actor: Node2D) -> Tween:
 	if not is_instance_valid(actor) or not actor.visible:
-		return
+		return null
 
 	var home_position: Vector2 = actor.position
 	var tween := create_tween()
@@ -741,6 +920,7 @@ func _play_hit_feedback(actor: Node2D) -> void:
 		Color.WHITE,
 		0.10
 	)
+	return tween
 
 
 # ============================================================
@@ -849,12 +1029,21 @@ func _show_action_buttons() -> void:
 	continue_button.visible = false
 	attack_button.visible = true
 	food_button.visible = true
+	_on_turn_busy_changed(BattleManager.action_in_progress)
 
 	# Fleeing is only offered in normal battles.
 	flee_button.visible = (
 		BattleManager.current_enemy != null
 		and not BattleManager.current_enemy.is_boss
 	)
+
+
+func _on_turn_busy_changed(is_busy: bool) -> void:
+	# Prevent extra clicks while an attack, heal, HP tween, or enemy animation
+	# is still resolving.
+	attack_button.disabled = is_busy
+	food_button.disabled = is_busy
+	flee_button.disabled = is_busy
 
 
 func _on_attack_pressed() -> void:
@@ -866,7 +1055,7 @@ func _on_food_pressed() -> void:
 
 
 func _on_battle_food_selected(item_id: String) -> void:
-	BattleManager.player_use_food(item_id)
+	await BattleManager.player_use_food(item_id)
 
 
 func _refresh_food_button() -> void:
