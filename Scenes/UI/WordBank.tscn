@@ -1,8 +1,654 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bljlx7wmpoi50"]
 
-[ext_resource type="Script" path="res://Scenes/UI/WordBank.gd" id="1_word_bank"]
+[ext_resource type="Script" uid="uid://5vivpuj8mtvg" path="res://Scenes/UI/WordBank.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://dtq7borvd1vss" path="res://Assets/UI/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="4_pixel_font"]
 
-[node name="WordBank" type="CanvasLayer"]
-process_mode = 3
-layer = 60
-script = ExtResource("1_word_bank")
+[sub_resource type="SystemFont" id="WordBankBodyFont"]
+font_names = PackedStringArray("Atkinson Hyperlegible", "Segoe UI", "Arial", "Noto Sans")
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="WordBankBodyTheme"]
+default_font = SubResource("WordBankBodyFont")
+default_font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="OuterFrameStyle"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.035, 0.055, 0.041, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.94, 0.7, 0.25, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxLine" id="DividerLine"]
+color = Color(0.18, 0.247, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="GenericPanel"]
+bg_color = Color(0.063, 0.094, 0.07, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.31, 0.23, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="SystemFont" id="SystemFont_ci6c0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_knopt"]
+font = SubResource("SystemFont_ci6c0")
+font_size = 80
+font_color = Color(0.9411765, 0.69803923, 0.2509804, 1)
+
+[node name="WordBank" type="CanvasLayer" unique_id=1578921025]
+script = ExtResource("1_script")
+
+[node name="WordBankRoot" type="Control" parent="." unique_id=1119403640]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("WordBankBodyTheme")
+
+[node name="Dimmer" type="ColorRect" parent="WordBankRoot" unique_id=244244623]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.005, 0.012, 0.008, 0.84)
+
+[node name="OuterFrame" type="PanelContainer" parent="WordBankRoot" unique_id=578109400]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 12.0
+offset_right = -28.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("OuterFrameStyle")
+
+[node name="OuterMargin" type="MarginContainer" parent="WordBankRoot/OuterFrame" unique_id=1933457238]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 12
+
+[node name="Main" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin" unique_id=64043738]
+layout_mode = 2
+theme_override_constants/separation = 11
+
+[node name="Header" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=1262894616]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TitleStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=598123709]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/TitleStack" unique_id=684846036]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
+theme_override_fonts/font = ExtResource("4_pixel_font")
+theme_override_font_sizes/font_size = 34
+text = "Word Bank"
+
+[node name="Subtitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/TitleStack" unique_id=143819690]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 13
+text = "Your Kapampangan collection"
+
+[node name="ProgressStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=1229672404]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SummaryLabel" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/ProgressStack" unique_id=1903677645]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 14
+text = "0 of 0 words learned"
+
+[node name="LearnedSegments" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/ProgressStack" unique_id=1760256998]
+custom_minimum_size = Vector2(200, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="ProgressLegend" type="RichTextLabel" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/ProgressStack" unique_id=1121465642]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.71, 0.75, 0.69, 1)
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+text = "[color=#f0b340]■[/color] 0 mastered     [color=#6dd199]■[/color] 0 learned     [color=#8f9a8b]□[/color] 0 to learn"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="CloseButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=361647822]
+custom_minimum_size = Vector2(132, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "Close   Esc   ✕"
+
+[node name="HeaderDivider" type="HSeparator" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=1332864467]
+layout_mode = 2
+theme_override_constants/separation = 4
+theme_override_styles/separator = SubResource("DividerLine")
+
+[node name="MainBody" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=1149033482]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="WordListSidebar" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody" unique_id=1839150023]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.85
+theme_override_constants/separation = 8
+
+[node name="SearchEdit" type="LineEdit" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=595226201]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+placeholder_text = "Search a word or its meaning"
+clear_button_enabled = true
+
+[node name="StatusPanel" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=1136319220]
+layout_mode = 2
+
+[node name="StatusRow" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel" unique_id=564606871]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="AllButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=1743433254]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "All  0"
+
+[node name="ToLearnButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=598845081]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "To learn  0"
+
+[node name="LearnedButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=921457434]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "Learned  0"
+
+[node name="CategoryFlow" type="HFlowContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=1179137643]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+
+[node name="ListHeader" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=402049334]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CountLabel" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/ListHeader" unique_id=974036273]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 11
+text = "Showing 0 words"
+
+[node name="SortButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/ListHeader" unique_id=1126645294]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
+theme_override_font_sizes/font_size = 11
+text = "↕  Sort: A to Z"
+flat = true
+
+[node name="VocabularyListFrame" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=2064011344]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="ListOverlay" type="Control" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/VocabularyListFrame" unique_id=899490818]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VocabularyScroll" type="ScrollContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/VocabularyListFrame/ListOverlay" unique_id=1850213179]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="EntriesContainer" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/VocabularyListFrame/ListOverlay/VocabularyScroll" unique_id=445545694]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="EmptyLabel" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/VocabularyListFrame/ListOverlay" unique_id=1643398309]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 13
+text = "No words found."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="EntryDetailFrame" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody" unique_id=1185913602]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.9
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="DetailScroll" type="ScrollContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame" unique_id=1287555943]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DetailMargin" type="MarginContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll" unique_id=1893870505]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 18
+
+[node name="Detail" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin" unique_id=314729404]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="DetailTop" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1480896061]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TagStack" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/DetailTop" unique_id=70426712]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 11
+
+[node name="DetailCategoryPanel" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/DetailTop/TagStack" unique_id=1295615523]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="DetailCategory" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/DetailTop/TagStack/DetailCategoryPanel" unique_id=711970856]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 12
+text = "Category"
+
+[node name="DetailDifficulty" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/DetailTop/TagStack" unique_id=222754383]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.71, 0.75, 0.69, 1)
+theme_override_font_sizes/font_size = 11
+text = "Difficulty  ■□□□□"
+vertical_alignment = 1
+
+[node name="FavoriteButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/DetailTop" unique_id=929523798]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "★  Favorite"
+
+[node name="DetailTitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1101117191]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
+theme_override_colors/font_shadow_color = Color(0.94, 0.7, 0.25, 0.26)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("4_pixel_font")
+theme_override_font_sizes/font_size = 80
+text = "Choose a word"
+label_settings = SubResource("LabelSettings_knopt")
+autowrap_mode = 3
+
+[node name="MeaningRow" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1520222065]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DetailEnglish" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/MeaningRow" unique_id=533124769]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 30
+text = "Select a word from your collection to see its meaning."
+vertical_alignment = 1
+
+[node name="HearButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/MeaningRow" unique_id=1907459875]
+custom_minimum_size = Vector2(116, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 13
+text = "◖))  Hear it"
+
+[node name="MeaningSpacer" type="Control" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/MeaningRow" unique_id=43671396]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="DetailPronunciation" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1711720281]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.71, 0.75, 0.69, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="AudioStatus" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=865239892]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+
+[node name="DetailDivider" type="HSeparator" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1134829563]
+layout_mode = 2
+theme_override_constants/separation = 6
+theme_override_styles/separator = SubResource("DividerLine")
+
+[node name="ExplanationRow" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=370176269]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 13
+
+[node name="PartsPanel" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow" unique_id=1694766154]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.4
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="PartsStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/PartsPanel" unique_id=1238515985]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DetailPartsHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/PartsPanel/PartsStack" unique_id=1875355037]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "HOW IT'S BUILT"
+
+[node name="PartsFlow" type="HFlowContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/PartsPanel/PartsStack" unique_id=1629890611]
+layout_mode = 2
+theme_override_constants/h_separation = 7
+theme_override_constants/v_separation = 7
+
+[node name="UsagePanel" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow" unique_id=1870776427]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="UsageStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel" unique_id=1714845124]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DetailUsageHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel/UsageStack" unique_id=1495746057]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "HOW TO USE IT"
+
+[node name="UsageBox" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel/UsageStack" unique_id=397919549]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="DetailHint" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel/UsageStack/UsageBox" unique_id=1823059754]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.91, 0.88, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Usage notes appear here when available."
+autowrap_mode = 3
+
+[node name="EntryProgressPanel" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=859257918]
+layout_mode = 2
+theme_override_styles/panel = SubResource("GenericPanel")
+
+[node name="ProgressContent" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel" unique_id=1363425473]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="ProgressOuter" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent" unique_id=1707751377]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ProgressLeft" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter" unique_id=1295925474]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 7
+
+[node name="ProgressHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft" unique_id=543591520]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "YOUR PROGRESS"
+
+[node name="ProgressSteps" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft" unique_id=1317394347]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="DiscoveredCard" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps" unique_id=1040242243]
+layout_mode = 2
+
+[node name="CardStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/DiscoveredCard" unique_id=1299830792]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ProgressIcon" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/DiscoveredCard/CardStack" unique_id=1918573019]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 15
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressTitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/DiscoveredCard/CardStack" unique_id=1450834687]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 13
+text = "Discovered"
+
+[node name="ProgressDescription" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/DiscoveredCard/CardStack" unique_id=1473594217]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "You met this word"
+autowrap_mode = 3
+
+[node name="ConnectionOne" type="MarginContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps" unique_id=1623694452]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 6
+
+[node name="Line" type="ColorRect" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/ConnectionOne" unique_id=1700243740]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.43, 0.82, 0.6, 0.75)
+
+[node name="LearnedCard" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps" unique_id=2013945684]
+layout_mode = 2
+
+[node name="CardStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/LearnedCard" unique_id=1936447690]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ProgressIcon" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/LearnedCard/CardStack" unique_id=162856914]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 15
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressTitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/LearnedCard/CardStack" unique_id=1584066057]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 13
+text = "Learned"
+
+[node name="ProgressDescription" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/LearnedCard/CardStack" unique_id=846941708]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "You know what it means"
+autowrap_mode = 3
+
+[node name="ConnectionTwo" type="MarginContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps" unique_id=1278862069]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 6
+
+[node name="Line" type="ColorRect" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/ConnectionTwo" unique_id=70390011]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.43, 0.82, 0.6, 0.75)
+
+[node name="MasteredCard" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps" unique_id=164706338]
+layout_mode = 2
+
+[node name="CardStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/MasteredCard" unique_id=2060438219]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ProgressIcon" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/MasteredCard/CardStack" unique_id=1042167038]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 15
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressTitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/MasteredCard/CardStack" unique_id=368048407]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 13
+text = "Mastered"
+
+[node name="ProgressDescription" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft/ProgressSteps/MasteredCard/CardStack" unique_id=2000372506]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "Win through practice"
+autowrap_mode = 3
+
+[node name="ProgressDivider" type="VSeparator" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter" unique_id=974595698]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("DividerLine")
+
+[node name="Practice" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter" unique_id=762240391]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="PracticeHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/Practice" unique_id=1975482662]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "BATTLE MASTERY"
+
+[node name="PracticeCount" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/Practice" unique_id=67513519]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_fonts/font = ExtResource("4_pixel_font")
+theme_override_font_sizes/font_size = 28
+text = "0 / 7"
+
+[node name="PracticeBar" type="ProgressBar" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/Practice" unique_id=165200772]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+max_value = 7.0
+show_percentage = false
+
+[node name="PracticeSubtitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/Practice" unique_id=896561489]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
+theme_override_font_sizes/font_size = 10
+text = "Correct answers"
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent" unique_id=446194543]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=2018454486]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FooterLeft" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Footer" unique_id=529650587]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.56, 0.6, 0.545, 1)
+theme_override_font_sizes/font_size = 10
+text = "Words encountered in dialogue or lessons are collected here."
+
+[node name="FooterRight" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Footer" unique_id=653408834]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56, 0.6, 0.545, 1)
+theme_override_font_sizes/font_size = 10
+text = "Esc to close"

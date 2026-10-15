@@ -7,7 +7,7 @@ extends CanvasLayer
 @onready var menu_grid: GridContainer = $LayoutWrapper/RightPanel/Margin/VBox/MenuGrid
 @onready var missions_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Missions
 @onready var stats_button: Button = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/StatsButton
-
+@onready var player_name_label: Label = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/NameLabel
 @onready var level_label: Label = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/LevelUID
 @onready var xp_bar: ProgressBar = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/XPBar
 @onready var xp_label: Label = $LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/XPLabel
@@ -261,7 +261,18 @@ func _on_unavailable_menu_pressed(menu_name: String) -> void:
 
 
 func _update_profile_display() -> void:
-	if not PlayerProgression:
+	# Display the name belonging to the logged-in account.
+	var display_name := "Adventurer"
+
+	if is_instance_valid(GameManager):
+		var saved_name := str(GameManager.adventurer_name).strip_edges()
+		if not saved_name.is_empty():
+			display_name = saved_name
+
+	if is_instance_valid(player_name_label):
+		player_name_label.text = display_name
+
+	if not is_instance_valid(PlayerProgression):
 		return
 
 	var level: int = PlayerProgression.level
@@ -272,14 +283,18 @@ func _update_profile_display() -> void:
 		level_label.text = "Lv. %d" % level
 
 	if is_instance_valid(xp_bar) and max_exp > 0:
-		xp_bar.value = (float(current_exp) / float(max_exp)) * 100.0
+		xp_bar.value = (
+			float(current_exp) / float(max_exp)
+			) * 100.0
 
 	if is_instance_valid(xp_label):
-		xp_label.text = "EXP  %d / %d" % [current_exp, max_exp]
+		xp_label.text = "EXP  %d / %d" % [
+			current_exp,
+			max_exp
+			]
 
 	if is_instance_valid(gold_label):
 		gold_label.text = str(PlayerProgression.gold)
-
 
 func _on_game_paused(is_paused: bool) -> void:
 	visible = is_paused
