@@ -165,15 +165,15 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
 theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Email Address"
 
-[node name="LoginPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox"]
+[node name="LoginPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1192102292]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="LoginPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPasswordRow" unique_id=1205203109]
 custom_minimum_size = Vector2(0, 48)
-size_flags_horizontal = 3
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 25
@@ -182,11 +182,11 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Password"
 secret = true
 
-[node name="LoginShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPasswordRow"]
+[node name="LoginShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPasswordRow" unique_id=1785998571]
 custom_minimum_size = Vector2(82, 48)
 layout_mode = 2
-text = "Show"
 focus_mode = 0
+text = "Show"
 
 [node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1025739782]
 custom_minimum_size = Vector2(0, 48)
@@ -232,15 +232,15 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
 theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Email Address"
 
-[node name="RegPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox"]
+[node name="RegPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1721904249]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="RegPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPasswordRow" unique_id=1327827692]
 custom_minimum_size = Vector2(0, 48)
-size_flags_horizontal = 3
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 25
@@ -249,11 +249,11 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
 placeholder_text = "Password (Min 6 chars)"
 secret = true
 
-[node name="RegShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPasswordRow"]
+[node name="RegShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPasswordRow" unique_id=1958893142]
 custom_minimum_size = Vector2(82, 48)
 layout_mode = 2
-text = "Show"
 focus_mode = 0
+text = "Show"
 
 [node name="RegisterButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1148927108]
 custom_minimum_size = Vector2(0, 48)
