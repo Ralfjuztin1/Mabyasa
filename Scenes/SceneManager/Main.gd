@@ -34,6 +34,11 @@ var has_pending_save: bool = false
 
 var tutorial_instance: Node = null
 
+# Main.gd owns the first-town intro startup.
+# This prevents FirstTownIntro from starting it too early
+# while the new level is still being initialized.
+var start_first_town_intro_after_load: bool = false
+
 # Prevent multiple save/quit calls if Windows sends
 # more than one close notification.
 var is_exiting: bool = false
@@ -46,7 +51,6 @@ var is_exiting: bool = false
 func _ready() -> void:
 	set_process(false)
 
-	# IMPORTANT:
 	# Prevent Godot from immediately quitting when the player
 	# presses the window X or uses Alt+F4.
 	# This gives us time to save first.
@@ -92,7 +96,6 @@ func _ready() -> void:
 	var spawn_name := "DefaultSpawn"
 
 	if GameManager.should_load_save:
-
 		var saved_data := SaveManager.load_game()
 
 		if not saved_data.is_empty():
@@ -106,7 +109,6 @@ func _ready() -> void:
 				and saved_data["current_scene"] is String
 				and not saved_data["current_scene"].is_empty()
 			):
-
 				level_to_load = _normalize_saved_level_path(
 					saved_data["current_scene"]
 				)
@@ -116,7 +118,6 @@ func _ready() -> void:
 			# ------------------------------------------------
 
 			if saved_data.has("player_position"):
-
 				var pos = saved_data["player_position"]
 
 				if (
@@ -125,7 +126,6 @@ func _ready() -> void:
 					and pos.has("y")
 					and pos.has("z")
 				):
-
 					pending_saved_position = Vector3(
 						float(pos["x"]),
 						float(pos["y"]),
@@ -145,9 +145,9 @@ func _ready() -> void:
 					)
 
 	else:
-		
 		level_to_load = TUTORIAL_ZONE_PATH
 		spawn_name = "DefaultSpawn"
+
 		print(
 			"✨ [RPG FLOW] Brand new user! Loading world."
 		)
@@ -175,7 +175,6 @@ func _ready() -> void:
 # ============================================================
 
 func _notification(what: int) -> void:
-
 	if what != NOTIFICATION_WM_CLOSE_REQUEST:
 		return
 
@@ -198,7 +197,6 @@ func _notification(what: int) -> void:
 # ============================================================
 
 func _save_before_exit() -> void:
-
 	if SaveManager == null:
 		print("⚠️ [EXIT] SaveManager not found.")
 		get_tree().quit()
@@ -225,10 +223,6 @@ func _save_before_exit() -> void:
 		scene_to_save
 	)
 
-	# IMPORTANT:
-	# This uses the same SaveManager save system used by
-	# the normal game save flow.
-	#
 	# Wait for the save operation to finish before quitting.
 	await SaveManager.save_game(
 		player,
@@ -247,9 +241,7 @@ func _save_before_exit() -> void:
 # ============================================================
 
 func _normalize_saved_level_path(path: String) -> String:
-
 	if path == BOOT_SCENE_PATH:
-
 		print(
 			"⚠️ [MAIN WORLD] Save points to Main.tscn."
 		)
@@ -271,7 +263,6 @@ func load_new_level_async(
 	level_path: String,
 	spawn_point_name: String
 ) -> void:
-
 	if is_loading:
 		return
 
@@ -285,6 +276,23 @@ func load_new_level_async(
 
 	target_spawn_name = spawn_point_name
 
+	# Capture the intro request before loading the level.
+	# FirstTownIntro.gd must not independently start the
+	# cutscene while the level is initializing.
+	start_first_town_intro_after_load = (
+		target_level_path == FIRST_TOWN_PATH
+		and is_instance_valid(GameManager)
+		and GameManager.pending_first_town_intro
+	)
+
+	if start_first_town_intro_after_load:
+		GameManager.pending_first_town_intro = false
+
+		print(
+			"[MAIN WORLD] FirstTown intro queued for "
+			+ "startup after level loading."
+		)
+
 	await TransitionManager.fade_out(0.4)
 
 	# --------------------------------------------------------
@@ -292,7 +300,6 @@ func load_new_level_async(
 	# --------------------------------------------------------
 
 	if is_instance_valid(current_level_node):
-
 		current_level_node.queue_free()
 		current_level_node = null
 
@@ -307,13 +314,13 @@ func load_new_level_async(
 	)
 
 	if error != OK:
-
 		push_error(
 			"Failed to start async load for: "
 			+ target_level_path
 		)
 
 		is_loading = false
+		start_first_town_intro_after_load = false
 
 		await TransitionManager.fade_in(0.2)
 
@@ -327,9 +334,7 @@ func load_new_level_async(
 # ============================================================
 
 func _process(_delta: float) -> void:
-
 	if not is_loading:
-
 		set_process(false)
 		return
 
@@ -347,9 +352,7 @@ func _process(_delta: float) -> void:
 		# ----------------------------------------------------
 
 		ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-
 			if progress.size() > 0:
-
 				TransitionManager.update_progress(
 					float(progress[0])
 				)
@@ -359,7 +362,6 @@ func _process(_delta: float) -> void:
 		# ----------------------------------------------------
 
 		ResourceLoader.THREAD_LOAD_LOADED:
-
 			set_process(false)
 
 			TransitionManager.update_progress(1.0)
@@ -371,13 +373,13 @@ func _process(_delta: float) -> void:
 			)
 
 			if not loaded_resource is PackedScene:
-
 				push_error(
 					"[MAIN WORLD] Loaded resource is not a PackedScene: "
 					+ target_level_path
 				)
 
 				is_loading = false
+				start_first_town_intro_after_load = false
 
 				await TransitionManager.fade_in(0.2)
 
@@ -389,6 +391,54 @@ func _process(_delta: float) -> void:
 				packed_level
 			)
 
+			# ------------------------------------------------
+			# FIRST-TOWN INTRO
+			#
+			# Keep the screen black while the cutscene starts.
+			# Do not fade in before the director has control.
+			# ------------------------------------------------
+
+			if start_first_town_intro_after_load:
+				var intro: Node = null
+
+				if is_instance_valid(current_level_node):
+					intro = current_level_node.find_child(
+						"FirstTownIntro",
+						true,
+						false
+					)
+
+				if is_instance_valid(intro):
+					start_first_town_intro_after_load = false
+
+					print(
+						"[MAIN WORLD] Starting FirstTown intro "
+						+ "while the screen is black."
+					)
+
+					intro.call_deferred(
+						"_on_tutorial_finished"
+					)
+
+					# The cutscene's own fade actions reveal
+					# the scene after its actors are positioned.
+					return
+
+				push_error(
+					"[MAIN WORLD] FirstTownIntro was not found "
+					+ "after loading FirstTown."
+				)
+
+				start_first_town_intro_after_load = false
+
+				await TransitionManager.fade_in(0.5)
+
+				return
+
+			# ------------------------------------------------
+			# NORMAL LEVEL TRANSITIONS
+			# ------------------------------------------------
+
 			await TransitionManager.fade_in(0.5)
 
 			# ------------------------------------------------
@@ -399,36 +449,14 @@ func _process(_delta: float) -> void:
 				tutorial_instance
 				and tutorial_instance.has_method("show_welcome")
 			):
-
 				if TutorialManager.current_active_step == "intro":
-
 					tutorial_instance.show_welcome()
-		# Start the first-town opening only after the level,
-		# player spawn, and loading transition are complete.
-			if GameManager.pending_first_town_intro:
-				var intro: Node = null
-			
-				if is_instance_valid(current_level_node):
-					intro = current_level_node.find_child(
-						"FirstTownIntro",
-						true,
-						false
-				)
-				
-				if is_instance_valid(intro):
-					GameManager.pending_first_town_intro = false
-					intro.call_deferred("_on_tutorial_finished")
-				else:
-					push_error(
-						"[MAIN WORLD] FirstTownIntro was not found "
-						+ "after loading FirstTown."
-						)
+
 		# ----------------------------------------------------
 		# FAILED
 		# ----------------------------------------------------
 
 		ResourceLoader.THREAD_LOAD_FAILED:
-
 			push_error(
 				"Async loading failed for: "
 				+ target_level_path
@@ -437,6 +465,7 @@ func _process(_delta: float) -> void:
 			set_process(false)
 
 			is_loading = false
+			start_first_town_intro_after_load = false
 
 			await TransitionManager.fade_in(0.2)
 
@@ -445,7 +474,6 @@ func _process(_delta: float) -> void:
 		# ----------------------------------------------------
 
 		ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
-
 			push_error(
 				"Invalid resource while loading: "
 				+ target_level_path
@@ -454,6 +482,7 @@ func _process(_delta: float) -> void:
 			set_process(false)
 
 			is_loading = false
+			start_first_town_intro_after_load = false
 
 			await TransitionManager.fade_in(0.2)
 
@@ -465,9 +494,7 @@ func _process(_delta: float) -> void:
 func _instantiate_level(
 	packed_level: PackedScene
 ) -> void:
-
 	if packed_level == null:
-
 		push_error(
 			"[MAIN WORLD] PackedScene is null."
 		)
@@ -478,7 +505,6 @@ func _instantiate_level(
 	var level_instance := packed_level.instantiate()
 
 	if level_instance == null:
-
 		push_error(
 			"[MAIN WORLD] Failed to instantiate level: "
 			+ target_level_path
@@ -515,7 +541,6 @@ func _instantiate_level(
 	# --------------------------------------------------------
 
 	if has_pending_save:
-
 		player.set_physics_process(false)
 		player.velocity = Vector3.ZERO
 
@@ -528,7 +553,6 @@ func _instantiate_level(
 
 		# Give the physics server time to register the player
 		# against the new terrain collision.
-
 		await get_tree().physics_frame
 		await get_tree().physics_frame
 
@@ -543,7 +567,6 @@ func _instantiate_level(
 		GameManager.should_load_save = false
 
 	else:
-
 		_teleport_player(
 			target_spawn_name
 		)
@@ -570,11 +593,9 @@ func _instantiate_level(
 # ============================================================
 
 func _wait_for_level_collision() -> void:
-
 	var terrain_system: Node = null
 
 	if is_instance_valid(current_level_node):
-
 		terrain_system = current_level_node.find_child(
 			"MarchingSquaresTerrain",
 			true,
@@ -589,7 +610,6 @@ func _wait_for_level_collision() -> void:
 		terrain_system != null
 		and terrain_system.has_signal("load_finished")
 	):
-
 		var terrain_ready: bool = false
 
 		var terrain_ready_callback := func() -> void:
@@ -605,29 +625,23 @@ func _wait_for_level_collision() -> void:
 		)
 
 		# Wait up to 120 frames.
-
 		for _i in range(120):
-
 			if terrain_ready:
 				break
 
 			await get_tree().process_frame
 
 		if terrain_ready:
-
 			print(
 				"✅ [MAIN WORLD] Terrain initialization finished."
 			)
-
 		else:
-
 			push_warning(
 				"⚠️ [MAIN WORLD] Terrain initialization timeout. "
 				+ "Continuing after safety wait."
 			)
 
 	else:
-
 		print(
 			"ℹ️ [MAIN WORLD] No MarchingSquaresTerrain found in this level."
 		)
@@ -652,7 +666,6 @@ func _wait_for_level_collision() -> void:
 func _teleport_player(
 	spawn_name: String
 ) -> void:
-
 	if not is_instance_valid(current_level_node):
 		return
 
@@ -660,32 +673,60 @@ func _teleport_player(
 		spawn_name,
 		true,
 		false
-	)
+	) as Node3D
 
-	if spawn_point and spawn_point is Node3D:
-
-		player.global_position = (
-			spawn_point.global_position
-		)
-
-		print(
-			"Spawned at default level spawn point: ",
-			spawn_point.global_position
-		)
-
-	else:
-
+	if spawn_point == null:
 		push_warning(
 			"Spawn point '"
 			+ spawn_name
 			+ "' not found!"
 		)
 
-		player.global_position = Vector3(
-			0,
-			5,
-			0
+		player.global_position = Vector3(0, 5, 0)
+
+		return
+
+	# Stop any existing movement before positioning the player.
+	player.velocity = Vector3.ZERO
+
+	player.global_position = spawn_point.global_position
+
+	# --------------------------------------------------------
+	# FIRST-TOWN INTRO SPAWN
+	# --------------------------------------------------------
+	# Set the initial player/camera orientation before the
+	# cutscene director takes control. This avoids inheriting
+	# the camera angle from the controls tutorial.
+	#
+	# The director can then rotate the player toward Ima.
+	# --------------------------------------------------------
+
+	if (
+		target_level_path == FIRST_TOWN_PATH
+		and start_first_town_intro_after_load
+	):
+		player.global_rotation.y = spawn_point.global_rotation.y
+
+		player.set("camera_yaw", 0.0)
+		player.set("camera_pitch", deg_to_rad(-12.0))
+
+		var head := player.get_node_or_null("Head") as Node3D
+
+		if head != null:
+			head.rotation.y = 0.0
+			head.rotation.x = deg_to_rad(-12.0)
+
+		print(
+			"[MAIN WORLD] Player positioned and camera reset "
+			+ "before the first cutscene."
 		)
+
+	print(
+		"Spawned at '",
+		spawn_name,
+		"': ",
+		player.global_position
+	)
 
 
 # ============================================================
@@ -693,12 +734,10 @@ func _teleport_player(
 # ============================================================
 
 func _unhandled_input(event: InputEvent) -> void:
-
 	if is_loading:
 		return
 
 	if event.is_action_pressed("gotoforest"):
-
 		print(
 			"[TEST TELEPORT] Going to Forest..."
 		)
@@ -710,7 +749,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("firsttownreset"):
-
 		print(
 			"[TEST TELEPORT] Going to FirstTown..."
 		)
@@ -729,9 +767,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _test_change_map(
 	scene_path: String
 ) -> void:
-
 	if not ResourceLoader.exists(scene_path):
-
 		push_error(
 			"[TEST TELEPORT] Scene not found: "
 			+ scene_path
@@ -741,6 +777,9 @@ func _test_change_map(
 
 	has_pending_save = false
 	GameManager.should_load_save = false
+	GameManager.pending_first_town_intro = false
+
+	start_first_town_intro_after_load = false
 
 	load_new_level_async(
 		scene_path,

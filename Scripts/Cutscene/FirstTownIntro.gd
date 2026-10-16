@@ -268,9 +268,6 @@ func _initialize() -> void:
 			+ " Assign waking_up.dtl in the Inspector."
 		)
 	
-	if GameManager.pending_first_town_intro:
-		GameManager.pending_first_town_intro = false
-		call_deferred("_on_tutorial_finished")
 
 
 # ============================================================
