@@ -1121,6 +1121,11 @@ entries = {
 "text": "one millionth",
 "title": "Translation"
 },
+"keka": {
+"name": "keka",
+"text": "To you / yours",
+"title": "Translation"
+},
 "kile": {
 "case_sensitive": false,
 "name": "kile",
