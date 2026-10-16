@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bfaae2fx3yg3g"]
 
 [ext_resource type="Script" uid="uid://cf6de1186363b" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
+[ext_resource type="Script" path="res://Scripts/Battle/BattlePresentationFX.gd" id="7_battle_fx"]
 [ext_resource type="PackedScene" uid="uid://dcgk3tfigt0lo" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
 [ext_resource type="Texture2D" uid="uid://csm6q1ormbtf2" path="res://Assets/Battle/morning-battle.png" id="2_sqvdo"]
 [ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="3_045us"]
@@ -606,3 +607,12 @@ text = "Continue"
 [node name="QuizUI" parent="Root" unique_id=535122943 instance=ExtResource("2_quiz_ui")]
 visible = false
 layout_mode = 1
+[node name="BattlePresentationFX" type="Control" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_battle_fx")
