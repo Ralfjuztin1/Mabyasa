@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://dkm75kuq8as3u"]
+
+[ext_resource type="Script" uid="uid://cddg1xr5hye1d" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain.gd" id="1_kcl67"]
+[ext_resource type="Script" uid="uid://cdsym33lla5l5" path="res://Scenes/Tutorial/TutorialZone.gd" id="1_yb2g8"]
+[ext_resource type="Script" uid="uid://cql4d8s5t5xcx" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain_chunk.gd" id="2_2ybjk"]
+[ext_resource type="Script" uid="uid://22l7ysgniux3" path="res://addons/MarchingSquaresTerrain/algorithm/grass/marching_squares_grass_planter.gd" id="3_dvo6c"]
+[ext_resource type="Shader" uid="uid://v6gda6oqxkp0" path="res://Assets/Shaders/Water.gdshader" id="4_b6abc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_efs6y"]
+sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
+sky_horizon_color = Color(0.7919941, 0.6286258, 0.568827, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_vm1ce"]
+sky_material = SubResource("ProceduralSkyMaterial_efs6y")
+
+[sub_resource type="Environment" id="Environment_418nb"]
+background_mode = 2
+background_energy_multiplier = 1.5
+sky = SubResource("Sky_vm1ce")
+tonemap_exposure = 1.7
+glow_enabled = true
+glow_normalized = true
+glow_strength = 1.42
+glow_bloom = 0.2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dkknr"]
+lightmap_size_hint = Vector2i(12, 12)
+
+[sub_resource type="Gradient" id="Gradient_iph6j"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ah857"]
+seed = 3
+frequency = 0.1357
+fractal_type = 2
+fractal_octaves = 4
+fractal_lacunarity = 1.89
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sgv20"]
+noise = SubResource("FastNoiseLite_ah857")
+color_ramp = SubResource("Gradient_iph6j")
+seamless = true
+in_3d_space = true
+seamless_blend_skirt = 0.824
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jipqq"]
+transparency = 4
+blend_mode = 2
+cull_mode = 1
+depth_draw_mode = 1
+albedo_texture = SubResource("NoiseTexture2D_sgv20")
+grow_amount = 16.0
+proximity_fade_enabled = true
+proximity_fade_distance = 2250.55
+distance_fade_max_distance = 0.0
+stencil_flags = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdaiq"]
+render_priority = 0
+shader = ExtResource("4_b6abc")
+shader_parameter/absorptioncolour = Color(0.115088515, 0.3517746, 0.9999972, 1)
+shader_parameter/absorptionmultiplier = 0.115
+shader_parameter/AirIOR = 1.02
+shader_parameter/IOR = 0.485
+shader_parameter/sampler1speed = Vector2(0.02, 0)
+shader_parameter/sampler2speed = Vector2(0, 0.02)
+shader_parameter/samplermix = 0.5
+shader_parameter/samplerscale = Vector2(0.1, 0.1)
+shader_parameter/normalstrength = 0.0
+shader_parameter/heightstrength = 1.56999996490736
+shader_parameter/pixel_resolution = 48.0
+shader_parameter/refraction_type = 1
+shader_parameter/simple_refraction_amount = 0.1
+shader_parameter/edge_size = 0.00999999977648
+shader_parameter/foam_or_fade = false
+shader_parameter/ssr_type = 0
+shader_parameter/ssr_screen_fade = 0.00999999977648
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ycbky"]
+material = SubResource("ShaderMaterial_fdaiq")
+size = Vector2(10000, 10000)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x2wea"]
+frequency = 0.0003
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1hrb8"]
+noise = SubResource("FastNoiseLite_x2wea")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1bwj"]
+albedo_color = Color(0.24271658, 0.41038576, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_1hrb8")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_moebi"]
+material = SubResource("StandardMaterial3D_d1bwj")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8a144"]
+size = Vector3(139.83017, 5.222534, 5.368164)
+
+[node name="TutorialZone" type="Node3D" unique_id=1732760489]
+script = ExtResource("1_yb2g8")
+
+[node name="MarchingSquaresTerrain" type="Node3D" parent="." unique_id=370072768]
+script = ExtResource("1_kcl67")
+data_directory = "res://Scenes/Tutorial/TutorialZone_TerrainData/MarchingSquaresTerrain_a85f8a8b"
+_storage_initialized = true
+metadata/_custom_type_script = "uid://cddg1xr5hye1d"
+
+[node name="Chunk (0, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=782156926 node_paths=PackedStringArray("terrain_system")]
+script = ExtResource("2_2ybjk")
+terrain_system = NodePath("..")
+
+[node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (0, 0)" unique_id=1629471135]
+cast_shadow = 0
+script = ExtResource("3_dvo6c")
+
+[node name="Chunk (-1, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=2023225550 node_paths=PackedStringArray("terrain_system")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 0)
+script = ExtResource("2_2ybjk")
+terrain_system = NodePath("..")
+chunk_coords = Vector2i(-1, 0)
+
+[node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-1, 0)" unique_id=1695653632]
+cast_shadow = 0
+script = ExtResource("3_dvo6c")
+
+[node name="Chunk (-1, -1)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=843060937 node_paths=PackedStringArray("terrain_system")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -64)
+script = ExtResource("2_2ybjk")
+terrain_system = NodePath("..")
+chunk_coords = Vector2i(-1, -1)
+
+[node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (-1, -1)" unique_id=1684570017]
+cast_shadow = 0
+script = ExtResource("3_dvo6c")
+
+[node name="Chunk (0, -1)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=1454009687 node_paths=PackedStringArray("terrain_system")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -64)
+script = ExtResource("2_2ybjk")
+terrain_system = NodePath("..")
+chunk_coords = Vector2i(0, -1)
+
+[node name="GrassPlanter" type="MultiMeshInstance3D" parent="MarchingSquaresTerrain/Chunk (0, -1)" unique_id=2111709069]
+cast_shadow = 0
+script = ExtResource("3_dvo6c")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=402602994]
+environment = SubResource("Environment_418nb")
+
+[node name="Clouds" type="MeshInstance3D" parent="WorldEnvironment" unique_id=621468229]
+transform = Transform3D(10000, 0, 0, 0, 10000, 0, 0, 0, 10000, 0, 186.00075, 0)
+mesh = SubResource("PlaneMesh_dkknr")
+surface_material_override/0 = SubResource("StandardMaterial3D_jipqq")
+
+[node name="Water" type="MeshInstance3D" parent="WorldEnvironment" unique_id=1808268166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9097481, 0)
+mesh = SubResource("PlaneMesh_ycbky")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment" unique_id=1190224739]
+transform = Transform3D(5000, 0, 0, 0, 5000, 0, 0, 0, 5000, 0, -6.8073654, 0)
+mesh = SubResource("PlaneMesh_moebi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1826279159]
+transform = Transform3D(-0.4450412, 0.5249053, -0.725543, -0.16829216, 0.74674183, 0.6434707, 0.8795547, 0.40847418, -0.24399357, 0, 0, 0)
+light_color = Color(0.9387965, 0.82748735, 0.75933355, 1)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1152467437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.78083, 0, 62.035507)
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D" unique_id=181402592]
+transform = Transform3D(-0.029663358, 0, -0.99956995, 0, 1, 0, 0.99956995, 0, -0.029663358, 115.05896, 2.7210312, -68.360985)
+shape = SubResource("BoxShape3D_8a144")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" unique_id=1044922110]
+transform = Transform3D(0.011127122, 0, -0.9999381, 0, 1, 0, 0.9999381, 0, 0.011127122, -10.486076, 2.115816, -61.526745)
+shape = SubResource("BoxShape3D_8a144")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1462687225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47447205, 2.111267, 0.12841797)
+shape = SubResource("BoxShape3D_8a144")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D" unique_id=955335905]
+transform = Transform3D(-0.99925935, 0, 0.0384821, 0, 1, 0, -0.0384821, 0, -0.99925935, 55.586678, 4.222534, -125.85969)
+shape = SubResource("BoxShape3D_8a144")
+
+[node name="DefaultSpawn" type="Marker3D" parent="." unique_id=2030945518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54864025, 0)

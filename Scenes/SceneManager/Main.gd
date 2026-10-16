@@ -15,6 +15,7 @@ signal loading_completed()
 
 const BOOT_SCENE_PATH := "res://Scenes/SceneManager/Main.tscn"
 const FIRST_TOWN_PATH := "res://Scenes/Main/FirstTown.tscn"
+const TUTORIAL_ZONE_PATH := "res://Scenes/Tutorial/TutorialZone.tscn"
 
 
 # ============================================================
@@ -144,7 +145,9 @@ func _ready() -> void:
 					)
 
 	else:
-
+		
+		level_to_load = TUTORIAL_ZONE_PATH
+		spawn_name = "DefaultSpawn"
 		print(
 			"✨ [RPG FLOW] Brand new user! Loading world."
 		)
@@ -400,7 +403,26 @@ func _process(_delta: float) -> void:
 				if TutorialManager.current_active_step == "intro":
 
 					tutorial_instance.show_welcome()
-
+		# Start the first-town opening only after the level,
+		# player spawn, and loading transition are complete.
+			if GameManager.pending_first_town_intro:
+				var intro: Node = null
+			
+				if is_instance_valid(current_level_node):
+					intro = current_level_node.find_child(
+						"FirstTownIntro",
+						true,
+						false
+				)
+				
+				if is_instance_valid(intro):
+					GameManager.pending_first_town_intro = false
+					intro.call_deferred("_on_tutorial_finished")
+				else:
+					push_error(
+						"[MAIN WORLD] FirstTownIntro was not found "
+						+ "after loading FirstTown."
+						)
 		# ----------------------------------------------------
 		# FAILED
 		# ----------------------------------------------------

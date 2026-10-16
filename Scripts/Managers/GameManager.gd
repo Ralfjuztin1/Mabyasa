@@ -18,7 +18,7 @@ enum GameState {
 var active_user_email: String = ""
 var adventurer_name: String = "Adventurer"
 var should_load_save: bool = false
-
+var pending_first_town_intro: bool = false
 # Invalidates deferred save jobs and cloud-load continuations whenever the
 # active account changes. Prevents delayed work from one session affecting another.
 var _session_generation: int = 0

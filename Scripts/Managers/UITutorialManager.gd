@@ -206,7 +206,7 @@ var _active_overlay: CanvasLayer = null
 var _active_tutorial_id: String = ""
 var _sequence_active: bool = false
 var _tree_was_paused: bool = false
-var _hoverable_request_pending: bool = false
+var _text_tutorial_request_pending: bool = false
 var _hoverable_meta_key: String = ""
 
 
@@ -222,17 +222,14 @@ func _ready() -> void:
 		if not BattleManager.quiz_requested.is_connected(_on_quiz_requested):
 			BattleManager.quiz_requested.connect(_on_quiz_requested)
 
-	# The dialogue tutorial is requested when Dialogic starts a real timeline,
-	# so its textbox is actually on-screen to spotlight.
-	if is_instance_valid(Dialogic) and Dialogic.has_signal("timeline_started"):
-		if not Dialogic.timeline_started.is_connected(_on_dialogue_started):
-			Dialogic.timeline_started.connect(_on_dialogue_started)
-
-	# Dialogic emits this when the player first hovers a glossary-tagged word.
-	# The glossary popup itself is shown by the active Dialogic layout.
-	if is_instance_valid(Dialogic.Text):
-		if not Dialogic.Text.meta_hover_started.is_connected(_on_glossary_meta_hover_started):
-			Dialogic.Text.meta_hover_started.connect(_on_glossary_meta_hover_started)
+	# Wait for a line to finish revealing before opening a dialogue tutorial.
+	# timeline_started fires too early: Dialogic has not necessarily drawn the
+	# first line at that point. text_finished guarantees the RichTextLabel has
+	# revealed the complete line before the game is paused for the overlay.
+	if is_instance_valid(Dialogic) and is_instance_valid(Dialogic.Text):
+		if Dialogic.Text.has_signal("text_finished"):
+			if not Dialogic.Text.text_finished.is_connected(_on_dialogic_text_finished):
+				Dialogic.Text.text_finished.connect(_on_dialogic_text_finished)
 
 	print("[UI TUTORIAL] Spotlight manager ready; all unseen flags default to false.")
 
@@ -246,52 +243,95 @@ func _on_npc_talked(npc_id: String) -> void:
 		return
 
 	# Ima's first interaction opens the exploration HUD guide.
-	# Dialogue is triggered separately at timeline_started so the tutorial
-	# can spotlight the actual dialogue UI while it is visible.
+	# Dialogue guidance is triggered only after Dialogic finishes revealing
+	# a line, so the actual text is visible before the overlay pauses gameplay.
 	request_tutorial("exploration_hud")
 
 
-func _on_dialogue_started() -> void:
-	# The dialogue/cutscene tutorial must be eligible on the FIRST Dialogic
-	# timeline. Do not gate this on exploration_hud: the opening cutscene can
-	# start Dialogic directly and does not necessarily emit npc_talked.
-	request_tutorial("dialogue")
-
-
-func _on_glossary_meta_hover_started(meta: String) -> void:
-	# Only teach hovering when an actual glossary entry is hovered, not for
-	# arbitrary Dialogic metadata. The active glossary layer also listens to
-	# this signal and needs a frame to display its popup before we spotlight it.
-	if not is_instance_valid(Dialogic) or not is_instance_valid(Dialogic.Glossary):
+func _on_dialogic_text_finished(info: Dictionary) -> void:
+	# Do not pause at timeline_started or while text is being typed. This
+	# callback runs only after the current dialogue line is fully revealed.
+	if _text_tutorial_request_pending:
 		return
 
-	var entry_info: Dictionary = Dialogic.Glossary.get_entry(meta)
-	if entry_info.is_empty():
+	var should_show_dialogue := (
+		not is_tutorial_seen("dialogue")
+		and _active_tutorial_id != "dialogue"
+		and not _queue.has("dialogue")
+	)
+
+	var glossary_key := ""
+	var should_show_hoverable := false
+	if is_instance_valid(Dialogic) and is_instance_valid(Dialogic.Glossary):
+		glossary_key = _find_first_glossary_key(str(info.get("text", "")))
+		should_show_hoverable = (
+			not glossary_key.is_empty()
+			and not is_tutorial_seen("hoverable")
+			and _active_tutorial_id != "hoverable"
+			and not _queue.has("hoverable")
+		)
+
+	if not should_show_dialogue and not should_show_hoverable:
 		return
 
-	if (
-		is_tutorial_seen("hoverable")
-		or _active_tutorial_id == "hoverable"
-		or _queue.has("hoverable")
-		or _hoverable_request_pending
-	):
-		return
+	if should_show_hoverable:
+		_hoverable_meta_key = glossary_key
 
-	# Remember the exact glossary entry being hovered. The overlay uses this
-	# key to frame the linked word in the Dialogic RichTextLabel, not the NPC
-	# or the glossary popup panel.
-	_hoverable_meta_key = meta
-	_hoverable_request_pending = true
-	call_deferred("_request_hoverable_after_popup_layout")
+	_text_tutorial_request_pending = true
+	call_deferred(
+		"_request_text_tutorials_after_line_is_visible",
+		should_show_dialogue,
+		should_show_hoverable
+	)
 
 
-func _request_hoverable_after_popup_layout() -> void:
-	# Allow Dialogic's own meta_hover_started handler to show and lay out the
-	# glossary popup before ScreenshotTutorial searches for it.
+func _find_first_glossary_key(displayed_text: String) -> String:
+	# Dialogic Glossary.parse_glossary() wraps valid terms as:
+	# [url="entry_key"][color=...]visible word[/color][/url]
+	# Check that the key exists in the glossary instead of triggering on any URL.
+	var search_from := 0
+	var open_tag := '[url="'
+
+	while search_from < displayed_text.length():
+		var tag_start := displayed_text.find(open_tag, search_from)
+		if tag_start < 0:
+			return ""
+
+		var key_start := tag_start + open_tag.length()
+		var key_end := displayed_text.find('"]', key_start)
+		if key_end < 0:
+			return ""
+
+		var glossary_key := displayed_text.substr(key_start, key_end - key_start).strip_edges()
+		if not glossary_key.is_empty():
+			var entry_info: Dictionary = Dialogic.Glossary.get_entry(glossary_key)
+			if not entry_info.is_empty():
+				return glossary_key
+
+		search_from = key_end + 2
+
+	return ""
+
+
+func _request_text_tutorials_after_line_is_visible(
+	should_show_dialogue: bool,
+	should_show_hoverable: bool
+) -> void:
+	# Let at least one render frame pass after the final character appears,
+	# then leave the line visible briefly before the spotlight pauses gameplay.
 	await get_tree().process_frame
-	await get_tree().process_frame
-	_hoverable_request_pending = false
-	if not is_tutorial_seen("hoverable"):
+	await get_tree().create_timer(0.45, true, false, true).timeout
+	_text_tutorial_request_pending = false
+
+	if not is_inside_tree():
+		return
+
+	if should_show_dialogue and not is_tutorial_seen("dialogue"):
+		request_tutorial("dialogue")
+
+	# Preserve the order: explain the dialogue box first, then explain the
+	# glossary hover interaction if this same visible line contains a term.
+	if should_show_hoverable and not is_tutorial_seen("hoverable"):
 		request_tutorial("hoverable")
 
 

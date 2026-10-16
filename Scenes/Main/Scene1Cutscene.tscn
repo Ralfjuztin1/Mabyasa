@@ -33,6 +33,13 @@ action_type = 3
 actor_id = "Player"
 target_actor_id = "ima"
 
+[node name="044_faceplayercamera" type="Node" parent="." unique_id=84833770]
+script = ExtResource("2_action")
+action_type = 6
+actor_id = "Player"
+animation_name = "idle_front"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
 [node name="05_FaceImaToPlayer" type="Node" parent="." unique_id=1441849131]
 script = ExtResource("2_action")
 action_type = 3
