@@ -5,6 +5,8 @@ signal leveled_up
 signal hp_changed
 signal player_defeated
 
+const BLACKSMITH_RULES = preload("res://Scripts/Core/BlacksmithRules.gd")
+
 # --- CORE DATA (Saved to JSON) ---
 var level: int = 1
 var current_exp: int = 0
@@ -106,15 +108,9 @@ func spend_gold(amount: int) -> bool:
 	return false
 
 func upgrade_gear(gear_type: String) -> bool:
-	if not gear_levels.has(gear_type): return false
-	
-	var cost = GEAR_UPGRADE_COST_BASE * gear_levels[gear_type]
-	if spend_gold(cost):
-		gear_levels[gear_type] += 1
-		stats_changed.emit()
-		print("❖ Upgraded ", gear_type, " to Lv.", gear_levels[gear_type])
-		return true
-	return false
+	var result: Dictionary = BLACKSMITH_RULES.attempt_upgrade(gear_type)
+	return bool(result.get("success", false))
+
 
 # --- JSON SERIALIZATION ---
 func get_save_data() -> Dictionary:

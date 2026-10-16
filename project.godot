@@ -42,9 +42,11 @@ directories/dch_directory={
 "Apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Apu.dch",
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
 "Dara Bebang": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Dara Bebang.dch",
+"Gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Gab.dch",
 "Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",
 "Kuya Dino": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Kuya Dino.dch",
 "Litik": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Litik.dch",
+"Reya": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Reya.dch",
 "Rids": "res://Scenes/Characters/NPC/Dialogic/Rids.dch",
 "You": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/You.dch",
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
@@ -56,6 +58,7 @@ directories/dtl_directory={
 "bebang_quest_active": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_active.dtl",
 "bebang_quest_ns": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_ns.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
+"gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/gab.dtl",
 "ima_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_default.dtl",
 "ima_qa": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qa.dtl",
 "ima_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qc.dtl",
@@ -63,6 +66,7 @@ directories/dtl_directory={
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "narrow_path": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/narrow_path.dtl",
+"reya": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/reya.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
 "scene65": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/scene65.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/EquipmentMenu.gd" id="1_equipment"]
+
+[node name="EquipmentMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 91
+script = ExtResource("1_equipment")

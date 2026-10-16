@@ -51,6 +51,11 @@ extends CharacterBody3D
 @export var opens_food_market: bool = false
 
 
+@export_category("Blacksmith")
+## When enabled, interacting opens the gear-tempering interface.
+@export var opens_blacksmith: bool = false
+
+
 # ============================================================
 # MOVEMENT
 # ============================================================
@@ -115,6 +120,10 @@ func _ready() -> void:
 	# Use a shop-specific prompt for NPCs that open the food market.
 	if opens_food_market and has_node("InteractionPrompt"):
 		interaction_prompt.text = "[E] Shop"
+
+	# Blacksmith prompt takes precedence only when configured.
+	if opens_blacksmith and has_node("InteractionPrompt"):
+		interaction_prompt.text = "[E] Tempa"
 
 	# Stop editor-only execution.
 	if Engine.is_editor_hint():
@@ -516,6 +525,10 @@ func _unhandled_input(
 			InventoryManager.open_market()
 			return
 
+		if opens_blacksmith:
+			_open_blacksmith_menu()
+			return
+
 		QuestManager.handle_npc_interaction(
 			npc_id
 		)
@@ -628,3 +641,20 @@ func _on_interaction_area_body_exited(
 		"[NPC] Player left interaction range: ",
 		npc_name
 	)
+
+
+# ============================================================
+# BLACKSMITH MENU
+# ============================================================
+
+func _open_blacksmith_menu() -> void:
+	var menu_scene := load(
+		"res://Scenes/UI/BlacksmithMenu.tscn"
+	) as PackedScene
+
+	if menu_scene == null:
+		push_error("[NPC] Could not load BlacksmithMenu.tscn.")
+		return
+
+	var menu := menu_scene.instantiate()
+	get_tree().root.add_child(menu)

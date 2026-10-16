@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/BlacksmithMenu.gd" id="1_blacksmith"]
+
+[node name="BlacksmithMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 90
+script = ExtResource("1_blacksmith")
