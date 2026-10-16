@@ -607,7 +607,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _open_pause_menu_overlay(overlay_property: String) -> void:
 	var ui_layer := get_parent()
-
+	
 	if not is_instance_valid(ui_layer):
 		return
 
@@ -675,7 +675,13 @@ func _open_pause_menu_overlay(overlay_property: String) -> void:
 	overlay.layer = 20
 	pause_menu.hide()
 	overlay.open()
-
+	
+	if is_instance_valid(UITutorialManager):
+		if overlay_property == "word_bank":
+			UITutorialManager.request_tutorial("wordbook")
+		elif overlay_property == "quest_log":
+			UITutorialManager.request_tutorial("quest_log")
+			
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 

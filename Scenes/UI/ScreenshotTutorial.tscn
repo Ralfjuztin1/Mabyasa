@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://c6kc1obidbht5"]
+
+[ext_resource type="Script" uid="uid://cltfolreyemxt" path="res://Scenes/UI/ScreenshotTutorial.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="DimCard"]
+bg_color = Color(0.035, 0.055, 0.043, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.62, 0.53, 0.31, 0.95)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ScreenshotTutorial" type="CanvasLayer" unique_id=634989347]
+process_mode = 3
+layer = 127
+script = ExtResource("1_script")
+
+[node name="Dimmer" type="ColorRect" parent="." unique_id=615662898]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.008, 0.012, 0.01, 0.91)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=27805749]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Card" type="PanelContainer" parent="CenterContainer" unique_id=2106457650]
+custom_minimum_size = Vector2(1000, 650)
+layout_mode = 2
+theme_override_styles/panel = SubResource("DimCard")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Card" unique_id=2049995310]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Card/Margin" unique_id=1461621477]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Card/Margin/VBox" unique_id=1732635579]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CenterContainer/Card/Margin/VBox/Header" unique_id=306487023]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.91, 0.75, 0.38, 1)
+theme_override_font_sizes/font_size = 26
+text = "FIELD GUIDE"
+vertical_alignment = 1
+
+[node name="PageCounter" type="Label" parent="CenterContainer/Card/Margin/VBox/Header" unique_id=737090891]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.73, 0.73, 0.67, 1)
+theme_override_font_sizes/font_size = 16
+text = "01 / 05"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScreenshotFrame" type="PanelContainer" parent="CenterContainer/Card/Margin/VBox" unique_id=521324882]
+custom_minimum_size = Vector2(0, 350)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Screenshot" type="TextureRect" parent="CenterContainer/Card/Margin/VBox/ScreenshotFrame" unique_id=1622370991]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="CenterContainer/Card/Margin/VBox" unique_id=462258946]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 18
+text = "Tutorial description appears here."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="CenterContainer/Card/Margin/VBox" unique_id=1507230135]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BackButton" type="Button" parent="CenterContainer/Card/Margin/VBox/Footer" unique_id=1646752139]
+custom_minimum_size = Vector2(110, 44)
+layout_mode = 2
+text = "←  Back"
+
+[node name="SkipButton" type="Button" parent="CenterContainer/Card/Margin/VBox/Footer" unique_id=1064719545]
+custom_minimum_size = Vector2(110, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Skip"
+
+[node name="NextButton" type="Button" parent="CenterContainer/Card/Margin/VBox/Footer" unique_id=259026173]
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+text = "Next  →"
