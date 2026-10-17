@@ -1,0 +1,16 @@
+Ima: You're home, anak. How did your training go?
+You: It was harder than I expected. Chief says I still have more to learn.
+Ima: That's only natural. No one becomes strong in a single day.
+Ima: But you're home safely, and that's what matters to me.
+Litik: Speaking of learning, there's another greeting you should remember.
+Ima: Mayap a bengi, anak.
+[signal arg="[signal arg="encounter_mayap_a_bengi"]"]
+Litik: "Mayap a bengi" means "Good evening." You can use it when greeting someone in the evening.
+You: Mayap a bengi, Ima.
+[signal arg="[signal arg="learn_mayap_a_bengi"]"]
+Ima: Mayap a bengi, anak. Now, get some rest.
+Ima: Chief is waiting for you tomorrow. You need a clear head for your final training.
+You: I will. Good night, Ima.
+Ima: Sleep well, anak.
+[signal arg="[signal arg="set_flag_sleep_transition_requested"]"]
+[end_timeline]

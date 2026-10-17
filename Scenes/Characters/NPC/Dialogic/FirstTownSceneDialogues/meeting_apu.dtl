@@ -1,36 +1,19 @@
-[wait time="2.0"]
+[wait time="1.0"]
 Apu: So... the curse took some of your voice too, did it?
-Apu: I remember this happened to your Bapa too...
-You: What? someone experienced the same curse as me?
-Apu: Yes child... this curse takes certain parts of your voices.
-Apu: To break this curse you must re-learn the phrases and find the mystic ylang-ylang.
-Apu: You can re-learn your phrases here in town for the moment...
-[wait time="1.0"]
-Apu: I know! you can try to greet [color=yellow]everyone[/color] here!
-You: I'll try...
-label greet everyone
-Apu: Okay, how can you [color=yellow]greet everyone all at once?[/color]
-[wait time="1.0"]
-- Mayap a abak kekayu ngan!
-	Apu: Istu! That's the proper way of greeting everyone all at once!
-	[signal arg="[signal arg="encounter_mayap_a_abak_kekayu_ngan"]"]
-	Apu: And also you can just say "Mayap a abak kekayu!"
-	[signal arg="[signal arg="encounter_mayap_a_abak_kekayu"]"]
-	jump Apu_continuation
-- Mayap a abak!
-	Apu: Hmmm... yes it's correct but there's a more proper way to greet [color=yellow]everyone.[/color]
-	[wait time="1.0"]
-	jump greet everyone
-- Mayap a gatpanapun!
-	Apu: It's only morning. you can try again...
-	[wait time="1.0"]
-	jump greet everyone
-label Apu_continuation
-Apu: Few more and you can re-learn how we greet people here.
-You: Wow. It's not that hard.
-Apu: Hmmm...
-Apu: I remember your Ale Pacing will set up her stall soon...
-Apu: You can go there and maybe learn new phrases.
-[signal arg="start_talk_to_pacing"]
-You: Okay Apu, Thank you!
+Apu: I remember something like this happening to your Bapa.
+You: Bapa had this curse too?
+Apu: I don't know if it was exactly the same, child. But I know that losing your voice is not something we should ignore.
+Apu: To break this curse, you must recover your lost words and find the mystic ylang-ylang.
+You: And how am I supposed to do that?
+Apu: One step at a time. You must practice the words you can still remember and learn the ones that have become lost to you.
+Litik: Finally, a plan that doesn't involve staring at the sky and hoping your voice comes back.
+You: You make it sound easy.
+Litik: I said it's a plan. I didn't say it would be easy.
+Apu: There is something you can do for me first.
+Apu: Bebang, our food vendor, left her basket of food here earlier. She was in a hurry to prepare her stall and forgot to take it with her.
+Apu: Please bring it back to her. Her stall is near the village center.
+You: That's all? Just deliver a basket?
+Apu: Every journey begins with a small step, child. This will also give you a chance to speak with the people of our village.
+Litik: Let's get moving, then. We might recover some words along the way.
+[signal arg="[signal arg="start_deliver_bebang_basket"]"]
 [end_timeline]

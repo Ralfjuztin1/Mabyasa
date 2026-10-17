@@ -1,0 +1,24 @@
+Bebang: My basket! There it is!
+Bebang: I've been looking everywhere for it. I was already worried I'd have to leave my stall unattended.
+You: Apu found it and asked me to bring it back to you.
+Bebang: Salamat, anak! Thank you for bringing it back.
+Bebang: Dakal a salamat! You've saved me a lot of trouble today.
+[signal arg="[signal arg="encounter_salamat+dakal_a_salamat"]"]
+Litik: Listen to those words!
+Litik: Salamat means "Thank you."
+Litik: Dakal a salamat means "Thank you very much." The word "dakal" adds more feeling to your thanks.
+You: Salamat... Dakal a salamat...
+Litik: That's right. Remember both. You'll need them whenever someone helps you.
+Bebang: Since you've helped me, take this small food bundle for your journey. It's not much, but you shouldn't travel on an empty stomach.
+You: Dakal a salamat, Bebang!
+[signal arg="[signal arg="learn_salamat+dakal_a_salamat"]"]
+Bebang: Ala pung nanu man! You're welcome!
+[signal arg="[signal arg="encounter_ala_pung_nanu_man"]"]
+Litik: And there you have it. That's a phrase someone can use when replying to thanks.
+Bebang: By the way, Chief heard about your curse. He asked me to tell you to visit him as soon as you're done here.
+Bebang: He's preparing you for your journey. I believe he wants to make sure you're ready before you leave the village.
+You: Then I'll go find him.
+Bebang: Take care, anak. And don't forget your food!
+Litik: Basket delivered, food secured, and two more phrases recovered. Not bad for a morning's work.
+[signal arg="[signal arg="set_flag_bebang_basket_delivered"]"]
+[end_timeline]

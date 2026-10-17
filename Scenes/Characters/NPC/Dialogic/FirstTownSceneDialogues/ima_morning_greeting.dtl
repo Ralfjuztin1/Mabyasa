@@ -1,0 +1,14 @@
+Ima: Mayap a abak, anak! Did you sleep well?
+[signal arg="[signal arg="encounter_mayap_a_abak"]"]
+You: Mayap a abak, Ima!
+[signal arg="[signal arg="learn_mayap_a_abak"]"]
+Litik: Look at that! Yesterday, you could barely get the words out. Now you're greeting Ima all by yourself.
+You: I suppose the practice is helping.
+Ima: It certainly seems so. Keep practicing, and don't lose heart.
+Ima: Chief said he'll finish your training today. He's waiting near the forest entrance.
+You: Then I should get going.
+Ima: Be careful, anak. And don't forget what you've learned.
+You: I won't. I'll see you later, Ima.
+Ima: Take care.
+[signal arg="[signal arg="set_flag_final_training_unlocked"]"]
+[end_timeline]

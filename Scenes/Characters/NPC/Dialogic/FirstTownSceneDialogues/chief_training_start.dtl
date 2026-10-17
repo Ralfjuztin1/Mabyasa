@@ -1,0 +1,12 @@
+chief: You're back. Good. Did Panday give you everything?
+You: Yes. I've got my gear.
+chief: Excellent. Put it on properly. We're going to see how you handle yourself in a fight.
+You: We're starting already?
+chief: You need to know how to use your equipment before you enter the forest.
+Litik: And preferably before something with large teeth decides to test it for you.
+chief: Don't worry. This is training. Focus on your movements, watch your opponent, and don't rush into every attack.
+You: I'll do my best.
+chief: That's what I want to hear. Get ready!
+[signal arg="set_flag_training_battle_requested"]
+[signal arg="start_first_training_battle"]
+[end_timeline]

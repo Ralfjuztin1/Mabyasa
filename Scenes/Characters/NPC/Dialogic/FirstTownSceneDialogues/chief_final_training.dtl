@@ -1,0 +1,16 @@
+chief: There you are. I was beginning to wonder what was taking you so long.
+You: Ale Pacing was blocking the path with her supplies.
+chief: And how did you get past her?
+You: I said, "Makilabas ku pu."
+chief: Good. You remembered to ask politely.
+Litik: We learned that one on the way here. It turns out words are useful outside a lesson, too.
+chief: Remember that. Being prepared isn't only about having good equipment or knowing how to fight. You also need to know how to speak to people.
+chief: Yesterday, we tested your gear and your ability to fight. Today, I want to see how much you've improved.
+You: Is this the final test?
+chief: It is. I won't make it easy, but I won't leave you unprepared, either.
+Litik: I hope that means he's going to explain the rules first.
+chief: Stay focused, both of you. Once this training is done, you'll be one step closer to entering the forest.
+You: I'm ready, Chief.
+chief: Then let's begin!
+[signal arg="[signal arg="set_flag_final_training_battle_requested"]"]
+[end_timeline]

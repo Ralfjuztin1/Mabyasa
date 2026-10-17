@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
+[ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
+[ext_resource type="Script" uid="uid://54thwokoasbl" path="res://Scripts/Quest/QuestStep.gd" id="3_step"]
+
+[sub_resource type="Resource" id="QuestReward_VisitAlePacing"]
+script = ExtResource("2_reward")
+exp = 5
+gold = 0
+
+[sub_resource type="Resource" id="QuestStep_ClearAlePath"]
+script = ExtResource("3_step")
+type = "solve_puzzle"
+target = "ale_path_cleared"
+required_count = 1
+validation_type = "none"
+validation_target = ""
+
+[resource]
+script = ExtResource("1_quest")
+quest_id = "visit_ale_pacing"
+title = "Ask Ale to Clear the Path"
+description = "Ale Pacing is blocking the narrow path. Politely ask her to move aside by using the phrase Litik taught you."
+rewards = SubResource("QuestReward_VisitAlePacing")
+steps = Array[ExtResource("3_step")]([SubResource("QuestStep_ClearAlePath")])
+quest_giver_id = ""
+quest_turn_in_id = ""
+is_main_quest = true

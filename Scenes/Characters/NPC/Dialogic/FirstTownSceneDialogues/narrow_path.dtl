@@ -1,4 +1,28 @@
-Litik: Look ahead—the narrow dirt path gets tight.
-Litik: In a small village like ours, when you need to pass close by someone working in a narrow space, say "Makilabas ku pu!" to excuse yourself politely.
+Litik: Wait a moment.
+You: What is it?
+Litik: Look ahead. Ale Pacing is blocking the narrow path with those crates.
+Ale Pacing: Just a moment! I need to get these supplies out of the way.
+You: We need to get past her.
+Litik: Then ask politely. When you need to pass someone, say "Makilabas ku pu." It means "Excuse me."
 [signal arg="[signal arg="encounter_makilabas_ku_pu"]"]
-Litik: Go ahead try it for now!
+label ask_ale_to_move
+Litik: Go on. Try saying it to Ale.
+- Makilabas ku pu!
+	You: Makilabas ku pu!
+	[signal arg="[signal arg="learn_makilabas_ku_pu"]"]
+	Ale Pacing: Oh! Sorry, anak. I didn't realize I was blocking the way.
+	Ale Pacing: Thank you for asking so politely. I'll move these crates aside.
+	You: Salamat, Ale!
+	[signal arg="[signal arg="encounter_salamat"]"]
+	Ale Pacing: Ala pung nanu man! There you go. The path is clear now.
+	Litik: See? You remembered how to thank someone, too. You're starting to put your words to use.
+	You: One step at a time, right?
+	Litik: Exactly. Now, let's get to that forest entrance before Chief starts wondering where we are.
+	[signal arg="[signal arg="set_flag_ale_path_cleared"]"]
+	[end_timeline]
+- Salamat!
+	Litik: "Salamat" means "Thank you." But right now, we need to politely ask her to let us pass.
+	jump ask_ale_to_move
+- Mayap a abak!
+	Litik: That's a morning greeting. Try the phrase for getting past someone politely.
+	jump ask_ale_to_move

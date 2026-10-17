@@ -53,25 +53,27 @@ directories/dch_directory={
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
-"Scene5": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/Scene5.dtl",
+"bebang_basket_return": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_basket_return.dtl",
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
-"bebang_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_qc.dtl",
-"bebang_quest_active": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_active.dtl",
-"bebang_quest_ns": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_ns.dtl",
+"blacksmith_gear_and_quiz": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/blacksmith_gear_and_quiz.dtl",
+"chief_after_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_after_training.dtl",
+"chief_afternoon_intro": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_afternoon_intro.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
+"chief_final_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training.dtl",
+"chief_training_start": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_training_start.dtl",
 "gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/gab.dtl",
 "hello": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/hello.dtl",
 "ima_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_default.dtl",
+"ima_evening_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_evening_greeting.dtl",
+"ima_morning_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_morning_greeting.dtl",
 "ima_qa": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qa.dtl",
 "ima_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qc.dtl",
-"ima_qna": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qna.dtl",
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "narrow_path": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/narrow_path.dtl",
 "ralf": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ralf.dtl",
 "reya": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/reya.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
-"scene65": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/scene65.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"
 }
 layout/style_directory={

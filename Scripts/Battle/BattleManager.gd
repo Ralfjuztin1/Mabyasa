@@ -959,7 +959,24 @@ func _end_battle(victory: bool) -> void:
 			GameEvents.enemy_killed.emit(
 				current_enemy.enemy_id
 			)
-
+		# Start the return-to-Chief quest after the training battle.
+		if (
+			current_enemy != null
+			and current_enemy.enemy_id == "chief_training"
+			and QuestManager.has_dialogue_flag(
+		        "training_battle_requested"
+			)
+			and QuestManager.is_quest_completed(
+		        "first_training_battle"
+			)
+		):
+			QuestManager.set_dialogue_flag(
+				"training_battle_requested",
+				false
+			)
+			QuestManager.start_quest(
+		        "return_to_chief_after_training"
+			)
 		battle_log.emit(
 			"You defeated %s! +%d EXP, +%d Gold. Best learning combo: x%d"
 			% [

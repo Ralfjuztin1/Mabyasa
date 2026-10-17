@@ -66,7 +66,6 @@ sky_material = SubResource("ProceduralSkyMaterial_j2cfa")
 
 [sub_resource type="Environment" id="Environment_rxw54"]
 background_mode = 2
-background_energy_multiplier = 1.5
 sky = SubResource("Sky_jc31u")
 tonemap_exposure = 1.7
 glow_enabled = true
@@ -4606,7 +4605,6 @@ mesh = SubResource("PlaneMesh_l04sm")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1516713651]
 transform = Transform3D(-0.4450412, 0.5249053, -0.725543, -0.16829216, 0.74674183, 0.6434707, 0.8795547, 0.40847418, -0.24399357, 0, 0, 0)
-light_color = Color(0.9387965, 0.82748735, 0.75933355, 1)
 shadow_enabled = true
 
 [node name="TreesManager" type="Node3D" parent="." unique_id=872289235]

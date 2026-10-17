@@ -1,0 +1,13 @@
+chief: That's enough for today.
+You: I thought training would be easier than that.
+chief: Training isn't supposed to be easy. But you kept your footing, learned from your mistakes, and made good use of your equipment.
+chief: You did well today.
+You: You really think I'm ready?
+chief: Ready for more training, perhaps. The forest is another matter.
+Litik: At least he didn't say we're hopeless.
+chief: Go home and rest. You've done enough for one day.
+chief: Tomorrow, we'll finish your training near the forest entrance. I want you to be properly prepared before you leave the village.
+You: I'll be there.
+chief: Good. Get some sleep.
+[signal arg="[signal arg="set_flag_request_time_evening"]"]
+[end_timeline]
