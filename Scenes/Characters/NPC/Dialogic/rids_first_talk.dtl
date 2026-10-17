@@ -5,7 +5,7 @@ elif QuestManager.is_quest_active("talk_to_chief") == true:
 	Rids: I'll wait for you
 else:
 	Rids: Hello!
-	Hi, what can i do for you?
+	You: Hi, what can i do for you?
 	Rids: Munta ka pa kang chief panayan naka.
 	- Okay, what can i do for chief?
 		Rids: He wants someone to run an errand for him.

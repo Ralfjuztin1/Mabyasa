@@ -10,12 +10,22 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "pacing",
 &"description": "",
 &"display_name": "Ale Pacing",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"pacing": {
+"export_overrides": {
+"image": ""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://Assets/Characters/NPC_Portraits/layered_portrait_ale pacing.tscn"
+}
+},
 &"scale": 1.0
 }

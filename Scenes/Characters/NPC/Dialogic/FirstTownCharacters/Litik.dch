@@ -10,12 +10,22 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "litik",
 &"description": "",
 &"display_name": "Litik",
 &"mirror": false,
 &"nicknames": ["[i]MCs piece of voice[/i]"],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"litik": {
+"export_overrides": {
+"image": ""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://Assets/Characters/NPC_Portraits/layered_portrait_litik.tscn"
+}
+},
 &"scale": 1.0
 }

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dx22ktp3x03bu"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://b6tmgl6118hkn" path="res://Assets/Characters/NPC_Portraits/Gemini_Generated_Image_owaoikowaoikowao-removebg-preview.png" id="2_p4vid"]
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=1081647948]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=837634206]
+position = Vector2(250, 252)
+texture = ExtResource("2_p4vid")
+
+[node name="Group1" type="Node2D" parent="." unique_id=1545097328]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=1921255367]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=1146699994]

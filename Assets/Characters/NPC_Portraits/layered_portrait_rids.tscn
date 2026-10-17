@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b0bvm0dc0emk7"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://c5r4j1jjyq0gq" path="res://Assets/Characters/NPC_Portraits/Rids-removebg-preview.png" id="2_yg27i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfi2k"]
+atlas = ExtResource("2_yg27i")
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=1674057142]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=1505857229]
+position = Vector2(249, 252)
+texture = SubResource("AtlasTexture_cfi2k")
+
+[node name="Group1" type="Node2D" parent="." unique_id=1449643993]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=1262716463]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=1551239852]

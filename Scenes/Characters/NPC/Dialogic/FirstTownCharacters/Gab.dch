@@ -7,15 +7,25 @@
 "prefix": "",
 "sound_mood_default": "",
 "sound_moods": {},
-"style": "",
+"style": "dialogstyle",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "gab",
 &"description": "",
 &"display_name": "Gab",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"gab": {
+"export_overrides": {
+"image": "\"res://Assets/Characters/NPC_Portraits/Illustration16-removebg-preview.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://addons/dialogic/Modules/HighlightPortrait/simple_highlight_portrait.tscn"
+}
+},
 &"scale": 1.0
 }

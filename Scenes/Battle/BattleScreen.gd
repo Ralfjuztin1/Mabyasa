@@ -53,7 +53,15 @@ var _player_hit_tween: Tween = null
 var _enemy_hp_visual_generation: int = 0
 var _player_hp_visual_generation: int = 0
 var _player_hp_visual_parts_remaining: int = 0
+const ATTACK_LUNGE_TIME: float = 0.50
+const ATTACK_RETURN_TIME: float = 0.18
+const ATTACK_MIN_STOP_GAP: float = 72.0
+const ATTACK_MAX_STOP_GAP: float = 220.0
 
+var _player_attack_home_global: Vector2 = Vector2.ZERO
+var _enemy_attack_home_global: Vector2 = Vector2.ZERO
+var _player_lunge_active: bool = false
+var _enemy_lunge_active: bool = false
 
 # ============================================================
 # INITIALIZATION
@@ -582,20 +590,35 @@ func _play_enemy_action_animation(
 
 
 func _on_enemy_attack_animation_requested() -> void:
+	_enemy_lunge_active = false
+
+	if (
+		is_instance_valid(enemy_sprite)
+		and enemy_sprite.visible
+		and is_instance_valid(player_battle_sprite)
+		and player_battle_sprite.visible
+	):
+		_enemy_attack_home_global = enemy_sprite.global_position
+		_enemy_lunge_active = true
+		await _move_sprite_into_melee_range(enemy_sprite, player_battle_sprite)
+
+	if not is_instance_valid(self) or not is_instance_valid(BattleManager):
+		return
+
 	if _play_enemy_action_animation(
 		_current_enemy_attack_animation,
 		&"attack"
 	):
 		return
 
-	# Some enemies have no battle attack clip. Preserve the configured pause
-	# for those enemies, then acknowledge the turn so combat cannot deadlock.
+	# If there is no attack clip, preserve the enemy's configured attack delay.
 	var fallback_delay: float = 0.0
 	if BattleManager.current_enemy != null:
 		fallback_delay = maxf(
 			BattleManager.current_enemy.battle_attack_duration,
 			0.0
 		)
+
 	if fallback_delay > 0.0:
 		await _finish_enemy_attack_after_delay(fallback_delay)
 	else:
@@ -609,18 +632,33 @@ func _finish_enemy_attack_after_delay(delay: float) -> void:
 
 
 func _emit_enemy_attack_animation_finished() -> void:
-	if is_instance_valid(BattleManager):
-		BattleManager.enemy_attack_animation_finished.emit()
+	await _finish_enemy_attack_lunge()
+
 
 
 func _on_enemy_hit_animation_requested() -> void:
+	_player_lunge_active = false
+
+	if (
+		is_instance_valid(player_battle_sprite)
+		and player_battle_sprite.visible
+		and is_instance_valid(enemy_sprite)
+		and enemy_sprite.visible
+	):
+		_player_attack_home_global = player_battle_sprite.global_position
+		_player_lunge_active = true
+		await _move_sprite_into_melee_range(player_battle_sprite, enemy_sprite)
+
+	if not is_instance_valid(self) or not is_instance_valid(BattleManager):
+		return
+
 	if _play_enemy_action_animation(
 		_current_enemy_hit_animation,
 		&"hit"
 	):
 		return
 
-	# If this enemy has no hit clip, wait for the fallback hit reaction instead.
+	# Enemies without a hit animation use the existing visual feedback.
 	var feedback_tween: Tween = _play_hit_feedback(enemy_sprite)
 	if feedback_tween != null:
 		feedback_tween.finished.connect(
@@ -631,9 +669,9 @@ func _on_enemy_hit_animation_requested() -> void:
 		call_deferred("_emit_enemy_hit_animation_finished")
 
 
+
 func _emit_enemy_hit_animation_finished() -> void:
-	if is_instance_valid(BattleManager):
-		BattleManager.enemy_hit_animation_finished.emit()
+	await _finish_player_attack_lunge()
 
 
 func _on_enemy_animation_finished() -> void:
@@ -660,10 +698,117 @@ func _on_enemy_animation_finished() -> void:
 		enemy_sprite.play(_current_enemy_idle_animation)
 
 	if finished_action_kind == &"attack":
-		BattleManager.enemy_attack_animation_finished.emit()
+		await _finish_enemy_attack_lunge()
 	elif finished_action_kind == &"hit":
-		BattleManager.enemy_hit_animation_finished.emit()
+		await _finish_player_attack_lunge()
 
+func _move_sprite_into_melee_range(
+	attacker: AnimatedSprite2D,
+	target: AnimatedSprite2D
+) -> void:
+	if not is_instance_valid(attacker) or not is_instance_valid(target):
+		return
+	if not attacker.visible or not target.visible:
+		return
+
+	var start_position: Vector2 = attacker.global_position
+	var target_position: Vector2 = target.global_position
+	var direction_x: float = signf(target_position.x - start_position.x)
+	if is_zero_approx(direction_x):
+		return
+
+	var attacker_half_width: float = _sprite_half_width_global(attacker)
+	var target_half_width: float = _sprite_half_width_global(target)
+	var stop_gap: float = clampf(
+		attacker_half_width + target_half_width + 10.0,
+		ATTACK_MIN_STOP_GAP,
+		ATTACK_MAX_STOP_GAP
+	)
+
+	var distance_x: float = absf(target_position.x - start_position.x)
+	var travel_distance: float = distance_x - stop_gap
+	if travel_distance <= 6.0:
+		return
+
+	# Stop beside the target instead of crossing through its sprite.
+	var destination := Vector2(
+		target_position.x - direction_x * stop_gap,
+		start_position.y
+	)
+
+	var tween: Tween = create_tween()
+	tween.tween_property(
+		attacker,
+		"global_position",
+		destination,
+		ATTACK_LUNGE_TIME
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+
+
+func _sprite_half_width_global(sprite: AnimatedSprite2D) -> float:
+	if (
+		sprite.sprite_frames != null
+		and not sprite.animation.is_empty()
+		and sprite.sprite_frames.has_animation(sprite.animation)
+		and sprite.sprite_frames.get_frame_count(sprite.animation) > 0
+	):
+		var frame_index: int = clampi(
+			sprite.frame,
+			0,
+			sprite.sprite_frames.get_frame_count(sprite.animation) - 1
+		)
+		var texture: Texture2D = sprite.sprite_frames.get_frame_texture(
+			sprite.animation,
+			frame_index
+		)
+		if texture != null:
+			return maxf(
+				float(texture.get_width()) * absf(sprite.global_scale.x) * 0.5,
+				24.0
+			)
+	return 32.0
+
+
+func _return_sprite_to_global_position(
+	sprite: AnimatedSprite2D,
+	home_position: Vector2
+) -> void:
+	if not is_instance_valid(sprite):
+		return
+
+	var tween: Tween = create_tween()
+	tween.tween_property(
+		sprite,
+		"global_position",
+		home_position,
+		ATTACK_RETURN_TIME
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	await tween.finished
+
+
+func _finish_enemy_attack_lunge() -> void:
+	if _enemy_lunge_active and is_instance_valid(enemy_sprite):
+		await _return_sprite_to_global_position(
+			enemy_sprite,
+			_enemy_attack_home_global
+		)
+	_enemy_lunge_active = false
+
+	if is_instance_valid(BattleManager):
+		BattleManager.enemy_attack_animation_finished.emit()
+
+
+func _finish_player_attack_lunge() -> void:
+	if _player_lunge_active and is_instance_valid(player_battle_sprite):
+		await _return_sprite_to_global_position(
+			player_battle_sprite,
+			_player_attack_home_global
+		)
+	_player_lunge_active = false
+
+	if is_instance_valid(BattleManager):
+		BattleManager.enemy_hit_animation_finished.emit()
 
 func _on_enemy_hp_changed(
 	current: int,

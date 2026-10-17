@@ -10,12 +10,22 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "apu",
 &"description": "",
 &"display_name": "Apu",
 &"mirror": false,
 &"nicknames": ["[i]Grandmother[/i]"],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"apu": {
+"export_overrides": {
+"image": ""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://Assets/Characters/NPC_Portraits/layered_portrait_apu.tscn"
+}
+},
 &"scale": 1.0
 }

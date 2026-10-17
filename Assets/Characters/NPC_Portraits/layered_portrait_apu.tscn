@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cfk85qq0p0lbs"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://0asaqq5ts5bk" path="res://Assets/Characters/NPC_Portraits/Gemini_Generated_Image_r43po3r43po3r43p-removebg-preview.png" id="2_o2b8y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf3dm"]
+atlas = ExtResource("2_o2b8y")
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=589158469]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=388550926]
+position = Vector2(249, 251)
+texture = SubResource("AtlasTexture_cf3dm")
+
+[node name="Group1" type="Node2D" parent="." unique_id=2062365545]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=1340002092]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=1946260236]

@@ -3,7 +3,6 @@ extends Control
 const SETTINGS_MENU_SCENE: PackedScene = preload("res://Scenes/UI/SettingsMenu.tscn")
 const MAIN_GAME_SCENE_PATH: String = "res://Scenes/SceneManager/Main.tscn"
 const AUTH_SCENE_PATH: String = "res://Scenes/UI/AuthScreen.tscn"
-const SETTINGS_FILE: String = "user://mabiyasa_settings.cfg"
 
 @onready var panel_container: Control = get_node_or_null("CenterContainer/PanelContainer") as Control
 @onready var play_button: Button = get_node_or_null("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonBox/PlayButton") as Button
@@ -185,21 +184,23 @@ func _set_menu_buttons_disabled(disabled: bool) -> void:
 
 
 func _apply_saved_display_audio_settings() -> void:
-	var config := ConfigFile.new()
-	var error: Error = config.load(SETTINGS_FILE)
-	if error != OK:
+	# Preferences are loaded from the logged-in account's save, not a shared file.
+	if not is_instance_valid(SaveManager):
+		return
+	var settings: Dictionary = SaveManager.load_settings_data()
+	if settings.is_empty():
 		return
 
 	var master_bus: int = AudioServer.get_bus_index("Master")
 	if master_bus >= 0:
-		var volume_percent: float = clampf(float(config.get_value("settings", "volume_percent", 100.0)), 0.0, 100.0)
+		var volume_percent: float = clampf(float(settings.get("volume_percent", 100.0)), 0.0, 100.0)
 		AudioServer.set_bus_volume_linear(master_bus, volume_percent / 100.0)
 
 	var current_mode: int = DisplayServer.window_get_mode()
-	var saved_mode: int = int(config.get_value("settings", "window_mode", current_mode))
+	var saved_mode: int = int(settings.get("window_mode", current_mode))
 	if saved_mode in [DisplayServer.WINDOW_MODE_WINDOWED, DisplayServer.WINDOW_MODE_MAXIMIZED, DisplayServer.WINDOW_MODE_FULLSCREEN]:
 		DisplayServer.window_set_mode(saved_mode)
 
-	var vsync_enabled: bool = bool(config.get_value("settings", "vsync", true))
+	var vsync_enabled: bool = bool(settings.get("vsync", true))
 	var vsync_mode: DisplayServer.VSyncMode = DisplayServer.VSYNC_ENABLED if vsync_enabled else DisplayServer.VSYNC_DISABLED
 	DisplayServer.window_set_vsync_mode(vsync_mode)

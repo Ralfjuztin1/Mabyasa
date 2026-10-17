@@ -60,6 +60,7 @@ directories/dtl_directory={
 "bebang_quest_ns": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_quest_ns.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
 "gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/gab.dtl",
+"hello": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/hello.dtl",
 "ima_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_default.dtl",
 "ima_qa": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qa.dtl",
 "ima_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qc.dtl",
@@ -74,13 +75,13 @@ directories/dtl_directory={
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"
 }
 layout/style_directory={
-"": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",
-"Dialogue_style2": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres"
+"": "res://Assets/Characters/NPC_Portraits/dialogstyle.tres",
+"Dialogue_style2": "res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres",
+"dialogstyle": "res://Assets/Characters/NPC_Portraits/dialogstyle.tres"
 }
-layout/style_list=["res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres"]
-layout/default_style="res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres"
+layout/style_list=["res://Scenes/Characters/NPC/Dialogic/Dialogue_style2.tres", "res://Assets/Characters/NPC_Portraits/dialogstyle.tres"]
+layout/default_style="res://Assets/Characters/NPC_Portraits/dialogstyle.tres"
 glossary/default_case_sensitive=false
-variables={}
 glossary/glossary_files=["uid://clcqargr7lgbr"]
 glossary/default_color=Color(0.99607843, 0.8784314, 0, 1)
 text/letter_speed=0.04
@@ -89,11 +90,6 @@ text/text_reveal_skip_delay=1.0
 text/advance_delay=0.2
 text/autoadvance_per_character_delay=0.1
 text/autoadvance_ignored_characters_enabled=true
-animations/join_default_length=0.5
-animations/join_default_wait=true
-animations/leave_default_length=0.5
-animations/leave_default_wait=true
-animations/cross_fade_default_length=0.5
 choices/autofocus_first=true
 choices/delay=0.2
 choices/reveal_delay=0
@@ -116,6 +112,10 @@ audio/channel_defaults={
 "volume": 0.0
 }
 }
+animations/join_default_length=0.0
+animations/join_default_wait=false
+animations/leave_default_length=0.0
+animations/leave_default_wait=false
 
 [display]
 

@@ -10,12 +10,22 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "ima",
 &"description": "",
 &"display_name": "Ima",
 &"mirror": false,
 &"nicknames": ["[i]mother[/i]"],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"ima": {
+"export_overrides": {
+"image": "\"res://Assets/Characters/NPC_Portraits/custom_layered_portrait.gd\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": "res://Assets/Characters/NPC_Portraits/layered_portrait_ima.tscn"
+}
+},
 &"scale": 1.0
 }

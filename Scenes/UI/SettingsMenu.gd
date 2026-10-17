@@ -2,12 +2,11 @@ extends CanvasLayer
 
 signal closed
 
-const SETTINGS_FILE: String = "user://mabiyasa_settings.cfg"
 const DEFAULT_FOV: float = 75.0
 const DEFAULT_SENSITIVITY_PERCENT: float = 100.0
 const DEFAULT_VOLUME_PERCENT: float = 100.0
 
-var _config := ConfigFile.new()
+var _settings_data: Dictionary = {}
 var _opened_from_pause_menu: bool = false
 var _loading_controls: bool = false
 
@@ -48,7 +47,9 @@ func open(from_pause_menu: bool = false) -> void:
 
 func close() -> void:
 	visible = false
-	_save_config()
+	_save_config() # Save locally to the active account immediately.
+	if is_instance_valid(SaveManager):
+		SaveManager.save_settings_data(_settings_data, true) # Sync this account's full save to Supabase.
 	closed.emit()
 
 
@@ -218,25 +219,28 @@ func _make_button(button_text: String) -> Button:
 
 
 func _load_config() -> void:
-	_config = ConfigFile.new()
-	var error: Error = _config.load(SETTINGS_FILE)
-	if error != OK and error != ERR_FILE_NOT_FOUND:
-		push_warning("[SETTINGS] Could not load settings file; defaults will be used.")
+	# SaveManager resolves the active authenticated account ID and stores the
+	# settings inside that account's save data. No shared session-only config.
+	_settings_data = {}
+	if is_instance_valid(SaveManager):
+		_settings_data = SaveManager.load_settings_data()
+	else:
+		push_warning("[SETTINGS] SaveManager is unavailable; settings cannot be account-saved.")
 
 
 func _load_values_into_controls() -> void:
 	_loading_controls = true
-	_fov_slider.value = float(_config.get_value("settings", "fov", DEFAULT_FOV))
-	_sensitivity_slider.value = float(_config.get_value("settings", "sensitivity_percent", DEFAULT_SENSITIVITY_PERCENT))
-	_volume_slider.value = float(_config.get_value("settings", "volume_percent", DEFAULT_VOLUME_PERCENT))
+	_fov_slider.value = float(_settings_data.get("fov", DEFAULT_FOV))
+	_sensitivity_slider.value = float(_settings_data.get("sensitivity_percent", DEFAULT_SENSITIVITY_PERCENT))
+	_volume_slider.value = float(_settings_data.get("volume_percent", DEFAULT_VOLUME_PERCENT))
 
-	var configured_mode: int = int(_config.get_value("settings", "window_mode", DisplayServer.window_get_mode()))
+	var configured_mode: int = int(_settings_data.get("window_mode", DisplayServer.window_get_mode()))
 	var mode_index: int = _window_mode.get_item_index(configured_mode)
 	if mode_index < 0:
 		mode_index = _window_mode.get_item_index(DisplayServer.window_get_mode())
 	_window_mode.select(maxi(mode_index, 0))
 
-	_vsync_check.button_pressed = bool(_config.get_value("settings", "vsync", true))
+	_vsync_check.button_pressed = bool(_settings_data.get("vsync", true))
 	_update_value_labels()
 	_loading_controls = false
 
@@ -290,14 +294,16 @@ func _apply_vsync(enabled: bool) -> void:
 
 
 func _save_config() -> void:
-	_config.set_value("settings", "fov", _fov_slider.value)
-	_config.set_value("settings", "sensitivity_percent", _sensitivity_slider.value)
-	_config.set_value("settings", "volume_percent", _volume_slider.value)
-	_config.set_value("settings", "window_mode", int(_window_mode.get_item_id(_window_mode.selected)))
-	_config.set_value("settings", "vsync", _vsync_check.button_pressed)
-	var error: Error = _config.save(SETTINGS_FILE)
-	if error != OK:
-		push_warning("[SETTINGS] Could not save settings. Error code: %s" % error)
+	_settings_data = {
+		"fov": _fov_slider.value,
+		"sensitivity_percent": _sensitivity_slider.value,
+		"volume_percent": _volume_slider.value,
+		"window_mode": int(_window_mode.get_item_id(_window_mode.selected)),
+		"vsync": _vsync_check.button_pressed
+	}
+	# sync_cloud=false avoids flooding the database while the user drags sliders.
+	if is_instance_valid(SaveManager):
+		SaveManager.save_settings_data(_settings_data, false)
 
 
 func _update_value_labels() -> void:
