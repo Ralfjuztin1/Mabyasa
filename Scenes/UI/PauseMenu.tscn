@@ -510,7 +510,6 @@ theme_override_colors/font_disabled_color = Color(0.52, 0.52, 0.44, 0.9)
 theme_override_styles/normal = SubResource("MenuButtonNormal")
 theme_override_styles/pressed = SubResource("MenuButtonPressed")
 theme_override_styles/hover = SubResource("MenuButtonHover")
-disabled = true
 
 [node name="Contents" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Settings" unique_id=164221936]
 layout_mode = 1

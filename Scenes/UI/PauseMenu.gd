@@ -17,11 +17,14 @@ extends CanvasLayer
 const QUEST_LOG_SCENE: PackedScene = preload("res://Scenes/UI/QuestLog.tscn")
 const PLAYER_STATS_SCENE: PackedScene = preload("res://Scenes/UI/PlayerStats.tscn")
 const WORD_BANK_SCENE: PackedScene = preload("res://Scenes/UI/WordBank.tscn")
+const SETTINGS_MENU_SCENE: PackedScene = preload("res://Scenes/UI/SettingsMenu.tscn")
 
 var quest_log: CanvasLayer = null
 var player_stats: CanvasLayer = null
 var word_bank: CanvasLayer = null
+var settings_menu: CanvasLayer = null
 var _word_bank_opened_from_pause_menu: bool = false
+var _settings_opened_from_pause_menu: bool = false
 
 # Track which menu opened an overlay so the HUD can reuse the same
 # Quest Log/Stats instances without unexpectedly reopening the pause menu.
@@ -60,10 +63,9 @@ func _ready() -> void:
 			wordbook_button.tooltip_text = "Review discovered Kapampangan words."
 			_connect_if_needed(wordbook_button.pressed, _on_wordbook_pressed)
 		if is_instance_valid(settings_button):
-			_connect_if_needed(
-				settings_button.pressed,
-				_on_unavailable_menu_pressed.bind("Settings")
-			)
+			settings_button.disabled = false
+			settings_button.tooltip_text = "Adjust your settings."
+			_connect_if_needed(settings_button.pressed, _on_settings_pressed)
 
 	if is_instance_valid(missions_button):
 		_connect_if_needed(missions_button.pressed, _on_missions_pressed)
@@ -232,7 +234,23 @@ func _create_word_bank() -> void:
 
 	word_bank.visible = false
 
+func _on_settings_pressed() -> void:
+		if not is_instance_valid(settings_menu):
+			settings_menu = SETTINGS_MENU_SCENE.instantiate() as CanvasLayer
+			if not is_instance_valid(settings_menu):
+				push_error("[PAUSE MENU] Could not create SettingsMenu.")
+				return
+			add_child(settings_menu)
+			if settings_menu.has_signal("closed"):
+				_connect_if_needed(settings_menu.closed, _on_settings_menu_closed)
 
+		hide()
+		settings_menu.open(true)
+
+func _on_settings_menu_closed() -> void:
+		if get_tree().paused:
+			show()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 func _on_wordbook_pressed() -> void:
 	if not is_instance_valid(word_bank):
 		return
@@ -303,6 +321,7 @@ func _on_game_paused(is_paused: bool) -> void:
 		_quest_log_opened_from_pause_menu = false
 		_stats_opened_from_pause_menu = false
 		_word_bank_opened_from_pause_menu = false
+		_settings_opened_from_pause_menu = false
 		if is_instance_valid(word_bank):
 			word_bank.visible = false
 			word_bank.layer = 1

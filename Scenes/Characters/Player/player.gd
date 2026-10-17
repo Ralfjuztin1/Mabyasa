@@ -42,6 +42,22 @@ func _ready() -> void:
 
 	# TutorialManager controls the mouse mode on boot.
 	spring_arm.spring_length = camera_distance
+	set_meta("mabiyasa_base_mouse_sensitivity", mouse_sensitivity)
+	var saved_settings := ConfigFile.new()
+	var settings_error: Error = saved_settings.load("user://mabiyasa_settings.cfg")
+	if settings_error == OK:
+		var sensitivity_percent: float = float(
+			saved_settings.get_value("settings", "sensitivity_percent", 100.0)
+		)
+		mouse_sensitivity = float(get_meta("mabiyasa_base_mouse_sensitivity")) * sensitivity_percent / 100.0
+
+		var gameplay_camera := get_node_or_null("Head/SpringArm3D/Camera3D") as Camera3D
+		if is_instance_valid(gameplay_camera):
+			gameplay_camera.fov = clampf(
+				float(saved_settings.get_value("settings", "fov", 75.0)),
+				55.0,
+				100.0
+			)
 	camera_yaw = rotation.y
 	_setup_footstep_audio()
 
