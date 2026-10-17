@@ -169,7 +169,7 @@ func _play_defeat_splash(boss_name: String) -> void:
 	var splash := Control.new()
 	splash.name = "BossDefeatSplash"
 	splash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	splash.mouse_filter = Control.MOUSE_FILTER_STOP
+	splash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	splash.z_index = 100
 	splash.modulate.a = 0.0
 	add_child(splash)
@@ -177,7 +177,7 @@ func _play_defeat_splash(boss_name: String) -> void:
 	var backdrop := ColorRect.new()
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	backdrop.color = Color(0.055, 0.008, 0.012, 0.94)
-	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	splash.add_child(backdrop)
 
 	var center := CenterContainer.new()
@@ -296,7 +296,7 @@ func _show_result(index: int, animate: bool = true) -> void:
 
 	previous_button.disabled = _review_index <= 0
 	next_button.disabled = _review_index >= _rows.size() - 1
-	finish_button.disabled = _review_index < _rows.size() - 1
+	finish_button.disabled = _victory and _review_index < _rows.size() - 1
 	finish_button.text = "CONTINUE" if _victory else "RETURN TO CHECKPOINT"
 
 	if animate:
@@ -368,8 +368,23 @@ func _on_next_pressed() -> void:
 
 
 func _on_finish_pressed() -> void:
-	if _finish_clicked or finish_button.disabled:
+	# On defeat, returning must always remain available, regardless of review index.
+	if _finish_clicked or (_victory and finish_button.disabled):
 		return
 	_finish_clicked = true
 	finish_button.disabled = true
 	finished.emit(_victory)
+
+
+func show_checkpoint_error(message: String) -> void:
+	# Called by BattleScreen if the checkpoint manager could not restore.
+	# Keep the review open, display the reason, and allow another attempt.
+	_finish_clicked = false
+	if is_instance_valid(finish_button):
+		finish_button.disabled = false
+		finish_button.text = "RETRY CHECKPOINT"
+	if is_instance_valid(outcome_label):
+		outcome_label.text = "CHECKPOINT RESTORE FAILED · RETRY"
+		outcome_label.add_theme_color_override("font_color", RED)
+	if is_instance_valid(lesson_label):
+		lesson_label.text = message

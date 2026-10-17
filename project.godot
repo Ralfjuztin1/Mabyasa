@@ -17,10 +17,8 @@ config/features=PackedStringArray("4.7", "Mobile")
 [autoload]
 
 SupabaseManager="*uid://bgsvuf0ko0l67"
-GameManager="*uid://c0g2g73lnjsd0"
 LanguageProgress="*res://Scripts/Learning/LanguageProgress.gd"
 WordDiscoveryNotifier="*uid://duu66g13p0coo"
-SaveManager="*uid://b5q4pq0a7jrnb"
 PlayerProgression="*uid://b8ddoi7ofgj23"
 GameEvents="*uid://qqbjeor7y7gb"
 TimeManager="*uid://bldwd52t0h1o3"
@@ -34,6 +32,8 @@ TransitionManager="*uid://ddqj11m4lwktm"
 InventoryManager="*uid://cfaseglcs7qjr"
 UITutorialManager="*uid://sp0gb74jctsa"
 TutorialManager="*uid://bocr1ftvonao"
+SaveManager="*uid://c2jrua0t43lrd"
+GameManager="*uid://cw34lkfrjh6v7"
 
 [dialogic]
 

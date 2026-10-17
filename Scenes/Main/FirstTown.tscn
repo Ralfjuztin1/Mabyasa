@@ -54,6 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="45_qwqmh"]
 [ext_resource type="Texture2D" uid="uid://s73lwo0rn10" path="res://Assets/Characters/EnemySpritesCoke/Boar_Idle.png" id="46_qwqmh"]
 [ext_resource type="Texture2D" uid="uid://dpiqbqv23prjg" path="res://Assets/Characters/EnemySpritesCoke/Boar_Attack.png" id="46_qyqjb"]
+[ext_resource type="Script" uid="uid://b4o54xfcbsvx7" path="res://Scripts/World/HealingTree.gd" id="50_ay7eq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -5418,6 +5419,8 @@ mesh = ExtResource("4_vq4af")
 
 [node name="Area3D" type="Area3D" parent="Bigtree" unique_id=691774883]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("50_ay7eq")
+heal_to_percent = 95.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bigtree/Area3D" unique_id=987659801]
 transform = Transform3D(1, 0, 0, 0, 1.0000006, 0, 0, 0, 1, 0, 0, 0)

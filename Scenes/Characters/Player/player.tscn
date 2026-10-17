@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://crl4dujp2yhm4"]
 
-[ext_resource type="Script" uid="uid://b5i1jcr0s2eut" path="res://Scenes/Characters/Player/player.gd" id="1_27cb7"]
+[ext_resource type="Script" uid="uid://4xpmbgnf6arv" path="res://Scenes/Characters/Player/PlayerCheckpointRespawnFix.gd" id="1_qqvsf"]
 [ext_resource type="Texture2D" uid="uid://bx3anfr3n7igd" path="res://Assets/Characters/player_anims/idle.png" id="2_siygm"]
 [ext_resource type="Texture2D" uid="uid://b8l5vvrkuhrdl" path="res://Assets/Characters/player_anims/run.png" id="3_apx8m"]
 [ext_resource type="Texture2D" uid="uid://criea7iart0gt" path="res://Assets/Characters/player_anims/walk.png" id="3_qqvsf"]
@@ -606,10 +606,9 @@ animations = [{
 
 [node name="Player" type="CharacterBody3D" unique_id=877630363]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-script = ExtResource("1_27cb7")
-camera_distance = 1.0
-min_pitch = -35.0
-max_pitch = 5.0
+script = ExtResource("1_qqvsf")
+camera_distance = 2.0
+min_pitch = -45.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=170960580]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.093265735, 0)
