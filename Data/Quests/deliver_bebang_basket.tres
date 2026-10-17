@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="QuestData" format=3]
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://bfikccvuiri2t"]
 
 [ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
 [ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
@@ -11,11 +11,7 @@ gold = 5
 
 [sub_resource type="Resource" id="QuestStep_ReturnBasket"]
 script = ExtResource("3_step")
-type = "talk_npc"
 target = "bebang"
-required_count = 1
-validation_type = "none"
-validation_target = ""
 
 [resource]
 script = ExtResource("1_quest")

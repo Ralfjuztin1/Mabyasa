@@ -21,4 +21,5 @@ You: Then I'll go find him.
 Bebang: Take care, anak. And don't forget your food!
 Litik: Basket delivered, food secured, and two more phrases recovered. Not bad for a morning's work.
 [signal arg="[signal arg="set_flag_bebang_basket_delivered"]"]
+[signal arg="[signal arg="start_visit_chief_after_basket"]"]
 [end_timeline]

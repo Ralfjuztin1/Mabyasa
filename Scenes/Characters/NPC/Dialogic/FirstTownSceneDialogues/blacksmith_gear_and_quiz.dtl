@@ -17,6 +17,7 @@ Litik: Which phrase means "Thank you very much"?
 	Blacksmith: Ala pung nanu man!
 	Blacksmith: Now, go back to Chief. He wants to see how well you can use that gear.
 	[signal arg="[signal arg="set_flag_training_gear_received"]"]
+	[signal arg="[signal arg="start_return_to_chief"]"]
 	[end_timeline]
 - Mayap a gatpanapun!
 	Litik: That's "Good afternoon." It's a greeting, not a way to thank someone.

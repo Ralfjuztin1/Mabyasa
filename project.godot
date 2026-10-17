@@ -66,8 +66,6 @@ directories/dtl_directory={
 "ima_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_default.dtl",
 "ima_evening_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_evening_greeting.dtl",
 "ima_morning_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_morning_greeting.dtl",
-"ima_qa": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qa.dtl",
-"ima_qc": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_qc.dtl",
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "meeting_apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/meeting_apu.dtl",
 "narrow_path": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/narrow_path.dtl",
@@ -88,7 +86,7 @@ glossary/glossary_files=["uid://clcqargr7lgbr"]
 glossary/default_color=Color(0.99607843, 0.8784314, 0, 1)
 text/letter_speed=0.04
 text/initial_text_reveal_skippable=true
-text/text_reveal_skip_delay=1.0
+text/text_reveal_skip_delay=0.01
 text/advance_delay=0.2
 text/autoadvance_per_character_delay=0.1
 text/autoadvance_ignored_characters_enabled=true
@@ -118,6 +116,8 @@ animations/join_default_length=0.0
 animations/join_default_wait=false
 animations/leave_default_length=0.0
 animations/leave_default_wait=false
+animations/cross_fade_default_length=0.5
+text/autoadvance_enabled=false
 
 [display]
 

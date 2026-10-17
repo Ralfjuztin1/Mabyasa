@@ -964,10 +964,10 @@ func _end_battle(victory: bool) -> void:
 			current_enemy != null
 			and current_enemy.enemy_id == "chief_training"
 			and QuestManager.has_dialogue_flag(
-		        "training_battle_requested"
+				"training_battle_requested"
 			)
 			and QuestManager.is_quest_completed(
-		        "first_training_battle"
+				"first_training_battle"
 			)
 		):
 			QuestManager.set_dialogue_flag(
@@ -975,7 +975,7 @@ func _end_battle(victory: bool) -> void:
 				false
 			)
 			QuestManager.start_quest(
-		        "return_to_chief_after_training"
+				"return_to_chief_after_training"
 			)
 		battle_log.emit(
 			"You defeated %s! +%d EXP, +%d Gold. Best learning combo: x%d"

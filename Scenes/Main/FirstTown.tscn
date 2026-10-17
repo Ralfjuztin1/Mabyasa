@@ -54,6 +54,9 @@
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="45_qwqmh"]
 [ext_resource type="Texture2D" uid="uid://s73lwo0rn10" path="res://Assets/Characters/EnemySpritesCoke/Boar_Idle.png" id="46_qwqmh"]
 [ext_resource type="Texture2D" uid="uid://dpiqbqv23prjg" path="res://Assets/Characters/EnemySpritesCoke/Boar_Attack.png" id="46_qyqjb"]
+[ext_resource type="PackedScene" uid="uid://dlvg3uuk8mk82" path="res://Scenes/Main/StoryDirectors/BebangBasketReturnDirector.tscn" id="48_tnh3j"]
+[ext_resource type="PackedScene" uid="uid://cumgmn8y6ohbj" path="res://Scenes/Main/StoryDirectors/BlacksmithGearQuizDirector.tscn" id="49_0uggw"]
+[ext_resource type="PackedScene" uid="uid://b8eh6nlevxpyd" path="res://Scenes/Main/StoryDirectors/ChiefAfternoonIntroDirector.tscn" id="49_g0wkx"]
 [ext_resource type="Script" uid="uid://b4o54xfcbsvx7" path="res://Scripts/World/HealingTree.gd" id="50_ay7eq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
@@ -170,32 +173,11 @@ instance_count = 12
 mesh = ExtResource("7_5eqbr")
 buffer = PackedFloat32Array(0.32324648, 0, -0.9463148, 23.695679, 0, 1, 0, 0.19269052, 0.9463148, 0, 0.32324648, -48.572342, 1, 1, 1, 1, 0, 0, 0, 0, 0.5506166, 0, -0.8347583, -5.914576, 0, 1, 0, -0.37299675, 0.8347583, 0, 0.5506166, -1.5848153, 1, 1, 1, 1, 0, 0, 0, 0, 0.94926083, 0, 0.31448984, 14.184308, 0, 1, 0, 0.26405212, -0.31448984, 0, 0.94926083, 19.759523, 1, 1, 1, 1, 0, 0, 0, 0, -0.23162006, 0, -0.97280633, 25.415304, 0, 1, 0, 0.033298627, 0.97280633, 0, -0.23162006, 20.120197, 1, 1, 1, 1, 0, 0, 0, 0, -0.8986935, 0, -0.4385772, 21.05756, 0, 1, 0, 0.29458803, 0.4385772, 0, -0.8986935, 26.036293, 1, 1, 1, 1, 0, 0, 0, 0, 0.20913799, 0, 0.97788614, -30.31618, 0, 1, 0, -0.26788682, -0.97788614, 0, 0.20913799, 12.676899, 1, 1, 1, 1, 0, 0, 0, 0, -0.55765176, 0, -0.830075, 14.097406, 0, 1, 0, -0.16059577, 0.830075, 0, -0.55765176, -0.7574463, 1, 1, 1, 1, 0, 0, 0, 0, -0.6872521, 0, 0.726419, -16.234055, 0, 1, 0, 0.30245423, -0.726419, 0, -0.6872521, 25.397173, 1, 1, 1, 1, 0, 0, 0, 0, 0.96386, 0, 0.26640937, -1.7468942, 0, 1, 0, -0.3825338, -0.26640937, 0, 0.96386, 43.086926, 1, 1, 1, 1, 0, 0, 0, 0, 0.5450401, 0, 0.83841, -30.655045, 0, 1, 0, 0.2587007, -0.83841, 0, 0.5450401, 37.153618, 1, 1, 1, 1, 0, 0, 0, 0, 0.1360372, 0, 0.9907037, -6.92917, 0, 1, 0, 0.49695057, -0.9907037, 0, 0.1360372, -36.166626, 1, 1, 1, 1, 0, 0, 0, 0, -0.53645664, 0, 0.84392786, -27.424122, 0, 1, 0, 0.372833, -0.84392786, 0, -0.53645664, -10.763817, 1, 1, 1, 1, 0, 0, 0, 0)
 
-[sub_resource type="Resource" id="Resource_0md02"]
+[sub_resource type="Resource" id="Resource_2limv"]
 script = ExtResource("17_ubr33")
-condition = 3
-priority = 100
-quest_id = "bebang_talk_to_rids"
-timeline_path = "FirstTownSceneDialogues/bebang_qc"
-play_once = true
-
-[sub_resource type="Resource" id="Resource_ubr33"]
-script = ExtResource("17_ubr33")
-condition = 2
-priority = 90
-quest_id = "bebang_talk_to_rids"
-timeline_path = "FirstTownSceneDialogues/bebang_quest_active"
-
-[sub_resource type="Resource" id="Resource_0oc6g"]
-script = ExtResource("17_ubr33")
-condition = 1
-priority = 80
-quest_id = "bebang_talk_to_rids"
-timeline_path = "FirstTownSceneDialogues/bebang_quest_ns"
-
-[sub_resource type="Resource" id="Resource_631tw"]
-script = ExtResource("17_ubr33")
-priority = 1
-timeline_path = "FirstTownSceneDialogues/bebang_default"
+priority = 226
+timeline_path = "uid://dcag542w3esak"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_scv2f"]
 atlas = ExtResource("9_scv2f")
@@ -884,6 +866,12 @@ animations = [{
 "name": &"walk_right",
 "speed": 5.0
 }]
+
+[sub_resource type="Resource" id="Resource_0uggw"]
+script = ExtResource("17_ubr33")
+priority = 500
+timeline_path = "uid://dfl7a8xga8gk0"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7o3d"]
 atlas = ExtResource("12_vm1ce")
@@ -4631,16 +4619,18 @@ metadata/_scatter_graph = ExtResource("8_8k2fn")
 
 [node name="npc" type="Node3D" parent="." unique_id=540821247]
 
-[node name="bebang" parent="npc" unique_id=1266467026 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 33.959778, 1.1638854, -46.229233)
+[node name="bebang" parent="npc" unique_id=1266467026 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -22.48705, 1.1025264, -58.897816)
 npc_name = "Bebang"
 npc_id = "bebang"
 dialogue_id = "bebang_default"
-dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0md02"), SubResource("Resource_ubr33"), SubResource("Resource_0oc6g"), SubResource("Resource_631tw")])
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_2limv")])
+interaction_cutscenes = [NodePath("../../BebangBasketReturnDirector")]
 npc_frames = SubResource("SpriteFrames_ox5xy")
+opens_food_market = true
 
 [node name="rids" parent="npc" unique_id=1984556762 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 24.839958, 0.7949018, -27.6767)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 30.919142, 0.7949018, -50.548836)
 npc_name = "Rids"
 npc_id = "rids"
 dialogue_id = "rids_first_talk"
@@ -4648,16 +4638,18 @@ npc_frames = SubResource("SpriteFrames_5jb8g")
 can_wander = true
 wander_radius = 1.0
 
-[node name="chief" parent="npc" unique_id=1287002890 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.3126698, 0.8666879, -61.822964)
+[node name="chief" parent="npc" unique_id=1287002890 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.110125, 0.8666879, -63.877365)
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw")])
+interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector")]
 npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
 [node name="ima" parent="npc" unique_id=265834820 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 26.347689, 0.85757613, -59.55504)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 29.083256, 0.85757613, -47.62682)
 npc_name = "Ima"
 npc_id = "ima"
 npc_frames = SubResource("SpriteFrames_nax27")
@@ -4699,7 +4691,7 @@ can_wander = true
 wander_radius = 0.5
 
 [node name="ralf" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -9.120516, 0.7279935, -30.54102)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 68.16868, 4.449427, -84.09809)
 npc_name = "Ralf"
 npc_id = "ralf"
 dialogue_id = "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ralf.dtl"
@@ -4713,12 +4705,12 @@ npc_name = ""
 npc_frames = SubResource("SpriteFrames_f3fox")
 can_wander = true
 wander_radius = 1.0
-opens_food_market = true
 
-[node name="Panday" parent="npc" unique_id=40337071 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5315228, 0.7279935, -32.624363)
+[node name="Panday" parent="npc" unique_id=40337071 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 27.52989, 0.7279935, -60.090702)
 npc_name = "Panday"
 npc_id = "panday"
+interaction_cutscenes = [NodePath("../../BlacksmithGearQuizDirector")]
 npc_frames = SubResource("SpriteFrames_f3fox")
 opens_blacksmith = true
 
@@ -5306,7 +5298,7 @@ transform = Transform3D(-0.6757212, 0, 0.7371573, 0, 1, 0, -0.7371573, 0, -0.675
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.94811, 2.8461976, -37.260242)
 
 [node name="WakingUpCamera" type="Marker3D" parent="CutscenePoints" unique_id=1235244607]
-transform = Transform3D(0.55135685, 0, -0.8342697, 0, 1, 0, 0.8342697, 0, 0.55135685, 33.61328, 1.0111785, -38.407913)
+transform = Transform3D(0.55135685, 0, -0.8342697, 0, 1, 0, 0.8342697, 0, 0.55135685, 34.028397, 1.0111787, -38.664772)
 
 [node name="ImaTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=1281255720]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.018414, 0.6905799, -41.131573)
@@ -5350,6 +5342,42 @@ transform = Transform3D(0.34383217, -0.21748376, 0.9134989, 0.04072763, 0.975348
 [node name="movepacing" type="Marker3D" parent="StoryMarkers" unique_id=472898697]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.529512, 0.4718461, 21.30646)
 
+[node name="BebangBasketPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=1948193052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.964182, 0.91110444, -27.604065)
+
+[node name="BebangBasketBebangPoint" type="Marker3D" parent="StoryMarkers" unique_id=1156292630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.637625, 0.91110444, -28.790241)
+
+[node name="BebangBasketLitikPoint" type="Marker3D" parent="StoryMarkers" unique_id=2007361711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.951653, 0.9111047, -26.290684)
+
+[node name="BebangBasketCamera" type="Marker3D" parent="StoryMarkers" unique_id=1576130392]
+transform = Transform3D(0.7562106, -0.23919569, 0.60904086, -1.0797092e-08, 0.9307882, 0.36555922, -0.65432817, -0.27643976, 0.7038719, -25.427626, 2.6249695, -24.757717)
+
+[node name="ChiefAfternoonPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=227241485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3954587, 0.663808, -34.553406)
+
+[node name="ChiefAfternoonChiefPoint" type="Marker3D" parent="StoryMarkers" unique_id=1784617211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3527484, 0.33385617, -34.37822)
+
+[node name="ChiefAfternoonLitikPoint" type="Marker3D" parent="StoryMarkers" unique_id=1852242302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2776155, 0.5999336, -34.407516)
+
+[node name="ChiefAfternoonCamera" type="Marker3D" parent="StoryMarkers" unique_id=1219242747]
+transform = Transform3D(1, 0, 0, 0, 0.90198946, 0.43175805, 0, -0.43175805, 0.90198946, -3.985599, 1.5261008, -32.0092)
+
+[node name="BlacksmithQuizPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=1068504845]
+transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 23.646116, 0.663808, -31.12321)
+
+[node name="BlacksmithQuizPandayPoint" type="Marker3D" parent="StoryMarkers" unique_id=593172538]
+transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 25.209455, 0.33385617, -29.796814)
+
+[node name="BlacksmithQuizLitikPoint" type="Marker3D" parent="StoryMarkers" unique_id=778809929]
+transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 22.842607, 0.5999336, -31.515461)
+
+[node name="BlacksmithQuizCamera" type="Marker3D" parent="StoryMarkers" unique_id=1957985287]
+transform = Transform3D(0.81501913, 0.2501753, -0.5226434, 0, 0.90198946, 0.43175805, 0.57943404, -0.35189107, 0.73513865, 22.50596, 1.5261008, -28.81215)
+
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
 
@@ -5357,6 +5385,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33256543, 0)
 script = ExtResource("32_631tw")
 litik_cutscene = NodePath("../../Scene2")
+required_flags = Array[String](["cene_1_ima_good_morning_complete"])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/LitikAppearTrigger" unique_id=2051805543]
 transform = Transform3D(0.9454734, 0, 0.32569942, 0, 1, 0, -0.32569942, 0, 0.9454734, -0.9342594, 4.7683716e-07, -2.3689575)
@@ -5366,7 +5395,6 @@ shape = SubResource("BoxShape3D_7xnph")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.849203, 0, 12.41798)
 script = ExtResource("35_87cgx")
 narrow_cutscene = NodePath("../../narrow_path_litik")
-story_flag = "narrow_path_litik"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/narrow" unique_id=1821063020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875276, 0.68792725, 3.0457916)
@@ -5376,7 +5404,6 @@ shape = SubResource("BoxShape3D_nbvpm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.59484, 0, 20.686144)
 script = ExtResource("36_jc31u")
 cutscene = NodePath("../../pacing_move")
-story_flag = "pacing_move"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/PacingMove" unique_id=2076401743]
 transform = Transform3D(0.84923893, 0, -0.52800876, 0, 1, 0, 0.52800876, 0, 0.84923893, 0.110839844, 0, 2.1863556)
@@ -5397,6 +5424,20 @@ intro_timeline = "uid://n1t8vy8wgy1n"
 [node name="narrow_path_litik" parent="." unique_id=762053646 instance=ExtResource("40_f3fox")]
 
 [node name="pacing_move" parent="." unique_id=1414608135 instance=ExtResource("42_ahwvf")]
+
+[node name="BebangBasketReturnDirector" parent="." unique_id=1761112858 instance=ExtResource("48_tnh3j")]
+cutscene_id = "bebang_basket_return"
+completion_flag = "bebang_basket_return_complete"
+
+[node name="BlacksmithGearQuizDirector" parent="." unique_id=1619971027 instance=ExtResource("49_0uggw")]
+cutscene_id = "blacksmith_gear_quiz"
+required_flags = Array[String](["bebang_basket_return_complete"])
+completion_flag = "blacksmith_gear_quiz_completed"
+
+[node name="ChiefAfternoonIntroDirector" parent="." unique_id=1688602486 instance=ExtResource("49_g0wkx")]
+cutscene_id = "chief_afternoon_intro"
+required_flags = Array[String](["bebang_basket_return_complete"])
+completion_flag = "chief_afternoon_intro_completed"
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)
