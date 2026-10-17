@@ -94,8 +94,9 @@ func start_battle(enemy_data: EnemyData) -> void:
 	_boss_sentence_attempts = 0
 	_boss_mistake_count = 0
 
-	if is_boss_battle:
-		CheckpointManager.ensure_checkpoint_at_player()
+	# Ensure every battle has a valid respawn point. This preserves an existing
+	# checkpoint and creates a player-position fallback only if none exists.
+	CheckpointManager.ensure_checkpoint_at_player()
 
 	enemy_hp = maxi(enemy_data.max_hp, 1)
 	enemy_barrier = maxi(enemy_data.max_barrier, 0)

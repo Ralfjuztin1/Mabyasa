@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bfaae2fx3yg3g"]
 
-[ext_resource type="Script" uid="uid://cf6de1186363b" path="res://Scenes/Battle/BattleScreen.gd" id="1_battle_screen"]
-[ext_resource type="Script" path="res://Scripts/Battle/BattlePresentationFX.gd" id="7_battle_fx"]
+[ext_resource type="Script" uid="uid://dyxm4fqod8iq3" path="res://Scenes/Battle/BattleScreenCheckpointFix.gd" id="1_ji14m"]
 [ext_resource type="PackedScene" uid="uid://dcgk3tfigt0lo" path="res://Scenes/Battle/QuizUI.tscn" id="2_quiz_ui"]
 [ext_resource type="Texture2D" uid="uid://csm6q1ormbtf2" path="res://Assets/Battle/morning-battle.png" id="2_sqvdo"]
 [ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="3_045us"]
 [ext_resource type="Texture2D" uid="uid://xyydtqdb2jbs" path="res://Assets/Battle/Mabiyasa_panel_flower.png" id="4_2bb1p"]
 [ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="5_4bbuo"]
 [ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="6_ji14m"]
+[ext_resource type="Script" uid="uid://ka1jkdkg5pqb" path="res://Scripts/Battle/BattlePresentationFX.gd" id="7_battle_fx"]
 
 [sub_resource type="StyleBoxFlat" id="PanelPlatform"]
 bg_color = Color(0.015, 0.025, 0.018, 0.68)
@@ -145,7 +145,7 @@ texture = SubResource("AtlasTexture_sc511")
 [node name="BattleScreen" type="CanvasLayer" unique_id=1985453315]
 process_mode = 3
 layer = 55
-script = ExtResource("1_battle_screen")
+script = ExtResource("1_ji14m")
 
 [node name="Root" type="Control" parent="." unique_id=132801216]
 layout_mode = 3
@@ -607,7 +607,8 @@ text = "Continue"
 [node name="QuizUI" parent="Root" unique_id=535122943 instance=ExtResource("2_quiz_ui")]
 visible = false
 layout_mode = 1
-[node name="BattlePresentationFX" type="Control" parent="Root"]
+
+[node name="BattlePresentationFX" type="Control" parent="Root" unique_id=343027824]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

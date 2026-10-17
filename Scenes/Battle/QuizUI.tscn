@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dcgk3tfigt0lo"]
 
-[ext_resource type="Script" uid="uid://el3p32eyk6rp" path="res://Scripts/Battle/QuizUI.gd" id="1_quiz_ui"]
+[ext_resource type="Script" path="res://Scripts/Battle/QuizUIAnimated.gd" id="1_quiz_ui"]
 [ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="2_60rmt"]
 [ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="2_gxclh"]
 [ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="3_60rmt"]
@@ -243,9 +243,9 @@ vertical_alignment = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.3
+anchor_top = 0.02
 anchor_right = 0.5
-anchor_bottom = 0.88
+anchor_bottom = 0.98
 offset_left = -390.0
 offset_right = 390.0
 theme_override_constants/h_separation = 14

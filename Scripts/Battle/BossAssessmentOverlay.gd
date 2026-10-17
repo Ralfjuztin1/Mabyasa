@@ -38,6 +38,7 @@ var _finish_clicked: bool = false
 var _rows: Array[Dictionary] = []
 var _review_index: int = 0
 var _transition_tween: Tween
+var _defeat_splash_generation: int = 0
 
 
 func _ready() -> void:
@@ -76,9 +77,9 @@ func _ready() -> void:
 	for control: Variant in required_controls:
 		if control == null:
 			push_error(
-			"[BOSS ASSESSMENT] Missing controls in BossAssessmentOverlay.tscn. "
-			+ "Restore the matching scene and script files from the package."
-		)
+				"[BOSS ASSESSMENT] Missing controls in BossAssessmentOverlay.tscn. "
+				+ "Restore the matching scene and script files from the package."
+			)
 			return
 
 	_controls_ready = true
@@ -110,7 +111,7 @@ func present(victory: bool, report: Dictionary, boss_name: String) -> void:
 
 	title_label.text = "BATTLE REVIEW"
 	subtitle_label.text = "BOSS TRIAL  ·  %s" % boss_name.to_upper()
-	outcome_label.text = "BOSS DEFEATED" if victory else "TRIAL FAILED · PRACTICE MAKES PROGRESS"
+	outcome_label.text = "BOSS DEFEATED" if victory else "YOU WERE DEFEATED · LEARN AND RETURN"
 	outcome_label.add_theme_color_override("font_color", GREEN if victory else RED)
 
 	var accuracy: int = clampi(int(report.get("accuracy_percent", 0)), 0, 100)
@@ -155,6 +156,105 @@ func present(victory: bool, report: Dictionary, boss_name: String) -> void:
 		next_button.grab_focus()
 	else:
 		finish_button.grab_focus()
+
+	# Make defeat unmistakable before the learner review appears underneath.
+	# The reveal is presentation-only and does not alter the checkpoint flow.
+	if not victory:
+		call_deferred("_play_defeat_splash", boss_name)
+
+
+func _play_defeat_splash(boss_name: String) -> void:
+	_defeat_splash_generation += 1
+	var generation: int = _defeat_splash_generation
+	var splash := Control.new()
+	splash.name = "BossDefeatSplash"
+	splash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	splash.mouse_filter = Control.MOUSE_FILTER_STOP
+	splash.z_index = 100
+	splash.modulate.a = 0.0
+	add_child(splash)
+
+	var backdrop := ColorRect.new()
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.color = Color(0.055, 0.008, 0.012, 0.94)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	splash.add_child(backdrop)
+
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	splash.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(590.0, 250.0)
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.035, 0.025, 0.028, 0.99)
+	panel_style.border_width_left = 3
+	panel_style.border_width_top = 3
+	panel_style.border_width_right = 3
+	panel_style.border_width_bottom = 3
+	panel_style.border_color = RED
+	panel_style.corner_radius_top_left = 6
+	panel_style.corner_radius_top_right = 6
+	panel_style.corner_radius_bottom_left = 6
+	panel_style.corner_radius_bottom_right = 6
+	panel.add_theme_stylebox_override("panel", panel_style)
+	panel.scale = Vector2(0.82, 0.82)
+	panel.pivot_offset = panel.custom_minimum_size * 0.5
+	center.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 26)
+	margin.add_theme_constant_override("margin_top", 24)
+	margin.add_theme_constant_override("margin_right", 26)
+	margin.add_theme_constant_override("margin_bottom", 24)
+	panel.add_child(margin)
+
+	var stack := VBoxContainer.new()
+	stack.alignment = BoxContainer.ALIGNMENT_CENTER
+	stack.add_theme_constant_override("separation", 12)
+	margin.add_child(stack)
+
+	var kicker := Label.new()
+	kicker.text = "MABIYASA  ·  BOSS TRIAL"
+	kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	kicker.add_theme_color_override("font_color", GOLD)
+	kicker.add_theme_font_size_override("font_size", 13)
+	stack.add_child(kicker)
+
+	var title := Label.new()
+	title.text = "DEFEAT"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_color_override("font_color", RED)
+	title.add_theme_font_size_override("font_size", 48)
+	stack.add_child(title)
+
+	var detail := Label.new()
+	detail.text = "%s has overcome you.\nReview your phrases, then return stronger." % boss_name
+	detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.add_theme_color_override("font_color", CREAM)
+	detail.add_theme_font_size_override("font_size", 16)
+	stack.add_child(detail)
+
+	var appear := create_tween()
+	appear.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	appear.tween_property(splash, "modulate:a", 1.0, 0.18)
+	appear.parallel().tween_property(panel, "scale", Vector2.ONE, 0.24)
+	await appear.finished
+	if not is_instance_valid(splash) or generation != _defeat_splash_generation:
+		return
+
+	await get_tree().create_timer(1.45).timeout
+	if not is_instance_valid(splash) or generation != _defeat_splash_generation:
+		return
+
+	var fade := create_tween()
+	fade.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	fade.tween_property(splash, "modulate:a", 0.0, 0.28)
+	await fade.finished
+	if is_instance_valid(splash):
+		splash.queue_free()
 
 
 func _show_result(index: int, animate: bool = true) -> void:
@@ -209,7 +309,6 @@ func _show_result(index: int, animate: bool = true) -> void:
 	else:
 		review_panel.modulate.a = 1.0
 
-	# Keep keyboard navigation usable without stealing input from text controls.
 	if animate:
 		if not next_button.disabled:
 			next_button.grab_focus()

@@ -1,0 +1,48 @@
+diff --git a/Scenes/Battle/BattleScreen.gd b/Scenes/Battle/BattleScreen.gd
+--- a/Scenes/Battle/BattleScreen.gd
++++ b/Scenes/Battle/BattleScreen.gd
+@@ -40,3 +40,4 @@
+ var _last_enemy_hp: int = -1
+ var _last_player_hp: int = -1
++var _last_battle_victory: bool = true
+ var _entry_animation_played: bool = false
+@@ -972,7 +973,8 @@ func _on_battle_ended(victory: bool) -> void:
+ 		return
+ 
++	_last_battle_victory = victory
+ 	bottom_bar.visible = true
+ 
+ 	if victory:
+@@ -986,6 +988,7 @@ func _on_battle_ended(victory: bool) -> void:
+ 	food_button.visible = false
+ 	flee_button.visible = false
+ 	continue_button.visible = true
++	continue_button.text = "Continue" if victory else "Return to Checkpoint"
+ 
+ 
+ func _on_boss_assessment_finished(victory: bool) -> void:
+@@ -1077,5 +1080,24 @@ func _on_battle_fled() -> void:
+ 
+ 
+ func _on_continue_pressed() -> void:
++	# On normal defeat, restore the checkpoint recorded by CheckpointMarker.
++	# Do not create or move a checkpoint here. Normal victory stays unchanged.
++	if not _last_battle_victory:
++		continue_button.disabled = true
++		bottom_bar.visible = false
++
++		var restored: bool = await CheckpointManager.restore_checkpoint()
++		if not restored:
++			GameManager.set_game_state(
++				GameManager.GameState.EXPLORATION
++			)
++			if GameManager.has_method("request_save"):
++				GameManager.request_save()
++
++		if is_instance_valid(self):
++			closed.emit()
++			queue_free()
++		return
++
+ 	closed.emit()
+ 	queue_free()

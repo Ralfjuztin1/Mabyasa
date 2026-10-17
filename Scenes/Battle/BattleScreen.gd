@@ -39,6 +39,7 @@ signal closed
 
 var _last_enemy_hp: int = -1
 var _last_player_hp: int = -1
+var _last_battle_victory: bool = true
 var _entry_animation_played: bool = false
 var _previous_mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 var _current_enemy_idle_animation: StringName = &""
@@ -980,6 +981,7 @@ func _on_battle_ended(victory: bool) -> void:
 
 		return
 
+	_last_battle_victory = victory
 	bottom_bar.visible = true
 
 	if victory:
@@ -991,6 +993,7 @@ func _on_battle_ended(victory: bool) -> void:
 	food_button.visible = false
 	flee_button.visible = false
 	continue_button.visible = true
+	continue_button.text = "Continue" if victory else "Return to Checkpoint"
 
 
 func _on_boss_assessment_finished(victory: bool) -> void:
@@ -1075,5 +1078,24 @@ func _on_battle_fled() -> void:
 
 
 func _on_continue_pressed() -> void:
+	# Normal battle defeat should use the same checkpoint restore as boss defeat.
+	# Victory continues normally and does not teleport the player.
+	if not _last_battle_victory:
+		continue_button.disabled = true
+		bottom_bar.visible = false
+
+		var restored: bool = await CheckpointManager.restore_checkpoint()
+		if not restored:
+			GameManager.set_game_state(
+				GameManager.GameState.EXPLORATION
+			)
+			if GameManager.has_method("request_save"):
+				GameManager.request_save()
+
+		if is_instance_valid(self):
+			closed.emit()
+			queue_free()
+		return
+
 	closed.emit()
 	queue_free()

@@ -37,7 +37,6 @@
 [ext_resource type="Texture2D" uid="uid://cssrmw7ubt5yq" path="res://Assets/Characters/NPC_anims/Animals/Rooster_animation_without_shadow.png" id="22_ppvpn"]
 [ext_resource type="Texture2D" uid="uid://budu2sxmnexks" path="res://Assets/Characters/NPC_anims/gab/walk.png" id="23_kscwy"]
 [ext_resource type="Texture2D" uid="uid://b82i107dpmucd" path="res://Assets/Characters/NPC_anims/reya/walk.png" id="23_n17nu"]
-[ext_resource type="Script" uid="uid://c7idplcg2siln" path="res://Scenes/Battle/BattleTrigger.gd" id="25_sgv20"]
 [ext_resource type="Texture2D" uid="uid://d13hlrbgfnq0" path="res://Assets/Characters/NPC_anims/ralf/idle.png" id="26_ay7eq"]
 [ext_resource type="Texture2D" uid="uid://legg38htig0l" path="res://Assets/Characters/NPC_anims/ralf/walk.png" id="27_tnh3j"]
 [ext_resource type="Script" uid="uid://cy0338afheka" path="res://Scripts/Cutscene/FirstTownIntro.gd" id="27_x2wea"]
@@ -4257,9 +4256,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8a144"]
-size = Vector3(1.9667969, 2.437378, 1.8583984)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_7xnph"]
 size = Vector3(17.076538, 1, 19.684097)
 
@@ -4271,6 +4267,9 @@ size = Vector3(9.326172, 1, 5.9885254)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b66by"]
 size = Vector3(13.472656, 4.5057373, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8a144"]
+radius = 0.94433594
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nbvpm"]
 height = 2.650879
@@ -5299,14 +5298,6 @@ animal_id = "manukq"
 can_interact = true
 animal_frames = SubResource("SpriteFrames_n7o3d")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=396528128]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7026186, 0, -32.671165)
-script = ExtResource("25_sgv20")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1474998164]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48339844, 1.1998739, 0.42919922)
-shape = SubResource("BoxShape3D_8a144")
-
 [node name="CutscenePoints" type="Node3D" parent="." unique_id=1266979120]
 
 [node name="Scene1StartPoint" type="Marker3D" parent="CutscenePoints" unique_id=1710863601]
@@ -5425,6 +5416,13 @@ npc_id = "litik"
 transform = Transform3D(3.4689867, 0, 0, 0, 1.8767529, 0, 0, 0, 3.0000262, 2.942173, 0.24277297, -34.515755)
 mesh = ExtResource("4_vq4af")
 
+[node name="Area3D" type="Area3D" parent="Bigtree" unique_id=691774883]
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bigtree/Area3D" unique_id=987659801]
+transform = Transform3D(1, 0, 0, 0, 1.0000006, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_8a144")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="Bigtree" unique_id=1743529214]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0.012918472)
 
@@ -5436,7 +5434,7 @@ shape = SubResource("CapsuleShape3D_nbvpm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.900277, 0.07549882, -3.7217789)
 
 [node name="Enemy2" parent="." unique_id=1154355743 instance=ExtResource("44_2ujky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.724621, 0.23670536, -2.3971307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.790878, 0.23670536, 7.212964)
 enemy_id = "what_the_fox"
 enemy_name = "What the Fox"
 world_sprite_frames = SubResource("SpriteFrames_t4itd")
@@ -5457,6 +5455,3 @@ battle_attack_duration = 1.6
 
 [node name="DefaultSpawn" type="Marker3D" parent="." unique_id=235838762]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.669968, 0, -40.408943)
-
-[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
-[connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]
