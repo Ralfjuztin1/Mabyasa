@@ -57,8 +57,9 @@
 [ext_resource type="PackedScene" uid="uid://dlvg3uuk8mk82" path="res://Scenes/Main/StoryDirectors/BebangBasketReturnDirector.tscn" id="48_tnh3j"]
 [ext_resource type="PackedScene" uid="uid://cumgmn8y6ohbj" path="res://Scenes/Main/StoryDirectors/BlacksmithGearQuizDirector.tscn" id="49_0uggw"]
 [ext_resource type="PackedScene" uid="uid://b8eh6nlevxpyd" path="res://Scenes/Main/StoryDirectors/ChiefAfternoonIntroDirector.tscn" id="49_g0wkx"]
-[ext_resource type="Script" uid="uid://b4o54xfcbsvx7" path="res://Scripts/World/HealingTree.gd" id="50_ay7eq"]
 [ext_resource type="PackedScene" uid="uid://1b353tx13k2x" path="res://Scenes/Main/StoryDirectors/ChiefAfterTrainingDirector.tscn" id="51_ig5lw"]
+[ext_resource type="PackedScene" uid="uid://g7vxwqs5j2nf" path="res://Scenes/Main/StoryDirectors/ImaEveningGreetingDirector.tscn" id="52_odars"]
+[ext_resource type="Script" uid="uid://wqr3fnjf7ete" path="res://Scripts/World/HealingTreeQuestBridge.gd" id="54_ig5lw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -873,6 +874,22 @@ script = ExtResource("17_ubr33")
 condition = 2
 priority = 500
 quest_id = "return_to_chief"
+timeline_path = "FirstTownSceneDialogues/chief_training_start"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
+[sub_resource type="Resource" id="Resource_ig5lw"]
+script = ExtResource("17_ubr33")
+condition = 6
+priority = 650
+flag_id = "chief_training_battle_lost"
+timeline_path = "FirstTownSceneDialogues/chief_after_training_loss"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
+[sub_resource type="Resource" id="Resource_odars"]
+script = ExtResource("17_ubr33")
+condition = 6
+priority = 6767
+flag_id = "chief_training_healed"
 timeline_path = "FirstTownSceneDialogues/chief_training_start"
 metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
@@ -4642,20 +4659,20 @@ can_wander = true
 wander_radius = 1.0
 
 [node name="chief" parent="npc" unique_id=1287002890 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.110125, 0.8666879, -63.877365)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.7792203, 0.8666879, -63.97254)
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
-dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw")])
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw"), SubResource("Resource_ig5lw"), SubResource("Resource_odars")])
 interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector"), NodePath("../../ChiefAfterTrainingDirector")]
 cutscene_flags = Array[String](["chief_afternoon_intro_complete", ""])
 npc_frames = SubResource("SpriteFrames_lfg56")
-can_wander = true
 
-[node name="ima" parent="npc" unique_id=265834820 instance=ExtResource("8_fbikn")]
+[node name="ima" parent="npc" unique_id=265834820 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 29.083256, 0.85757613, -47.62682)
 npc_name = "Ima"
 npc_id = "ima"
+interaction_cutscenes = [NodePath("../../ImaEveningGreetingDirector")]
 npc_frames = SubResource("SpriteFrames_nax27")
 
 [node name="apu" parent="npc" unique_id=1006961691 node_paths=PackedStringArray("interaction_cutscenes") instance=ExtResource("8_fbikn")]
@@ -4695,7 +4712,7 @@ can_wander = true
 wander_radius = 0.5
 
 [node name="ralf" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 68.16868, 4.449427, -84.09809)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 21.026283, 4.449427, -75.27802)
 npc_name = "Ralf"
 npc_id = "ralf"
 dialogue_id = "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ralf.dtl"
@@ -5371,7 +5388,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2776155, 0.5999336, -34.40
 transform = Transform3D(1, 0, 0, 0, 0.90198946, 0.43175805, 0, -0.43175805, 0.90198946, -3.985599, 1.5261008, -32.0092)
 
 [node name="BlacksmithQuizPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=1068504845]
-transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 23.646116, 0.663808, -31.12321)
+transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 23.646, 0.464, -31.123)
 
 [node name="BlacksmithQuizPandayPoint" type="Marker3D" parent="StoryMarkers" unique_id=593172538]
 transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 25.209455, 0.33385617, -29.796814)
@@ -5381,6 +5398,18 @@ transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81
 
 [node name="BlacksmithQuizCamera" type="Marker3D" parent="StoryMarkers" unique_id=1957985287]
 transform = Transform3D(0.81501913, 0.2501753, -0.5226434, 0, 0.90198946, 0.43175805, 0.57943404, -0.35189107, 0.73513865, 22.50596, 1.5261008, -28.81215)
+
+[node name="ImaEveningPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=992631487]
+transform = Transform3D(0.124474764, 0, -0.9922228, 0, 1, 0, 0.9922228, 0, 0.124474764, 33.826046, 0.46400023, -11.318127)
+
+[node name="ImaEveningImaPoint" type="Marker3D" parent="StoryMarkers" unique_id=2134540049]
+transform = Transform3D(0.124474764, 0, -0.9922228, 0, 1, 0, 0.9922228, 0, 0.124474764, 33.90672, 0.3338564, -9.269554)
+
+[node name="ImaEveningLitikPoint" type="Marker3D" parent="StoryMarkers" unique_id=1468922902]
+transform = Transform3D(0.124474764, 0, -0.9922228, 0, 1, 0, 0.9922228, 0, 0.124474764, 33.571716, 0.59993386, -12.1753235)
+
+[node name="ImaEveningCamera" type="Marker3D" parent="StoryMarkers" unique_id=1313588630]
+transform = Transform3D(0.124474734, 0.42840022, -0.8949746, 0, 0.9019896, 0.4317581, 0.9922228, -0.053742975, 0.112274885, 31.352875, 1.526101, -10.594826)
 
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
@@ -5447,6 +5476,9 @@ completion_flag = "chief_afternoon_intro_complete"
 required_flags = Array[String](["chief_training_battle_completed"])
 completion_flag = "chief_after_training_cutscene_completed"
 
+[node name="ImaEveningGreetingDirector" parent="." unique_id=1210179695 instance=ExtResource("52_odars")]
+required_flags = Array[String](["chief_training_battle_completed"])
+
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)
 
@@ -5466,8 +5498,7 @@ mesh = ExtResource("4_vq4af")
 
 [node name="Area3D" type="Area3D" parent="Bigtree" unique_id=691774883]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-script = ExtResource("50_ay7eq")
-heal_to_percent = 95.0
+script = ExtResource("54_ig5lw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bigtree/Area3D" unique_id=987659801]
 transform = Transform3D(1, 0, 0, 0, 1.0000006, 0, 0, 0, 1, 0, 0, 0)

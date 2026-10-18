@@ -70,7 +70,7 @@ fade_duration = 0.25
 [node name="11_Dialogue" type="Node" parent="." unique_id=978987288]
 script = ExtResource("2_action")
 action_type = 7
-timeline_path = "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/blacksmith_gear_and_quiz.dtl"
+timeline_path = "uid://b546egcj0vdca"
 
 [node name="12_ReturnPlayerCamera" type="Node" parent="." unique_id=1261201497]
 script = ExtResource("2_action")

@@ -413,6 +413,8 @@ func _normalize_dialogue_path(
 		+ reference
 		+ ".dtl"
 	)
+
+
 # ============================================================
 # DIALOGIC SIGNALS
 # ============================================================
@@ -505,9 +507,14 @@ func _on_dialogic_signal(argument: Variant) -> void:
 	# ========================================================
 
 	if signal_name.begins_with("solve_"):
-		var puzzle_id: String = signal_name.trim_prefix("solve_")
+
+		var puzzle_id: String = (
+			signal_name.trim_prefix("solve_")
+		)
+
 		if not puzzle_id.is_empty() and GameEvents:
 			GameEvents.puzzle_solved.emit(puzzle_id)
+
 		return
 
 
@@ -669,13 +676,16 @@ func _on_dialogue_started() -> void:
 # ============================================================
 
 func _on_dialogue_ended() -> void:
+
 	is_dialogue_active = false
 
 	_mark_dialogue_entry_played()
 
-	# Keep the NPC reference before clearing dialogue state. Chief's training
-	# battle must start only after the dialogue and camera restoration finish.
+	# Keep the NPC reference before clearing dialogue state.
+	# Chief's training battle starts only after the dialogue
+	# and camera restoration finish.
 	var finished_npc: Node = current_npc
+
 	var should_start_chief_training: bool = (
 		is_instance_valid(finished_npc)
 		and "npc_id" in finished_npc
@@ -688,17 +698,36 @@ func _on_dialogue_ended() -> void:
 		)
 	)
 
-	if is_instance_valid(current_npc) and "npc_id" in current_npc:
-		GameEvents.npc_talked.emit(current_npc.npc_id)
+	if (
+		is_instance_valid(current_npc)
+		and "npc_id" in current_npc
+	):
+		GameEvents.npc_talked.emit(
+			current_npc.npc_id
+		)
 
-	var player: Node = get_tree().get_first_node_in_group("player")
+	var player: Node = (
+		get_tree().get_first_node_in_group("player")
+	)
+
 	if player:
+
 		_zoom_camera_out(player)
-		player.set_physics_process(player_was_physics_processing)
-		player.set_process_input(player_was_input_processing)
+
+		player.set_physics_process(
+			player_was_physics_processing
+		)
+
+		player.set_process_input(
+			player_was_input_processing
+		)
 
 	if is_instance_valid(current_npc):
-		current_npc.set_physics_process(npc_was_physics_processing)
+
+		current_npc.set_physics_process(
+			npc_was_physics_processing
+		)
+
 		current_npc.set_process_unhandled_input(
 			npc_was_unhandled_input_processing
 		)
@@ -706,109 +735,224 @@ func _on_dialogue_ended() -> void:
 	current_npc = null
 	current_dialogue_entry = null
 
-	GameManager.set_game_state(GameManager.GameState.EXPLORATION)
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	GameManager.set_game_state(
+		GameManager.GameState.EXPLORATION
+	)
+
+	Input.set_mouse_mode(
+		Input.MOUSE_MODE_CAPTURED
+	)
 
 	print("[DIALOGUE] Dialogue ended.")
 
 	if should_start_chief_training:
-		_start_chief_training_battle(finished_npc)
+		_start_chief_training_battle(
+			finished_npc
+		)
 
 
-func _start_chief_training_battle(chief_npc: Node) -> void:
+# ============================================================
+# START CHIEF TRAINING BATTLE
+# ============================================================
+
+func _start_chief_training_battle(
+	chief_npc: Node
+) -> void:
+
 	if BattleManager.battle_active:
 		return
 
 	var current_scene: Node = get_tree().current_scene
+
 	if current_scene == null:
-		push_error("[DIALOGUE] Cannot start Chief training: current scene is null.")
+
+		push_error(
+			"[DIALOGUE] Cannot start Chief training: "
+			+ "current scene is null."
+		)
+
 		return
 
 	var enemy_data: EnemyData = EnemyData.new()
+
 	enemy_data.enemy_id = "chief_training"
 	enemy_data.display_name = "Chief"
 	enemy_data.max_hp = 50
 	enemy_data.max_barrier = 20
-	enemy_data.atk = 12
+	enemy_data.atk = 25
 	enemy_data.exp_reward = 250
 	enemy_data.gold_reward = 100
 	enemy_data.is_boss = false
 
+
 	# Reuse Chief's NPC frames for the battle portrait when available.
 	var chief_frames: SpriteFrames = null
-	if is_instance_valid(chief_npc) and "npc_frames" in chief_npc:
-		chief_frames = chief_npc.get("npc_frames") as SpriteFrames
+
+	if (
+		is_instance_valid(chief_npc)
+		and "npc_frames" in chief_npc
+	):
+		chief_frames = (
+			chief_npc.get("npc_frames") as SpriteFrames
+		)
 
 	if chief_frames != null:
+
 		enemy_data.battle_sprite_frames = chief_frames
 		enemy_data.battle_sprite_animation = &"idle_right"
 		enemy_data.battle_attack_animation = &""
 		enemy_data.battle_hit_animation = &""
 
+
 	var battle_screen: CanvasLayer = (
 		BATTLE_SCREEN_SCENE.instantiate() as CanvasLayer
 	)
+
 	if battle_screen == null:
-		push_error("[DIALOGUE] Could not create the Chief training battle screen.")
+
+		push_error(
+			"[DIALOGUE] Could not create the Chief "
+			+ "training battle screen."
+		)
+
 		return
+
 
 	current_scene.add_child(battle_screen)
+
 	BattleManager.start_battle(enemy_data)
 
-	# start_battle() can reject a request, so don't permanently lock the
-	# training flag unless a battle actually became active.
+
+	# Only lock the battle-start flag if a battle actually began.
 	if not BattleManager.battle_active:
+
 		battle_screen.queue_free()
-		push_error("[DIALOGUE] Chief training battle did not start.")
+
+		push_error(
+			"[DIALOGUE] Chief training battle did not start."
+		)
+
 		return
+
 
 	QuestManager.set_dialogue_flag(
 		"chief_training_battle_started",
 		true
 	)
+
 	print("[DIALOGUE] Chief training battle started.")
 
 
-func _on_chief_training_battle_ended(victory: bool) -> void:
-	# This handler runs for every battle, so ignore everything except Chief's
-	# scripted training battle.
+# ============================================================
+# CHIEF TRAINING BATTLE END
+# ============================================================
+
+func _on_chief_training_battle_ended(
+	victory: bool
+) -> void:
+
+	# This handler runs for every battle, so ignore everything
+	# except Chief's scripted training battle.
 	if BattleManager.current_enemy == null:
 		return
 
-	if BattleManager.current_enemy.enemy_id != "chief_training":
+	if (
+		BattleManager.current_enemy.enemy_id
+		!= "chief_training"
+	):
 		return
 
+
+	# --------------------------------------------------------
+	# DEFEAT
+	# --------------------------------------------------------
+
 	if not victory:
-		# Let the player talk to Chief again and retry after a defeat.
+
+		# Prevent an immediate retry. The player must heal at
+		# the Big Tree and speak to Chief again.
+		QuestManager.set_dialogue_flag(
+			"training_battle_requested",
+			false
+		)
+
 		QuestManager.set_dialogue_flag(
 			"chief_training_battle_started",
 			false
 		)
-		print("[DIALOGUE] Chief training lost; retry is enabled.")
+
+		QuestManager.set_dialogue_flag(
+			"chief_training_battle_completed",
+			false
+		)
+
+		QuestManager.set_dialogue_flag(
+			"chief_training_battle_lost",
+			true
+		)
+
+		QuestManager.set_dialogue_flag(
+			"chief_training_healed",
+			false
+		)
+
+		print(
+			"[DIALOGUE] Chief training lost; "
+			+ "heal at the Big Tree before retrying."
+		)
+
 		return
 
-	# Victory must not trigger another training battle on the next conversation.
+
+	# --------------------------------------------------------
+	# VICTORY
+	# --------------------------------------------------------
+
+	# Clear the request so the next conversation doesn't
+	# accidentally start another training battle.
 	QuestManager.set_dialogue_flag(
 		"training_battle_requested",
 		false
 	)
+
 	QuestManager.set_dialogue_flag(
 		"chief_training_battle_started",
 		true
 	)
+
 	QuestManager.set_dialogue_flag(
 		"chief_training_battle_completed",
 		true
 	)
 
-	# BattleManager emits enemy_killed before battle_ended, so the first quest's
-	# objective should already be complete when this check runs.
-	if QuestManager.is_quest_completed("first_training_battle"):
-		QuestManager.start_quest("return_to_chief_after_training")
+	# Remove the loss-recovery state after victory.
+	QuestManager.set_dialogue_flag(
+		"chief_training_battle_lost",
+		false
+	)
+
+	QuestManager.set_dialogue_flag(
+		"chief_training_healed",
+		false
+	)
+
+
+	# BattleManager emits enemy_killed before battle_ended, so
+	# first_training_battle should already be completed here.
+	if QuestManager.is_quest_completed(
+		"first_training_battle"
+	):
+
+		QuestManager.start_quest(
+			"return_to_chief_after_training"
+		)
+
 	else:
+
 		push_warning(
-			"[DIALOGUE] Chief was defeated, but first_training_battle "
-			+ "is not marked complete. Check the quest objective target."
+			"[DIALOGUE] Chief was defeated, but "
+			+ "first_training_battle is not marked complete. "
+			+ "Check the quest objective target."
 		)
 
 

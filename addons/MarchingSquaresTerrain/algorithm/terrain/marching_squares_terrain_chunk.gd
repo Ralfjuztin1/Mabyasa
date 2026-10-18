@@ -84,88 +84,163 @@ var blend_zone := upper_thresh - lower_thresh
 #endregion
 
 # Called by TerrainSystem parent
+# Called by TerrainSystem parent
 func initialize_terrain(should_regenerate_mesh: bool = true):
 	needs_update = []
-	# Initally all cells will need to be updated to show the newly loaded height
+
+	# Mark all cells for regeneration.
 	for z in range(dimensions.z - 1):
 		needs_update.append([])
 		for x in range(dimensions.x - 1):
 			needs_update[z].append(true)
-	
+
+	# IMPORTANT:
+	# Initialize the source maps BEFORE setting up grass.
+	# Grass generation can access height_map[z][x].
+	var height_map_valid: bool = height_map.size() == dimensions.z
+
+	if height_map_valid:
+		for z in range(dimensions.z):
+			if not (height_map[z] is Array):
+				height_map_valid = false
+				break
+
+			if height_map[z].size() != dimensions.x:
+				height_map_valid = false
+				break
+
+	if not height_map_valid:
+		generate_height_map()
+
+	# Validate and initialize color maps.
+	var expected_map_size: int = dimensions.z * dimensions.x
+
+	if (
+		color_map_0.size() != expected_map_size
+		or color_map_1.size() != expected_map_size
+	):
+		generate_color_maps()
+
+	if (
+		wall_color_map_0.size() != expected_map_size
+		or wall_color_map_1.size() != expected_map_size
+	):
+		generate_wall_color_maps()
+
+	if grass_mask_map.size() != expected_map_size:
+		generate_grass_mask_map()
+
+	# Initialize the grass planter only after the maps exist.
 	if not get_node_or_null("GrassPlanter"):
 		grass_planter = get_node_or_null("GrassPlanter")
+
 		if not grass_planter:
 			grass_planter = MarchingSquaresGrassPlanter.new()
-			if not color_map_0 or not color_map_1:
-				generate_color_maps()
-			if not grass_mask_map:
-				generate_grass_mask_map()
 			add_child(grass_planter)
+
 		grass_planter.name = "GrassPlanter"
 		grass_planter._chunk = self
 		grass_planter.setup(self)
-		EngineWrapper.instance.set_owner_recursive(grass_planter)
+
+		EngineWrapper.instance.set_owner_recursive(
+			grass_planter
+		)
 	else:
 		if not grass_planter:
 			grass_planter = get_node_or_null("GrassPlanter")
+
 		grass_planter.terrain_system = terrain_system
 		grass_planter._chunk = self
-	
+
 	if _temp_grass_multimesh:
 		grass_planter.multimesh = _temp_grass_multimesh
+
 	if not grass_planter.multimesh:
 		grass_planter.setup(self)
 		grass_planter.regenerate_all_cells()
+
 	grass_planter.multimesh.mesh = terrain_system.grass_mesh
-	
-	# Generate maps if not loaded from external storage (works for both editor and runtime)
-	if not height_map:
-		generate_height_map()
-	if not color_map_0 or not color_map_1:
-		generate_color_maps()
-	if not wall_color_map_0 or not wall_color_map_1:
-		generate_wall_color_maps()
-	if not grass_mask_map:
-		generate_grass_mask_map()
-	
+
+	# Generate terrain mesh and collision.
 	if not mesh and should_regenerate_mesh:
 		regenerate_mesh(true)
+
 	elif mesh:
 		if terrain_system:
-			mesh.surface_set_material(0, terrain_system.terrain_material)
+			mesh.surface_set_material(
+				0,
+				terrain_system.terrain_material
+			)
+
 		if not _temp_collision_shapes.is_empty():
 			_recreate_collision_body()
+
 		else:
 			for child in get_children():
 				if child is StaticBody3D:
 					child.free()
+
 			create_trimesh_collision()
+
 			for child in get_children():
 				if child is StaticBody3D:
 					child.collision_layer = 17
-					child.set_collision_layer_value(terrain_system.extra_collision_layer, true)
+					child.set_collision_layer_value(
+						terrain_system.extra_collision_layer,
+						true
+					)
+
 					for _child in child.get_children():
 						if _child is CollisionShape3D:
 							_child.set_visible(false)
-	
-	if not EngineWrapper.instance.is_editor() and terrain_system.enable_runtime_texture_baking:
+
+	# Runtime texture baking.
+	if (
+		not EngineWrapper.instance.is_editor()
+		and terrain_system.enable_runtime_texture_baking
+	):
 		var baker := MarchingSquaresGeometryBaker.new()
-		baker.polygon_texture_resolution = terrain_system.polygon_texture_resolution
-		baker.finished.connect(func(mesh_: Mesh, _original: MeshInstance3D, img: Image):
-			mesh = mesh_
-			var mat : Material
-			if terrain_system.bake_material_override: 
-				mat = terrain_system.bake_material_override.duplicate()
-			else:
-				mat = bake_material.duplicate()
-			
-			if mat is StandardMaterial3D:
-				mat.albedo_texture = ImageTexture.create_from_image(img)
-			elif mat is ShaderMaterial:
-				mat.set_shader_parameter("texture_albedo", ImageTexture.create_from_image(img))
-			mesh.surface_set_material(0, mat)
-		, CONNECT_ONE_SHOT)
-		baker.bake_geometry_texture(self, get_tree())
+		baker.polygon_texture_resolution = (
+			terrain_system.polygon_texture_resolution
+		)
+
+		baker.finished.connect(
+			func(
+				mesh_: Mesh,
+				_original: MeshInstance3D,
+				img: Image
+			):
+				mesh = mesh_
+
+				var mat: Material
+
+				if terrain_system.bake_material_override:
+					mat = (
+						terrain_system.bake_material_override
+						.duplicate()
+					)
+				else:
+					mat = bake_material.duplicate()
+
+				if mat is StandardMaterial3D:
+					mat.albedo_texture = (
+						ImageTexture.create_from_image(img)
+					)
+
+				elif mat is ShaderMaterial:
+					mat.set_shader_parameter(
+						"texture_albedo",
+						ImageTexture.create_from_image(img)
+					)
+
+				mesh.surface_set_material(0, mat),
+			CONNECT_ONE_SHOT
+		)
+
+		baker.bake_geometry_texture(
+			self,
+			get_tree()
+		)
 
 
 func _notification(what: int) -> void:

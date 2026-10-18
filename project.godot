@@ -57,6 +57,7 @@ directories/dtl_directory={
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
 "blacksmith_gear_and_quiz": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/blacksmith_gear_and_quiz.dtl",
 "chief_after_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_after_training.dtl",
+"chief_after_training_loss": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_after_training_loss.dtl",
 "chief_afternoon_intro": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_afternoon_intro.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
 "chief_final_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training.dtl",
