@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cngyh2jc8dv23"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://bbg32dh6ixtmf" path="res://Assets/Characters/NPC_Portraits/ralf-removebg-preview.png" id="2_77aeg"]
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=1888766622]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=975344958]
+position = Vector2(252, 252)
+texture = ExtResource("2_77aeg")
+
+[node name="Group1" type="Node2D" parent="." unique_id=1877661407]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=1001860473]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=712894813]

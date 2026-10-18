@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://0wi0jbrobqlv"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://rjot3mpu4txm" path="res://Assets/Characters/NPC_Portraits/bebang-removebg-preview.png" id="2_q5f7l"]
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=339451404]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=1357545712]
+position = Vector2(251, 250)
+texture = ExtResource("2_q5f7l")
+
+[node name="Group1" type="Node2D" parent="." unique_id=405851093]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=537850891]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=562875611]

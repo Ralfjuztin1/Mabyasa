@@ -58,6 +58,7 @@
 [ext_resource type="PackedScene" uid="uid://cumgmn8y6ohbj" path="res://Scenes/Main/StoryDirectors/BlacksmithGearQuizDirector.tscn" id="49_0uggw"]
 [ext_resource type="PackedScene" uid="uid://b8eh6nlevxpyd" path="res://Scenes/Main/StoryDirectors/ChiefAfternoonIntroDirector.tscn" id="49_g0wkx"]
 [ext_resource type="Script" uid="uid://b4o54xfcbsvx7" path="res://Scripts/World/HealingTree.gd" id="50_ay7eq"]
+[ext_resource type="PackedScene" uid="uid://1b353tx13k2x" path="res://Scenes/Main/StoryDirectors/ChiefAfterTrainingDirector.tscn" id="51_ig5lw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -4646,8 +4647,8 @@ npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
 dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw")])
-interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector")]
-cutscene_flags = Array[String](["chief_afternoon_intro_complete"])
+interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector"), NodePath("../../ChiefAfterTrainingDirector")]
+cutscene_flags = Array[String](["chief_afternoon_intro_complete", ""])
 npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
@@ -5441,6 +5442,10 @@ completion_flag = "blacksmith_gear_quiz_completed"
 cutscene_id = "chief_afternoon_intro"
 required_flags = Array[String](["bebang_basket_return_complete"])
 completion_flag = "chief_afternoon_intro_complete"
+
+[node name="ChiefAfterTrainingDirector" parent="." unique_id=1178037160 instance=ExtResource("51_ig5lw")]
+required_flags = Array[String](["chief_training_battle_completed"])
+completion_flag = "chief_after_training_cutscene_completed"
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)

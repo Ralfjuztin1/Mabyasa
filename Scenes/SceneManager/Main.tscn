@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://fp58wobagfr3" path="res://Scripts/Cutscene/CutsceneController.gd" id="5_yrtnx"]
 [ext_resource type="PackedScene" uid="uid://d1qvp4hjddmhn" path="res://Scenes/UI/HUD.tscn" id="6_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/Quest/QuestWaypointController.tscn" id="6_o0773"]
+[ext_resource type="PackedScene" path="res://Scenes/Tools/DeveloperConsole.tscn" id="7_6i7te"]
 [ext_resource type="Script" uid="uid://k532odfbnxyr" path="res://Scripts/Managers/WorldAudioManager.gd" id="7_world_audio"]
 
 [node name="Main" type="Node" unique_id=1964064950]
@@ -28,6 +29,8 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 5.8369637, 0)
 script = ExtResource("5_yrtnx")
 
 [node name="QuestWaypointController" parent="." unique_id=1160341146 instance=ExtResource("6_o0773")]
+
+[node name="DeveloperConsole" parent="." unique_id=133542592 instance=ExtResource("7_6i7te")]
 
 [node name="WorldAudioManager" type="Node" parent="." unique_id=511831973]
 process_mode = 3

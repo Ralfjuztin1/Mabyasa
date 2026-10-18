@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://26nc8jo8qee0"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://b21wbje7qadkd" path="res://Assets/Characters/NPC_Portraits/chief-removebg-preview.png" id="2_vc3pn"]
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=473490608]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=62175843]
+position = Vector2(248, 251)
+texture = ExtResource("2_vc3pn")
+
+[node name="Group1" type="Node2D" parent="." unique_id=298490505]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=376272221]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=1077013611]

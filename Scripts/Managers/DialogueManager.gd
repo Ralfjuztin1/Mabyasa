@@ -796,6 +796,10 @@ func _on_chief_training_battle_ended(victory: bool) -> void:
 		"chief_training_battle_started",
 		true
 	)
+	QuestManager.set_dialogue_flag(
+		"chief_training_battle_completed",
+		true
+	)
 
 	# BattleManager emits enemy_killed before battle_ended, so the first quest's
 	# objective should already be complete when this check runs.
