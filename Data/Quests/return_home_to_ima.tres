@@ -9,6 +9,14 @@ script = ExtResource("2_reward")
 exp = 0
 gold = 0
 
+[sub_resource type="Resource" id="QuestStep_RestAtBigTree"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "bigtree"
+required_count = 1
+validation_type = "none"
+validation_target = ""
+
 [sub_resource type="Resource" id="QuestStep_ReturnHomeToIma"]
 script = ExtResource("3_step")
 type = "talk_npc"
@@ -20,10 +28,10 @@ validation_target = ""
 [resource]
 script = ExtResource("1_quest")
 quest_id = "return_home_to_ima"
-title = "Go Home to Ima"
-description = "Chief has ended today’s training. Return home to Ima and get some rest."
+title = "Rest at the Big Tree"
+description = "Chief told you to use the Big Tree to restore your health, then return home to Ima for the evening."
 rewards = SubResource("QuestReward_ReturnHomeToIma")
-steps = Array[ExtResource("3_step")]([SubResource("QuestStep_ReturnHomeToIma")])
+steps = Array[ExtResource("3_step")]([SubResource("QuestStep_RestAtBigTree"), SubResource("QuestStep_ReturnHomeToIma")])
 quest_giver_id = ""
 quest_turn_in_id = ""
 is_main_quest = true

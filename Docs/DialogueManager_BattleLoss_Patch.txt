@@ -1,0 +1,90 @@
+MABIYASA: CHIEF TRAINING LOSS RECOVERY
+
+This pack adds an alternate Chief dialogue after the player loses the scripted
+chief_training battle. The player must interact with the Big Tree before Chief's
+training battle can be started again.
+
+1. PATCH DialogueManager.gd
+---------------------------
+Open res://Scripts/Managers/DialogueManager.gd and find:
+
+    func _on_chief_training_battle_ended(victory: bool) -> void:
+
+Replace only its existing `if not victory:` branch with:
+
+    if not victory:
+        # A defeat must not automatically permit another battle.
+        QuestManager.set_dialogue_flag("training_battle_requested", false)
+        QuestManager.set_dialogue_flag("chief_training_battle_started", false)
+        QuestManager.set_dialogue_flag("chief_training_battle_completed", false)
+        QuestManager.set_dialogue_flag("chief_training_battle_lost", true)
+        QuestManager.set_dialogue_flag("chief_training_healed", false)
+        print("[DIALOGUE] Chief training lost; heal at the Big Tree before retrying.")
+        return
+
+Also add these two lines in the VICTORY branch, before starting
+return_to_chief_after_training:
+
+    QuestManager.set_dialogue_flag("chief_training_battle_lost", false)
+    QuestManager.set_dialogue_flag("chief_training_healed", false)
+
+Keep the existing victory lines that set training_battle_requested=false,
+chief_training_battle_started=true, and chief_training_battle_completed=true.
+
+2. UPDATE the Chief NPC's Dialogue Entries in FirstTown.tscn
+------------------------------------------------------------
+Add a new NPCDialogueEntry with these values:
+
+    Condition: Dialogue Flag
+    Priority: 650
+    Flag ID: chief_training_battle_lost
+    Timeline Path: FirstTownSceneDialogues/chief_after_training_loss
+    Play Once: OFF
+
+Leave Play Once OFF. The loss flag is reset by the tree, so this dialogue can
+trigger again if the player loses another retry.
+
+Now update the EXISTING retry entry for chief_training_start:
+
+    Condition: Dialogue Flag
+    Priority: 610
+    Flag ID: chief_training_healed
+    Timeline Path: FirstTownSceneDialogues/chief_training_start
+    Play Once: OFF
+
+Do not use training_battle_requested as the retry entry's condition. That flag
+is meant to request battle startup after the dialogue and is cleared after defeat.
+
+Keep the first-time training entry as QUEST_ACTIVE / return_to_chief, pointing to
+FirstTownSceneDialogues/chief_training_start. Keep the existing post-victory
+ChiefAfterTrainingDirector gated by chief_training_battle_completed.
+
+3. UPDATE the Big Tree script
+-----------------------------
+Replace the script on FirstTown.tscn > Bigtree > Area3D with the included:
+
+    res://Scripts/World/HealingTreeQuestBridge.gd
+
+The wrapper extends your existing HealingTree.gd, preserves healing behavior,
+and sets chief_training_healed=true only if chief_training_battle_lost was true.
+Do not attach both scripts; use the wrapper as the Area3D script.
+
+4. EXPECTED FLOW
+----------------
+First attempt:
+- Chief dialogue starts the battle as it does now.
+
+If the player loses:
+- training_battle_requested is set false.
+- chief_training_battle_lost is set true.
+- On talking to Chief, the loss dialogue tells the player to heal at the Big Tree.
+- Interacting with the Big Tree clears the loss flag and sets chief_training_healed.
+- On talking to Chief again, the training dialogue becomes available and starts the retry.
+
+If the player wins:
+- chief_training_battle_completed is set true.
+- The existing after-training flow remains in charge.
+
+This package does not add a separate loss quest resource. It uses story flags to
+require the Big Tree interaction before retrying and leaves the successful
+return_home_to_ima quest path unchanged.
