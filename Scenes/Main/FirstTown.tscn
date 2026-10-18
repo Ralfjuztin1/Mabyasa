@@ -60,6 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://1b353tx13k2x" path="res://Scenes/Main/StoryDirectors/ChiefAfterTrainingDirector.tscn" id="51_ig5lw"]
 [ext_resource type="PackedScene" uid="uid://g7vxwqs5j2nf" path="res://Scenes/Main/StoryDirectors/ImaEveningGreetingDirector.tscn" id="52_odars"]
 [ext_resource type="Script" uid="uid://wqr3fnjf7ete" path="res://Scripts/World/HealingTreeQuestBridge.gd" id="54_ig5lw"]
+[ext_resource type="Script" uid="uid://ihwew6n7cpi8" path="res://Scripts/World/WorldTimeController.gd" id="61_kt4ki"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j2cfa"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -4712,7 +4713,7 @@ can_wander = true
 wander_radius = 0.5
 
 [node name="ralf" parent="npc" unique_id=1318711754 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 21.026283, 4.449427, -75.27802)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 21.026283, 0.95067334, -75.27802)
 npc_name = "Ralf"
 npc_id = "ralf"
 dialogue_id = "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ralf.dtl"
@@ -5536,3 +5537,6 @@ battle_attack_duration = 1.6
 
 [node name="DefaultSpawn" type="Marker3D" parent="." unique_id=235838762]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.669968, 0, -40.408943)
+
+[node name="WorldTimeController" type="Node" parent="." unique_id=415110155]
+script = ExtResource("61_kt4ki")

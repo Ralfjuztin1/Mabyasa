@@ -1,0 +1,58 @@
+diff --git a/Scenes/Battle/BattleScreen.gd b/Scenes/Battle/BattleScreen.gd
+--- a/Scenes/Battle/BattleScreen.gd
++++ b/Scenes/Battle/BattleScreen.gd
+@@ -1182,5 +1182,6 @@ func _show_action_buttons() -> void:
+ 	# Fleeing is only offered in normal battles.
+ 	flee_button.visible = (
+ 		BattleManager.current_enemy != null
+ 		and not BattleManager.current_enemy.is_boss
++		and BattleManager.current_enemy.enemy_id != "chief_training"
+ 	)
+
+diff --git a/Scripts/Battle/BattleManager.gd b/Scripts/Battle/BattleManager.gd
+--- a/Scripts/Battle/BattleManager.gd
++++ b/Scripts/Battle/BattleManager.gd
+@@ -877,7 +877,12 @@ func flee_battle() -> void:
+ 	if not battle_active:
+ 		return
+ 
++	# Chief's training battle is mandatory and cannot be fled.
++	if current_enemy != null and current_enemy.enemy_id == "chief_training":
++		battle_log.emit("You cannot flee from Chief's training battle.")
++		return
++
+ 	# Boss battles must use their existing assessment flow.
+ 	if is_boss_battle:
+ 		battle_log.emit("You cannot flee from a boss battle.")
+ 		return
+
+diff --git a/Scripts/Managers/TutorialManager.gd b/Scripts/Managers/TutorialManager.gd
+--- a/Scripts/Managers/TutorialManager.gd
++++ b/Scripts/Managers/TutorialManager.gd
+@@ -49,7 +49,6 @@ func _input(event: InputEvent) -> void:
+ 				save_tutorial_to_json()
+ 				
+ 				tutorial_step_completed.emit("alt_mouse")
+-				await get_tree().create_timer(1.0).timeout
+ 				step_changed.emit("finished")
+ 		elif current_active_step == "finished":
+ 			if event.pressed:
+
+diff --git a/Scenes/Main/Scene1Cutscene.tscn b/Scenes/Main/Scene1Cutscene.tscn
+--- a/Scenes/Main/Scene1Cutscene.tscn
++++ b/Scenes/Main/Scene1Cutscene.tscn
+@@ -7,4 +7,4 @@
+ [node name="Scene1Cutscene" type="Node" unique_id=427796490]
+ script = ExtResource("1_director")
+-start_delay = 0.15
++start_delay = 0.0
+ completion_flag = "cene_1_ima_good_morning_complete"
+@@ -47,6 +47,6 @@ script = ExtResource("2_action")
+ [node name="11_Hold" type="Node" parent="." unique_id=565246294]
+ script = ExtResource("2_action")
+-seconds = 0.5
++seconds = 0.0
+ 
+ [node name="12_DuringDialogue" type="Node" parent="." unique_id=105933198]
+ script = ExtResource("3_parallel")
+

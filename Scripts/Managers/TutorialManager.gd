@@ -45,7 +45,6 @@ func _input(event: InputEvent) -> void:
 				save_tutorial_to_json()
 				
 				tutorial_step_completed.emit("alt_mouse")
-				await get_tree().create_timer(1.0).timeout
 				step_changed.emit("finished")
 		elif current_active_step == "finished":
 			if event.pressed:

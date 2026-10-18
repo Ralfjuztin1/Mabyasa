@@ -453,7 +453,25 @@ func _on_dialogic_signal(argument: Variant) -> void:
 		"[DIALOGUE] Normalized signal: ",
 		signal_name
 	)
+	# ========================================================
+	# TIME CONTROL
+	# ========================================================
 
+	# Direct time signals: change_time_morning, change_time_afternoon,
+	# change_time_night, or advance_time.
+	if signal_name.begins_with("change_time_"):
+		var target_time: String = (
+			signal_name
+			.trim_prefix("change_time_")
+			.to_lower()
+		)
+
+		TimeManager.set_time(target_time)
+		return
+
+	if signal_name == "advance_time":
+		TimeManager.advance_time()
+		return
 
 	# ========================================================
 	# QUEST
@@ -479,24 +497,32 @@ func _on_dialogic_signal(argument: Variant) -> void:
 
 
 	# ========================================================
-	# STORY FLAG
+	# STORY FLAGS + STORY-TRIGGERED TIME CHANGES
 	# ========================================================
 
-	if signal_name.begins_with(
-		"set_flag_"
-	):
-
-		var flag_id: String = (
-			signal_name.trim_prefix(
-				"set_flag_"
-			)
-		)
+	if signal_name.begins_with("set_flag_"):
+		var flag_id: String = signal_name.trim_prefix("set_flag_")
 
 		if not flag_id.is_empty():
+			# Keep the existing story flag behavior.
+			QuestManager.set_dialogue_flag(flag_id)
 
-			QuestManager.set_dialogue_flag(
-				flag_id
-			)
+			# Translate story flags into actual TimeManager states.
+			# The game states are morning, afternoon, and night.
+			match flag_id:
+				"request_time_morning":
+					TimeManager.set_time("morning")
+
+				"request_time_afternoon":
+					TimeManager.set_time("afternoon")
+
+				"request_time_night":
+					# Use the same canonical name for the request flag and time state: night.
+					TimeManager.set_time("night")
+
+				"sleep_transition_requested":
+					# Sleeping starts the next morning in the current story flow.
+					TimeManager.set_time("morning")
 
 		return
 
@@ -685,6 +711,25 @@ func _on_dialogue_ended() -> void:
 	# Chief's training battle starts only after the dialogue
 	# and camera restoration finish.
 	var finished_npc: Node = current_npc
+
+	# Recovery safety net: once the healed-retry dialogue has finished,
+	# re-arm the scripted battle even if a stale battle-start flag survived.
+	# The timeline-path check makes this apply only to Chief's training dialogue.
+	var is_chief_training_retry: bool = (
+		is_instance_valid(finished_npc)
+		and "npc_id" in finished_npc
+		and str(finished_npc.npc_id) == "Chief"
+		and current_dialogue_entry != null
+		and current_dialogue_entry.timeline_path.contains("chief_training_start")
+		and QuestManager.has_dialogue_flag("chief_training_healed")
+		and not QuestManager.has_dialogue_flag("chief_training_battle_completed")
+	)
+
+	if is_chief_training_retry:
+		QuestManager.set_dialogue_flag("training_battle_requested", true)
+		QuestManager.set_dialogue_flag("chief_training_battle_started", false)
+		QuestManager.set_dialogue_flag("chief_training_battle_lost", false)
+		QuestManager.set_dialogue_flag("chief_training_healed", false)
 
 	var should_start_chief_training: bool = (
 		is_instance_valid(finished_npc)

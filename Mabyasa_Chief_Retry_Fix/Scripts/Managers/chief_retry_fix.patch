@@ -1,0 +1,29 @@
+diff --git a/Scripts/Managers/DialogueManager.gd b/Scripts/Managers/DialogueManager.gd
+--- a/Scripts/Managers/DialogueManager.gd
++++ b/Scripts/Managers/DialogueManager.gd
+@@ -685,6 +685,25 @@ func _on_dialogue_ended() -> void:
+ 	# and camera restoration finish.
+ 	var finished_npc: Node = current_npc
+ 
++	# Recovery safety net: once the healed-retry dialogue has finished,
++	# re-arm the scripted battle even if a stale battle-start flag survived.
++	# The timeline-path check makes this apply only to Chief's training dialogue.
++	var is_chief_training_retry: bool = (
++		is_instance_valid(finished_npc)
++		and "npc_id" in finished_npc
++		and str(finished_npc.npc_id) == "Chief"
++		and current_dialogue_entry != null
++		and current_dialogue_entry.timeline_path.contains("chief_training_start")
++		and QuestManager.has_dialogue_flag("chief_training_healed")
++		and not QuestManager.has_dialogue_flag("chief_training_battle_completed")
++	)
++
++	if is_chief_training_retry:
++		QuestManager.set_dialogue_flag("training_battle_requested", true)
++		QuestManager.set_dialogue_flag("chief_training_battle_started", false)
++		QuestManager.set_dialogue_flag("chief_training_battle_lost", false)
++		QuestManager.set_dialogue_flag("chief_training_healed", false)
++
+ 	var should_start_chief_training: bool = (
+ 		is_instance_valid(finished_npc)
+ 		and "npc_id" in finished_npc

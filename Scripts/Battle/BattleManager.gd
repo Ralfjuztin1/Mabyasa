@@ -878,6 +878,11 @@ func flee_battle() -> void:
 	if not battle_active:
 		return
 
+	# Chief's training battle is mandatory and cannot be fled.
+	if current_enemy != null and current_enemy.enemy_id == "chief_training":
+		battle_log.emit("You cannot flee from Chief's training battle.")
+		return
+
 	# Boss battles must use their existing assessment flow.
 	if is_boss_battle:
 		battle_log.emit("You cannot flee from a boss battle.")

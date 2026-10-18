@@ -1183,6 +1183,7 @@ func _show_action_buttons() -> void:
 	flee_button.visible = (
 		BattleManager.current_enemy != null
 		and not BattleManager.current_enemy.is_boss
+		and BattleManager.current_enemy.enemy_id != "chief_training"
 	)
 
 
