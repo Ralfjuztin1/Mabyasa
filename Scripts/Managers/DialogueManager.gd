@@ -361,42 +361,58 @@ func _normalize_dialogue_path(
 	dialogue_reference: String
 ) -> String:
 
-	var reference: String = (
-		dialogue_reference.strip_edges()
-	)
+	var reference: String = dialogue_reference.strip_edges()
 
 	if reference.is_empty():
 		return ""
 
 
-	if reference.begins_with(
-		"res://"
-	):
+	# Resolve Godot resource UIDs to their actual file paths.
+	if reference.begins_with("uid://"):
 
-		if reference.to_lower().ends_with(
-			".dtl"
+		var uid_id: int = ResourceUID.text_to_id(reference)
+
+		if (
+			uid_id == ResourceUID.INVALID_ID
+			or not ResourceUID.has_id(uid_id)
 		):
+			push_error(
+				"[DIALOGUE] Invalid timeline UID: "
+				+ reference
+			)
+			return ""
+
+		reference = ResourceUID.get_id_path(uid_id)
+
+		if reference.is_empty():
+			push_error(
+				"[DIALOGUE] Could not resolve timeline UID: "
+				+ dialogue_reference
+			)
+			return ""
+
+
+	# A full resource path is already resolved.
+	if reference.begins_with("res://"):
+
+		if reference.to_lower().ends_with(".dtl"):
 			return reference
 
 		return reference + ".dtl"
 
 
-	if reference.to_lower().ends_with(
-		".dtl"
-	):
+	# Remove the extension before adding the Dialogic folder.
+	if reference.to_lower().ends_with(".dtl"):
 
-		reference = reference.trim_suffix(
-			".dtl"
-		)
+		reference = reference.trim_suffix(".dtl")
 
 
+	# Support timeline names without a full path.
 	return (
 		DIALOGUE_PATH
 		+ reference
 		+ ".dtl"
 	)
-
-
 # ============================================================
 # DIALOGIC SIGNALS
 # ============================================================
@@ -712,10 +728,10 @@ func _start_chief_training_battle(chief_npc: Node) -> void:
 	enemy_data.enemy_id = "chief_training"
 	enemy_data.display_name = "Chief"
 	enemy_data.max_hp = 50
-	enemy_data.max_barrier = 0
-	enemy_data.atk = 5
-	enemy_data.exp_reward = 0
-	enemy_data.gold_reward = 0
+	enemy_data.max_barrier = 20
+	enemy_data.atk = 12
+	enemy_data.exp_reward = 250
+	enemy_data.gold_reward = 100
 	enemy_data.is_boss = false
 
 	# Reuse Chief's NPC frames for the battle portrait when available.
@@ -725,7 +741,7 @@ func _start_chief_training_battle(chief_npc: Node) -> void:
 
 	if chief_frames != null:
 		enemy_data.battle_sprite_frames = chief_frames
-		enemy_data.battle_sprite_animation = &"idle_front"
+		enemy_data.battle_sprite_animation = &"idle_right"
 		enemy_data.battle_attack_animation = &""
 		enemy_data.battle_hit_animation = &""
 

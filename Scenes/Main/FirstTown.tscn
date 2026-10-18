@@ -869,8 +869,10 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_0uggw"]
 script = ExtResource("17_ubr33")
+condition = 2
 priority = 500
-timeline_path = "uid://dfl7a8xga8gk0"
+quest_id = "return_to_chief"
+timeline_path = "FirstTownSceneDialogues/chief_training_start"
 metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7o3d"]
@@ -4645,6 +4647,7 @@ npc_id = "Chief"
 dialogue_id = "chief_default"
 dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw")])
 interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector")]
+cutscene_flags = Array[String](["chief_afternoon_intro_complete"])
 npc_frames = SubResource("SpriteFrames_lfg56")
 can_wander = true
 
@@ -5437,7 +5440,7 @@ completion_flag = "blacksmith_gear_quiz_completed"
 [node name="ChiefAfternoonIntroDirector" parent="." unique_id=1688602486 instance=ExtResource("49_g0wkx")]
 cutscene_id = "chief_afternoon_intro"
 required_flags = Array[String](["bebang_basket_return_complete"])
-completion_flag = "chief_afternoon_intro_completed"
+completion_flag = "chief_afternoon_intro_complete"
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)

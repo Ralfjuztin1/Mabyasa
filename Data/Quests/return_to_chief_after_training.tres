@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="QuestData" format=3]
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://co6canvhkxplj"]
 
 [ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
 [ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
@@ -6,24 +6,16 @@
 
 [sub_resource type="Resource" id="QuestReward_ReturnToChiefAfterTraining"]
 script = ExtResource("2_reward")
-exp = 0
-gold = 0
 
 [sub_resource type="Resource" id="QuestStep_ReturnToChiefAfterTraining"]
 script = ExtResource("3_step")
-type = "talk_npc"
 target = "Chief"
-required_count = 1
-validation_type = "none"
-validation_target = ""
 
 [resource]
 script = ExtResource("1_quest")
 quest_id = "return_to_chief_after_training"
-title = "Return to Chief"
-description = "Your first training battle is over. Return to Chief and report how the training went."
+title = "Consult to Chief"
+description = "Your first training battle is over. Talk to Chief and ask what to do next."
 rewards = SubResource("QuestReward_ReturnToChiefAfterTraining")
 steps = Array[ExtResource("3_step")]([SubResource("QuestStep_ReturnToChiefAfterTraining")])
-quest_giver_id = ""
-quest_turn_in_id = ""
 is_main_quest = true

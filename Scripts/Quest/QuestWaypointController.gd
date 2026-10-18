@@ -357,6 +357,12 @@ func _refresh_for_current_quest(_show_intro: bool = false) -> void:
 		return
 
 	var step: QuestStep = quest_data.steps[step_index]
+	# World waypoint arrows only support NPC objectives.
+	if step.type != "talk_npc":
+		_clear_target()
+		_sync_hud_tracker()
+		_update_quest_log_track_button()
+		return
 	_target_id = step.target.strip_edges()
 	_target_type = step.type
 	_player = _find_player()
