@@ -4,7 +4,7 @@ extends Area3D
 ## Interact with the tree to restore HP up to a configurable percentage.
 
 @export_category("Healing Tree")
-@export_range(1.0, 100.0, 1.0, "suffix:%") var heal_to_percent: float = 70.0
+@export_range(1.0, 100.0, 1.0, "suffix:%") var heal_to_percent: float = 100.0
 @export var interaction_action: StringName = &"interact"
 @export_range(0.5, 5.0, 0.25, "suffix:s") var feedback_duration: float = 2.0
 @export var prompt_text: String = "Rest & restore your health"

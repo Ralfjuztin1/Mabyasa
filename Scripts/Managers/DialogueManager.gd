@@ -702,7 +702,7 @@ func _on_dialogue_started() -> void:
 # ============================================================
 
 func _on_dialogue_ended() -> void:
-
+	
 	is_dialogue_active = false
 
 	_mark_dialogue_entry_played()
@@ -711,7 +711,35 @@ func _on_dialogue_ended() -> void:
 	# Chief's training battle starts only after the dialogue
 	# and camera restoration finish.
 	var finished_npc: Node = current_npc
+	# Re-arm Chief's training battle after the player heals.
+# Do this before checking whether the battle should start.
+	if (
+		is_instance_valid(finished_npc)
+		and "npc_id" in finished_npc
+		and str(finished_npc.npc_id) == "Chief"
+		and QuestManager.has_dialogue_flag(
+	        "chief_training_healed"
+		)
+		and not QuestManager.has_dialogue_flag(
+	        "chief_training_battle_completed"
+		)
+	):
+		print("[DIALOGUE] Chief retry armed after healing.")
+		
+		QuestManager.set_dialogue_flag(
+			"training_battle_requested",
+			true
+		)
 
+		QuestManager.set_dialogue_flag(
+			"chief_training_battle_started",
+			false
+		)
+
+		QuestManager.set_dialogue_flag(
+			"chief_training_healed",
+			false
+		)
 	# Recovery safety net: once the healed-retry dialogue has finished,
 	# re-arm the scripted battle even if a stale battle-start flag survived.
 	# The timeline-path check makes this apply only to Chief's training dialogue.
