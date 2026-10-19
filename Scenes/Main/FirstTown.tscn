@@ -1245,6 +1245,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_6pjb3"]
+script = ExtResource("17_ubr33")
+condition = 2
+priority = 2
+quest_id = "greet_ima"
+timeline_path = "uid://u7ju8cxl3xkx"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfg56"]
 atlas = ExtResource("14_d1bwj")
 region = Rect2(0, 0, 64, 64)
@@ -4673,6 +4681,7 @@ npc_frames = SubResource("SpriteFrames_lfg56")
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 29.083256, 0.85757613, -47.62682)
 npc_name = "Ima"
 npc_id = "ima"
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_6pjb3")])
 interaction_cutscenes = [NodePath("../../ImaEveningGreetingDirector")]
 npc_frames = SubResource("SpriteFrames_nax27")
 
@@ -5458,6 +5467,8 @@ intro_timeline = "uid://n1t8vy8wgy1n"
 [node name="narrow_path_litik" parent="." unique_id=762053646 instance=ExtResource("40_f3fox")]
 
 [node name="pacing_move" parent="." unique_id=1414608135 instance=ExtResource("42_ahwvf")]
+cutscene_id = "ale_pacing_move"
+completion_flag = "pacing_move"
 
 [node name="BebangBasketReturnDirector" parent="." unique_id=1761112858 instance=ExtResource("48_tnh3j")]
 cutscene_id = "bebang_basket_return"
@@ -5479,6 +5490,7 @@ completion_flag = "chief_after_training_cutscene_completed"
 
 [node name="ImaEveningGreetingDirector" parent="." unique_id=1210179695 instance=ExtResource("52_odars")]
 required_flags = Array[String](["chief_training_battle_completed"])
+completion_flag = "ima_evening_completed"
 
 [node name="Teleport" type="Area3D" parent="." unique_id=365691736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.001818, -9.536743e-07, 52.428745)

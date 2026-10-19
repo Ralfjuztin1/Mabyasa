@@ -1,7 +1,7 @@
 Litik: Wait a moment.
 You: What is it?
 Litik: Look ahead. Ale Pacing is blocking the narrow path with those crates.
-Ale Pacing: Just a moment! I need to get these supplies out of the way.
+"Ale Pacing": Just a moment! I need to get these supplies out of the way.
 You: We need to get past her.
 Litik: Then ask politely. When you need to pass someone, say "Makilabas ku pu." It means "Excuse me."
 [signal arg="[signal arg="encounter_makilabas_ku_pu"]"]
@@ -10,11 +10,11 @@ Litik: Go on. Try saying it to Ale.
 - Makilabas ku pu!
 	You: Makilabas ku pu!
 	[signal arg="[signal arg="learn_makilabas_ku_pu"]"]
-	Ale Pacing: Oh! Sorry, anak. I didn't realize I was blocking the way.
-	Ale Pacing: Thank you for asking so politely. I'll move these crates aside.
+	"Ale Pacing": Oh! Sorry, anak. I didn't realize I was blocking the way.
+	"Ale Pacing": Thank you for asking so politely. I'll move these crates aside.
 	You: Salamat, Ale!
 	[signal arg="[signal arg="encounter_salamat"]"]
-	Ale Pacing: Ala pung nanu man! There you go. The path is clear now.
+	"Ale Pacing": Ala pung nanu man! There you go. The path is clear now.
 	Litik: See? You remembered how to thank someone, too. You're starting to put your words to use.
 	You: One step at a time, right?
 	Litik: Exactly. Now, let's get to that forest entrance before Chief starts wondering where we are.

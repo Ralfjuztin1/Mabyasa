@@ -11,4 +11,5 @@ Ima: Be careful, anak. And don't forget what you've learned.
 You: I won't. I'll see you later, Ima.
 Ima: Take care.
 [signal arg="[signal arg="set_flag_final_training_unlocked"]"]
+[signal arg="[signal arg="start_go_to_chief_final_training"]"]
 [end_timeline]

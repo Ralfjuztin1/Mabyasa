@@ -13,4 +13,5 @@ Ima: Chief is waiting for you tomorrow. You need a clear head for your final tra
 You: I will. Good night, Ima.
 Ima: Sleep well, anak.
 [signal arg="[signal arg="set_flag_sleep_transition_requested"]"]
+[signal arg="[signal arg="start_greet_ima"]"]
 [end_timeline]

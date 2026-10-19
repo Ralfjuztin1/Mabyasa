@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://dcft0hudglbj5"]
+
+[ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_egxw4"]
+[ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="1_lpmx5"]
+[ext_resource type="Script" uid="uid://54thwokoasbl" path="res://Scripts/Quest/QuestStep.gd" id="2_lpmx5"]
+
+[sub_resource type="Resource" id="Resource_egxw4"]
+script = ExtResource("1_lpmx5")
+exp = 100
+gold = 53
+metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
+
+[sub_resource type="Resource" id="Resource_tv73x"]
+script = ExtResource("2_lpmx5")
+target = "ima"
+metadata/_custom_type_script = "uid://54thwokoasbl"
+
+[resource]
+script = ExtResource("1_egxw4")
+quest_id = "greet_ima"
+title = "Greet Ima "
+description = "Greet ima a good morning"
+rewards = SubResource("Resource_egxw4")
+steps = Array[ExtResource("2_lpmx5")]([SubResource("Resource_tv73x")])
+metadata/_custom_type_script = "uid://cr8wo5nkd0lt1"

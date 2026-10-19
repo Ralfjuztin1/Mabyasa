@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="QuestData" format=3]
+[gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://4o5dndusk2jp"]
 
 [ext_resource type="Script" uid="uid://cr8wo5nkd0lt1" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
 [ext_resource type="Script" uid="uid://cxxg6xw8xmvkc" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
@@ -6,24 +6,15 @@
 
 [sub_resource type="Resource" id="QuestReward_ReturnHomeToIma"]
 script = ExtResource("2_reward")
-exp = 0
-gold = 0
 
 [sub_resource type="Resource" id="QuestStep_RestAtBigTree"]
 script = ExtResource("3_step")
 type = "interact_object"
 target = "bigtree"
-required_count = 1
-validation_type = "none"
-validation_target = ""
 
 [sub_resource type="Resource" id="QuestStep_ReturnHomeToIma"]
 script = ExtResource("3_step")
-type = "talk_npc"
 target = "ima"
-required_count = 1
-validation_type = "none"
-validation_target = ""
 
 [resource]
 script = ExtResource("1_quest")
@@ -32,6 +23,4 @@ title = "Rest at the Big Tree"
 description = "Chief told you to use the Big Tree to restore your health, then return home to Ima for the evening."
 rewards = SubResource("QuestReward_ReturnHomeToIma")
 steps = Array[ExtResource("3_step")]([SubResource("QuestStep_RestAtBigTree"), SubResource("QuestStep_ReturnHomeToIma")])
-quest_giver_id = ""
-quest_turn_in_id = ""
 is_main_quest = true

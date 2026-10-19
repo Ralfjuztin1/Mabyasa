@@ -17,7 +17,7 @@ metadata/_custom_type_script = "uid://duhrpmind65fn"
 script = ExtResource("2_qhist")
 action_type = 7
 actor_id = "pacing"
-timeline_path = "uid://db5ieogr6cvak"
+timeline_path = "uid://xoc72ujenq0l"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="move" type="Node" parent="." unique_id=746716348]
