@@ -61,6 +61,7 @@ directories/dtl_directory={
 "chief_afternoon_intro": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_afternoon_intro.dtl",
 "chief_default": "res://Scenes/Characters/NPC/Dialogic/chief_default.dtl",
 "chief_final_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training.dtl",
+"chief_training_retry": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_training_retry.dtl",
 "chief_training_start": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_training_start.dtl",
 "gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/gab.dtl",
 "hello": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/hello.dtl",

@@ -891,7 +891,7 @@ script = ExtResource("17_ubr33")
 condition = 6
 priority = 6767
 flag_id = "chief_training_healed"
-timeline_path = "FirstTownSceneDialogues/chief_training_start"
+timeline_path = "FirstTownSceneDialogues/chief_training_retry"
 metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7o3d"]
