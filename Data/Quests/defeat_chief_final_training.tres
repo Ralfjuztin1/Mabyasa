@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestStep.gd" id="3_step"]
+
+[sub_resource type="Resource" id="FinalTrainingReward"]
+script = ExtResource("2_reward")
+exp = 350
+gold = 150
+
+[sub_resource type="Resource" id="DefeatChiefFinalTrainingStep"]
+script = ExtResource("3_step")
+type = "enemy_killed"
+target = "chief_final_training"
+
+[resource]
+script = ExtResource("1_quest")
+quest_id = "defeat_chief_final_training"
+title = "Pass Chief's Final Trial"
+description = "Defeat Chief in the final training battle to prove you are ready to enter the forest."
+rewards = SubResource("FinalTrainingReward")
+steps = Array[ExtResource("3_step")]([SubResource("DefeatChiefFinalTrainingStep")])
+is_main_quest = true
