@@ -7,29 +7,42 @@ extends "res://Scripts/World/HealingTree.gd"
 
 
 func _heal_player() -> void:
-	# Save this before emitting the event, because the quest step changes
-	# immediately when QuestManager receives object_interacted.
+	# Capture story state before healing or emitting quest events.
 	var is_current_story_heal_step: bool = (
 		is_instance_valid(QuestManager)
 		and QuestManager.is_quest_active("return_home_to_ima")
 		and QuestManager.get_current_step("return_home_to_ima") == 0
 	)
+	var is_chief_recovery: bool = (
+		is_instance_valid(QuestManager)
+		and QuestManager.has_dialogue_flag("chief_training_battle_lost")
+	)
 	var progression_available: bool = is_instance_valid(PlayerProgression)
 
-	# Keep all existing healing, effects, prompt feedback, and save behavior.
+	# Preserve the original HP restoration, effects, feedback, and save behavior.
 	super._heal_player()
 
 	if not progression_available:
 		return
 
-	# This allows the interact_object quest objective to complete, even if
-	# the player is already above the tree's configured healing threshold.
+	# Complete any matching Big Tree objective, including when the player is
+	# already above the configured healing threshold.
 	if is_instance_valid(GameEvents):
 		GameEvents.object_interacted.emit(object_id)
 
-	# Only request night after the player has used the tree during this
-	# story objective, not whenever they use the tree in ordinary gameplay.
+	# Critical retry fix: using the tree clears the loss dialogue condition and
+	# enables the healed-retry dialogue for Chief.
+	if is_chief_recovery and is_instance_valid(QuestManager):
+		QuestManager.set_dialogue_flag("training_battle_requested", false)
+		QuestManager.set_dialogue_flag("chief_training_battle_started", false)
+		QuestManager.set_dialogue_flag("chief_training_battle_completed", false)
+		QuestManager.set_dialogue_flag("chief_training_battle_lost", false)
+		QuestManager.set_dialogue_flag("chief_training_healed", true)
+		print("[HEALING TREE] Chief training recovery registered. Return to Chief.")
+
+	# After winning the training battle, the separate story objective sends the
+	# player to the tree before going home to Ima. Preserve that progression.
 	if is_current_story_heal_step and is_instance_valid(QuestManager):
 		QuestManager.set_dialogue_flag("request_time_night", true)
-		# This script sets flags directly, so apply the time change here too.
-		TimeManager.set_time("night")
+		if is_instance_valid(TimeManager):
+			TimeManager.set_time("night")
