@@ -9,7 +9,6 @@ Litik: Salamat means "Thank you."
 Litik: Dakal a salamat means "Thank you very much." The word "dakal" adds more feeling to your thanks.
 You: Salamat... Dakal a salamat...
 Litik: That's right. Remember both. You'll need them whenever someone helps you.
-Bebang: Since you've helped me, take this small food bundle for your journey. It's not much, but you shouldn't travel on an empty stomach.
 You: Dakal a salamat, Bebang!
 [signal arg="[signal arg="learn_salamat+dakal_a_salamat"]"]
 Bebang: Ala pung nanu man! You're welcome!
@@ -18,8 +17,8 @@ Litik: And there you have it. That's a phrase someone can use when replying to t
 Bebang: By the way, Chief heard about your curse. He asked me to tell you to visit him as soon as you're done here.
 Bebang: He's preparing you for your journey. I believe he wants to make sure you're ready before you leave the village.
 You: Then I'll go find him.
-Bebang: Take care, anak. And don't forget your food!
-Litik: Basket delivered, food secured, and two more phrases recovered. Not bad for a morning's work.
+Bebang: Take care, anak!
+Litik: Basket delivered and two more phrases recovered. Not bad for a morning's work.
 [signal arg="[signal arg="set_flag_bebang_basket_delivered"]"]
 [signal arg="[signal arg="start_visit_chief_after_basket"]"]
 [signal arg="[signal arg="change_time_afternoon"]"]

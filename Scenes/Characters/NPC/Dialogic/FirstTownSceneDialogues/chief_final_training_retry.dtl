@@ -1,0 +1,6 @@
+chief: Feeling better?
+You: Yes. I'm ready to try again.
+chief: Then show me what you've learned. Stay focused.
+Litik: Let's see if all that practice paid off.
+[signal arg="[signal arg="set_flag_final_training_battle_requested"]"]
+[end_timeline]

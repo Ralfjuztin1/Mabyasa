@@ -13,6 +13,12 @@ func _heal_player() -> void:
 		and QuestManager.is_quest_active("return_home_to_ima")
 		and QuestManager.get_current_step("return_home_to_ima") == 0
 	)
+	var is_chief_final_recovery: bool = (
+		is_instance_valid(QuestManager)
+		and QuestManager.has_dialogue_flag(
+	        "chief_final_training_battle_lost"
+		)
+	)
 	var is_chief_recovery: bool = (
 		is_instance_valid(QuestManager)
 		and QuestManager.has_dialogue_flag("chief_training_battle_lost")
@@ -39,6 +45,25 @@ func _heal_player() -> void:
 		QuestManager.set_dialogue_flag("chief_training_battle_lost", false)
 		QuestManager.set_dialogue_flag("chief_training_healed", true)
 		print("[HEALING TREE] Chief training recovery registered. Return to Chief.")
+	
+	if is_chief_final_recovery and is_instance_valid(QuestManager):
+		QuestManager.set_dialogue_flag(
+			"chief_final_training_battle_lost", false
+		)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_started", false
+		)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_completed", false
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_healed", true
+	)
+
+	print(
+        "[HEALING TREE] Final training recovery registered. "
+		+ "Return to Chief."
+	)
 
 	# After winning the training battle, the separate story objective sends the
 	# player to the tree before going home to Ima. Preserve that progression.

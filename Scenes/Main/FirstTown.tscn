@@ -40,12 +40,13 @@
 [ext_resource type="Texture2D" uid="uid://d13hlrbgfnq0" path="res://Assets/Characters/NPC_anims/ralf/idle.png" id="26_ay7eq"]
 [ext_resource type="Texture2D" uid="uid://legg38htig0l" path="res://Assets/Characters/NPC_anims/ralf/walk.png" id="27_tnh3j"]
 [ext_resource type="Script" uid="uid://cy0338afheka" path="res://Scripts/Cutscene/FirstTownIntro.gd" id="27_x2wea"]
+[ext_resource type="Texture2D" uid="uid://djrdavj6ypnk5" path="res://Assets/Characters/NPC_anims/blacksmith/idle.png" id="28_ox5xy"]
+[ext_resource type="Texture2D" uid="uid://tm2d1pi4eiau" path="res://Assets/Characters/NPC_anims/blacksmith/walk.png" id="29_6pjb3"]
 [ext_resource type="PackedScene" uid="uid://by06t27gp1kwd" path="res://Scenes/Main/Scene1Cutscene.tscn" id="32_8qoby"]
 [ext_resource type="Script" uid="uid://drp5onhdsv685" path="res://Scenes/Main/LitikAppearTrigger.gd" id="32_631tw"]
 [ext_resource type="PackedScene" uid="uid://c0prbcekd5ay7" path="res://Scenes/Characters/NPC/litik.tscn" id="35_0oc6g"]
 [ext_resource type="Script" uid="uid://dqu32my70ep3k" path="res://Scenes/Main/narrow.gd" id="35_87cgx"]
 [ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
-[ext_resource type="Script" uid="uid://76ei7w3pfinm" path="res://Scenes/Main/TriggerUletUlet.gd" id="36_jc31u"]
 [ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://bnk8jjq5y0wns" path="res://Scenes/Main/narrow_path_litik.tscn" id="40_f3fox"]
 [ext_resource type="PackedScene" uid="uid://dhv5dn57ae1q0" path="res://Data/Quests/pacing_move.tscn" id="42_ahwvf"]
@@ -899,6 +900,24 @@ script = ExtResource("17_ubr33")
 condition = 2
 priority = 6969
 quest_id = "go_to_chief_final_training"
+timeline_path = "FirstTownSceneDialogues/chief_final_training"
+play_once = true
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
+[sub_resource type="Resource" id="Resource_kt4ki"]
+script = ExtResource("17_ubr33")
+condition = 6
+priority = 7000
+flag_id = "chief_final_training_battle_lost"
+timeline_path = "FirstTownSceneDialogues/chief_final_training_loss"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
+[sub_resource type="Resource" id="Resource_ox5xy"]
+script = ExtResource("17_ubr33")
+condition = 6
+priority = 7500
+flag_id = "chief_final_training_battle_healed"
+timeline_path = "FirstTownSceneDialogues/chief_final_training_retry"
 metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7o3d"]
@@ -3374,7 +3393,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_f3fox"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_q67fi"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -3543,6 +3562,357 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_r6t71")
+}],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50ifl"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0mw8"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py3on"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_585qe"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odkqs"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ct7y6"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ay0dx"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcwkf"]
+atlas = ExtResource("28_ox5xy")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rknqe"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3xjv"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5m0h6"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elqi2"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bm8b"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5kb8"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmaj8"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba6xp"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3266"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hla55"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc8bh"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4704"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm21f"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rw7up"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(256, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36224"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3a06f"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(384, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cfhb"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(448, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phibw"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(512, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6wnm"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xtyg7"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xugsh"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1fg7"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b14fm"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hq1pv"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4g0w"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2by1"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogn7b"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(512, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqntf"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4hbr"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5d7af"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4wnv"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dr8nk"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ang6o"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eer3o"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(384, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2v23"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(448, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sasxd"]
+atlas = ExtResource("29_6pjb3")
+region = Rect2(512, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y148d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50ifl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0mw8")
+}],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py3on")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_585qe")
+}],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odkqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ct7y6")
+}],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ay0dx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcwkf")
+}],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rknqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3xjv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5m0h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elqi2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bm8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5kb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmaj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ba6xp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3266")
+}],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hla55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc8bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4704")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm21f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw7up")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36224")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3a06f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cfhb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phibw")
+}],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6wnm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xtyg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xugsh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1fg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b14fm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hq1pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4g0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2by1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogn7b")
+}],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqntf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4hbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5d7af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4wnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dr8nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ang6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eer3o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2v23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sasxd")
 }],
 "loop": 1,
 "name": &"walk_right",
@@ -4284,10 +4654,7 @@ animations = [{
 size = Vector3(17.076538, 1, 19.684097)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nbvpm"]
-size = Vector3(4.5473633, 2.3758545, 4.227783)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5y2ec"]
-size = Vector3(9.326172, 1, 5.9885254)
+size = Vector3(10.508789, 2.3758545, 6.520996)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b66by"]
 size = Vector3(13.472656, 4.5057373, 1)
@@ -4679,7 +5046,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.7792203, 0.8666879, -63.972
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
-dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw"), SubResource("Resource_ig5lw"), SubResource("Resource_odars"), SubResource("Resource_7g0ku")])
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw"), SubResource("Resource_ig5lw"), SubResource("Resource_odars"), SubResource("Resource_7g0ku"), SubResource("Resource_kt4ki"), SubResource("Resource_ox5xy")])
 interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector"), NodePath("../../ChiefAfterTrainingDirector")]
 cutscene_flags = Array[String](["chief_afternoon_intro_complete", ""])
 npc_frames = SubResource("SpriteFrames_lfg56")
@@ -4705,7 +5072,7 @@ move_speed = 1.5
 wander_radius = 1.0
 
 [node name="pacing" parent="npc" unique_id=1680407098 instance=ExtResource("8_fbikn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -8.738551, 0.8268018, -10.901878)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -6.678663, 0.8268018, -14.653225)
 npc_name = "Ale Pacing"
 npc_id = "pacing"
 npc_frames = SubResource("SpriteFrames_rhapq")
@@ -4740,7 +5107,7 @@ wander_radius = 0.5
 [node name="BaseNPC5" parent="npc" unique_id=681462549 instance=ExtResource("8_fbikn")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -8.247202, 0.7279935, -24.214403)
 npc_name = ""
-npc_frames = SubResource("SpriteFrames_f3fox")
+npc_frames = SubResource("SpriteFrames_q67fi")
 can_wander = true
 wander_radius = 1.0
 
@@ -4749,7 +5116,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 27.52989, 0.7279935, -60.0907
 npc_name = "Panday"
 npc_id = "panday"
 interaction_cutscenes = [NodePath("../../BlacksmithGearQuizDirector")]
-npc_frames = SubResource("SpriteFrames_f3fox")
+npc_frames = SubResource("SpriteFrames_y148d")
 opens_blacksmith = true
 
 [node name="HousesAndProps" type="Node3D" parent="." unique_id=282204192]
@@ -4789,6 +5156,7 @@ polygon_texture_resolution = 12
 _storage_initialized = true
 cell_size = Vector2(1, 1)
 tex2_has_grass = false
+texture_albedo_1 = Color(0.30263567, 0.37890625, 0.2294159, 1)
 texture_albedo_2 = Color(0.69803923, 0.58431375, 0.44313726, 1)
 metadata/_custom_type_script = "uid://cddg1xr5hye1d"
 metadata/_edit_lock_ = true
@@ -5378,10 +5746,10 @@ transform = Transform3D(-0.80655503, -0.33844095, 0.4846925, -0.02457311, 0.8383
 transform = Transform3D(0.34383217, -0.21748376, 0.9134989, 0.04072763, 0.9753484, 0.21687931, -0.9381476, -0.037365474, 0.34421375, -8.416075, 2.812656, 18.30476)
 
 [node name="movepacing" type="Marker3D" parent="StoryMarkers" unique_id=472898697]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.529512, 0.4718461, 21.30646)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.529512, 0.4718461, 17.555113)
 
 [node name="BebangBasketPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=1948193052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.964182, 0.91110444, -27.604065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.964, 0.45, -27.604)
 
 [node name="BebangBasketBebangPoint" type="Marker3D" parent="StoryMarkers" unique_id=1156292630]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.637625, 0.91110444, -28.790241)
@@ -5393,7 +5761,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.951653, 0.9111047, -26.29
 transform = Transform3D(0.7562106, -0.23919569, 0.60904086, -1.0797092e-08, 0.9307882, 0.36555922, -0.65432817, -0.27643976, 0.7038719, -25.427626, 2.6249695, -24.757717)
 
 [node name="ChiefAfternoonPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=227241485]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3954587, 0.663808, -34.553406)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.395, 0.45, -34.553)
 
 [node name="ChiefAfternoonChiefPoint" type="Marker3D" parent="StoryMarkers" unique_id=1784617211]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3527484, 0.33385617, -34.37822)
@@ -5405,7 +5773,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2776155, 0.5999336, -34.40
 transform = Transform3D(1, 0, 0, 0, 0.90198946, 0.43175805, 0, -0.43175805, 0.90198946, -3.985599, 1.5261008, -32.0092)
 
 [node name="BlacksmithQuizPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=1068504845]
-transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 23.646, 0.464, -31.123)
+transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 23.646, 0.45, -31.123)
 
 [node name="BlacksmithQuizPandayPoint" type="Marker3D" parent="StoryMarkers" unique_id=593172538]
 transform = Transform3D(0.81501913, 0, -0.57943404, 0, 1, 0, 0.57943404, 0, 0.81501913, 25.209455, 0.33385617, -29.796814)
@@ -5445,23 +5813,14 @@ transform = Transform3D(0.9454734, 0, 0.32569942, 0, 1, 0, -0.32569942, 0, 0.945
 shape = SubResource("BoxShape3D_7xnph")
 
 [node name="narrow" type="Area3D" parent="StoryTrigger" unique_id=427526047 node_paths=PackedStringArray("narrow_cutscene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.849203, 0, 12.41798)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.399971, 0.39308286, 15.148155)
 script = ExtResource("35_87cgx")
 narrow_cutscene = NodePath("../../narrow_path_litik")
 required_flags = Array[String]([])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/narrow" unique_id=1821063020]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875276, 0.68792725, 3.0457916)
+transform = Transform3D(0.9654153, 0, -0.26071686, 0, 1, 0, 0.26071686, 0, 0.9654153, -2.6116948, 0.68792725, 2.0697699)
 shape = SubResource("BoxShape3D_nbvpm")
-
-[node name="PacingMove" type="Area3D" parent="StoryTrigger" unique_id=2086567975 node_paths=PackedStringArray("cutscene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.59484, 0, 20.686144)
-script = ExtResource("36_jc31u")
-cutscene = NodePath("../../pacing_move")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/PacingMove" unique_id=2076401743]
-transform = Transform3D(0.84923893, 0, -0.52800876, 0, 1, 0, 0.52800876, 0, 0.84923893, 0.110839844, 0, 2.1863556)
-shape = SubResource("BoxShape3D_5y2ec")
 
 [node name="LitikCutscene" type="Node3D" parent="." unique_id=83601087]
 

@@ -770,6 +770,21 @@ func _on_dialogue_ended() -> void:
 			"chief_training_battle_started"
 		)
 	)
+	var should_start_chief_final_training: bool = (
+		is_instance_valid(finished_npc)
+		and "npc_id" in finished_npc
+		and str(finished_npc.npc_id) == "Chief"
+		and QuestManager.has_dialogue_flag(
+			"final_training_battle_requested"
+		)
+		and not QuestManager.has_dialogue_flag(
+			"chief_final_training_battle_started"
+		)
+		and not QuestManager.has_dialogue_flag(
+			"chief_final_training_battle_completed"
+		)
+	)
+	
 
 	if (
 		is_instance_valid(current_npc)
@@ -819,11 +834,88 @@ func _on_dialogue_ended() -> void:
 	print("[DIALOGUE] Dialogue ended.")
 
 	if should_start_chief_training:
-		_start_chief_training_battle(
-			finished_npc
+		_start_chief_training_battle(finished_npc)
+	elif should_start_chief_final_training:
+		_start_chief_final_training_battle(finished_npc)
+
+func _start_chief_final_training_battle(
+	chief_npc: Node
+) -> void:
+	if BattleManager.battle_active:
+		return
+
+	var current_scene: Node = get_tree().current_scene
+
+	if current_scene == null:
+		push_error(
+            "[DIALOGUE] Cannot start final training: "
+			+ "current scene is null."
+		)
+		return
+
+	var enemy_data: EnemyData = EnemyData.new()
+
+	enemy_data.enemy_id = "chief_final_training"
+	enemy_data.display_name = "Chief"
+
+	# Starting balance. Adjust after testing.
+	enemy_data.max_hp = 100
+	enemy_data.max_barrier = 40
+	enemy_data.atk = 20
+	enemy_data.exp_reward = 350
+	enemy_data.gold_reward = 150
+
+	# This activates the existing boss battle system.
+	enemy_data.is_boss = true
+
+	var chief_frames: SpriteFrames = null
+
+	if (
+		is_instance_valid(chief_npc)
+		and "npc_frames" in chief_npc
+	):
+		chief_frames = (
+			chief_npc.get("npc_frames") as SpriteFrames
 		)
 
+	if chief_frames != null:
+		enemy_data.battle_sprite_frames = chief_frames
+		enemy_data.battle_sprite_animation = &"idle_right"
+		enemy_data.battle_attack_animation = &""
+		enemy_data.battle_hit_animation = &""
 
+	var battle_screen: CanvasLayer = (
+		BATTLE_SCREEN_SCENE.instantiate() as CanvasLayer
+	)
+
+	if battle_screen == null:
+		push_error(
+			"[DIALOGUE] Could not create the final "
+			+ "training battle screen."
+			)
+		return
+
+	current_scene.add_child(battle_screen)
+	BattleManager.start_battle(enemy_data)
+
+	if not BattleManager.battle_active:
+		battle_screen.queue_free()
+		push_error(
+			"[DIALOGUE] Final training battle did not start."
+		)
+		return
+
+	QuestManager.set_dialogue_flag(
+		"final_training_battle_requested", false
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_started", true
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_healed", false
+	)
+
+	print("[DIALOGUE] Chief final boss battle started.")
 # ============================================================
 # START CHIEF TRAINING BATTLE
 # ============================================================
@@ -928,6 +1020,9 @@ func _on_chief_training_battle_ended(
 	# except Chief's scripted training battle.
 	if BattleManager.current_enemy == null:
 		return
+	if BattleManager.current_enemy.enemy_id == "chief_final_training":
+		_on_chief_final_training_battle_ended(victory)
+		return
 
 	if (
 		BattleManager.current_enemy.enemy_id
@@ -1028,7 +1123,48 @@ func _on_chief_training_battle_ended(
 			+ "Check the quest objective target."
 		)
 
+func _on_chief_final_training_battle_ended(
+	victory: bool
+) -> void:
+	# Clear the request in either outcome.
+	QuestManager.set_dialogue_flag(
+		"final_training_battle_requested", false
+	)
 
+	if not victory:
+		QuestManager.set_dialogue_flag(
+			"chief_final_training_battle_started", false
+		)
+		QuestManager.set_dialogue_flag(
+			"chief_final_training_battle_completed", false
+		)
+		QuestManager.set_dialogue_flag(
+			"chief_final_training_battle_lost", true
+		)
+		QuestManager.set_dialogue_flag(
+			"chief_final_training_battle_healed", false
+		)
+
+		print(
+            "[DIALOGUE] Final training lost. "
+			+ "Recover at the Big Tree before retrying."
+		)
+		return
+
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_started", true
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_completed", true
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_lost", false
+	)
+	QuestManager.set_dialogue_flag(
+		"chief_final_training_battle_healed", false
+	)
+
+	print("[DIALOGUE] Chief final training completed.")
 # ============================================================
 # CAMERA
 # ============================================================

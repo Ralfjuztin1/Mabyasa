@@ -46,9 +46,10 @@ target_actor_id = "chief"
 
 [node name="07_FaceNPCToPlayer" type="Node" parent="." unique_id=337660883]
 script = ExtResource("2_action")
-action_type = 3
+action_type = 6
 actor_id = "chief"
 target_actor_id = "Player"
+animation_name = "idle_front"
 
 [node name="08_FaceLitikToPlayer" type="Node" parent="." unique_id=2027743196]
 script = ExtResource("2_action")

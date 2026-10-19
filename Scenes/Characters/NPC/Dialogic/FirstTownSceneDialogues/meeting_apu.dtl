@@ -3,8 +3,8 @@ Apu: So... the curse took some of your voice too, did it?
 Apu: I remember something like this happening to your Bapa.
 You: Bapa had this curse too?
 Apu: I don't know if it was exactly the same, child. But I know that losing your voice is not something we should ignore.
-Apu: To break this curse, you must recover your lost words and find the mystic ylang-ylang.
-You: And how am I supposed to do that?
+Apu: To break this curse, you must recover your lost words and find 3  mystic ylang-ylang.
+You: How am I supposed to do that apu?
 Apu: One step at a time. You must practice the words you can still remember and learn the ones that have become lost to you.
 Litik: Finally, a plan that doesn't involve staring at the sky and hoping your voice comes back.
 You: You make it sound easy.
@@ -12,7 +12,7 @@ Litik: I said it's a plan. I didn't say it would be easy.
 Apu: There is something you can do for me first.
 Apu: Bebang, our food vendor, left her basket of food here earlier. She was in a hurry to prepare her stall and forgot to take it with her.
 Apu: Please bring it back to her. Her stall is near the village center.
-You: That's all? Just deliver a basket?
+You: Just deliver a basket?
 Apu: Every journey begins with a small step, child. This will also give you a chance to speak with the people of our village.
 Litik: Let's get moving, then. We might recover some words along the way.
 [signal arg="[signal arg="start_deliver_bebang_basket"]"]

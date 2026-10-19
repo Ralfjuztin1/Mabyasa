@@ -104,6 +104,8 @@ script = ExtResource("1_yb2g8")
 script = ExtResource("1_kcl67")
 data_directory = "res://Scenes/Tutorial/TutorialZone_TerrainData/MarchingSquaresTerrain_a85f8a8b"
 _storage_initialized = true
+grass_subdivisions = 3
+grass_size = Vector2(0.5, 0.5)
 metadata/_custom_type_script = "uid://cddg1xr5hye1d"
 
 [node name="Chunk (0, 0)" type="MeshInstance3D" parent="MarchingSquaresTerrain" unique_id=782156926 node_paths=PackedStringArray("terrain_system")]

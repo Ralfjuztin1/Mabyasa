@@ -17,18 +17,18 @@ script = ExtResource("2_action")
 action_type = 12
 actor_id = "litik"
 
-[node name="035_tpchief" type="Node" parent="." unique_id=555475082]
-script = ExtResource("2_action")
-action_type = 1
-actor_id = "chief"
-target_id = "finalchief"
-metadata/_custom_type_script = "uid://duhrpmind65fn"
-
 [node name="03_PositionPlayer" type="Node" parent="." unique_id=468034553]
 script = ExtResource("2_action")
 action_type = 1
 actor_id = "Player"
 target_id = "ImaMorningPlayerPoint"
+copy_target_y_rotation = true
+
+[node name="035_tpchief" type="Node" parent="." unique_id=210332152]
+script = ExtResource("2_action")
+action_type = 1
+actor_id = "Chief"
+target_id = "finalchief"
 copy_target_y_rotation = true
 
 [node name="04_PositionMainNPC" type="Node" parent="." unique_id=1907316873]
