@@ -805,6 +805,18 @@ static func _build_choice(
 # FILL BLANK
 # ============================================================
 
+static func _is_single_word_option(text: String) -> bool:
+	var cleaned: String = text.strip_edges()
+
+	return (
+		not cleaned.is_empty()
+		and not cleaned.contains(" ")
+		and not cleaned.contains("\t")
+		and not cleaned.contains("\n")
+		and not cleaned.contains("\r")
+	)
+
+
 static func _build_fill_blank(
 	entry: VocabEntry,
 	pool: Array[VocabEntry]
@@ -869,11 +881,11 @@ static func _build_fill_blank(
 			continue
 
 
-		# Answer part must also have been encountered.
-		if not LanguageProgress.is_encountered(
-			answer_id
-		):
+		# The missing answer must be encountered and consist of one word.
+		if not LanguageProgress.is_encountered(answer_id):
+			continue
 
+		if not _is_single_word_option(answer_entry.kapampangan):
 			continue
 
 
@@ -928,23 +940,23 @@ static func _build_fill_blank(
 		var options: Array[Dictionary] = [
 			{
 				"id": answer_entry.id,
-				"text": answer_entry.kapampangan
+				"text": answer_entry.kapampangan.strip_edges()
 			}
 		]
 
 
 		var used: Dictionary = {
-			answer_entry.kapampangan.to_lower(): true
+			answer_entry.kapampangan.strip_edges().to_lower(): true
 		}
 
 
-		# Only encountered vocabulary.
+		# Only encountered single-word vocabulary can be a distractor.
 		var distractors: Array[VocabEntry] = []
 
 
 		for other: VocabEntry in pool:
 
-			if other == entry:
+			if other == entry or other.id == answer_id:
 				continue
 
 
@@ -966,12 +978,9 @@ static func _build_fill_blank(
 				break
 
 
-			var text: String = (
-				other.kapampangan
-			)
+			var text: String = other.kapampangan.strip_edges()
 
-
-			if text.is_empty():
+			if not _is_single_word_option(text):
 				continue
 
 
@@ -991,6 +1000,12 @@ static func _build_fill_blank(
 					"text": text
 				}
 			)
+
+
+		# If there are not enough single-word options, try another variant.
+		# The caller can then try another quiz type instead of showing phrases.
+		if options.size() < MAX_CHOICES:
+			continue
 
 
 		options.shuffle()

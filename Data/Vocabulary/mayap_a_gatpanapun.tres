@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://7mg2i4l38xuh"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -8,12 +8,34 @@ id = "mayap_a_gatpanapun"
 kapampangan = "Mayap a gatpanapun"
 english = "Good afternoon"
 category = "greeting"
-difficulty = 1
-source_npc = ""
+lesson_group = "common_greetings"
+source_section = "common_greetings"
 allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
 hint = "Use this greeting for afternoon. The source gives: Good afternoon"
 parts = PackedStringArray("mayap", "a", "gatpanapun")
-fill_blank_variants = Array[Dictionary]([{"prompt": "It is afternoon. Complete the greeting:\nMayap a ____", "answer_id": "gatpanapun"}, {"prompt": "Complete the phrase:\n____ a gatpanapun", "answer_id": "mayap"}, {"prompt": "Complete the phrase:\nMayap ____ gatpanapun", "answer_id": "a"}, {"prompt": "Complete the greeting:\n____ a gatpanapun", "answer_id": "mayap"}, {"prompt": "Complete the greeting:\nMayap ____ gatpanapun", "answer_id": "a"}, {"prompt": "Complete the greeting:\nMayap a ____", "answer_id": "gatpanapun"}])
-sentence_distractors = PackedStringArray("abak", "bengi", "aldo")
-lesson_group = "common_greetings"
-source_section = "common_greetings"
+fill_blank_variants = Array[Dictionary]([{
+"answer_id": "gatpanapun",
+"prompt": "It is afternoon. Complete the greeting:
+Mayap a ____"
+}, {
+"answer_id": "mayap",
+"prompt": "Complete the phrase:
+____ a gatpanapun"
+}, {
+"answer_id": "a",
+"prompt": "Complete the phrase:
+Mayap ____ gatpanapun"
+}, {
+"answer_id": "mayap",
+"prompt": "Complete the greeting:
+____ a gatpanapun"
+}, {
+"answer_id": "a",
+"prompt": "Complete the greeting:
+Mayap ____ gatpanapun"
+}, {
+"answer_id": "gatpanapun",
+"prompt": "Complete the greeting:
+Mayap a ____"
+}])
+sentence_distractors = PackedStringArray("abak", "bengi", "aldo", "man", "nanu", "salamat", "a")

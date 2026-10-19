@@ -5519,6 +5519,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.900277, 0.07549882, -3.72
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.790878, 0.23670536, 7.212964)
 enemy_id = "what_the_fox"
 enemy_name = "What the Fox"
+enemy_max_hp = 1000
 world_sprite_frames = SubResource("SpriteFrames_t4itd")
 battle_sprite_animation = &"idle_right"
 battle_attack_animation = &"attack_right"
