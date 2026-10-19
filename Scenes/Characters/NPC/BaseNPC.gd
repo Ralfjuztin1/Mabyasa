@@ -488,11 +488,21 @@ func _try_play_interaction_cutscene() -> bool:
 		if not did_play:
 			continue
 
-		# Cutscenes bypass DialogueManager, so notify the quest system only
-		# after the sequence really finished.
-		GameEvents.npc_talked.emit(npc_id)
+		# The cutscene has fully finished.
+# Emit the NPC interaction event BEFORE starting the new quest.
+		if is_instance_valid(GameEvents):
+			GameEvents.npc_talked.emit(npc_id)
+
 		if not flag.is_empty():
 			QuestManager.set_dialogue_flag(flag, true)
+
+		# Start Greet Ima after the evening cutscene and sleep transition.
+		if (
+			npc_id == "ima"
+			and cutscene.completion_flag == "ima_evening_completed"
+		):
+			QuestManager.start_quest("greet_ima")
+
 		return true
 
 	return false

@@ -894,6 +894,13 @@ flag_id = "chief_training_healed"
 timeline_path = "FirstTownSceneDialogues/chief_training_retry"
 metadata/_custom_type_script = "uid://chx51t0pbuor3"
 
+[sub_resource type="Resource" id="Resource_7g0ku"]
+script = ExtResource("17_ubr33")
+condition = 2
+priority = 6969
+quest_id = "go_to_chief_final_training"
+metadata/_custom_type_script = "uid://chx51t0pbuor3"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7o3d"]
 atlas = ExtResource("12_vm1ce")
 region = Rect2(0, 0, 64, 64)
@@ -4672,7 +4679,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.7792203, 0.8666879, -63.972
 npc_name = "Chief"
 npc_id = "Chief"
 dialogue_id = "chief_default"
-dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw"), SubResource("Resource_ig5lw"), SubResource("Resource_odars")])
+dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_0uggw"), SubResource("Resource_ig5lw"), SubResource("Resource_odars"), SubResource("Resource_7g0ku")])
 interaction_cutscenes = [NodePath("../../ChiefAfternoonIntroDirector"), NodePath("../../ChiefAfterTrainingDirector")]
 cutscene_flags = Array[String](["chief_afternoon_intro_complete", ""])
 npc_frames = SubResource("SpriteFrames_lfg56")
@@ -5421,6 +5428,9 @@ transform = Transform3D(0.124474764, 0, -0.9922228, 0, 1, 0, 0.9922228, 0, 0.124
 [node name="ImaEveningCamera" type="Marker3D" parent="StoryMarkers" unique_id=1313588630]
 transform = Transform3D(0.124474734, 0.42840022, -0.8949746, 0, 0.9019896, 0.4317581, 0.9922228, -0.053742975, 0.112274885, 31.352875, 1.526101, -10.594826)
 
+[node name="finalchief" type="Marker3D" parent="StoryMarkers" unique_id=1042097380]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.097696, 0.19979441, 79.375946)
+
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)
 
@@ -5438,6 +5448,7 @@ shape = SubResource("BoxShape3D_7xnph")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.849203, 0, 12.41798)
 script = ExtResource("35_87cgx")
 narrow_cutscene = NodePath("../../narrow_path_litik")
+required_flags = Array[String]([])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/narrow" unique_id=1821063020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.875276, 0.68792725, 3.0457916)
