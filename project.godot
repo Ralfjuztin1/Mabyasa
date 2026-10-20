@@ -63,6 +63,7 @@ directories/dtl_directory={
 "chief_final_training": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training.dtl",
 "chief_final_training_loss": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training_loss.dtl",
 "chief_final_training_retry": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training_retry.dtl",
+"chief_final_training_victory": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_final_training_victory.dtl",
 "chief_training_retry": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_training_retry.dtl",
 "chief_training_start": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/chief_training_start.dtl",
 "gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/gab.dtl",
