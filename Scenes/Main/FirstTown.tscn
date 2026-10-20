@@ -5903,7 +5903,7 @@ shape = SubResource("CapsuleShape3D_nbvpm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.900277, 0.07549882, -3.7217789)
 
 [node name="Enemy2" parent="." unique_id=1154355743 instance=ExtResource("44_2ujky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.790878, 0.23670536, 7.212964)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.925212, 0.23670346, 15.860184)
 enemy_id = "what_the_fox"
 enemy_name = "What the Fox"
 enemy_max_hp = 1000
@@ -5912,7 +5912,7 @@ battle_sprite_animation = &"idle_right"
 battle_attack_animation = &"attack_right"
 
 [node name="Enemy" parent="." unique_id=1980562007 instance=ExtResource("44_2ujky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.069744, 0.20828927, 48.566254)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.239197, 0.20828927, -7.193222)
 is_boss = true
 enemy_max_hp = 200
 enemy_atk = 20

@@ -815,7 +815,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -46.444
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.644821, -0.32759142, -49.577965)
 
 [node name="MysticYlangYlang" parent="." unique_id=1328004915 instance=ExtResource("22_c303x")]
-transform = Transform3D(0.43496394, 0, 0, 0, 0.52606654, 0, 0, 0, 0.390027, -41.45778, 0, -4.7431297)
+transform = Transform3D(0.43496394, 0, 0, 0, 0.52606654, 0, 0, 0, 0.390027, -41.63405, 4.7683716e-07, -8.181941)
 
 [node name="Enemies" type="Node3D" parent="." unique_id=2047151287]
 
@@ -880,5 +880,5 @@ enemy_name = "Dagis"
 world_sprite_frames = SubResource("SpriteFrames_0hi5p")
 
 [node name="ForestYlangGuardian" parent="Enemies" unique_id=2058093365 instance=ExtResource("27_mcil3")]
-transform = Transform3D(2.6300268, 0, 0, 0, 2.001471, 0, 0, 0, 2.3230066, -41.706047, 0.16600919, -4.314023)
+transform = Transform3D(2.6300268, 0, 0, 0, 2.001471, 0, 0, 0, 2.3230066, -41.706047, 0.16600919, -1.4726906)
 battle_sprite_animation = &"idle_right"

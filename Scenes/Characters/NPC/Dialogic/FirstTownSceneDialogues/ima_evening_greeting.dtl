@@ -9,7 +9,7 @@ Litik: "Mayap a bengi" means "Good evening." You can use it when greeting someon
 You: Mayap a bengi, Ima.
 [signal arg="[signal arg="learn_mayap_a_bengi"]"]
 Ima: Mayap a bengi, anak. Now, get some rest.
-Ima: Chief is waiting for you tomorrow. You need a clear head for your final training.
+Ima: Chief will be waiting for you tomorrow. You need a clear head for your final training.
 You: I will. Good night, Ima.
 Ima: Sleep well, anak.
 [signal arg="[signal arg="set_flag_sleep_transition_requested"]"]

@@ -1,6 +1,6 @@
 Litik: Wait a moment.
 You: What is it?
-Litik: Look ahead. Ale Pacing is blocking the narrow path with those crates.
+Litik: Look ahead. Ale Pacing is blocking the narrow path.
 You: We need to get past her.
 Litik: Then ask politely. When you need to pass someone, say "Makilabas ku pu." It means "Excuse me."
 [signal arg="[signal arg="encounter_makilabas_ku_pu"]"]
