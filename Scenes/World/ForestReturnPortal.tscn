@@ -1,33 +1,26 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://dvy1d57md8q6f"]
 
-[ext_resource type="Script" path="res://Scripts/World/ForestReturnPortal.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://4fxvebkqtm01" path="res://Scripts/World/ForestReturnPortal.gd" id="1_script"]
 
 [sub_resource type="BoxShape3D" id="PortalTrigger"]
-size = Vector3(3.0, 3.0, 1.5)
-
-[sub_resource type="TorusMesh" id="PortalRing"]
-inner_radius = 0.09
-outer_radius = 0.95
-rings = 24
-ring_segments = 8
+size = Vector3(10.660522, 3, 1.5)
 
 [sub_resource type="StandardMaterial3D" id="PortalMaterial"]
-shading_mode = 0
-albedo_color = Color(0.12, 0.55, 1, 0.85)
-emission_enabled = true
-emission = Color(0.04, 0.22, 1, 1)
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0)
 
-[node name="ForestReturnPortal" type="Area3D"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_i26x1"]
+
+[node name="ForestReturnPortal" type="Area3D" unique_id=1532448954]
 collision_layer = 0
-collision_mask = 1
-monitoring = true
 script = ExtResource("1_script")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=492348007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38702393, 1.25, 0)
 shape = SubResource("PortalTrigger")
 
-[node name="PortalRingVisual" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 1.25, 0)
-mesh = SubResource("PortalRing")
+[node name="PortalRingVisual" type="MeshInstance3D" parent="." unique_id=314529371]
+transform = Transform3D(5, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.25, 0)
 material_override = SubResource("PortalMaterial")
+mesh = SubResource("PlaneMesh_i26x1")

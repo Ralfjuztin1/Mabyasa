@@ -20,12 +20,10 @@
 [ext_resource type="Script" uid="uid://baijd8v2v6uoh" path="res://addons/scatter/core/nodes/output/scatter_final_output_node.gd" id="16_56pr5"]
 [ext_resource type="Script" uid="uid://bitupconrfvlx" path="res://addons/scatter/core/graph/scatter_graph.gd" id="17_mcil3"]
 [ext_resource type="Resource" uid="uid://cfh02l6r8iief" path="res://Assets/ScatterTreesTres/common_tree_6_scatter.tres" id="18_mqais"]
-[ext_resource type="PackedScene" path="res://Scenes/World/ForestReturnPortal.tscn" id="21_q8van"]
+[ext_resource type="PackedScene" uid="uid://dvy1d57md8q6f" path="res://Scenes/World/ForestReturnPortal.tscn" id="21_q8van"]
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="22_5sur5"]
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="23_ajcyc"]
-[ext_resource type="PackedScene" uid="uid://bjeftjdjeaa6n" path="res://Scenes/Characters/NPC/Enemy/BoarBoss.tscn" id="24_56pr5"]
-[ext_resource type="Texture2D" uid="uid://dpiqbqv23prjg" path="res://Assets/Characters/EnemySpritesCoke/Boar_Attack.png" id="25_mcil3"]
-[ext_resource type="Texture2D" uid="uid://s73lwo0rn10" path="res://Assets/Characters/EnemySpritesCoke/Boar_Idle.png" id="26_mqais"]
+[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/ForestYlangGuardian.tscn" id="27_mcil3"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7xnph"]
 panorama = ExtResource("1_s88vv")
@@ -490,181 +488,6 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5ygbs"]
-atlas = ExtResource("25_mcil3")
-region = Rect2(0, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a3t00"]
-atlas = ExtResource("25_mcil3")
-region = Rect2(32, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0hi5p"]
-atlas = ExtResource("25_mcil3")
-region = Rect2(64, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3vt0w"]
-atlas = ExtResource("25_mcil3")
-region = Rect2(96, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_35qk2"]
-atlas = ExtResource("25_mcil3")
-region = Rect2(128, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0fcv1"]
-atlas = ExtResource("26_mqais")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_syadu"]
-atlas = ExtResource("26_mqais")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_djouf"]
-atlas = ExtResource("26_mqais")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b62od"]
-atlas = ExtResource("26_mqais")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_unsmd"]
-atlas = ExtResource("26_mqais")
-region = Rect2(0, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pfsip"]
-atlas = ExtResource("26_mqais")
-region = Rect2(32, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_riabj"]
-atlas = ExtResource("26_mqais")
-region = Rect2(64, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cmjfg"]
-atlas = ExtResource("26_mqais")
-region = Rect2(96, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kbqto"]
-atlas = ExtResource("26_mqais")
-region = Rect2(0, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i26x1"]
-atlas = ExtResource("26_mqais")
-region = Rect2(32, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_82y3c"]
-atlas = ExtResource("26_mqais")
-region = Rect2(64, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f58hf"]
-atlas = ExtResource("26_mqais")
-region = Rect2(96, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3mdn3"]
-atlas = ExtResource("26_mqais")
-region = Rect2(0, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2gwvg"]
-atlas = ExtResource("26_mqais")
-region = Rect2(32, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5s73a"]
-atlas = ExtResource("26_mqais")
-region = Rect2(64, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l7l5b"]
-atlas = ExtResource("26_mqais")
-region = Rect2(96, 64, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_irltn"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5ygbs")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a3t00")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0hi5p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3vt0w")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_35qk2")
-}],
-"loop": 1,
-"name": &"attack_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0fcv1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_syadu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_djouf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b62od")
-}],
-"loop": 1,
-"name": &"idle_back",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_unsmd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pfsip")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_riabj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cmjfg")
-}],
-"loop": 1,
-"name": &"idle_front",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kbqto")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i26x1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_82y3c")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f58hf")
-}],
-"loop": 1,
-"name": &"idle_left",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3mdn3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2gwvg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5s73a")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l7l5b")
-}],
-"loop": 1,
-"name": &"idle_right",
-"speed": 3.0
-}]
-
 [node name="Forest" type="Node3D" unique_id=394613455]
 script = ExtResource("1_gfvm6")
 
@@ -988,7 +811,7 @@ shape = SubResource("BoxShape3D_8a144")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -46.44494)
 
 [node name="ForestReturnPortal" parent="." unique_id=2026163567 instance=ExtResource("21_q8van")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3725834, -0.32759142, -49.58204)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.644821, -0.32759142, -49.577965)
 
 [node name="Enemies" type="Node3D" parent="." unique_id=2047151287]
 
@@ -1052,6 +875,6 @@ enemy_id = "dagis"
 enemy_name = "Dagis"
 world_sprite_frames = SubResource("SpriteFrames_0hi5p")
 
-[node name="BoarBoss" parent="Enemies" unique_id=902272081 instance=ExtResource("24_56pr5")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -41.927574, 0, -1.8041494)
-world_sprite_frames = SubResource("SpriteFrames_irltn")
+[node name="ForestYlangGuardian" parent="Enemies" unique_id=2058093365 instance=ExtResource("27_mcil3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.706047, 0.5894635, -4.314023)
+battle_sprite_animation = &"idle_right"

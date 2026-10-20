@@ -1232,6 +1232,21 @@ func _on_chief_training_battle_ended(
 			+ "Check the quest objective target."
 		)
 
+func start_forest_scene_dialogue(timeline_reference: String) -> bool:
+	if is_dialogue_active:
+		return false
+
+	var timeline_path: String = _normalize_dialogue_path(timeline_reference)
+	if timeline_path.is_empty() or not ResourceLoader.exists(timeline_path):
+		push_error("[DIALOGUE] Forest scene timeline is missing: " + timeline_path)
+		return false
+
+	current_npc = null
+	current_dialogue_entry = null
+
+	print("[DIALOGUE] Starting Forest scene dialogue: ", timeline_path)
+	Dialogic.start(timeline_path)
+	return true
 
 # ============================================================
 # CHIEF FINAL TRAINING BOSS RESULT

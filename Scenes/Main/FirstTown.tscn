@@ -5928,6 +5928,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.669968, 0, -40.408943)
 
 [node name="WorldTimeController" type="Node" parent="." unique_id=415110155]
 script = ExtResource("61_kt4ki")
+transition_duration = 2.5
 
 [node name="ForestGateReturnPoint" type="Marker3D" parent="." unique_id=770978316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.460548, 0, 44.70384)

@@ -1,20 +1,24 @@
-[gd_resource type="SpriteFrames" load_steps=25 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cnkrhrfm1bnw8"]
 
-[ext_resource type="Texture2D" path="res://Assets/Characters/EnemySpritesCoke/Boar_Idle.png" id="1_idle"]
-[ext_resource type="Texture2D" path="res://Assets/Characters/EnemySpritesCoke/Boar_Attack.png" id="2_attack"]
+[ext_resource type="Texture2D" uid="uid://s73lwo0rn10" path="res://Assets/Characters/EnemySpritesCoke/Boar_Idle.png" id="1_idle"]
+[ext_resource type="Texture2D" uid="uid://dpiqbqv23prjg" path="res://Assets/Characters/EnemySpritesCoke/Boar_Attack.png" id="2_attack"]
 
 [sub_resource type="AtlasTexture" id="Attack0"]
 atlas = ExtResource("2_attack")
 region = Rect2(0, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Attack1"]
 atlas = ExtResource("2_attack")
 region = Rect2(32, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Attack2"]
 atlas = ExtResource("2_attack")
 region = Rect2(64, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Attack3"]
 atlas = ExtResource("2_attack")
 region = Rect2(96, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Attack4"]
 atlas = ExtResource("2_attack")
 region = Rect2(128, 96, 32, 32)
@@ -22,12 +26,15 @@ region = Rect2(128, 96, 32, 32)
 [sub_resource type="AtlasTexture" id="Back0"]
 atlas = ExtResource("1_idle")
 region = Rect2(0, 32, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Back1"]
 atlas = ExtResource("1_idle")
 region = Rect2(32, 32, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Back2"]
 atlas = ExtResource("1_idle")
 region = Rect2(64, 32, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Back3"]
 atlas = ExtResource("1_idle")
 region = Rect2(96, 32, 32, 32)
@@ -35,12 +42,15 @@ region = Rect2(96, 32, 32, 32)
 [sub_resource type="AtlasTexture" id="Front0"]
 atlas = ExtResource("1_idle")
 region = Rect2(0, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Front1"]
 atlas = ExtResource("1_idle")
 region = Rect2(32, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Front2"]
 atlas = ExtResource("1_idle")
 region = Rect2(64, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Front3"]
 atlas = ExtResource("1_idle")
 region = Rect2(96, 0, 32, 32)
@@ -48,12 +58,15 @@ region = Rect2(96, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="Left0"]
 atlas = ExtResource("1_idle")
 region = Rect2(0, 64, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Left1"]
 atlas = ExtResource("1_idle")
 region = Rect2(32, 64, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Left2"]
 atlas = ExtResource("1_idle")
 region = Rect2(64, 64, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Left3"]
 atlas = ExtResource("1_idle")
 region = Rect2(96, 64, 32, 32)
@@ -61,39 +74,105 @@ region = Rect2(96, 64, 32, 32)
 [sub_resource type="AtlasTexture" id="Right0"]
 atlas = ExtResource("1_idle")
 region = Rect2(0, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Right1"]
 atlas = ExtResource("1_idle")
 region = Rect2(32, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Right2"]
 atlas = ExtResource("1_idle")
 region = Rect2(64, 96, 32, 32)
+
 [sub_resource type="AtlasTexture" id="Right3"]
 atlas = ExtResource("1_idle")
 region = Rect2(96, 96, 32, 32)
 
 [resource]
 animations = [{
-"frames": [{"duration": 1.0, "texture": SubResource("Attack0")}, {"duration": 1.0, "texture": SubResource("Attack1")}, {"duration": 1.0, "texture": SubResource("Attack2")}, {"duration": 1.0, "texture": SubResource("Attack3")}, {"duration": 1.0, "texture": SubResource("Attack4")}],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Attack0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Attack1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Attack2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Attack3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Attack4")
+}],
 "loop": 0,
 "name": &"attack_right",
 "speed": 5.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("Back0")}, {"duration": 1.0, "texture": SubResource("Back1")}, {"duration": 1.0, "texture": SubResource("Back2")}, {"duration": 1.0, "texture": SubResource("Back3")}],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Back0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Back1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Back2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Back3")
+}],
 "loop": 1,
 "name": &"idle_back",
 "speed": 3.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("Front0")}, {"duration": 1.0, "texture": SubResource("Front1")}, {"duration": 1.0, "texture": SubResource("Front2")}, {"duration": 1.0, "texture": SubResource("Front3")}],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Front0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Front1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Front2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Front3")
+}],
 "loop": 1,
 "name": &"idle_front",
 "speed": 3.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("Left0")}, {"duration": 1.0, "texture": SubResource("Left1")}, {"duration": 1.0, "texture": SubResource("Left2")}, {"duration": 1.0, "texture": SubResource("Left3")}],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Left0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Left1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Left2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Left3")
+}],
 "loop": 1,
 "name": &"idle_left",
 "speed": 3.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("Right0")}, {"duration": 1.0, "texture": SubResource("Right1")}, {"duration": 1.0, "texture": SubResource("Right2")}, {"duration": 1.0, "texture": SubResource("Right3")}],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Right0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Right1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Right2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Right3")
+}],
 "loop": 1,
 "name": &"idle_right",
 "speed": 3.0
