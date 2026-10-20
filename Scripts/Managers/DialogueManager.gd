@@ -999,9 +999,9 @@ func _start_chief_training_battle(
 
 	enemy_data.enemy_id = "chief_training"
 	enemy_data.display_name = "Chief"
-	enemy_data.max_hp = 50
+	enemy_data.max_hp = 150
 	enemy_data.max_barrier = 20
-	enemy_data.atk = 25
+	enemy_data.atk = 14
 	enemy_data.exp_reward = 250
 	enemy_data.gold_reward = 100
 	enemy_data.is_boss = false
@@ -1083,9 +1083,9 @@ func _start_chief_final_training_battle(
 	var enemy_data: EnemyData = EnemyData.new()
 	enemy_data.enemy_id = "chief_final_training"
 	enemy_data.display_name = "Chief"
-	enemy_data.max_hp = 100
+	enemy_data.max_hp = 225
 	enemy_data.max_barrier = 40
-	enemy_data.atk = 20
+	enemy_data.atk = 17
 	enemy_data.exp_reward = 350
 	enemy_data.gold_reward = 150
 	enemy_data.is_boss = true

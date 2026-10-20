@@ -79,6 +79,7 @@ directories/dtl_directory={
 "narrow_path": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/narrow_path.dtl",
 "ralf": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ralf.dtl",
 "reya": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/reya.dtl",
+"rids_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/rids_default.dtl",
 "rids_first_talk": "res://Scenes/Characters/NPC/Dialogic/rids_first_talk.dtl",
 "waking_up": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/waking_up.dtl"
 }

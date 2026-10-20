@@ -6,8 +6,8 @@
 
 [sub_resource type="Resource" id="Resource_egxw4"]
 script = ExtResource("1_lpmx5")
-exp = 100
-gold = 53
+exp = 55
+gold = 40
 metadata/_custom_type_script = "uid://cxxg6xw8xmvkc"
 
 [sub_resource type="Resource" id="Resource_tv73x"]

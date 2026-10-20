@@ -5,7 +5,7 @@ if QuestManager.is_quest_completed("pet_the_animal") and not QuestManager.has_di
 	[end_timeline]
 
 elif QuestManager.is_quest_active("pet_the_animal") and QuestManager.is_count_zero("pet_the_animal"):
-	chief: panayan daka
+	chief: I'll wait for you
 	[end_timeline]
 
 elif QuestManager.is_quest_active("pet_the_animal") and QuestManager.is_count_under("pet_the_animal"):

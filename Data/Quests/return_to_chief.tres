@@ -6,6 +6,8 @@
 
 [sub_resource type="Resource" id="QuestReward_ReturnToChief"]
 script = ExtResource("2_reward")
+exp = 20
+gold = 10
 
 [sub_resource type="Resource" id="QuestStep_TalkToChief"]
 script = ExtResource("3_step")

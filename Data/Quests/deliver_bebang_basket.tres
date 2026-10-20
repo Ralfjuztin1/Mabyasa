@@ -6,8 +6,8 @@
 
 [sub_resource type="Resource" id="QuestReward_DeliverBasket"]
 script = ExtResource("2_reward")
-exp = 20
-gold = 5
+exp = 30
+gold = 10
 
 [sub_resource type="Resource" id="QuestStep_ReturnBasket"]
 script = ExtResource("3_step")
