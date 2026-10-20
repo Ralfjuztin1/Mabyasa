@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cptixtihvl3to"]
+
+[ext_resource type="Script" uid="uid://cfwf5d8exox4f" path="res://addons/dialogic/Modules/LayeredPortrait/custom_layered_portrait.gd" id="1_uubi5"]
+[ext_resource type="Texture2D" uid="uid://bql0iyiiwt4o6" path="res://Assets/Characters/NPC_Portraits/blacksmith__1_-removebg-preview.png" id="2_k2bdj"]
+
+[node name="LayeredPortrait" type="CanvasGroup" unique_id=1711918415]
+script = ExtResource("1_uubi5")
+
+[node name="Layer1" type="Sprite2D" parent="." unique_id=1869162913]
+
+[node name="Group1" type="Node2D" parent="." unique_id=1972932670]
+
+[node name="Layer1" type="Sprite2D" parent="Group1" unique_id=1328541127]
+
+[node name="Layer2" type="Sprite2D" parent="Group1" unique_id=1056050029]
+
+[node name="Blacksmith1RemovebgPreview" type="Sprite2D" parent="." unique_id=167441652]
+position = Vector2(249, 250)
+texture = ExtResource("2_k2bdj")

@@ -5912,7 +5912,7 @@ battle_sprite_animation = &"idle_right"
 battle_attack_animation = &"attack_right"
 
 [node name="Enemy" parent="." unique_id=1980562007 instance=ExtResource("44_2ujky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.239197, 0.20828927, -7.193222)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.162167, 0.20828927, -12.189484)
 is_boss = true
 enemy_max_hp = 200
 enemy_atk = 20

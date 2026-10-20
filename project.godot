@@ -41,6 +41,7 @@ directories/dch_directory={
 "Ale Pacing": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ale Pacing.dch",
 "Apu": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Apu.dch",
 "Bebang": "res://Scenes/Characters/NPC/Dialogic/Bebang.dch",
+"Blacksmith": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Blacksmith.dch",
 "Dara Bebang": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Dara Bebang.dch",
 "Gab": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Gab.dch",
 "Ima": "res://Scenes/Characters/NPC/Dialogic/FirstTownCharacters/Ima.dch",

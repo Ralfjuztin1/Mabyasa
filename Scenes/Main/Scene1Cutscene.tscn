@@ -6,7 +6,6 @@
 
 [node name="Scene1Cutscene" type="Node" unique_id=427796490]
 script = ExtResource("1_director")
-start_delay = 0.0
 completion_flag = "cene_1_ima_good_morning_complete"
 
 [node name="01_FadeOut" type="Node" parent="." unique_id=1097041852]
@@ -76,16 +75,9 @@ fade_duration = 0.3
 
 [node name="11_Hold" type="Node" parent="." unique_id=565246294]
 script = ExtResource("2_action")
-seconds = 0.0
 
 [node name="12_DuringDialogue" type="Node" parent="." unique_id=105933198]
 script = ExtResource("3_parallel")
-
-[node name="12a_MoveBebang" type="Node" parent="12_DuringDialogue" unique_id=441194059]
-script = ExtResource("2_action")
-action_type = 2
-actor_id = "bebang"
-target_id = "BebangTalkPoint"
 
 [node name="12b_Dialogue" type="Node" parent="12_DuringDialogue" unique_id=1518461391]
 script = ExtResource("2_action")
