@@ -12,5 +12,6 @@ Litik: I hope that means he's going to explain the rules first.
 chief: Stay focused, both of you. Once this training is done, you'll be one step closer to entering the forest.
 You: I'm ready, Chief.
 chief: Then let's begin!
+[signal arg="[signal arg="queue_start_defeat_chief_final_training"]"]
 [signal arg="[signal arg="set_flag_final_training_battle_requested"]"]
 [end_timeline]
