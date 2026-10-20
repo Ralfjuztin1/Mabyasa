@@ -49,6 +49,7 @@
 [ext_resource type="PackedScene" uid="uid://i05u3tkaegly" path="res://Scenes/Main/Scene2.tscn" id="35_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://c6cjijlpfmno6" path="res://Scenes/Main/Scene3.tscn" id="36_vu2ah"]
 [ext_resource type="PackedScene" uid="uid://bnk8jjq5y0wns" path="res://Scenes/Main/narrow_path_litik.tscn" id="40_f3fox"]
+[ext_resource type="PackedScene" path="res://Scenes/World/ForestGate.tscn" id="41_6pjb3"]
 [ext_resource type="PackedScene" uid="uid://dhv5dn57ae1q0" path="res://Data/Quests/pacing_move.tscn" id="42_ahwvf"]
 [ext_resource type="PackedScene" uid="uid://c7a0rqybof5to" path="res://Scenes/World/CheckpointMarker.tscn" id="43_jbd24"]
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="44_2ujky"]
@@ -5712,6 +5713,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.018414, 0.6905799, -41.131
 [node name="BebangTalkPoint" type="Marker3D" parent="CutscenePoints" unique_id=2003384431]
 transform = Transform3D(-0.46030492, 0, 0.8877609, 0, 1, 0, -0.8877609, 0, -0.46030492, 9.526538, 0.6262915, -41.54365)
 
+[node name="ForestGate" parent="." unique_id=552773468 node_paths=PackedStringArray("locked_return_point") instance=ExtResource("41_6pjb3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.365633, 0, 51.865673)
+locked_return_point = NodePath("../ForestGateReturnPoint")
+
 [node name="StoryMarkers" type="Marker3D" parent="." unique_id=544631421]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.388443, 0, -29.695984)
 
@@ -5923,3 +5928,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.669968, 0, -40.408943)
 
 [node name="WorldTimeController" type="Node" parent="." unique_id=415110155]
 script = ExtResource("61_kt4ki")
+
+[node name="ForestGateReturnPoint" type="Marker3D" parent="." unique_id=770978316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.460548, 0, 46.375137)

@@ -884,4 +884,3 @@ func _target_point(target: CanvasItem) -> Vector2:
 
 	var inverse: Transform2D = get_global_transform_with_canvas().affine_inverse()
 	return _snap_point(inverse * canvas_point)
-

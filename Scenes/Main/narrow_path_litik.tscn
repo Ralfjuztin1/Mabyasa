@@ -33,6 +33,20 @@ action_type = 12
 actor_id = "litik"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
+[node name="CutsceneAction2" type="Node" parent="." unique_id=214204217]
+script = ExtResource("2_7n6au")
+action_type = 3
+actor_id = "Player"
+target_id = "pacing"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="CutsceneAction3" type="Node" parent="." unique_id=1603007307]
+script = ExtResource("2_7n6au")
+action_type = 3
+actor_id = "pacing"
+target_id = "Player"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
 [node name="dialogue" type="Node" parent="." unique_id=226713033]
 script = ExtResource("2_7n6au")
 action_type = 7

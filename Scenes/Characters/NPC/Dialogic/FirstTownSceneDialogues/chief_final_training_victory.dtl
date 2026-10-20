@@ -1,6 +1,8 @@
 chief: You did it. You passed the final trial.
 You: Does that mean I'm ready to enter the forest?
-chief: You've earned the chance to prove yourself beyond the village. Stay alert, and remember what your training taught you.
+chief: You've earned the chance to prove yourself beyond the village. Follow the path to the Forest Gate. Once you enter the Forest, your next journey begins. Stay alert and remember what your training taught you.
 Litik: Finally. A forest full of new things that want to eat us.
 You: We'll be ready.
+[signal arg="set_flag_chief_final_training_victory_dialogue_played"]
+[signal arg="queue_start_reach_forest"]
 [end_timeline]

@@ -15,17 +15,14 @@ func _ready() -> void:
 
 	print("[Forest] Terrain found.")
 
-	# --------------------------------------------------
 	# Force Yūgen terrain to rebuild/update its material.
-	# --------------------------------------------------
 	if terrain.has_method("force_batch_update"):
 		print("[Forest] Calling force_batch_update()")
 		terrain.force_batch_update()
 	else:
 		print("[Forest] force_batch_update() does not exist.")
 
-		# Fallback for versions of the addon that don't
-		# have force_batch_update().
+		# Fallback for versions of the addon that don't have force_batch_update().
 		if terrain.has_method("refresh_chunk_surface_materials"):
 			print("[Forest] Refreshing terrain materials...")
 			terrain.refresh_chunk_surface_materials()
@@ -42,3 +39,9 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	print("[Forest] Terrain initialization complete.")
+
+	# Completing the Forest quest is based on arrival in this scene,
+	# not on defeating Chief or starting the quest dialogue.
+	if is_instance_valid(GameEvents):
+		GameEvents.location_reached.emit("forest")
+		print("[Forest] Location reached event emitted: forest")

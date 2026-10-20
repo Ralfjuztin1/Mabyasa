@@ -1143,15 +1143,28 @@ func _on_battle_ended(victory: bool) -> void:
 
 func _on_boss_assessment_finished(victory: bool) -> void:
 	if victory:
+		# Trigger only after Chief's final-training boss assessment is accepted.
+		var should_play_chief_victory_dialogue: bool = (
+			BattleManager.current_enemy != null
+			and BattleManager.current_enemy.enemy_id == "chief_final_training"
+			and QuestManager.has_dialogue_flag("chief_final_training_battle_completed")
+			and not QuestManager.has_dialogue_flag("chief_final_training_victory_dialogue_played")
+		)
+
+		
 		GameManager.set_game_state(
 			GameManager.GameState.EXPLORATION
 		)
-
+	
 		if GameManager.has_method("request_save"):
 			GameManager.request_save()
 
 		closed.emit()
 		queue_free()
+		if should_play_chief_victory_dialogue:
+			DialogueManager.call_deferred(
+				"start_chief_final_training_victory_dialogue"
+			)
 		return
 
 	var restored: bool = await CheckpointManager.restore_checkpoint()

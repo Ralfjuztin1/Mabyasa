@@ -1,0 +1,34 @@
+FILE: res://Scenes/Battle/BattleScreen.gd
+
+Inside func _on_boss_assessment_finished(victory: bool) -> void:, update only the `if victory:` branch as described below. Leave the defeat/checkpoint branch unchanged.
+
+1) Immediately after `if victory:`, add:
+
+		# Trigger only after Chief's final-training boss assessment is accepted.
+		var should_play_chief_victory_dialogue: bool = (
+			BattleManager.current_enemy != null
+			and BattleManager.current_enemy.enemy_id == "chief_final_training"
+			and QuestManager.has_dialogue_flag("chief_final_training_battle_completed")
+			and not QuestManager.has_dialogue_flag("chief_final_training_victory_dialogue_played")
+		)
+
+2) Keep the existing GameManager exploration-state change and request_save call.
+
+3) In this same victory branch, replace:
+
+		closed.emit()
+		queue_free()
+		return
+
+with:
+
+		closed.emit()
+		queue_free()
+
+		if should_play_chief_victory_dialogue:
+			DialogueManager.call_deferred(
+				"start_chief_final_training_victory_dialogue"
+			)
+		return
+
+The deferred call starts the timeline after the battle UI is queued for removal. Do not add this to the defeat branch.

@@ -98,6 +98,40 @@ func start_dialogue(
 	Dialogic.start(
 		dialogue_path
 	)
+func start_chief_final_training_victory_dialogue() -> void:
+	if is_dialogue_active:
+		push_warning("[DIALOGUE] Cannot start Chief's victory dialogue because another dialogue is active.")
+		return
+
+	if QuestManager.has_dialogue_flag("chief_final_training_victory_dialogue_played"):
+		return
+
+	if not QuestManager.has_dialogue_flag("chief_final_training_battle_completed"):
+		push_warning("[DIALOGUE] Chief's victory dialogue was requested before final training was completed.")
+		return
+
+	var current_scene: Node = get_tree().current_scene
+	if not is_instance_valid(current_scene):
+		push_error("[DIALOGUE] Cannot play Chief's victory dialogue: current scene is missing.")
+		return
+
+	# FirstTown.tscn names the Chief node lowercase "chief".
+	var chief: Node = current_scene.find_child("chief", true, false)
+	if not is_instance_valid(chief):
+		push_error("[DIALOGUE] Cannot play Chief's victory dialogue: node 'chief' was not found in the current scene.")
+		return
+
+	var timeline_path: String = _normalize_dialogue_path(
+		"FirstTownSceneDialogues/chief_final_training_victory"
+	)
+	if timeline_path.is_empty() or not ResourceLoader.exists(timeline_path):
+		push_error("[DIALOGUE] Chief's final-training victory timeline is missing: " + timeline_path)
+		return
+
+	current_npc = chief
+	current_dialogue_entry = null
+	print("[DIALOGUE] Starting Chief's post-final-training victory dialogue.")
+	Dialogic.start(timeline_path)
 
 func _face_dialogue_participants(npc: Node) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Node3D

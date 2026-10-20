@@ -662,3 +662,6 @@ shape = SubResource("BoxShape3D_8a144")
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="inviwalls/StaticBody3D" unique_id=895242075]
 transform = Transform3D(0.3890294, 0, 0.92122555, 0, 1, 0, -0.92122555, 0, 0.3890294, -20.453678, 8.151157, -50.391037)
 shape = SubResource("BoxShape3D_8a144")
+
+[node name="DefaultSpawn" type="Marker3D" parent="." unique_id=2110016880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -47.440983)
