@@ -12,6 +12,13 @@ script = ExtResource("2_action")
 action_type = 10
 fade_duration = 0.2
 
+[node name="CutsceneAction" type="Node" parent="." unique_id=1387453578]
+script = ExtResource("2_action")
+action_type = 1
+actor_id = "chief"
+target_id = "finalchief"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
 [node name="02_ShowLitik" type="Node" parent="." unique_id=1407607331]
 script = ExtResource("2_action")
 action_type = 12
@@ -38,6 +45,11 @@ actor_id = "litik"
 target_id = "ImaEveningLitikPoint"
 copy_target_y_rotation = true
 
+[node name="09_CameraShot" type="Node" parent="." unique_id=7090099]
+script = ExtResource("2_action")
+action_type = 8
+target_id = "ImaEveningCamera"
+
 [node name="06_FacePlayerToNPC" type="Node" parent="." unique_id=437741307]
 script = ExtResource("2_action")
 action_type = 3
@@ -55,11 +67,6 @@ script = ExtResource("2_action")
 action_type = 3
 actor_id = "litik"
 target_actor_id = "Player"
-
-[node name="09_CameraShot" type="Node" parent="." unique_id=7090099]
-script = ExtResource("2_action")
-action_type = 8
-target_id = "ImaEveningCamera"
 
 [node name="10_FadeIn" type="Node" parent="." unique_id=1661570397]
 script = ExtResource("2_action")

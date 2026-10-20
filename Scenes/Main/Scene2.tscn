@@ -33,6 +33,12 @@ action_type = 12
 actor_id = "litik"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
+[node name="07_camera_shot" type="Node" parent="." unique_id=616651773]
+script = ExtResource("2_5cfgf")
+action_type = 8
+target_id = "Camera"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
 [node name="05_face_player" type="Node" parent="." unique_id=2046682175]
 script = ExtResource("2_5cfgf")
 action_type = 3
@@ -45,12 +51,6 @@ script = ExtResource("2_5cfgf")
 action_type = 3
 actor_id = "litik"
 target_actor_id = "Player"
-metadata/_custom_type_script = "uid://duhrpmind65fn"
-
-[node name="07_camera_shot" type="Node" parent="." unique_id=616651773]
-script = ExtResource("2_5cfgf")
-action_type = 8
-target_id = "Camera"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="08_fade" type="Node" parent="." unique_id=611997676]

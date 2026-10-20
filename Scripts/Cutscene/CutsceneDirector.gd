@@ -294,19 +294,95 @@ func face_actor_to_position(actor: Node3D, position: Vector3) -> void:
 	direction.y = 0.0
 	face_actor_to_direction(actor, direction)
 
+func _get_facing_from_world_direction(direction: Vector3) -> String:
+	var camera: Camera3D = get_viewport().get_camera_3d()
+
+	# Godot's default camera looks along local -Z. These are safe fallbacks
+	# in case Face Actor executes before a camera is active.
+	var camera_forward: Vector3 = Vector3(0.0, 0.0, -1.0)
+	var camera_right: Vector3 = Vector3(1.0, 0.0, 0.0)
+
+	if is_instance_valid(camera):
+		camera_forward = -camera.global_transform.basis.z
+		camera_right = camera.global_transform.basis.x
+
+	# Use horizontal directions, matching the actor scripts' own animation logic.
+	camera_forward.y = 0.0
+	camera_right.y = 0.0
+
+	if camera_forward.length_squared() > 0.0001:
+		camera_forward = camera_forward.normalized()
+	else:
+		camera_forward = Vector3(0.0, 0.0, -1.0)
+
+	if camera_right.length_squared() > 0.0001:
+		camera_right = camera_right.normalized()
+	else:
+		camera_right = Vector3(1.0, 0.0, 0.0)
+
+	var forward_amount: float = direction.dot(camera_forward)
+	var right_amount: float = direction.dot(camera_right)
+
+	if absf(right_amount) > absf(forward_amount):
+		return "right" if right_amount > 0.0 else "left"
+
+	# A target farther into the scene means the character shows its back;
+	# a target closer to the camera means the character shows its front.
+	return "back" if forward_amount > 0.0 else "front"
 
 func face_actor_to_direction(actor: Node3D, direction: Vector3) -> void:
 	if not is_instance_valid(actor):
 		return
+
 	var flat_direction: Vector3 = direction
 	flat_direction.y = 0.0
+
 	if flat_direction.length_squared() <= 0.000001:
 		return
+
 	flat_direction = flat_direction.normalized()
+
+	# Keep the root rotation for systems that use the actor's 3D orientation.
 	actor.global_rotation.y = atan2(flat_direction.x, flat_direction.z)
 
-	if actor.get("last_movement_direction") is Vector3:
+	# Determine the sprite's 4-way facing from the active camera's viewpoint.
+	# This matches the direction rules used by Player and BaseNPC.
+	var facing: String = _get_facing_from_world_direction(flat_direction)
+
+	# Preserve the facing after the cutscene action, so normal actor animation
+	# logic does not immediately revert to the previous direction.
+	var saved_player_direction: Variant = actor.get("last_movement_direction")
+	if saved_player_direction is Vector3:
 		actor.set("last_movement_direction", flat_direction)
+
+	var saved_npc_direction: Variant = actor.get("last_look_dir")
+	if saved_npc_direction is Vector3:
+		actor.set("last_look_dir", flat_direction)
+
+	var saved_facing: Variant = actor.get("current_facing")
+	if saved_facing is String:
+		actor.set("current_facing", facing)
+
+	# Change the actual visible sprite animation, not only the Node3D rotation.
+	var sprite: AnimatedSprite3D = _find_animated_sprite(actor)
+	if not is_instance_valid(sprite) or sprite.sprite_frames == null:
+		push_warning(
+			"[CUTSCENE DIRECTOR] No AnimatedSprite3D/SpriteFrames found on "
+			+ actor.name
+		)
+		return
+
+	var animation_name: String = "idle_" + facing
+	if not sprite.sprite_frames.has_animation(animation_name):
+		push_warning(
+			"[CUTSCENE DIRECTOR] Facing animation '" + animation_name
+			+ "' not found on " + actor.name
+		)
+		return
+
+	if sprite.animation != animation_name or not sprite.is_playing():
+		sprite.play(animation_name)
+
 
 
 func set_actor_animation(actor: Node3D, animation_name: String) -> void:

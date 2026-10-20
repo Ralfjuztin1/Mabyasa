@@ -88,16 +88,129 @@ func start_dialogue(
 
 		current_npc = null
 		return
-	
+	_face_dialogue_participants(npc)
+
 	print(
 		"[DIALOGUE] Starting: ",
 		dialogue_path
 	)
-
+	
 	Dialogic.start(
 		dialogue_path
 	)
 
+func _face_dialogue_participants(npc: Node) -> void:
+	var player := get_tree().get_first_node_in_group("player") as Node3D
+	var npc_actor := npc as Node3D
+
+	if not is_instance_valid(player) or not is_instance_valid(npc_actor):
+		return
+
+	var direction_to_npc := npc_actor.global_position - player.global_position
+	direction_to_npc.y = 0.0
+
+	if direction_to_npc.length_squared() <= 0.00001:
+		return
+
+	direction_to_npc = direction_to_npc.normalized()
+
+	_face_dialogue_player(player, direction_to_npc)
+	_face_dialogue_npc(npc_actor, -direction_to_npc)
+
+
+func _face_dialogue_player(player: Node3D, direction: Vector3) -> void:
+	var head := player.get_node_or_null("Head") as Node3D
+	var sprite := _find_dialogue_animated_sprite(player)
+
+	if not is_instance_valid(sprite) or sprite.sprite_frames == null:
+		return
+
+	# Player animation directions are relative to the player's camera/head.
+	var local_direction := direction
+	if is_instance_valid(head):
+		local_direction = head.global_transform.basis.inverse() * direction
+
+	local_direction.y = 0.0
+
+	var facing := _dialogue_facing_from_local_direction(local_direction)
+
+	# Keep the normal Player.gd animation state consistent after dialogue.
+	if "last_movement_direction" in player:
+		player.set("last_movement_direction", direction)
+
+	_play_dialogue_idle(sprite, facing)
+
+
+func _face_dialogue_npc(npc: Node3D, direction: Vector3) -> void:
+	var sprite := _find_dialogue_animated_sprite(npc)
+
+	if not is_instance_valid(sprite) or sprite.sprite_frames == null:
+		return
+
+	# NPC.gd calculates its four-direction animation relative to the active
+	# camera, so use that same coordinate system here.
+	var camera := get_viewport().get_camera_3d()
+
+	var camera_forward := Vector3(0.0, 0.0, -1.0)
+	var camera_right := Vector3(1.0, 0.0, 0.0)
+
+	if is_instance_valid(camera):
+		camera_forward = -camera.global_transform.basis.z
+		camera_right = camera.global_transform.basis.x
+
+	camera_forward.y = 0.0
+	camera_right.y = 0.0
+
+	if camera_forward.length_squared() > 0.001:
+		camera_forward = camera_forward.normalized()
+
+	if camera_right.length_squared() > 0.001:
+		camera_right = camera_right.normalized()
+
+	var forward_amount := direction.dot(camera_forward)
+	var right_amount := direction.dot(camera_right)
+	var facing := "front"
+
+	if absf(right_amount) > absf(forward_amount):
+		facing = "right" if right_amount > 0.0 else "left"
+	else:
+		# This matches BaseNPC.gd's existing front/back convention.
+		facing = "back" if forward_amount > 0.0 else "front"
+
+	# Keep the NPC's normal facing state consistent after dialogue ends.
+	if "last_look_dir" in npc:
+		npc.set("last_look_dir", direction.normalized())
+
+	if "current_facing" in npc:
+		npc.set("current_facing", facing)
+
+	_play_dialogue_idle(sprite, facing)
+
+
+func _dialogue_facing_from_local_direction(direction: Vector3) -> String:
+	if absf(direction.x) > absf(direction.z):
+		return "right" if direction.x > 0.0 else "left"
+
+	return "front" if direction.z > 0.0 else "back"
+
+
+func _play_dialogue_idle(sprite: AnimatedSprite3D, facing: String) -> void:
+	var animation_name := "idle_" + facing
+
+	if sprite.sprite_frames != null and sprite.sprite_frames.has_animation(animation_name):
+		sprite.play(animation_name)
+
+
+func _find_dialogue_animated_sprite(node: Node) -> AnimatedSprite3D:
+	if node is AnimatedSprite3D:
+		return node as AnimatedSprite3D
+
+	for child: Node in node.get_children():
+		var found := _find_dialogue_animated_sprite(child)
+		if is_instance_valid(found):
+			return found
+
+	return null
 
 # ============================================================
 # DIALOGUE SELECTION

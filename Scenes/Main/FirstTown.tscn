@@ -5761,7 +5761,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.951653, 0.9111047, -26.29
 transform = Transform3D(0.7562106, -0.23919569, 0.60904086, -1.0797092e-08, 0.9307882, 0.36555922, -0.65432817, -0.27643976, 0.7038719, -25.427626, 2.6249695, -24.757717)
 
 [node name="ChiefAfternoonPlayerPoint" type="Marker3D" parent="StoryMarkers" unique_id=227241485]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.395, 0.45, -34.553)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.395, 0.40277404, -34.16579)
 
 [node name="ChiefAfternoonChiefPoint" type="Marker3D" parent="StoryMarkers" unique_id=1784617211]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3527484, 0.33385617, -34.37822)
@@ -5797,7 +5797,7 @@ transform = Transform3D(0.124474764, 0, -0.9922228, 0, 1, 0, 0.9922228, 0, 0.124
 transform = Transform3D(0.124474734, 0.42840022, -0.8949746, 0, 0.9019896, 0.4317581, 0.9922228, -0.053742975, 0.112274885, 31.352875, 1.526101, -10.594826)
 
 [node name="finalchief" type="Marker3D" parent="StoryMarkers" unique_id=1042097380]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.097696, 0.19979441, 79.375946)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.097696, 0.31884158, 79.375946)
 
 [node name="StoryTrigger" type="Area3D" parent="." unique_id=1379856188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.616671, 0, -31.429405)

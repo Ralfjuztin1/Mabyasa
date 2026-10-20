@@ -592,7 +592,7 @@ script = ExtResource("4_g5wpn")
 script = ExtResource("8_g5wpn")
 
 [node name="CommonTree3" type="MultiMeshInstance3D" parent="TreesManager" unique_id=784168224]
-transform = Transform3D(-0.93479, 0, -0.06892218, 0, 0.9373277, 0, 0.06892218, 0, -0.93479, -4.704756, 0.051589966, 6.479163)
+transform = Transform3D(-0.93479, 0, -0.06892218, 0, 0.9373277, 0, 0.06892218, 0, -0.93479, -8.359361, 0.05158806, 9.177581)
 lod_bias = 0.5
 multimesh = SubResource("MultiMesh_pntu1")
 metadata/_scatter_graph = ExtResource("10_so3tk")

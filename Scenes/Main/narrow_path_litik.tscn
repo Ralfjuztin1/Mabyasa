@@ -21,13 +21,6 @@ actor_id = "litik"
 target_id = "litik_narrow_path"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
-[node name="CutsceneAction" type="Node" parent="." unique_id=1352921285]
-script = ExtResource("2_7n6au")
-action_type = 2
-actor_id = "pacing"
-target_id = "movepacing"
-metadata/_custom_type_script = "uid://duhrpmind65fn"
-
 [node name="camera" type="Node" parent="." unique_id=1253592678]
 script = ExtResource("2_7n6au")
 action_type = 8
@@ -44,6 +37,13 @@ metadata/_custom_type_script = "uid://duhrpmind65fn"
 script = ExtResource("2_7n6au")
 action_type = 7
 timeline_path = "uid://xoc72ujenq0l"
+metadata/_custom_type_script = "uid://duhrpmind65fn"
+
+[node name="CutsceneAction" type="Node" parent="." unique_id=1352921285]
+script = ExtResource("2_7n6au")
+action_type = 2
+actor_id = "pacing"
+target_id = "movepacing"
 metadata/_custom_type_script = "uid://duhrpmind65fn"
 
 [node name="show2" type="Node" parent="." unique_id=95633230]

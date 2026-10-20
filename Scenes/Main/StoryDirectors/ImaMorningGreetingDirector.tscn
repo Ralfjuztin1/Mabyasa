@@ -24,13 +24,6 @@ actor_id = "Player"
 target_id = "ImaMorningPlayerPoint"
 copy_target_y_rotation = true
 
-[node name="035_tpchief" type="Node" parent="." unique_id=210332152]
-script = ExtResource("2_action")
-action_type = 1
-actor_id = "Chief"
-target_id = "finalchief"
-copy_target_y_rotation = true
-
 [node name="04_PositionMainNPC" type="Node" parent="." unique_id=1907316873]
 script = ExtResource("2_action")
 action_type = 1
