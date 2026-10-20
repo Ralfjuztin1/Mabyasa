@@ -1,0 +1,5 @@
+Litik: We have the Mystic Ylang-Ylang now, but the path beyond this portal isn't ready yet.
+You: So we can't continue to the next town?
+Litik: Not yet. Let's return to FirstTown for now. We can continue when the next town is ready.
+[signal arg="set_flag_litik_second_town_unavailable_seen"]
+[end_timeline]

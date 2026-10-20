@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/BoarBoss.tscn" id="1_boss"]
+[ext_resource type="SpriteFrames" path="res://Assets/Characters/EnemySpritesCoke/ForestBoarFrames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://Scripts/World/ForestYlangGuardian.gd" id="3_guardian"]
+
+[node name="ForestYlangGuardian" instance=ExtResource("1_boss")]
+script = ExtResource("3_guardian")
+enemy_id = "forest_ylang_guardian"
+enemy_name = "Mystic Ylang-Ylang Guardian"
+enemy_max_hp = 220
+enemy_max_barrier = 35
+enemy_atk = 14
+enemy_exp_reward = 250
+enemy_gold_reward = 125
+is_boss = true
+world_sprite_frames = ExtResource("2_frames")
+battle_sprite_frames = ExtResource("2_frames")
+battle_sprite_animation = &"idle_left"
+battle_attack_animation = &"attack_right"
+battle_hit_animation = &""
+battle_attack_duration = 0.65
+
+[node name="AnimatedSprite3D" parent="." index="1"]
+transform = Transform3D(1.65, 0, 0, 0, 1.65, 0, 0, 0, 1.65, 0, 1.1, 0)
+pixel_size = 0.045

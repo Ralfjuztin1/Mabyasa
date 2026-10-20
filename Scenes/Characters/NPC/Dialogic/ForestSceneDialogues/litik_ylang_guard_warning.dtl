@@ -1,0 +1,6 @@
+Litik: Wait, we can't take the Mystic Ylang-Ylang yet!
+You: What's stopping us?
+Litik: That creature is guarding the flower. We'll have to defeat it before we can reach it.
+You: Then let's take care of the guardian first.
+[signal arg="set_flag_litik_warned_about_ylang_guardian"]
+[end_timeline]

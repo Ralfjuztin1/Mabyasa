@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://baijd8v2v6uoh" path="res://addons/scatter/core/nodes/output/scatter_final_output_node.gd" id="16_56pr5"]
 [ext_resource type="Script" uid="uid://bitupconrfvlx" path="res://addons/scatter/core/graph/scatter_graph.gd" id="17_mcil3"]
 [ext_resource type="Resource" uid="uid://cfh02l6r8iief" path="res://Assets/ScatterTreesTres/common_tree_6_scatter.tres" id="18_mqais"]
+[ext_resource type="PackedScene" path="res://Scenes/World/ForestReturnPortal.tscn" id="21_q8van"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7xnph"]
 panorama = ExtResource("1_s88vv")
@@ -664,4 +665,7 @@ transform = Transform3D(0.3890294, 0, 0.92122555, 0, 1, 0, -0.92122555, 0, 0.389
 shape = SubResource("BoxShape3D_8a144")
 
 [node name="DefaultSpawn" type="Marker3D" parent="." unique_id=2110016880]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -47.440983)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -46.44494)
+
+[node name="ForestReturnPortal" parent="." unique_id=2026163567 instance=ExtResource("21_q8van")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3725834, -0.32759142, -49.58204)

@@ -1,0 +1,6 @@
+Litik: Hold on. We shouldn't head to the next town yet.
+You: Why not?
+Litik: We came here to find the Mystic Ylang-Ylang. We need to get it before we move on.
+You: You're right. Let's find it first.
+[signal arg="set_flag_litik_second_town_warning_seen"]
+[end_timeline]

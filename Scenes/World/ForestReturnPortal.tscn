@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/World/ForestReturnPortal.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="PortalTrigger"]
+size = Vector3(3.0, 3.0, 1.5)
+
+[sub_resource type="TorusMesh" id="PortalRing"]
+inner_radius = 0.09
+outer_radius = 0.95
+rings = 24
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="PortalMaterial"]
+shading_mode = 0
+albedo_color = Color(0.12, 0.55, 1, 0.85)
+emission_enabled = true
+emission = Color(0.04, 0.22, 1, 1)
+
+[node name="ForestReturnPortal" type="Area3D"]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("PortalTrigger")
+
+[node name="PortalRingVisual" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 1.25, 0)
+mesh = SubResource("PortalRing")
+material_override = SubResource("PortalMaterial")

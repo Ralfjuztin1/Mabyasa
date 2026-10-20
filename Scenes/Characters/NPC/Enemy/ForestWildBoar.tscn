@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/WildBoar.tscn" id="1_boar"]
+[ext_resource type="SpriteFrames" path="res://Assets/Characters/EnemySpritesCoke/ForestBoarFrames.tres" id="2_frames"]
+
+[node name="ForestWildBoar" instance=ExtResource("1_boar")]
+enemy_id = "forest_wild_boar"
+enemy_name = "Forest Boar"
+enemy_max_hp = 42
+enemy_max_barrier = 0
+enemy_atk = 8
+enemy_exp_reward = 30
+enemy_gold_reward = 12
+is_boss = false
+world_sprite_frames = ExtResource("2_frames")
+battle_sprite_frames = ExtResource("2_frames")
+battle_sprite_animation = &"idle_left"
+battle_attack_animation = &"attack_right"
+battle_hit_animation = &""
