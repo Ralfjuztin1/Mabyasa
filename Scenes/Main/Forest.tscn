@@ -22,6 +22,7 @@
 [ext_resource type="Resource" uid="uid://cfh02l6r8iief" path="res://Assets/ScatterTreesTres/common_tree_6_scatter.tres" id="18_mqais"]
 [ext_resource type="PackedScene" uid="uid://dvy1d57md8q6f" path="res://Scenes/World/ForestReturnPortal.tscn" id="21_q8van"]
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="22_5sur5"]
+[ext_resource type="PackedScene" path="res://Scenes/World/MysticYlangYlang.tscn" id="22_c303x"]
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="23_ajcyc"]
 [ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/ForestYlangGuardian.tscn" id="27_mcil3"]
 
@@ -813,6 +814,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.763134, 0.35774446, -46.444
 [node name="ForestReturnPortal" parent="." unique_id=2026163567 instance=ExtResource("21_q8van")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.644821, -0.32759142, -49.577965)
 
+[node name="MysticYlangYlang" parent="." unique_id=1328004915 instance=ExtResource("22_c303x")]
+transform = Transform3D(0.43496394, 0, 0, 0, 0.52606654, 0, 0, 0, 0.390027, -41.45778, 0, -4.7431297)
+
 [node name="Enemies" type="Node3D" parent="." unique_id=2047151287]
 
 [node name="Enemy" parent="Enemies" unique_id=1154355743 instance=ExtResource("22_5sur5")]
@@ -876,5 +880,5 @@ enemy_name = "Dagis"
 world_sprite_frames = SubResource("SpriteFrames_0hi5p")
 
 [node name="ForestYlangGuardian" parent="Enemies" unique_id=2058093365 instance=ExtResource("27_mcil3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.706047, 0.5894635, -4.314023)
+transform = Transform3D(2.6300268, 0, 0, 0, 2.001471, 0, 0, 0, 2.3230066, -41.706047, 0.16600919, -4.314023)
 battle_sprite_animation = &"idle_right"
