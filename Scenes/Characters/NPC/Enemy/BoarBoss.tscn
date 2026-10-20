@@ -2,23 +2,45 @@
 
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="1_base_enemy"]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_ah1re"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"attack_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 3.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 3.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 3.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 3.0
+}]
+
 [node name="BoarBoss" unique_id=902272081 instance=ExtResource("1_base_enemy")]
 enemy_id = "boar_boss"
 enemy_name = "Corrupted Boar"
+is_boss = true
 enemy_max_hp = 160
 enemy_max_barrier = 25
 enemy_atk = 10
 enemy_exp_reward = 150
 enemy_gold_reward = 80
-is_boss = true
 
-[node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
-
-[node name="AnimatedSprite3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
-texture_filter = 0
-animation = &"idle_left"
-
-[node name="DetectionArea" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+[node name="AnimatedSprite3D" parent="." index="1" unique_id=641565087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44300044, 0)
+sprite_frames = SubResource("SpriteFrames_ah1re")
+animation = &"idle_front"
