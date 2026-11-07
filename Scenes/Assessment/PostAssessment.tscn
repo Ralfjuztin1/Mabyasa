@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b5u7uemnufgc"]
+
+[ext_resource type="Script" uid="uid://dvxpaklelqnyv" path="res://Scripts/Assessment/PostAssessment.gd" id="1_post_assessment"]
+
+[node name="PostAssessment" type="CanvasLayer" unique_id=491579648]
+layer = 80
+script = ExtResource("1_post_assessment")
+gmail_web_app_url = "https://script.google.com/macros/s/AKfycbwfSecbUFOur9Hm454ob_uno2pSpMDcMwGvupx6OVDLc1lLMSuIotWn838Vpsnt7J5-9Q/exec"

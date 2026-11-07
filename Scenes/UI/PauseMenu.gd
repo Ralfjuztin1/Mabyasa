@@ -16,15 +16,18 @@ const QUEST_LOG_SCENE: PackedScene = preload("res://Scenes/UI/QuestLog.tscn")
 const PLAYER_STATS_SCENE: PackedScene = preload("res://Scenes/UI/PlayerStats.tscn")
 const WORD_BANK_SCENE: PackedScene = preload("res://Scenes/UI/WordBank.tscn")
 const SETTINGS_MENU_SCENE: PackedScene = preload("res://Scenes/UI/SettingsMenu.tscn")
+const POST_ASSESSMENT_SCENE: PackedScene = preload("res://Scenes/Assessment/PostAssessment.tscn")
 
 var quest_log: CanvasLayer = null
 var player_stats: CanvasLayer = null
 var word_bank: CanvasLayer = null
 var settings_menu: CanvasLayer = null
+var post_assessment: CanvasLayer = null
 var _word_bank_opened_from_pause_menu: bool = false
 var _settings_opened_from_pause_menu: bool = false
 var _quest_log_opened_from_pause_menu: bool = false
 var _stats_opened_from_pause_menu: bool = false
+var _assessment_opened_from_pause_menu: bool = false
 
 
 func _ready() -> void:
@@ -52,6 +55,7 @@ func _ready() -> void:
 			settings_button.disabled = false
 			settings_button.tooltip_text = "Adjust your settings."
 			_connect_if_needed(settings_button.pressed, _on_settings_pressed)
+		_create_assessment_button()
 
 	if is_instance_valid(missions_button):
 		_connect_if_needed(missions_button.pressed, _on_missions_pressed)
@@ -77,6 +81,8 @@ func _exit_tree() -> void:
 		_disconnect_if_connected(PlayerProgression.leveled_up, _update_profile_display)
 	if is_instance_valid(GameManager) and GameManager.has_signal("game_paused"):
 		_disconnect_if_connected(GameManager.game_paused, _on_game_paused)
+	if is_instance_valid(post_assessment):
+		post_assessment.queue_free()
 
 
 func _connect_if_needed(signal_ref: Signal, callback: Callable) -> void:
@@ -87,6 +93,74 @@ func _connect_if_needed(signal_ref: Signal, callback: Callable) -> void:
 func _disconnect_if_connected(signal_ref: Signal, callback: Callable) -> void:
 	if signal_ref.is_connected(callback):
 		signal_ref.disconnect(callback)
+
+
+func _create_assessment_button() -> void:
+	if not is_instance_valid(menu_grid):
+		return
+	var assessment_button := menu_grid.get_node_or_null("LearningAssessment") as Button
+	if not is_instance_valid(assessment_button):
+		var template := menu_grid.get_node_or_null("Wordbook") as Button
+		if not is_instance_valid(template):
+			template = missions_button
+		if is_instance_valid(template):
+			# Duplicate visual styling only; do not copy the Wordbook/Missions signal.
+			assessment_button = template.duplicate(0) as Button
+		else:
+			assessment_button = Button.new()
+		assessment_button.name = "LearningAssessment"
+		assessment_button.text = "Learning Assessment"
+		assessment_button.icon = null
+		assessment_button.disabled = false
+		menu_grid.add_child(assessment_button)
+	assessment_button.tooltip_text = "Take a post-assessment of the vocabulary you have discovered."
+	_connect_if_needed(assessment_button.pressed, _on_assessment_pressed)
+
+
+func _create_post_assessment() -> void:
+	if is_instance_valid(post_assessment):
+		return
+	post_assessment = POST_ASSESSMENT_SCENE.instantiate() as CanvasLayer
+	if not is_instance_valid(post_assessment):
+		push_error("[PAUSE MENU] Failed to create PostAssessment.")
+		return
+	post_assessment.name = "PostAssessment"
+	post_assessment.process_mode = Node.PROCESS_MODE_ALWAYS
+	var host: Node = get_tree().current_scene
+	if not is_instance_valid(host):
+		host = get_tree().root
+	host.add_child(post_assessment)
+	post_assessment.layer = 80
+	post_assessment.visible = false
+	if post_assessment.has_signal("closed"):
+		_connect_if_needed(post_assessment.closed, _on_post_assessment_closed)
+
+
+func _on_assessment_pressed() -> void:
+	if not get_tree().paused:
+		return
+	_create_post_assessment()
+	if not is_instance_valid(post_assessment):
+		return
+	_assessment_opened_from_pause_menu = true
+	hide()
+	post_assessment.layer = 80
+	if post_assessment.has_method("open"):
+		post_assessment.call("open")
+	else:
+		push_error("[PAUSE MENU] PostAssessment has no open() method.")
+		_on_post_assessment_closed()
+
+
+func _on_post_assessment_closed() -> void:
+	if not _assessment_opened_from_pause_menu:
+		return
+	_assessment_opened_from_pause_menu = false
+	if is_instance_valid(post_assessment):
+		post_assessment.layer = 1
+	if get_tree().paused:
+		show()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _create_quest_log() -> void:
@@ -255,6 +329,10 @@ func _on_game_paused(is_paused: bool) -> void:
 		_stats_opened_from_pause_menu = false
 		_word_bank_opened_from_pause_menu = false
 		_settings_opened_from_pause_menu = false
+		_assessment_opened_from_pause_menu = false
+		if is_instance_valid(post_assessment):
+			post_assessment.visible = false
+			post_assessment.layer = 1
 		if is_instance_valid(word_bank):
 			word_bank.visible = false
 			word_bank.layer = 1
@@ -290,7 +368,7 @@ func _on_quit_pressed() -> void:
 				if is_instance_valid(level_container) and level_container.get_child_count() > 0:
 					var actual_level: Node = level_container.get_child(0)
 					if is_instance_valid(actual_level) and not actual_level.scene_file_path.is_empty():
-							current_scene_path = actual_level.scene_file_path
+						current_scene_path = actual_level.scene_file_path
 			if current_scene_path.is_empty():
 				current_scene_path = current_scene.scene_file_path
 		if current_scene_path.is_empty() or current_scene_path == "res://Scenes/SceneManager/Main.tscn":
