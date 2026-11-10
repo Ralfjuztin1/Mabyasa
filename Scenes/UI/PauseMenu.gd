@@ -96,60 +96,22 @@ func _disconnect_if_connected(signal_ref: Signal, callback: Callable) -> void:
 
 
 func _create_assessment_button() -> void:
+	# The Guardian BATTLE is the official post-assessment, not a pause-menu quiz.
 	if not is_instance_valid(menu_grid):
 		return
-	var assessment_button := menu_grid.get_node_or_null("LearningAssessment") as Button
-	if not is_instance_valid(assessment_button):
-		var template := menu_grid.get_node_or_null("Wordbook") as Button
-		if not is_instance_valid(template):
-			template = missions_button
-		if is_instance_valid(template):
-			# Duplicate visual styling only; do not copy the Wordbook/Missions signal.
-			assessment_button = template.duplicate(0) as Button
-		else:
-			assessment_button = Button.new()
-		assessment_button.name = "LearningAssessment"
-		assessment_button.text = "Learning Assessment"
-		assessment_button.icon = null
-		assessment_button.disabled = false
-		menu_grid.add_child(assessment_button)
-	assessment_button.tooltip_text = "Take a post-assessment of the vocabulary you have discovered."
-	_connect_if_needed(assessment_button.pressed, _on_assessment_pressed)
+	var redundant_button := menu_grid.get_node_or_null("LearningAssessment") as Button
+	if is_instance_valid(redundant_button):
+		redundant_button.queue_free()
 
 
 func _create_post_assessment() -> void:
-	if is_instance_valid(post_assessment):
-		return
-	post_assessment = POST_ASSESSMENT_SCENE.instantiate() as CanvasLayer
-	if not is_instance_valid(post_assessment):
-		push_error("[PAUSE MENU] Failed to create PostAssessment.")
-		return
-	post_assessment.name = "PostAssessment"
-	post_assessment.process_mode = Node.PROCESS_MODE_ALWAYS
-	var host: Node = get_tree().current_scene
-	if not is_instance_valid(host):
-		host = get_tree().root
-	host.add_child(post_assessment)
-	post_assessment.layer = 80
-	post_assessment.visible = false
-	if post_assessment.has_signal("closed"):
-		_connect_if_needed(post_assessment.closed, _on_post_assessment_closed)
+	# Disabled: there must be no second assessment after the boss.
+	return
 
 
 func _on_assessment_pressed() -> void:
-	if not get_tree().paused:
-		return
-	_create_post_assessment()
-	if not is_instance_valid(post_assessment):
-		return
-	_assessment_opened_from_pause_menu = true
-	hide()
-	post_assessment.layer = 80
-	if post_assessment.has_method("open"):
-		post_assessment.call("open")
-	else:
-		push_error("[PAUSE MENU] PostAssessment has no open() method.")
-		_on_post_assessment_closed()
+	# Old menu signals can survive scene overrides; do not open the old quiz.
+	return
 
 
 func _on_post_assessment_closed() -> void:

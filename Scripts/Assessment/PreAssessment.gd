@@ -1,80 +1,91 @@
 extends "res://Scripts/Assessment/PostAssessment.gd"
 
-## Mandatory baseline assessment launched after the controls tutorial.
-## It uses the same sentence-building format as the designated boss.
+## One-time baseline after the controls tutorial.
+## Only existing multiple-choice / translation question mechanics are used.
+## These ten phrase IDs must match the ten configured in PairedBattleManager.gd.
 
 const PRE_ASSESSMENT_VOCAB_IDS: Array[String] = [
 	"mayap_a_abak",
 	"mayap_a_gatpanapun",
 	"ala_pung_nanu_man",
-	"dakal_a_salamat"
+	"dakal_a_salamat",
+	"mayap_a_bengi",
+	"mayap_a_aldo",
+	"malaus_kayu_pu",
+	"makilabas_ku_pu",
+	"mangan_ta_na",
+	"ume_ta_na"
 ]
 
+const BASELINE_QUIZ_SCRIPT: GDScript = preload(
+	"res://Scripts/Assessment/PreAssessmentQuizUI.gd"
+)
+
 var _pre_continue_button: Button
+var _saved_successfully: bool = false
 
 
 func open_pre_assessment() -> void:
 	open()
 
 
+func _create_quiz_ui() -> void:
+	# PostAssessment builds the CanvasLayer shell; we swap only its quiz script.
+	_quiz_ui = QUIZ_UI_SCENE.instantiate() as Control
+	if not is_instance_valid(_quiz_ui):
+		push_error("[PRE-ASSESSMENT] QuizUI.tscn could not be instantiated.")
+		return
+	_quiz_ui.set_script(BASELINE_QUIZ_SCRIPT)
+	_quiz_ui.name = "PreAssessmentQuizUI"
+	_quiz_ui.process_mode = Node.PROCESS_MODE_ALWAYS
+	_quiz_ui.visible = false
+	add_child(_quiz_ui)
+	_quiz_ui.answer_selected.connect(_on_answer_selected)
+
+	_quiz_progress_label = _make_label("INITIAL ASSESSMENT", 17, Color(0.93, 0.80, 0.38, 1.0))
+	_quiz_progress_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_quiz_progress_label.offset_top = 20.0
+	_quiz_progress_label.offset_bottom = 52.0
+	_quiz_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_quiz_progress_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_quiz_ui.add_child(_quiz_progress_label)
+
+
 func _build_assessment_questions() -> Array[Dictionary]:
-	var selected: Array[Dictionary] = []
-
-	for vocab_id: String in PRE_ASSESSMENT_VOCAB_IDS:
-		var entry: VocabEntry = LanguageProgress.get_entry(vocab_id)
+	var entries: Array[VocabEntry] = []
+	for phrase_id: String in PRE_ASSESSMENT_VOCAB_IDS:
+		var entry: VocabEntry = LanguageProgress.get_entry(phrase_id)
 		if entry == null:
-			push_warning("[PRE-ASSESSMENT] Missing vocabulary: " + vocab_id)
-			continue
+			push_error("[PRE-ASSESSMENT] Missing vocabulary: " + phrase_id)
+			return []
+		if entry.parts.size() < 2 or not entry.allowed_types.has("sentence_build"):
+			push_error("[PRE-ASSESSMENT] Not a supported boss phrase: " + phrase_id)
+			return []
+		if entry.english.is_empty() or entry.kapampangan.is_empty():
+			push_error("[PRE-ASSESSMENT] Missing translation for: " + phrase_id)
+			return []
+		for part_id: String in entry.parts:
+			if LanguageProgress.get_entry(part_id) == null:
+				push_error("[PRE-ASSESSMENT] Phrase has an unavailable part: " + part_id)
+				return []
+		entries.append(entry)
 
-		var question := _build_pre_sentence_question(entry)
-		if question == null:
-			push_warning("[PRE-ASSESSMENT] Could not build question: " + vocab_id)
-			continue
-
-		selected.append(_make_question_metadata(question, _topic_key(entry)))
-
-	return selected
-
-
-func _build_pre_sentence_question(entry: VocabEntry) -> QuizQuestion:
-	if entry == null or entry.parts.size() < 2:
-		return null
-
-	var question := QuizQuestion.new()
-	question.quiz_type = QuizQuestion.QuizType.SENTENCE_BUILD
-	question.prompt = "Build the Kapampangan phrase for:\n%s" % entry.english
-	question.time_limit = 30.0
-	question.vocab_id = entry.id
-	question.tested_vocab_ids = [entry.id]
-	question.hint = ""
-	question.pronunciation = ""
-	question.answer_line = "%s = %s" % [entry.kapampangan, entry.english]
-
-	for part_id: String in entry.parts:
-		var part: VocabEntry = LanguageProgress.get_entry(part_id)
-		if part == null:
-			return null
-		question.sentence_token_ids.append(part.id)
-		question.sentence_token_texts.append(part.kapampangan)
-
-	var used: Dictionary = {}
-	for part_id: String in question.sentence_token_ids:
-		used[part_id] = true
-
-	if entry.sentence_distractors != null:
-		for distractor_id: String in entry.sentence_distractors:
-			if used.has(distractor_id):
-				continue
-			var distractor: VocabEntry = LanguageProgress.get_entry(distractor_id)
-			if distractor == null:
-				continue
-			question.sentence_distractor_ids.append(distractor.id)
-			question.sentence_distractor_texts.append(distractor.kapampangan)
-			used[distractor.id] = true
-			if question.sentence_distractor_ids.size() >= 3:
-				break
-
-	return question
+	# The existing QuestionFactory supplies normal 3-option choices.
+	# _build_choice does not require the player to have encountered an entry.
+	var result: Array[Dictionary] = []
+	for index: int in range(entries.size()):
+		var entry: VocabEntry = entries[index]
+		var recognition: bool = index % 2 == 0
+		var question: QuizQuestion = QUESTION_FACTORY_SCRIPT._build_choice(entry, recognition, entries)
+		if question == null or question.choices.size() < 2:
+			push_error("[PRE-ASSESSMENT] Cannot create normal question for: " + entry.id)
+			return []
+		question.hint = ""
+		question.pronunciation = ""
+		question.time_limit = 35.0
+		result.append(_make_question_metadata(question, _topic_key(entry)))
+	result.shuffle()
+	return result
 
 
 func _show_intro() -> void:
@@ -85,30 +96,35 @@ func _show_intro() -> void:
 	_clear_body()
 
 	_body.add_child(_make_label(
-		"This short assessment records what you already know before "
-		+ "playing the Kapampangan learning adventure.",
-		17
+		"Before your adventure, answer 10 short questions about Kapampangan phrases. "
+		+ "No prior knowledge is expected. Make your best guess.", 17
 	))
-	_body.add_child(_make_label("Assessment overview", 18, Color(0.88, 0.70, 0.36, 1.0)))
-	_body.add_child(_make_label("Questions prepared: %d" % _questions.size(), 15))
 	_body.add_child(_make_label(
-		"Build each phrase using the words provided. Your answers will be "
-		+ "saved as your baseline. Correct answers will not be revealed here.",
-		14,
+		"Choose the correct meaning or translation from the choices. "
+		+ "Answers are recorded privately; no correct answers will be shown yet.", 14,
 		Color(0.72, 0.76, 0.69, 1.0)
 	))
-
-	if _questions.size() < MIN_QUESTIONS:
+	_body.add_child(_make_label(
+		"Prepared: %d / %d questions" % [_questions.size(), PRE_ASSESSMENT_VOCAB_IDS.size()], 16
+	))
+	if _questions.size() != PRE_ASSESSMENT_VOCAB_IDS.size():
 		_body.add_child(_make_label(
-			"The initial assessment could not load enough vocabulary questions. "
-			+ "Check the four configured VocabEntry resources.",
-			14,
-			Color(0.94, 0.72, 0.34, 1.0)
+			"The 10 baseline questions could not be prepared. Check the Godot Output for a missing vocabulary resource.",
+			14, Color(0.94, 0.72, 0.34, 1.0)
 		))
 
-	_make_button("CLOSE", close, 120.0)
+	# Intentionally NO close/skip button: this baseline is mandatory.
 	var begin_button := _make_button("BEGIN INITIAL ASSESSMENT", _begin_assessment, 260.0)
-	begin_button.disabled = _questions.size() < MIN_QUESTIONS
+	begin_button.disabled = _questions.size() != PRE_ASSESSMENT_VOCAB_IDS.size()
+
+
+func _show_current_question() -> void:
+	# Preserve the parent's question lifecycle, but rename its progress banner.
+	super._show_current_question()
+	if _active_screen == "quiz" and is_instance_valid(_quiz_progress_label):
+		_quiz_progress_label.text = "INITIAL ASSESSMENT · QUESTION %02d / %02d" % [
+			_current_index + 1, _questions.size()
+		]
 
 
 func _finish_assessment() -> void:
@@ -117,80 +133,98 @@ func _finish_assessment() -> void:
 	_current_question = null
 	_report = _build_report()
 	_report["assessment_type"] = "pre"
+	_report["assessment_format"] = "recognition_and_translation_choices"
+	_report["assessment_vocab_ids"] = PRE_ASSESSMENT_VOCAB_IDS.duplicate()
 
-	var assessment_items: Array[Dictionary] = []
-	for response: Dictionary in _responses:
-		assessment_items.append({
-			"vocab_id": str(response.get("vocab_id", "")),
-			"topic_key": str(response.get("topic_key", "uncategorized")),
-			"topic_name": str(response.get("topic_name", "Other Vocabulary")),
-			"meaning": str(response.get("meaning", "")),
-			"score": clampf(float(response.get("score", 0.0)), 0.0, 1.0),
-			"timed_out": bool(response.get("timed_out", false))
+	var items: Array[Dictionary] = []
+	for row: Dictionary in _responses:
+		items.append({
+			"vocab_id": str(row.get("vocab_id", "")),
+			"topic_key": str(row.get("topic_key", "uncategorized")),
+			"topic_name": str(row.get("topic_name", "Other Vocabulary")),
+			"meaning": str(row.get("meaning", "")),
+			"question_type": str(row.get("question_type", "multiple_choice")),
+			"correct": bool(row.get("correct", false)),
+			"score": clampf(float(row.get("score", 0.0)), 0.0, 1.0),
+			"timed_out": bool(row.get("timed_out", false))
 		})
-	_report["assessment_items"] = assessment_items
+	_report["assessment_items"] = items
 
-	if not SaveManager.save_pre_assessment_report(_report):
-		push_error("[PRE-ASSESSMENT] Could not save the baseline report.")
+	if SaveManager.save_pre_assessment_report(_report):
+		_saved_successfully = true
+		_show_pre_completion()
+		# Don't send answers or word-order solutions in the pre-game email.
+		_report["mistakes"] = []
+		_report["vocabulary"] = []
+		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
+		_report["recommendations"] = ["Continue through the lessons, then try the Guardian's sentence-building challenge."]
+		await _send_email_report()
+		if is_instance_valid(_pre_continue_button):
+			_pre_continue_button.disabled = false
+	else:
+		_show_save_error()
 
-	_show_pre_completion()
-	await _send_email_report()
 
-	if is_instance_valid(_pre_continue_button):
-		_pre_continue_button.disabled = false
+func _show_save_error() -> void:
+	_panel.visible = true
+	_quiz_ui.visible = false
+	_title_label.text = "COULD NOT SAVE BASELINE"
+	_clear_body()
+	_body.add_child(_make_label(
+		"Your answers are still in this session but were not saved to your account. Check your sign-in and retry.",
+		17, Color(0.94, 0.72, 0.34, 1.0)
+	))
+	_make_button("RETRY SAVE", _retry_baseline_save, 200.0)
+
+
+func _retry_baseline_save() -> void:
+	if _saved_successfully:
+		return
+	if SaveManager.save_pre_assessment_report(_report):
+		_saved_successfully = true
+		_show_pre_completion()
+		_report["mistakes"] = []
+		_report["vocabulary"] = []
+		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
+		_report["recommendations"] = ["Continue through the lessons, then try the Guardian's sentence-building challenge."]
+		await _send_email_report()
+		if is_instance_valid(_pre_continue_button):
+			_pre_continue_button.disabled = false
+	else:
+		_show_save_error()
 
 
 func _show_pre_completion() -> void:
-	_active_screen = "report"
 	_panel.visible = true
 	_quiz_ui.visible = false
-	_title_label.text = "INITIAL ASSESSMENT RECORDED"
+	_title_label.text = "INITIAL ASSESSMENT SAVED"
 	_clear_body()
-
 	_body.add_child(_make_label(
-		"Your initial Kapampangan knowledge has been recorded. "
-		+ "This baseline will be compared with your answers during the "
-		+ "Forest Guardian boss assessment.",
-		17
+		"Your first answers have been saved. They will be compared with your FIRST Guardian battle attempt.", 17
 	))
-
 	_body.add_child(_make_label(
-		"Initial accuracy: %.1f%% · %d questions"
-		% [
-			float(_report.get("accuracy_percent", 0.0)),
+		"Recognition / translation: %d / %d fully correct" % [
+			int(_report.get("fully_correct_questions", 0)),
 			int(_report.get("total_questions", 0))
-		],
-		20,
-		Color(0.88, 0.70, 0.36, 1.0)
+		], 19, Color(0.88, 0.70, 0.36, 1.0)
 	))
-
 	_body.add_child(_make_label(
-		"Correct answers are not shown now so the later assessment remains fair.",
-		14,
-		Color(0.72, 0.76, 0.69, 1.0)
+		"No solutions are revealed before you play.", 14, Color(0.72, 0.76, 0.69, 1.0)
 	))
-
-	_email_status_label = _make_label(
-		"Sending your initial assessment report...",
-		14,
-		Color(0.88, 0.70, 0.36, 1.0)
-	)
+	_email_status_label = _make_label("Sending your initial email...", 14)
 	_body.add_child(_email_status_label)
-
 	_retry_email_button = _make_button("RETRY EMAIL", _send_email_report, 150.0)
 	_retry_email_button.visible = false
+	_pre_continue_button = _make_button("CONTINUE TO FIRST TOWN", close, 230.0)
+	_pre_continue_button.disabled = true # Unlock after email attempt finishes, even on failure.
 
-	_pre_continue_button = _make_button(
-		"CONTINUE TO FIRST TOWN",
-		close,
-		230.0
-	)
-	_pre_continue_button.disabled = true
+
+func close() -> void:
+	if not _saved_successfully and not SaveManager.has_pre_assessment():
+		return
+	super.close()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# The tutorial flow requires this baseline. Do not allow Escape to bypass it.
-	if not visible:
-		return
-	if event.is_action_pressed("ui_cancel"):
+	if visible and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()

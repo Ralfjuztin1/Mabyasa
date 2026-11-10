@@ -25,14 +25,14 @@ TimeManager="*uid://bldwd52t0h1o3"
 QuestManager="*uid://d2akdm0u3p2n3"
 DialogueManager="*uid://cwbawur3d386e"
 Dialogic="*uid://ds2q0uclmolvu"
-BattleManager="*uid://cdv3581eacjts"
+BattleManager="*res://Scripts/Assessment/PairedBattleManager.gd"
 CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="*uid://c55mj1lqw2mb2"
 TransitionManager="*uid://ddqj11m4lwktm"
 InventoryManager="*uid://cfaseglcs7qjr"
 UITutorialManager="*uid://sp0gb74jctsa"
 TutorialManager="*uid://bocr1ftvonao"
-SaveManager="*uid://c2jrua0t43lrd"
+SaveManager="*res://Scripts/Managers/SaveManagerTutorialFix.gd"
 GameManager="*uid://cw34lkfrjh6v7"
 
 [dialogic]
@@ -96,7 +96,7 @@ glossary/glossary_files=["uid://clcqargr7lgbr"]
 glossary/default_color=Color(0.99607843, 0.8784314, 0, 1)
 text/letter_speed=0.04
 text/initial_text_reveal_skippable=true
-text/text_reveal_skip_delay=1.0
+text/text_reveal_skip_delay=0.0
 text/advance_delay=0.2
 text/autoadvance_per_character_delay=0.1
 text/autoadvance_ignored_characters_enabled=true
