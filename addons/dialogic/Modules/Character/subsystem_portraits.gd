@@ -40,7 +40,9 @@ func _load_state(_load_flag := LoadFlags.FULL_LOAD) -> void:
 		if character:
 			var container := dialogic.PortraitContainers.load_position_container(character.get_character_name())
 			await add_character(character, container, character_info.portrait, character_info.position_id)
-			character_nodes[character.get_identifier()].get_child(-1)._load_state(portrait_states.get(character.get_identifier(), {}))
+			var identifier: String = character.get_identifier()
+			if character_nodes.has(identifier) and is_instance_valid(character_nodes[identifier]) and character_nodes[identifier].get_child_count() > 0:
+				character_nodes[identifier].get_child(-1)._load_state(portrait_states.get(identifier, {}))
 		else:
 			push_error('[Dialogic] Failed to load character "' + str(character_identifier) + '".')
 
@@ -104,6 +106,8 @@ func _create_character_node(character:DialogicCharacter, container:DialogicNode_
 
 ## Changes the portrait of a specific [character node].
 func _change_portrait(character_node: Node2D, portrait: String, fade_animation:="", fade_length := 0.5) -> Dictionary:
+	if not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+		return {'character': null, 'portrait': portrait, 'same_scene': false, 'cancelled': true}
 	var character: DialogicCharacter = character_node.get_meta('character')
 
 	if portrait.is_empty():
@@ -145,6 +149,10 @@ func _change_portrait(character_node: Node2D, portrait: String, fade_animation:=
 			var load_status := ResourceLoader.load_threaded_get_status(scene_path)
 			while load_status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 				await get_tree().process_frame
+				# This character may have been removed during the asynchronous load.
+				if not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+					info['cancelled'] = true
+					return info
 				load_status = ResourceLoader.load_threaded_get_status(scene_path)
 
 			if load_status == ResourceLoader.THREAD_LOAD_LOADED:
@@ -156,12 +164,26 @@ func _change_portrait(character_node: Node2D, portrait: String, fade_animation:=
 			else:
 				push_error('[Dialogic] Failed to load portrait node "' + str(scene_path) + '" for character [' + character.display_name + '].')
 
+		# Protect the no-await path and the interval after the final load check.
+		if not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+			if is_instance_valid(portrait_node) and not portrait_node.is_inside_tree():
+				portrait_node.free()
+			info['cancelled'] = true
+			return info
+
 		if not portrait_node:
 			portrait_node = default_portrait_scene.instantiate()
 			portrait_node.name = portrait.validate_node_name()
 
 		portrait_node.set_meta('scene', scene_path)
 
+
+	# The call can resume after an await even when its target is now freed.
+	if not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+		if is_instance_valid(portrait_node) and portrait_node != previous_portrait and not portrait_node.is_inside_tree():
+			portrait_node.free()
+		info['cancelled'] = true
+		return info
 
 	if portrait_node:
 		for i in copy_state_vars:
@@ -175,12 +197,12 @@ func _change_portrait(character_node: Node2D, portrait: String, fade_animation:=
 
 		if portrait_node.has_method('_update_portrait'):
 			portrait_node._update_portrait(character, portrait)
-
+  
 		if not portrait_node.is_inside_tree():
 			character_node.add_child(portrait_node)
 
 		## Handle Cross-Animating
-		if previous_portrait and previous_portrait != portrait_node:
+		if is_instance_valid(previous_portrait) and not previous_portrait.is_queued_for_deletion() and previous_portrait != portrait_node:
 			if not fade_animation.is_empty() and fade_length > 0:
 				var fade_out := _animate_node(previous_portrait, fade_animation, fade_length, 1, true)
 				var _fade_in := _animate_node(portrait_node, fade_animation, fade_length, 1, false)
@@ -363,7 +385,7 @@ func join_character(character:DialogicCharacter, portrait:String,  position_id:S
 
 	var container := dialogic.PortraitContainers.add_container(character.get_character_name())
 	var character_node := await add_character(character, container, portrait, position_id)
-	if character_node == null:
+	if not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
 		return null
 
 	portraits[character.get_identifier()] = {'portrait':portrait, 'position_id':position_id}
@@ -418,7 +440,9 @@ func add_character(character: DialogicCharacter, container: DialogicNode_Portrai
 	character_nodes[character.get_identifier()] = character_node
 
 	_move_character(character_node, transform)
-	await _change_portrait(character_node, portrait)
+	var portrait_result: Dictionary = await _change_portrait(character_node, portrait)
+	if bool(portrait_result.get('cancelled', false)) or not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+		return null
 
 	return character_node
 
@@ -439,8 +463,11 @@ func change_character_portrait(character: DialogicCharacter, portrait: String, f
 
 	fade_animation = DialogicPortraitAnimationUtil.guess_animation(fade_animation, DialogicPortraitAnimationUtil.AnimationType.CROSSFADE)
 
-	var info := await _change_portrait(character_nodes[character.get_identifier()], portrait, fade_animation, fade_length)
-	portraits[character.get_identifier()].portrait = info.portrait
+	var identifier: String = character.get_identifier()
+	var info: Dictionary = await _change_portrait(character_nodes[identifier], portrait, fade_animation, fade_length)
+	if bool(info.get('cancelled', false)) or not portraits.has(identifier) or not character_nodes.has(identifier):
+		return
+	portraits[identifier].portrait = info.portrait
 	character_portrait_changed.emit(info)
 
 
@@ -623,7 +650,9 @@ func change_speaker(speaker: DialogicCharacter = null, portrait := "") -> void:
 		if container.portrait_prefix + portrait in speaker.portraits:
 			portrait = container.portrait_prefix + portrait
 
-		await _change_portrait(character_node, portrait, fade_animation, fade_length)
+		var portrait_result: Dictionary = await _change_portrait(character_node, portrait, fade_animation, fade_length)
+		if bool(portrait_result.get('cancelled', false)) or not is_instance_valid(character_node) or character_node.is_queued_for_deletion() or not character_node.is_inside_tree():
+			continue
 
 		# if the character has no portraits _change_portrait won't actually add a child node
 		if character_node.get_child_count() == 0:

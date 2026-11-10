@@ -24,7 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://ibdxu7vki5au" path="res://Scenes/Characters/NPC/Enemy/Enemy.tscn" id="22_5sur5"]
 [ext_resource type="PackedScene" path="res://Scenes/World/MysticYlangYlang.tscn" id="22_c303x"]
 [ext_resource type="Texture2D" uid="uid://cjcuqa3n1ms8k" path="res://Assets/Characters/EnemySpritesCoke/Fox_Idle.png" id="23_ajcyc"]
-[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/ForestYlangGuardian.tscn" id="27_mcil3"]
+[ext_resource type="PackedScene" uid="uid://lvnrh1wuu4pi" path="res://Scenes/Characters/NPC/Enemy/ForestYlangGuardian.tscn" id="27_mcil3"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7xnph"]
 panorama = ExtResource("1_s88vv")
@@ -880,5 +880,5 @@ enemy_name = "Dagis"
 world_sprite_frames = SubResource("SpriteFrames_0hi5p")
 
 [node name="ForestYlangGuardian" parent="Enemies" unique_id=2058093365 instance=ExtResource("27_mcil3")]
-transform = Transform3D(2.6300268, 0, 0, 0, 2.001471, 0, 0, 0, 2.3230066, -41.706047, 0.16600919, -1.4726906)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -41.706047, 0.16600919, -1.4726906)
 battle_sprite_animation = &"idle_right"

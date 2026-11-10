@@ -44,18 +44,29 @@ func present(victory: bool, report: Dictionary, boss_name: String) -> void:
 
 	_show_comparison(attempt_number, victory, comparison, retry_comparison)
 
-	if attempt_number == 1:
-		_email_report_payload = _build_email_report(report, comparison, victory)
-		_email_comparison_payload = comparison.duplicate(true)
-		_email_victory = victory
+	# The first boss battle is the official post-assessment. If its email
+	# failed (or the player left before delivery), retries MUST use the
+	# original saved official report, not the latest practice result.
+	# This also recovers accounts whose first attempt predates this fix.
+	var progress: Dictionary = SaveManager.get_assessment_progress()
+	var original_value: Variant = progress.get("official_post_assessment", {})
+	var original_report: Dictionary = {}
+	if original_value is Dictionary:
+		original_report = (original_value as Dictionary).duplicate(true)
+
+	if SaveManager.is_official_post_email_sent():
+		_official_email_sent = true
+		_set_email_status("Official first-attempt email was already marked as sent.", true)
+	elif not original_report.is_empty():
+		var first_victory: bool = bool(progress.get("official_post_victory", victory))
+		var original_comparison: Dictionary = COMPARISON_SCRIPT.build(pre_report, original_report)
+		_email_report_payload = _build_email_report(original_report, original_comparison, first_victory)
+		_email_comparison_payload = original_comparison.duplicate(true)
+		_email_victory = first_victory
 		_email_attempt_number = 1
-		if SaveManager.is_official_post_email_sent():
-			_official_email_sent = true
-			_set_email_status("Official result email already marked as sent.", true)
-		else:
-			_send_official_email()
+		_send_official_email()
 	else:
-		_set_email_status("Practice attempt: no additional official email.", true)
+		_set_email_status("Official first-attempt report is missing. Email cannot be sent.", false)
 
 
 func _send_official_email() -> void:
@@ -67,16 +78,19 @@ func _send_official_email() -> void:
 	if is_instance_valid(_email_retry_button):
 		_email_retry_button.hide()
 
-	var sender := EMAIL_SENDER_SCRIPT.new()
+
+	var sender: Node = EMAIL_SENDER_SCRIPT.new()
 	sender.name = "OfficialPostAssessmentEmailSender"
 	add_child(sender)
-	sender.completed.connect(_on_post_email_completed)
-	sender.send_post_assessment_report(
+	sender.connect("completed", _on_post_email_completed)
+	sender.call(
+		"send_post_assessment_report",
 		_email_report_payload,
 		_email_comparison_payload,
 		_email_victory,
 		_email_attempt_number
 	)
+
 
 
 func _retry_official_email() -> void:
