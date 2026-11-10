@@ -5742,7 +5742,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.976, 0.45, -1.101)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.33251, 0.7, 12.154837)
 
 [node name="player_narrow_path" type="Marker3D" parent="StoryMarkers" unique_id=1574847417]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.923065, 0.45, 14.057398)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.003832, 0.45, 13.057739)
 
 [node name="narrowcamera" type="Marker3D" parent="StoryMarkers" unique_id=264174366]
 transform = Transform3D(-0.80655503, -0.33844095, 0.4846925, -0.02457311, 0.8383873, 0.5445207, -0.59064835, 0.42727533, -0.684522, -7.297531, 2.0851693, 10.456884)

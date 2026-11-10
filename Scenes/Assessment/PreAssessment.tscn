@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cv1lt4umeith3"]
+
+[ext_resource type="PackedScene" uid="uid://b5u7uemnufgc" path="res://Scenes/Assessment/PostAssessment.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://veyqmfutk3is" path="res://Scripts/Assessment/PreAssessment.gd" id="2_script"]
+
+[node name="PreAssessment" unique_id=402979442 instance=ExtResource("1_base")]
+script = ExtResource("2_script")

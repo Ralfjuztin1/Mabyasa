@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dkm75kuq8as3u"]
 
 [ext_resource type="Script" uid="uid://cddg1xr5hye1d" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain.gd" id="1_kcl67"]
-[ext_resource type="Script" uid="uid://cdsym33lla5l5" path="res://Scenes/Tutorial/TutorialZone.gd" id="1_yb2g8"]
+[ext_resource type="Script" uid="uid://vjjdkvqwbggc" path="res://Scripts/Assessment/PairedTutorialZone.gd" id="1_yb2g8"]
 [ext_resource type="Script" uid="uid://cql4d8s5t5xcx" path="res://addons/MarchingSquaresTerrain/algorithm/terrain/marching_squares_terrain_chunk.gd" id="2_2ybjk"]
 [ext_resource type="Script" uid="uid://22l7ysgniux3" path="res://addons/MarchingSquaresTerrain/algorithm/grass/marching_squares_grass_planter.gd" id="3_dvo6c"]
 [ext_resource type="Shader" uid="uid://v6gda6oqxkp0" path="res://Assets/Shaders/Water.gdshader" id="4_b6abc"]

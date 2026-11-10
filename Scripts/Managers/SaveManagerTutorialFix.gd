@@ -94,3 +94,33 @@ func write_raw_save_data(data: Dictionary) -> void:
 			merged_flags[str(tutorial_id)] = true
 	incoming["ui_tutorials"] = merged_flags
 	super.write_raw_save_data(incoming)
+
+func save_pre_assessment_report(report: Dictionary) -> bool:
+	var file_path: String = _get_save_path()
+	var existing_data: Dictionary = _read_save_file(file_path)
+
+	var assessment_progress: Dictionary = {}
+	var existing_progress: Variant = existing_data.get("assessment_progress", {})
+
+	if existing_progress is Dictionary:
+		assessment_progress = existing_progress.duplicate(true)
+
+	assessment_progress["pre_assessment_report"] = report.duplicate(true)
+	assessment_progress["pre_assessment_completed"] = true
+
+	existing_data["assessment_progress"] = assessment_progress
+
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
+
+	if file == null:
+		push_error("[ASSESSMENT SAVE] Failed to open save file.")
+		return false
+
+	file.store_string(JSON.stringify(existing_data, "\t"))
+	file.close()
+
+	if is_instance_valid(SupabaseManager):
+		SupabaseManager.sync_save_to_cloud(existing_data)
+
+	print("[ASSESSMENT SAVE] Pre-assessment report saved.")
+	return true
