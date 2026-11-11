@@ -3,21 +3,23 @@ You: What is it?
 Litik: Look ahead. Ale Pacing is blocking the narrow path.
 You: We need to get past her.
 Litik: Then ask politely. When you need to pass someone, say "Makilabas ku pu." It means "Excuse me."
-[signal arg="[signal arg="encounter_makilabas_ku_pu"]"]
+[signal arg="encounter_makilabas_ku_pu"]
+[signal arg="start_visit_ale_pacing"]
 label ask_ale_to_move
 Litik: Go on. Try saying it to Ale.
 - Makilabas ku pu!
 	You: Makilabas ku pu!
-	[signal arg="[signal arg="learn_makilabas_ku_pu"]"]
+	[signal arg="learn_makilabas_ku_pu"]
 	"Ale Pacing": Oh! Sorry, anak. I didn't realize I was blocking the way.
 	"Ale Pacing": Thank you for asking so politely.
 	You: Salamat, pu!
-	[signal arg="[signal arg="encounter_salamat"]"]
+	[signal arg="encounter_salamat"]
 	"Ale Pacing": Ala pung nanu man! There you go. The path is clear now.
 	Litik: See? You remembered how to thank someone, too. You're starting to put your words to use.
 	You: One step at a time, right?
 	Litik: Exactly. Now, let's get to that forest entrance before Chief starts wondering where we are.
-	[signal arg="[signal arg="set_flag_ale_path_cleared"]"]
+	[signal arg="solve_ale_path_cleared"]
+	[signal arg="set_flag_ale_path_cleared"]
 	[end_timeline]
 - Salamat!
 	Litik: "Salamat" means "Thank you." But right now, we need to politely ask her to let us pass.

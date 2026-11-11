@@ -159,7 +159,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_1qari")
 [node name="RootBox" type="VBoxContainer" parent="Card" unique_id=699611487]
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_scale = Vector2(0.84, 0.918)
+offset_transform_scale = Vector2(0.885, 0.885)
 theme_override_constants/separation = 9
 
 [node name="Header" type="HBoxContainer" parent="Card/RootBox" unique_id=851018424]
@@ -198,7 +198,7 @@ custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.97, 0.95, 0.89, 1)
-theme_override_font_sizes/font_size = 75
+theme_override_font_sizes/font_size = 69
 text = "Question prompt goes here"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -208,7 +208,7 @@ autowrap_mode = 3
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.65, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 23
 text = "Choose the correct answer."
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -333,34 +333,40 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="SentencePanel" type="PanelContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=1097627168]
-custom_minimum_size = Vector2(0, 76)
+custom_minimum_size = Vector2(0, 74)
 layout_mode = 2
 theme_override_styles/panel = SubResource("SwordDropPanel")
 
 [node name="SentenceBar" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot/SentencePanel" unique_id=1028249797]
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
+alignment = 1
 
 [node name="SentenceBank" type="FlowContainer" parent="Card/RootBox/Content/SentenceRoot" unique_id=925019762]
-custom_minimum_size = Vector2(0, 118)
+custom_minimum_size = Vector2(0, 82)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
+alignment = 1
 
 [node name="SentenceCheckButton" type="Button" parent="Card/RootBox/Content/SentenceRoot" unique_id=23480402]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(260, 46)
 layout_mode = 2
+size_flags_horizontal = 4
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.24, 1.24)
+offset_transform_visual_only = false
 theme_override_colors/font_color = Color(0.97, 0.91, 0.75, 1)
 theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("ChoiceNormal")
 theme_override_styles/pressed = SubResource("ChoicePressed")
 theme_override_styles/hover = SubResource("ChoiceHover")
+theme_override_styles/disabled = SubResource("ChoiceNormal")
 theme_override_styles/focus = SubResource("ChoiceFocus")
 text = "CHECK SENTENCE"
 
@@ -375,13 +381,16 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="ChoiceButtonTemplate" type="Button" parent="ButtonTemplates" unique_id=506928623]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 46.0
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.08, 1.08)
+offset_transform_visual_only = false
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_gxclh")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_60rmt")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ar8yx")

@@ -2,7 +2,7 @@ Blacksmith: You must be the one Chief told me about.
 You: He sent me to collect some gear.
 Blacksmith: That's right. I've prepared a basic set for you. Nothing fancy, but it'll give you some protection while you're training.
 Blacksmith: Here you are. Make sure everything fits before you head out.
-[signal arg="[signal arg="set_flag_training_gear_ready"]"]
+[signal arg="set_flag_training_gear_ready"]
 You: These should help.
 Litik: Hold on! Someone has just taken the time to prepare equipment for you. What's the proper way to thank them?
 label thank_you_quiz
@@ -12,12 +12,12 @@ Litik: Which phrase means "Thank you very much"?
 	jump thank_you_quiz
 - Dakal a salamat!
 	Litik: Correct! "Dakal a salamat" means "Thank you very much."
-	[signal arg="[signal arg="learn_dakal_a_salamat"]"]
+	[signal arg="learn_dakal_a_salamat"]
 	You: Dakal a salamat!
 	Blacksmith: Ala pung nanu man!
 	Blacksmith: Now, go back to Chief. He wants to see how well you can use that gear.
-	[signal arg="[signal arg="set_flag_training_gear_received"]"]
-	[signal arg="[signal arg="start_return_to_chief"]"]
+	[signal arg="set_flag_training_gear_received"]
+	[signal arg="start_return_to_chief"]
 	[end_timeline]
 - Mayap a gatpanapun!
 	Litik: That's "Good afternoon." It's a greeting, not a way to thank someone.

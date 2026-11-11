@@ -140,20 +140,53 @@ region = Rect2(256, 0, 128, 128)
 atlas = ExtResource("5_icon_atlas")
 region = Rect2(128, 0, 128, 128)
 
-[sub_resource type="StyleBoxTexture" id="MenuButtonHover"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p8na2"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+texture = ExtResource("3_button_normal")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1uuo4"]
 content_margin_left = 14.0
 content_margin_top = 4.0
 content_margin_right = 18.0
 content_margin_bottom = 4.0
 texture = ExtResource("4_button_selected")
-texture_margin_left = 30.0
-texture_margin_top = 22.0
-texture_margin_right = 40.0
-texture_margin_bottom = 22.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpum6"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 4.0
+texture = SubResource("CompressedTexture2D_8hc20")
+expand_margin_right = 25.0
 
 [sub_resource type="AtlasTexture" id="Icon_Inventory"]
 atlas = ExtResource("5_icon_atlas")
 region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e6kvg"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+texture = ExtResource("3_button_normal")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rkfds"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 4.0
+texture = ExtResource("4_button_selected")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_138wg"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 4.0
+texture = SubResource("CompressedTexture2D_8hc20")
+expand_margin_right = 25.0
 
 [sub_resource type="AtlasTexture" id="Icon_Settings"]
 atlas = ExtResource("5_icon_atlas")
@@ -421,7 +454,7 @@ custom_minimum_size = Vector2(0, 59)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Review discovered Kapampangan words."
-theme_override_colors/font_disabled_color = Color(0.52, 0.52, 0.44, 0.9)
+theme_override_colors/font_disabled_color = Color(0.52156866, 0.52156866, 0.4392157, 1)
 theme_override_styles/normal = SubResource("MenuButtonNormal")
 theme_override_styles/pressed = SubResource("MenuButtonPressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
@@ -441,7 +474,7 @@ mouse_filter = 2
 theme_override_constants/separation = 15
 
 [node name="Icon" type="TextureRect" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Wordbook/Contents" unique_id=1505082261]
-modulate = Color(0.64, 0.64, 0.56, 0.86)
+modulate = Color(0.6392157, 0.6392157, 0.56078434, 1)
 custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 mouse_filter = 2
@@ -452,7 +485,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Wordbook/Contents" unique_id=1804717977]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.62, 0.63, 0.55, 0.9)
+theme_override_colors/font_color = Color(0.9490196, 0.9019608, 0.7411765, 1)
 theme_override_font_sizes/font_size = 16
 text = "Wordbook"
 vertical_alignment = 1
@@ -464,9 +497,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Inventory is not available yet."
 theme_override_colors/font_disabled_color = Color(0.52, 0.52, 0.44, 0.9)
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("MenuButtonHover")
+theme_override_styles/normal = SubResource("StyleBoxTexture_p8na2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1uuo4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kpum6")
 disabled = true
 
 [node name="Contents" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Inventory" unique_id=913680536]
@@ -507,9 +540,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Settings is not available yet."
 theme_override_colors/font_disabled_color = Color(0.52, 0.52, 0.44, 0.9)
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("MenuButtonHover")
+theme_override_styles/normal = SubResource("StyleBoxTexture_e6kvg")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rkfds")
+theme_override_styles/hover = SubResource("StyleBoxTexture_138wg")
 
 [node name="Contents" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Settings" unique_id=164221936]
 layout_mode = 1
@@ -526,7 +559,7 @@ mouse_filter = 2
 theme_override_constants/separation = 15
 
 [node name="Icon" type="TextureRect" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Settings/Contents" unique_id=744803459]
-modulate = Color(0.64, 0.64, 0.56, 0.86)
+modulate = Color(0.6392157, 0.6392157, 0.56078434, 1)
 custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 mouse_filter = 2
@@ -537,7 +570,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid/Settings/Contents" unique_id=689403208]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.62, 0.63, 0.55, 0.9)
+theme_override_colors/font_color = Color(0.9490196, 0.9019608, 0.7411765, 1)
 theme_override_font_sizes/font_size = 16
 text = "Settings"
 vertical_alignment = 1

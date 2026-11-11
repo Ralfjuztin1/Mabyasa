@@ -15,5 +15,5 @@ Apu: Please bring it back to her. Her stall is near the village center.
 You: Just deliver a basket?
 Apu: Every journey begins with a small step, child. This will also give you a chance to speak with the people of our village.
 Litik: Let's get moving, then. We might recover some words along the way.
-[signal arg="[signal arg="start_deliver_bebang_basket"]"]
+[signal arg="start_deliver_bebang_basket"]
 [end_timeline]

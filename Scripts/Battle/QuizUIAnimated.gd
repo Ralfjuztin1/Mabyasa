@@ -17,6 +17,7 @@ func _ready() -> void:
 	super._ready()
 	_fx_dimmer = get_node_or_null("Dimmer") as ColorRect
 	_add_boss_flash_layer()
+	call_deferred("_align_battle_action_hitboxes")
 
 
 func _add_boss_flash_layer() -> void:
@@ -43,6 +44,31 @@ func start_quiz(question: QuizQuestion) -> void:
 
 	super.start_quiz(question)
 
+	# Sentence building needs a compact, content-sized layout. Other quiz types
+	# retain their original card dimensions and behaviour.
+	if question.quiz_type == QuizQuestion.QuizType.SENTENCE_BUILD:
+		_content.custom_minimum_size.y = 230.0
+		_content.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_sentence_bank.size_flags_vertical = Control.SIZE_FILL
+		_sentence_bank.alignment = FlowContainer.ALIGNMENT_CENTER
+		_sentence_bar.alignment = FlowContainer.ALIGNMENT_CENTER
+		_prompt_label.add_theme_font_size_override("font_size", 31)
+		_prompt_label.custom_minimum_size.y = 100.0
+		for value: Variant in _sentence_source_buttons.values():
+			var word_button: Button = value as Button
+			if not is_instance_valid(word_button):
+				continue
+			word_button.size_flags_horizontal = Control.SIZE_FILL
+			word_button.custom_minimum_size = Vector2(
+				clampf(40.0 + float(word_button.text.length()) * 13.0, 122.0, 210.0),
+				46.0
+			)
+	else:
+		_content.custom_minimum_size.y = 300.0
+		_content.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+	_layout_card()
+
 	# Override the base's small fade/scale entrance with a more visible, but
 	# still quick, animation. Input and the quiz timer stay locked during entry.
 	_resolving = true
@@ -57,6 +83,22 @@ func start_quiz(question: QuizQuestion) -> void:
 	)
 
 	call_deferred("_play_quiz_intro", generation)
+
+
+func _layout_card() -> void:
+	super._layout_card()
+	if current_question == null:
+		return
+	if current_question.quiz_type != QuizQuestion.QuizType.SENTENCE_BUILD:
+		return
+
+	var viewport_size: Vector2 = get_viewport_rect().size
+	var width: float = minf(820.0, maxf(420.0, viewport_size.x - 48.0))
+	var height: float = minf(480.0, maxf(420.0, viewport_size.y - 48.0))
+	_card.offset_left = -width * 0.5
+	_card.offset_right = width * 0.5
+	_card.offset_top = -height * 0.5
+	_card.offset_bottom = height * 0.5
 
 
 func _is_boss_battle() -> bool:
@@ -254,6 +296,10 @@ func _on_sentence_token_pressed(button: Button) -> void:
 			_sentence_bar.get_child_count() - 1
 		) as Control
 		if is_instance_valid(placed):
+			placed.size_flags_horizontal = Control.SIZE_FILL
+			placed.custom_minimum_size.x = clampf(
+				40.0 + float(placed.text.length()) * 13.0, 122.0, 210.0
+			)
 			placed.pivot_offset = placed.size * 0.5
 			placed.scale = Vector2(0.78, 0.78)
 			placed.modulate = Color(1.0, 0.87, 0.50, 1.0)
@@ -530,3 +576,29 @@ func _finish_hide() -> void:
 	if is_instance_valid(_fx_boss_flash):
 		_fx_boss_flash.visible = false
 		_fx_boss_flash.modulate.a = 0.0
+
+# BattleScreen's original ActionVBox has an extra non-visual offset transform.
+# Removing it keeps the three visible action buttons and their hit rectangles
+# in the same place, without changing the button textures or battle logic.
+func _align_battle_action_hitboxes() -> void:
+	var battle_root: Node = get_parent()
+	if not is_instance_valid(battle_root):
+		return
+
+	var actions: Control = battle_root.get_node_or_null(
+		"BottomBar/ActionBox/ActionMargin/ActionVBox"
+	) as Control
+	if not is_instance_valid(actions):
+		return
+
+	actions.set("offset_transform_enabled", false)
+	actions.set("offset_transform_scale", Vector2.ONE)
+	actions.set("offset_transform_position", Vector2.ZERO)
+
+	for button_name: String in ["AttackButton", "PotionButton", "FleeButton", "ContinueButton"]:
+		var button: Button = actions.get_node_or_null(button_name) as Button
+		if not is_instance_valid(button):
+			continue
+		button.custom_minimum_size.y = maxf(button.custom_minimum_size.y, 36.0)
+		button.mouse_filter = Control.MOUSE_FILTER_STOP
+		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND

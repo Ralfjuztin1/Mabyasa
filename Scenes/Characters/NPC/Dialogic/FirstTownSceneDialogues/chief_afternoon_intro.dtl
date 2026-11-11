@@ -1,10 +1,10 @@
 chief: Mayap a gatpanapun!
-[signal arg="[signal arg="encounter_mayap_a_gatpanapun"]"]
+[signal arg="encounter_mayap_a_gatpanapun"]
 You: Maya... a... gatpanapun?
 Litik: That's it! "Mayap a gatpanapun" means "Good afternoon."
 Litik: Remember, "Mayap" means good, and "gatpanapun" means afternoon.
 You: Mayap a gatpanapun, Chief!
-[signal arg="[signal arg="learn_mayap_a_gatpanapun"]"]
+[signal arg="learn_mayap_a_gatpanapun"]
 chief: Mayap a gatpanapun to you, too.
 chief: Apu told me about your curse. I wanted to speak with you myself.
 You: Apu told you everything?
@@ -17,5 +17,5 @@ chief: I've already spoken to the blacksmith. A basic set of gear has been prepa
 chief: Go to the blacksmith and collect it. Once you have everything, return to me at the training yard.
 You: Understood. I'll go there now.
 chief: Good. I'll be waiting.
-[signal arg="[signal arg="start_get_training_gear"]"]
+[signal arg="start_get_training_gear"]
 [end_timeline]
