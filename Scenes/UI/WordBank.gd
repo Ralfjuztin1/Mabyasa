@@ -769,18 +769,18 @@ func _update_entry_row_styles() -> void:
 ## so they still sit on one or two lines. Width is estimated for the body font (~0.58 em per glyph).
 func _fit_title_size(text: String) -> void:
 	var length := maxi(text.length(), 1)
-	var base_size := 91
+	var base_size := 66
 	if length > 16:
-		base_size = 56
+		base_size = 43
 	elif length > 12:
-		base_size = 69
+		base_size = 52
 	elif length > 8:
-		base_size = 80
+		base_size = 59
 	var available := _detail_title.size.x
 	if available < 200.0:
 		available = get_viewport().get_visible_rect().size.x * 0.55
 	var fit_size := int(available / (float(length) * (0.52 if TITLE_PIXEL_FONT else 0.58)))
-	_detail_title.add_theme_font_size_override("font_size", clampi(mini(base_size, fit_size), 36, 96))
+	_detail_title.add_theme_font_size_override("font_size", clampi(mini(base_size, fit_size), 32, 68))
 
 
 func _refit_title() -> void:

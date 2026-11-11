@@ -115,13 +115,13 @@ func _build_interface() -> void:
 	title_label.name = "MenuTitle"
 	title_label.text = _get_title()
 	title_label.add_theme_color_override("font_color", COLOR_GOLD)
-	title_label.add_theme_font_size_override("font_size", 30)
+	title_label.add_theme_font_size_override("font_size", 27)
 	title_stack.add_child(title_label)
 
 	var subtitle: Label = Label.new()
 	subtitle.text = _get_subtitle()
 	subtitle.add_theme_color_override("font_color", COLOR_MUTED)
-	subtitle.add_theme_font_size_override("font_size", 13)
+	subtitle.add_theme_font_size_override("font_size", 14)
 	title_stack.add_child(subtitle)
 
 	var gold_row: HBoxContainer = HBoxContainer.new()
@@ -335,7 +335,7 @@ func _make_button(text_value: String, minimum_size: Vector2) -> Button:
 	button.add_theme_color_override("font_color", COLOR_TEXT)
 	button.add_theme_color_override("font_hover_color", Color.WHITE)
 	button.add_theme_color_override("font_pressed_color", COLOR_GOLD)
-	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_font_size_override("font_size", 15)
 	button.add_theme_stylebox_override("normal", _make_button_style(false))
 	button.add_theme_stylebox_override("hover", _make_button_style(true))
 	button.add_theme_stylebox_override("pressed", _make_button_style(true))

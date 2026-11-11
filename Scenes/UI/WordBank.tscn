@@ -73,9 +73,9 @@ color = Color(0.005, 0.012, 0.008, 0.84)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 28.0
+offset_left = 24.0
 offset_top = 12.0
-offset_right = -28.0
+offset_right = -24.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -83,18 +83,18 @@ theme_override_styles/panel = SubResource("OuterFrameStyle")
 
 [node name="OuterMargin" type="MarginContainer" parent="WordBankRoot/OuterFrame" unique_id=1933457238]
 layout_mode = 2
-theme_override_constants/margin_left = 24
+theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 24
+theme_override_constants/margin_right = 22
 theme_override_constants/margin_bottom = 12
 
 [node name="Main" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin" unique_id=64043738]
 layout_mode = 2
-theme_override_constants/separation = 11
+theme_override_constants/separation = 12
 
 [node name="Header" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=1262894616]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 20
 
 [node name="TitleStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=598123709]
 layout_mode = 2
@@ -105,17 +105,17 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.7, 0.25, 1)
 theme_override_fonts/font = ExtResource("4_pixel_font")
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 29
 text = "Word Bank"
 
 [node name="Subtitle" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header/TitleStack" unique_id=143819690]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.78, 0.83, 0.77, 1)
+theme_override_font_sizes/font_size = 14
 text = "Your Kapampangan collection"
 
 [node name="ProgressStack" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=1229672404]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
@@ -144,7 +144,7 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="CloseButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/Header" unique_id=361647822]
-custom_minimum_size = Vector2(132, 38)
+custom_minimum_size = Vector2(124, 42)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
@@ -159,10 +159,10 @@ theme_override_styles/separator = SubResource("DividerLine")
 [node name="MainBody" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main" unique_id=1149033482]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 18
+theme_override_constants/separation = 16
 
 [node name="WordListSidebar" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody" unique_id=1839150023]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(310, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -170,9 +170,9 @@ size_flags_stretch_ratio = 0.85
 theme_override_constants/separation = 8
 
 [node name="SearchEdit" type="LineEdit" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar" unique_id=595226201]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 placeholder_text = "Search a word or its meaning"
 clear_button_enabled = true
 
@@ -184,7 +184,7 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="AllButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=1743433254]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -192,7 +192,7 @@ theme_override_font_sizes/font_size = 12
 text = "All  0"
 
 [node name="ToLearnButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=598845081]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -200,7 +200,7 @@ theme_override_font_sizes/font_size = 12
 text = "To learn  0"
 
 [node name="LearnedButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/WordListSidebar/StatusPanel/StatusRow" unique_id=921457434]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -286,15 +286,15 @@ horizontal_scroll_mode = 0
 [node name="DetailMargin" type="MarginContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll" unique_id=1893870505]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 26
+theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 26
+theme_override_constants/margin_right = 22
 theme_override_constants/margin_bottom = 18
 
 [node name="Detail" type="VBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin" unique_id=314729404]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 14
+theme_override_constants/separation = 13
 
 [node name="DetailTop" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1480896061]
 layout_mode = 2
@@ -338,7 +338,7 @@ theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/font = ExtResource("4_pixel_font")
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 56
 text = "Choose a word"
 label_settings = SubResource("LabelSettings_knopt")
 autowrap_mode = 3
@@ -351,16 +351,16 @@ theme_override_constants/separation = 16
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.94, 0.92, 0.83, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 24
 text = "Select a word from your collection to see its meaning."
 vertical_alignment = 1
 
 [node name="HearButton" type="Button" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/MeaningRow" unique_id=1907459875]
-custom_minimum_size = Vector2(116, 38)
+custom_minimum_size = Vector2(122, 42)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "◖))  Hear it"
 
 [node name="MeaningSpacer" type="Control" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/MeaningRow" unique_id=43671396]
@@ -372,14 +372,14 @@ mouse_filter = 2
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.71, 0.75, 0.69, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 autowrap_mode = 3
 
 [node name="AudioStatus" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=865239892]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 
 [node name="DetailDivider" type="HSeparator" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail" unique_id=1134829563]
 layout_mode = 2
@@ -406,7 +406,7 @@ theme_override_constants/separation = 8
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "HOW IT'S BUILT"
 
 [node name="PartsFlow" type="HFlowContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/PartsPanel/PartsStack" unique_id=1629890611]
@@ -426,7 +426,7 @@ theme_override_constants/separation = 8
 [node name="DetailUsageHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel/UsageStack" unique_id=1495746057]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "HOW TO USE IT"
 
 [node name="UsageBox" type="PanelContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/ExplanationRow/UsagePanel/UsageStack" unique_id=397919549]
@@ -462,7 +462,7 @@ theme_override_constants/separation = 7
 [node name="ProgressHeading" type="Label" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft" unique_id=543591520]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.71, 0.63, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "YOUR PROGRESS"
 
 [node name="ProgressSteps" type="HBoxContainer" parent="WordBankRoot/OuterFrame/OuterMargin/Main/MainBody/EntryDetailFrame/DetailScroll/DetailMargin/Detail/EntryProgressPanel/ProgressContent/ProgressOuter/ProgressLeft" unique_id=1317394347]

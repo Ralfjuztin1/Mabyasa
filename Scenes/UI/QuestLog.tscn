@@ -149,21 +149,21 @@ grow_vertical = 2
 
 [node name="QuestPanel" type="PanelContainer" parent="Center" unique_id=904203263]
 texture_filter = 1
-custom_minimum_size = Vector2(1000, 620)
+custom_minimum_size = Vector2(980, 610)
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("Panel_9Slice")
 
 [node name="Margin" type="MarginContainer" parent="Center/QuestPanel" unique_id=391127022]
 layout_mode = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 22
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
 
 [node name="MainVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin" unique_id=1076519431]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="HeaderRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox" unique_id=90410036]
 custom_minimum_size = Vector2(0, 50)
@@ -186,7 +186,7 @@ stretch_mode = 5
 [node name="HeaderLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow" unique_id=2124608696]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 26
 text = "QUEST LOG"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -203,12 +203,12 @@ theme_override_constants/separation = 10
 [node name="Subtitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/SubHeaderRow" unique_id=83685479]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.78, 0.83, 0.77, 1)
+theme_override_font_sizes/font_size = 14
 text = "Records of quests discovered on your journey"
 
 [node name="CloseButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/SubHeaderRow" unique_id=1396675278]
-custom_minimum_size = Vector2(88, 38)
+custom_minimum_size = Vector2(90, 42)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
 theme_override_font_sizes/font_size = 14
@@ -223,7 +223,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 16
 
 [node name="Sidebar" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body" unique_id=1508143649]
-custom_minimum_size = Vector2(255, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
 
@@ -241,7 +241,7 @@ theme_override_constants/separation = 8
 [node name="CategoryTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=1001967812]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 12
 text = "QUEST LIST"
 
 [node name="AllButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=2021980714]
@@ -344,7 +344,7 @@ horizontal_alignment = 2
 [node name="QuestTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1359044029]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 25
 text = "Quest Title"
 autowrap_mode = 2
 
@@ -352,14 +352,14 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "Quest description"
 autowrap_mode = 2
 
 [node name="ObjectiveHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1316780619]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 12
 text = "OBJECTIVES"
 
 [node name="ObjectivesScroll" type="ScrollContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=727842144]
@@ -425,7 +425,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 [node name="RewardsHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=292625184]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 12
 text = "REWARDS"
 
 [node name="RewardsRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1461410397]

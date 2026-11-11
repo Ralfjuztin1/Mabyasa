@@ -1,0 +1,940 @@
+{
+  "version": "1.0",
+  "description": "Layout-only hierarchy improvements; original elements, scripts, textures and behaviors retained.",
+  "scenes": {
+    "Scenes/UI/AuthScreen.tscn": [
+      {
+        "name": "PanelContainer",
+        "parent": "CenterContainer",
+        "props": {
+          "custom_minimum_size": "Vector2(480, 0)"
+        }
+      },
+      {
+        "name": "MarginContainer",
+        "parent": "CenterContainer/PanelContainer",
+        "props": {
+          "theme_override_constants/margin_left": "34",
+          "theme_override_constants/margin_right": "34"
+        }
+      },
+      {
+        "name": "MainVBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "14"
+        }
+      },
+      {
+        "name": "HeaderTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "26"
+        }
+      },
+      {
+        "name": "LoginBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "12"
+        }
+      },
+      {
+        "name": "RegisterBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "12"
+        }
+      },
+      {
+        "name": "LoginEmail",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18",
+          "custom_minimum_size": "Vector2(0, 46)"
+        }
+      },
+      {
+        "name": "LoginPassword",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18",
+          "custom_minimum_size": "Vector2(0, 46)"
+        }
+      },
+      {
+        "name": "RegUsername",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18",
+          "custom_minimum_size": "Vector2(0, 46)"
+        }
+      },
+      {
+        "name": "RegEmail",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18",
+          "custom_minimum_size": "Vector2(0, 46)"
+        }
+      },
+      {
+        "name": "RegPassword",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18",
+          "custom_minimum_size": "Vector2(0, 46)"
+        }
+      },
+      {
+        "name": "LoginButton",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "20",
+          "custom_minimum_size": "Vector2(0, 52)"
+        }
+      },
+      {
+        "name": "RegisterButton",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "20",
+          "custom_minimum_size": "Vector2(0, 52)"
+        }
+      },
+      {
+        "name": "SwitchToRegister",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "16"
+        }
+      },
+      {
+        "name": "SwitchToLogin",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "16"
+        }
+      },
+      {
+        "name": "StatusLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15",
+          "custom_minimum_size": "Vector2(0, 36)"
+        }
+      }
+    ],
+    "Scenes/UI/GameMenu.tscn": [
+      {
+        "name": "CenterContainer",
+        "parent": null,
+        "props": {
+          "offset_left": "-230.0",
+          "offset_top": "-205.0",
+          "offset_right": "230.0",
+          "offset_bottom": "205.0"
+        }
+      },
+      {
+        "name": "PanelContainer",
+        "parent": "CenterContainer",
+        "props": {
+          "custom_minimum_size": "Vector2(440, 0)",
+          "offset_transform_scale": "Vector2(1, 1)"
+        }
+      },
+      {
+        "name": "MarginContainer",
+        "parent": null,
+        "props": {
+          "theme_override_constants/margin_left": "30",
+          "theme_override_constants/margin_right": "30",
+          "theme_override_constants/margin_top": "30",
+          "theme_override_constants/margin_bottom": "30"
+        }
+      },
+      {
+        "name": "VBoxContainer",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "20"
+        }
+      },
+      {
+        "name": "GameTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "26"
+        }
+      },
+      {
+        "name": "ButtonBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "12"
+        }
+      },
+      {
+        "name": "PlayButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 52)",
+          "theme_override_font_sizes/font_size": "20"
+        }
+      },
+      {
+        "name": "SettingsButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 52)",
+          "theme_override_font_sizes/font_size": "20"
+        }
+      },
+      {
+        "name": "LogoutButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 52)",
+          "theme_override_font_sizes/font_size": "20"
+        }
+      },
+      {
+        "name": "QuitButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 52)",
+          "theme_override_font_sizes/font_size": "20"
+        }
+      },
+      {
+        "name": "UsernameLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "18"
+        }
+      },
+      {
+        "name": "UIDLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "13"
+        }
+      }
+    ],
+    "Scenes/UI/PauseMenu.tscn": [
+      {
+        "name": "RightPanel",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(425, 0)"
+        }
+      },
+      {
+        "name": "Margin",
+        "parent": "LayoutWrapper/RightPanel",
+        "props": {
+          "theme_override_constants/margin_left": "24",
+          "theme_override_constants/margin_right": "24",
+          "theme_override_constants/margin_top": "24",
+          "theme_override_constants/margin_bottom": "22"
+        }
+      },
+      {
+        "name": "VBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "12"
+        }
+      },
+      {
+        "name": "HeaderLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "21"
+        }
+      },
+      {
+        "name": "NameLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "19"
+        }
+      },
+      {
+        "name": "LevelUID",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "13"
+        }
+      },
+      {
+        "name": "GoldLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "StatsButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 33)",
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "Missions",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 59)"
+        }
+      },
+      {
+        "name": "Wordbook",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 59)"
+        }
+      },
+      {
+        "name": "Inventory",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 59)"
+        }
+      },
+      {
+        "name": "Settings",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 59)"
+        }
+      },
+      {
+        "name": "ResumeButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(155, 50)",
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "QuitButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(155, 50)",
+          "theme_override_font_sizes/font_size": "15"
+        }
+      }
+    ],
+    "Scenes/UI/WordBank.tscn": [
+      {
+        "name": "OuterFrame",
+        "parent": null,
+        "props": {
+          "offset_left": "24.0",
+          "offset_right": "-24.0"
+        }
+      },
+      {
+        "name": "OuterMargin",
+        "parent": null,
+        "props": {
+          "theme_override_constants/margin_left": "22",
+          "theme_override_constants/margin_right": "22"
+        }
+      },
+      {
+        "name": "Main",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "12"
+        }
+      },
+      {
+        "name": "Header",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "20"
+        }
+      },
+      {
+        "name": "Title",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "29"
+        }
+      },
+      {
+        "name": "Subtitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14",
+          "theme_override_colors/font_color": "Color(0.78, 0.83, 0.77, 1)"
+        }
+      },
+      {
+        "name": "ProgressStack",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(280, 0)"
+        }
+      },
+      {
+        "name": "CloseButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(124, 42)"
+        }
+      },
+      {
+        "name": "MainBody",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "16"
+        }
+      },
+      {
+        "name": "WordListSidebar",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(310, 0)"
+        }
+      },
+      {
+        "name": "SearchEdit",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14",
+          "custom_minimum_size": "Vector2(0, 40)"
+        }
+      },
+      {
+        "name": "AllButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 33)"
+        }
+      },
+      {
+        "name": "ToLearnButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 33)"
+        }
+      },
+      {
+        "name": "LearnedButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(0, 33)"
+        }
+      },
+      {
+        "name": "DetailMargin",
+        "parent": null,
+        "props": {
+          "theme_override_constants/margin_left": "22",
+          "theme_override_constants/margin_right": "22",
+          "theme_override_constants/margin_top": "18",
+          "theme_override_constants/margin_bottom": "18"
+        }
+      },
+      {
+        "name": "Detail",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "13"
+        }
+      },
+      {
+        "name": "DetailTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "56"
+        }
+      },
+      {
+        "name": "DetailEnglish",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "24"
+        }
+      },
+      {
+        "name": "HearButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(122, 42)",
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "DetailPronunciation",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "13"
+        }
+      },
+      {
+        "name": "AudioStatus",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "DetailPartsHeading",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "DetailUsageHeading",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "ProgressHeading",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "DetailHint",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14"
+        }
+      }
+    ],
+    "Scenes/UI/QuestLog.tscn": [
+      {
+        "name": "QuestPanel",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(980, 610)"
+        }
+      },
+      {
+        "name": "Margin",
+        "parent": "Center/QuestPanel",
+        "props": {
+          "theme_override_constants/margin_left": "24",
+          "theme_override_constants/margin_right": "24",
+          "theme_override_constants/margin_top": "22",
+          "theme_override_constants/margin_bottom": "20"
+        }
+      },
+      {
+        "name": "MainVBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "14"
+        }
+      },
+      {
+        "name": "HeaderLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "26"
+        }
+      },
+      {
+        "name": "Subtitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14",
+          "theme_override_colors/font_color": "Color(0.78, 0.83, 0.77, 1)"
+        }
+      },
+      {
+        "name": "Sidebar",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(250, 0)"
+        }
+      },
+      {
+        "name": "CategoryTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "QuestTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "25"
+        }
+      },
+      {
+        "name": "QuestDescription",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "ObjectiveHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "RewardsHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "ObjectiveLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "CloseButton",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(90, 42)",
+          "theme_override_font_sizes/font_size": "14"
+        }
+      }
+    ],
+    "Scenes/UI/PlayerStats.tscn": [
+      {
+        "name": "StatsPanel",
+        "parent": null,
+        "props": {
+          "custom_minimum_size": "Vector2(560, 605)"
+        }
+      },
+      {
+        "name": "Margin",
+        "parent": "Center/StatsPanel",
+        "props": {
+          "theme_override_constants/margin_left": "24",
+          "theme_override_constants/margin_right": "24",
+          "theme_override_constants/margin_top": "22",
+          "theme_override_constants/margin_bottom": "22"
+        }
+      },
+      {
+        "name": "MainVBox",
+        "parent": null,
+        "props": {
+          "theme_override_constants/separation": "14"
+        }
+      },
+      {
+        "name": "HeaderLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "27"
+        }
+      },
+      {
+        "name": "Subtitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14",
+          "theme_override_colors/font_color": "Color(0.78, 0.83, 0.77, 1)"
+        }
+      },
+      {
+        "name": "CloseButton",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14",
+          "custom_minimum_size": "Vector2(90, 42)"
+        }
+      },
+      {
+        "name": "DetailMargin",
+        "parent": null,
+        "props": {
+          "theme_override_constants/margin_left": "20",
+          "theme_override_constants/margin_right": "20",
+          "theme_override_constants/margin_top": "18",
+          "theme_override_constants/margin_bottom": "18"
+        }
+      },
+      {
+        "name": "LevelHeaderLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "XPLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "StatsHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "GearHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "GoldHeaderLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "AtkLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "AtkValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "DefLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "DefValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "HpLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "HpValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "SwordLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "SwordValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "ArmorLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "ArmorValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "HelmetLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "HelmetValueLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      }
+    ],
+    "Scenes/UI/QuestUI.tscn": [
+      {
+        "name": "QuestHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "15"
+        }
+      },
+      {
+        "name": "QuestTitle",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "17"
+        }
+      },
+      {
+        "name": "DescriptionLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "ObjectiveLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "14"
+        }
+      },
+      {
+        "name": "CountLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      },
+      {
+        "name": "RewardsHeader",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "13"
+        }
+      },
+      {
+        "name": "StatusLabel",
+        "parent": null,
+        "props": {
+          "theme_override_font_sizes/font_size": "12"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "Scenes/UI/SettingsMenu.gd": [
+      {
+        "before": "panel.custom_minimum_size = Vector2(520, 0)",
+        "after": "panel.custom_minimum_size = Vector2(540, 0)"
+      },
+      {
+        "before": "root.add_theme_constant_override(\"separation\", 15)",
+        "after": "root.add_theme_constant_override(\"separation\", 16)"
+      },
+      {
+        "before": "subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER",
+        "after": "subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n\tsubtitle.add_theme_font_size_override(\"font_size\", 14)"
+      },
+      {
+        "before": "row.add_theme_constant_override(\"separation\", 4)",
+        "after": "row.add_theme_constant_override(\"separation\", 7)"
+      },
+      {
+        "before": "_last_value_label.custom_minimum_size.x = 65",
+        "after": "_last_value_label.custom_minimum_size.x = 72"
+      },
+      {
+        "before": "button.custom_minimum_size = Vector2(145, 42)",
+        "after": "button.custom_minimum_size = Vector2(145, 46)"
+      },
+      {
+        "before": "button.text = button_text\n\tbutton.custom_minimum_size = Vector2(145, 46)",
+        "after": "button.text = button_text\n\tbutton.add_theme_font_size_override(\"font_size\", 15)\n\tbutton.custom_minimum_size = Vector2(145, 46)"
+      }
+    ],
+    "Scenes/UI/FoodMenu.gd": [
+      {
+        "before": "title_label.add_theme_font_size_override(\"font_size\", 30)",
+        "after": "title_label.add_theme_font_size_override(\"font_size\", 27)"
+      },
+      {
+        "before": "subtitle.add_theme_font_size_override(\"font_size\", 13)",
+        "after": "subtitle.add_theme_font_size_override(\"font_size\", 14)"
+      },
+      {
+        "before": "button.add_theme_font_size_override(\"font_size\", 14)",
+        "after": "button.add_theme_font_size_override(\"font_size\", 15)"
+      }
+    ],
+    "Scenes/UI/BlacksmithMenu.gd": [
+      {
+        "before": "title.add_theme_font_size_override(\"font_size\", 27)",
+        "after": "title.add_theme_font_size_override(\"font_size\", 26)"
+      },
+      {
+        "before": "subtitle.add_theme_font_size_override(\"font_size\", 12)",
+        "after": "subtitle.add_theme_font_size_override(\"font_size\", 14)"
+      },
+      {
+        "before": "button.add_theme_font_size_override(\"font_size\", 13)",
+        "after": "button.add_theme_font_size_override(\"font_size\", 14)"
+      }
+    ],
+    "Scenes/UI/EquipmentMenu.gd": [
+      {
+        "before": "title.add_theme_font_size_override(\"font_size\", 27)",
+        "after": "title.add_theme_font_size_override(\"font_size\", 26)"
+      },
+      {
+        "before": "subtitle.add_theme_font_size_override(\"font_size\", 12)",
+        "after": "subtitle.add_theme_font_size_override(\"font_size\", 14)"
+      },
+      {
+        "before": "button.add_theme_font_size_override(\"font_size\", 13)",
+        "after": "button.add_theme_font_size_override(\"font_size\", 14)"
+      }
+    ],
+    "Scenes/UI/WordBank.gd": [
+      {
+        "before": "var base_size := 91",
+        "after": "var base_size := 66"
+      },
+      {
+        "before": "if length > 16:\n\t\tbase_size = 56",
+        "after": "if length > 16:\n\t\tbase_size = 43"
+      },
+      {
+        "before": "elif length > 12:\n\t\tbase_size = 69",
+        "after": "elif length > 12:\n\t\tbase_size = 52"
+      },
+      {
+        "before": "elif length > 8:\n\t\tbase_size = 80",
+        "after": "elif length > 8:\n\t\tbase_size = 59"
+      },
+      {
+        "before": "clampi(mini(base_size, fit_size), 36, 96)",
+        "after": "clampi(mini(base_size, fit_size), 32, 68)"
+      }
+    ]
+  }
+}

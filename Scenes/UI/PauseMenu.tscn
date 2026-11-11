@@ -244,20 +244,20 @@ mouse_filter = 2
 
 [node name="RightPanel" type="PanelContainer" parent="LayoutWrapper" unique_id=346334307]
 texture_filter = 1
-custom_minimum_size = Vector2(405, 0)
+custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("Panel_9Slice")
 
 [node name="Margin" type="MarginContainer" parent="LayoutWrapper/RightPanel" unique_id=353028317]
 layout_mode = 2
-theme_override_constants/margin_left = 26
-theme_override_constants/margin_top = 26
-theme_override_constants/margin_right = 26
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 22
 
 [node name="VBox" type="VBoxContainer" parent="LayoutWrapper/RightPanel/Margin" unique_id=1356743694]
 layout_mode = 2
-theme_override_constants/separation = 11
+theme_override_constants/separation = 12
 
 [node name="HeaderRow" type="HBoxContainer" parent="LayoutWrapper/RightPanel/Margin/VBox" unique_id=1303299576]
 layout_mode = 2
@@ -272,7 +272,7 @@ theme_override_styles/separator = SubResource("GoldSeparator")
 [node name="HeaderLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=293035829]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.79, 0.52, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 21
 text = "P A U S E D"
 
 [node name="HeaderLineRight" type="HSeparator" parent="LayoutWrapper/RightPanel/Margin/VBox/HeaderRow" unique_id=1146592051]
@@ -307,13 +307,13 @@ alignment = 1
 [node name="NameLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=2072494984]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.92, 0.79, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 19
 text = "thinkins chua"
 
 [node name="LevelUID" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=445750240]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.72, 0.37, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 13
 text = "Lv. 1"
 
 [node name="XPBar" type="ProgressBar" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=1327963974]
@@ -351,16 +351,16 @@ vertical_alignment = 1
 [node name="GoldLabel" type="Label" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info/GoldRow" unique_id=1053879891]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.79, 0.4, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 15
 text = "0"
 vertical_alignment = 1
 
 [node name="StatsButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/ProfileSection/Info" unique_id=519328659]
-custom_minimum_size = Vector2(0, 28)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.89, 0.84, 0.68, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StatsButtonNormal")
 theme_override_styles/pressed = SubResource("StatsButtonPressed")
 theme_override_styles/hover = SubResource("StatsButtonHover")
@@ -378,7 +378,7 @@ theme_override_constants/v_separation = 6
 
 [node name="Missions" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1393645601]
 texture_filter = 1
-custom_minimum_size = Vector2(0, 57)
+custom_minimum_size = Vector2(0, 59)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("MenuButtonNormal")
@@ -417,7 +417,7 @@ vertical_alignment = 1
 
 [node name="Wordbook" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1415339757]
 texture_filter = 1
-custom_minimum_size = Vector2(0, 57)
+custom_minimum_size = Vector2(0, 59)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Review discovered Kapampangan words."
@@ -459,7 +459,7 @@ vertical_alignment = 1
 
 [node name="Inventory" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=861449678]
 texture_filter = 1
-custom_minimum_size = Vector2(0, 57)
+custom_minimum_size = Vector2(0, 59)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Inventory is not available yet."
@@ -502,7 +502,7 @@ vertical_alignment = 1
 
 [node name="Settings" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/MenuGrid" unique_id=1645888476]
 texture_filter = 1
-custom_minimum_size = Vector2(0, 57)
+custom_minimum_size = Vector2(0, 59)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Settings is not available yet."
@@ -554,11 +554,11 @@ alignment = 2
 
 [node name="QuitButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=978288114]
 texture_filter = 1
-custom_minimum_size = Vector2(145, 46)
+custom_minimum_size = Vector2(155, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.84, 0.78, 0.64, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxTexture_8hc20")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_85qas")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ftuca")
@@ -595,7 +595,7 @@ vertical_alignment = 1
 
 [node name="ResumeButton" type="Button" parent="LayoutWrapper/RightPanel/Margin/VBox/BottomBar" unique_id=1970413689]
 texture_filter = 1
-custom_minimum_size = Vector2(155, 46)
+custom_minimum_size = Vector2(155, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.97, 0.9, 0.7, 1)

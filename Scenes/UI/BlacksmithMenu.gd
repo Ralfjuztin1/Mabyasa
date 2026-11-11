@@ -181,13 +181,13 @@ func _build_interface() -> void:
 	var title := Label.new()
 	title.text = "PANDAY NG YATU"
 	title.add_theme_color_override("font_color", COLOR_GOLD)
-	title.add_theme_font_size_override("font_size", 27)
+	title.add_theme_font_size_override("font_size", 26)
 	title_stack.add_child(title)
 
 	var subtitle := Label.new()
 	subtitle.text = "Temper your gear. A careful strike is worth more than a rushed one."
 	subtitle.add_theme_color_override("font_color", COLOR_MUTED)
-	subtitle.add_theme_font_size_override("font_size", 12)
+	subtitle.add_theme_font_size_override("font_size", 14)
 	title_stack.add_child(subtitle)
 
 	_gold_label = Label.new()
@@ -573,7 +573,7 @@ func _make_button(text_value: String, minimum_size: Vector2) -> Button:
 	button.add_theme_color_override("font_color", COLOR_TEXT)
 	button.add_theme_color_override("font_hover_color", Color.WHITE)
 	button.add_theme_color_override("font_pressed_color", COLOR_GOLD)
-	button.add_theme_font_size_override("font_size", 13)
+	button.add_theme_font_size_override("font_size", 14)
 	button.add_theme_stylebox_override("normal", _make_button_style(false))
 	button.add_theme_stylebox_override("hover", _make_button_style(true))
 	button.add_theme_stylebox_override("pressed", _make_button_style(true))

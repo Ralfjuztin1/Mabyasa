@@ -1,0 +1,274 @@
+[gd_scene format=3 uid="uid://c27kaowi6h0gw"]
+
+[ext_resource type="Script" uid="uid://bki0w5bsr630i" path="res://Scenes/UI/AuthScreen.gd" id="1_qdewa"]
+[ext_resource type="Texture2D" uid="uid://ch1kvwmfdga8r" path="res://Assets/UI/MabyasaUI/ChatGPT Image Apr 6, 2026, 04_34_28 PM.png" id="2_u55fw"]
+[ext_resource type="Texture2D" uid="uid://djr664341ner7" path="res://Assets/UI/MabyasaUI/mabyasa.png" id="3_a4dlk"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="4_npbey"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="5_vmk2x"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="6_quh2r"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vmk2x"]
+texture = ExtResource("4_npbey")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InputNormal"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.03, 0.04, 0.07, 0.83)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.27, 0.30, 0.35, 0.75)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_InputFocus"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.045, 0.055, 0.075, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.75, 0.45, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y2ec"]
+atlas = ExtResource("5_vmk2x")
+region = Rect2(0, 0, 553, 121)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nbvpm"]
+texture = SubResource("AtlasTexture_5y2ec")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7r6e"]
+atlas = ExtResource("6_quh2r")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n8ea4"]
+texture = SubResource("AtlasTexture_h7r6e")
+
+[node name="MainMenu" type="Control" unique_id=1531872894]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qdewa")
+
+[node name="Background" type="TextureRect" parent="." unique_id=855736341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_u55fw")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=250252130]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.05, 0.08, 0.74)
+
+[node name="Logo" type="TextureRect" parent="." unique_id=788257062]
+layout_mode = 1
+anchor_left = 0.12
+anchor_right = 0.88
+anchor_top = 0.072
+anchor_bottom = 0.313
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_a4dlk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=608311785]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.28
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=221249326]
+texture_filter = 1
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vmk2x")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=200347423]
+layout_mode = 2
+theme_override_constants/margin_left = 38
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 38
+theme_override_constants/margin_bottom = 26
+
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=78020409]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="HeaderTitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1870410298]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.80, 0.51, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 26
+text = "LOGIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoginBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=713190584]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LoginEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=321165319]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
+placeholder_text = "Email Address"
+
+[node name="LoginPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1192102292]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LoginPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPasswordRow" unique_id=1205203109]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
+placeholder_text = "Password"
+secret = true
+
+[node name="LoginShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox/LoginPasswordRow" unique_id=1785998571]
+custom_minimum_size = Vector2(82, 46)
+layout_mode = 2
+focus_mode = 0
+text = "Show"
+
+[node name="LoginButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=1025739782]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_n8ea4")
+text = "SIGN IN"
+
+[node name="SwitchToRegister" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/LoginBox" unique_id=88481749]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.79, 0.83, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.82, 0.53, 1)
+theme_override_font_sizes/font_size = 16
+text = "New to MABYASA? Create account"
+flat = true
+
+[node name="RegisterBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=1159984278]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="RegUsername" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1257502311]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
+placeholder_text = "Username"
+
+[node name="RegEmail" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=722484509]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
+placeholder_text = "Email Address"
+
+[node name="RegPasswordRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1721904249]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RegPassword" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPasswordRow" unique_id=1327827692]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_InputNormal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_InputFocus")
+placeholder_text = "Password (at least 6 characters)"
+secret = true
+
+[node name="RegShowPassword" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox/RegPasswordRow" unique_id=1958893142]
+custom_minimum_size = Vector2(82, 46)
+layout_mode = 2
+focus_mode = 0
+text = "Show"
+
+[node name="RegisterButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1148927108]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_nbvpm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n8ea4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_n8ea4")
+text = "Create Account"
+
+[node name="SwitchToLogin" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox/RegisterBox" unique_id=1790851975]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.79, 0.83, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.82, 0.53, 1)
+theme_override_font_sizes/font_size = 16
+text = "Already have an account? Sign in"
+flat = true
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/MainVBox" unique_id=2143531663]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.83, 0.74, 1)
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

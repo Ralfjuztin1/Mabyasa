@@ -1,0 +1,367 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/PlayerStats.gd" id="1_player_stats"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.03529412, 0.050980393, 0.043137256, 0.32156864)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.65)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_separator"]
+bg_color = Color(0.72, 0.62, 0.36, 0.28)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09, 0.1, 0.085, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.12)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.22, 0.19, 0.11, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.16, 0.15, 0.105, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.82, 0.42, 0.45)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
+bg_color = Color(0.05, 0.06, 0.052, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.62, 0.36, 0.16)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_bg"]
+bg_color = Color(0.09, 0.1, 0.085, 0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
+bg_color = Color(0.94, 0.82, 0.42, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PlayerStats" type="CanvasLayer"]
+process_mode = 3
+layer = 60
+script = ExtResource("1_player_stats")
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.015, 0.02, 0.018, 0.46)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatsPanel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(560, 640)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 26
+
+[node name="MainVBox" type="VBoxContainer" parent="Center/StatsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderRow" type="HBoxContainer" parent="Center/StatsPanel/Margin/MainVBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderLineLeft" type="HSeparator" parent="Center/StatsPanel/Margin/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="HeaderLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "S T A T S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HeaderLineRight" type="HSeparator" parent="Center/StatsPanel/Margin/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="SubHeaderRow" type="HBoxContainer" parent="Center/StatsPanel/Margin/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Subtitle" type="Label" parent="Center/StatsPanel/Margin/MainVBox/SubHeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "Your current stats"
+
+[node name="CloseButton" type="Button" parent="Center/StatsPanel/Margin/MainVBox/SubHeaderRow"]
+custom_minimum_size = Vector2(88, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "CLOSE"
+
+[node name="DetailPanel" type="PanelContainer" parent="Center/StatsPanel/Margin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
+
+[node name="DetailMargin" type="MarginContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
+
+[node name="DetailVBox" type="VBoxContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LevelRow" type="HBoxContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+
+[node name="LevelHeaderLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/LevelRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 16
+text = "LEVEL"
+vertical_alignment = 1
+
+[node name="LevelValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/LevelRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
+theme_override_font_sizes/font_size = 26
+text = "Lv. 1"
+horizontal_alignment = 2
+
+[node name="XPBar" type="ProgressBar" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
+value = 0.0
+show_percentage = false
+
+[node name="XPLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39637682, 0.63056165, 0.27618918, 1)
+theme_override_font_sizes/font_size = 16
+text = "EXP  0 / 100"
+horizontal_alignment = 2
+
+[node name="Sep1" type="HSeparator" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="StatsHeader" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 16
+text = "COMBAT STATS"
+
+[node name="StatsGrid" type="GridContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="AtkLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "⚔ ATK"
+
+[node name="AtkValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 2
+
+[node name="DefLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "🛡 DEF"
+
+[node name="DefValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 2
+
+[node name="HpLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "❤ Max HP"
+
+[node name="HpValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 2
+
+[node name="Sep2" type="HSeparator" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="GearHeader" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 16
+text = "GEAR"
+
+[node name="GearGrid" type="GridContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="SwordLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "Sword"
+
+[node name="SwordValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "Lv. 1"
+horizontal_alignment = 2
+
+[node name="ArmorLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "Armor"
+
+[node name="ArmorValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "Lv. 1"
+horizontal_alignment = 2
+
+[node name="HelmetLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "Helmet"
+
+[node name="HelmetValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "Lv. 1"
+horizontal_alignment = 2
+
+[node name="Sep3" type="HSeparator" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+
+[node name="GoldRow" type="HBoxContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+
+[node name="GoldHeaderLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GoldRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 16
+text = "GOLD"
+vertical_alignment = 1
+
+[node name="GoldValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GoldRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 26
+text = "🪙 0"
+horizontal_alignment = 2

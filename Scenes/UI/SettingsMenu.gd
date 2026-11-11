@@ -68,7 +68,7 @@ func _build_interface() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "SettingsPanel"
-	panel.custom_minimum_size = Vector2(520, 0)
+	panel.custom_minimum_size = Vector2(540, 0)
 	center.add_child(panel)
 
 	var panel_style := StyleBoxFlat.new()
@@ -83,7 +83,7 @@ func _build_interface() -> void:
 	panel.add_theme_stylebox_override("panel", panel_style)
 
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 15)
+	root.add_theme_constant_override("separation", 16)
 	panel.add_child(root)
 
 	var title := Label.new()
@@ -96,6 +96,7 @@ func _build_interface() -> void:
 	var subtitle := Label.new()
 	subtitle.text = "Adjust your adventure"
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	subtitle.add_theme_font_size_override("font_size", 14)
 	subtitle.add_theme_color_override("font_color", Color(0.75, 0.77, 0.69))
 	root.add_child(subtitle)
 
@@ -146,7 +147,7 @@ var _last_value_label: Label
 
 func _add_slider_row(parent: VBoxContainer, label_text: String, minimum: float, maximum: float, step: float) -> HSlider:
 	var row := VBoxContainer.new()
-	row.add_theme_constant_override("separation", 4)
+	row.add_theme_constant_override("separation", 7)
 	parent.add_child(row)
 
 	var heading := HBoxContainer.new()
@@ -159,7 +160,7 @@ func _add_slider_row(parent: VBoxContainer, label_text: String, minimum: float, 
 	heading.add_child(label)
 
 	_last_value_label = Label.new()
-	_last_value_label.custom_minimum_size.x = 65
+	_last_value_label.custom_minimum_size.x = 72
 	_last_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_last_value_label.add_theme_color_override("font_color", Color(0.91, 0.75, 0.43))
 	heading.add_child(_last_value_label)
@@ -196,7 +197,8 @@ func _add_separator(parent: VBoxContainer) -> void:
 func _make_button(button_text: String) -> Button:
 	var button := Button.new()
 	button.text = button_text
-	button.custom_minimum_size = Vector2(145, 42)
+	button.add_theme_font_size_override("font_size", 15)
+	button.custom_minimum_size = Vector2(145, 46)
 	button.focus_mode = Control.FOCUS_ALL
 
 	var normal := StyleBoxFlat.new()

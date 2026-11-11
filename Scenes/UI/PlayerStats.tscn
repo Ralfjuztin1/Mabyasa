@@ -113,21 +113,21 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="StatsPanel" type="PanelContainer" parent="Center"]
-custom_minimum_size = Vector2(560, 640)
+custom_minimum_size = Vector2(560, 605)
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="Margin" type="MarginContainer" parent="Center/StatsPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 26
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 26
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 22
 
 [node name="MainVBox" type="VBoxContainer" parent="Center/StatsPanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="HeaderRow" type="HBoxContainer" parent="Center/StatsPanel/Margin/MainVBox"]
 custom_minimum_size = Vector2(0, 50)
@@ -142,7 +142,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 [node name="HeaderLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/HeaderRow"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 27
 text = "S T A T S"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -159,15 +159,15 @@ theme_override_constants/separation = 10
 [node name="Subtitle" type="Label" parent="Center/StatsPanel/Margin/MainVBox/SubHeaderRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.78, 0.83, 0.77, 1)
+theme_override_font_sizes/font_size = 14
 text = "Your current stats"
 
 [node name="CloseButton" type="Button" parent="Center/StatsPanel/Margin/MainVBox/SubHeaderRow"]
-custom_minimum_size = Vector2(88, 38)
+custom_minimum_size = Vector2(90, 42)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
@@ -180,10 +180,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
 
 [node name="DetailMargin" type="MarginContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 22
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 22
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
 
 [node name="DetailVBox" type="VBoxContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin"]
 layout_mode = 2
@@ -196,7 +196,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "LEVEL"
 vertical_alignment = 1
 
@@ -218,7 +218,7 @@ show_percentage = false
 [node name="XPLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.39637682, 0.63056165, 0.27618918, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "EXP  0 / 100"
 horizontal_alignment = 2
 
@@ -229,7 +229,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 [node name="StatsHeader" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "COMBAT STATS"
 
 [node name="StatsGrid" type="GridContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
@@ -242,14 +242,14 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "⚔ ATK"
 
 [node name="AtkValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "0"
 horizontal_alignment = 2
 
@@ -257,14 +257,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "🛡 DEF"
 
 [node name="DefValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "0"
 horizontal_alignment = 2
 
@@ -272,14 +272,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "❤ Max HP"
 
 [node name="HpValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/StatsGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "0"
 horizontal_alignment = 2
 
@@ -290,7 +290,7 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 [node name="GearHeader" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "GEAR"
 
 [node name="GearGrid" type="GridContainer" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox"]
@@ -303,14 +303,14 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Sword"
 
 [node name="SwordValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Lv. 1"
 horizontal_alignment = 2
 
@@ -318,14 +318,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Armor"
 
 [node name="ArmorValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Lv. 1"
 horizontal_alignment = 2
 
@@ -333,14 +333,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Helmet"
 
 [node name="HelmetValueLabel" type="Label" parent="Center/StatsPanel/Margin/MainVBox/DetailPanel/DetailMargin/DetailVBox/GearGrid"]
 layout_mode = 2
 custom_minimum_size = Vector2(80, 0)
 theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Lv. 1"
 horizontal_alignment = 2
 
@@ -355,7 +355,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "GOLD"
 vertical_alignment = 1
 
