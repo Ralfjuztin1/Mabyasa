@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://drtssfwmuqy2f"]
 
-[ext_resource type="Script" path="res://Scripts/Battle/BossAssessmentOverlay.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://c55mj1lqw2mb2" path="res://Scripts/Battle/BossAssessmentOverlay.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="OverlayPanel"]
 bg_color = Color(0.035, 0.055, 0.043, 0.99)
@@ -47,6 +47,18 @@ corner_radius_top_right = 7
 corner_radius_bottom_right = 7
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="EmptyCard"]
+bg_color = Color(0.065, 0.09, 0.068, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.31, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="ButtonNormal"]
 bg_color = Color(0.13, 0.18, 0.12, 1)
 border_width_left = 1
@@ -60,12 +72,12 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="ButtonHover"]
-bg_color = Color(0.20, 0.26, 0.15, 1)
+bg_color = Color(0.2, 0.26, 0.15, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.88, 0.70, 0.36, 1)
+border_color = Color(0.88, 0.7, 0.36, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -77,35 +89,23 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.20, 0.23, 0.18, 1)
+border_color = Color(0.2, 0.23, 0.18, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="EmptyCard"]
-bg_color = Color(0.065, 0.09, 0.068, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.28, 0.31, 0.22, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[node name="BossAssessmentOverlay" type="Control"]
+[node name="BossAssessmentOverlay" type="Control" unique_id=1130033947]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 script = ExtResource("1_script")
 
-[node name="Backdrop" type="ColorRect" parent="."]
-anchors_preset = 15
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1346057615]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -113,55 +113,55 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0.008, 0.014, 0.01, 0.91)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchors_preset = 15
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1736398650]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="AssessmentPanel" type="PanelContainer" parent="CenterContainer"]
+[node name="AssessmentPanel" type="PanelContainer" parent="CenterContainer" unique_id=496909745]
 custom_minimum_size = Vector2(920, 635)
 layout_mode = 2
 theme_override_styles/panel = SubResource("OverlayPanel")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel" unique_id=822332557]
 layout_mode = 2
 theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 18
 theme_override_constants/margin_right = 22
 theme_override_constants/margin_bottom = 16
 
-[node name="Content" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin"]
+[node name="Content" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin" unique_id=1251519494]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 9
 
-[node name="Header" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="Header" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=593203232]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HeadingBox" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/Header"]
+[node name="HeadingBox" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/Header" unique_id=880090118]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox"]
+[node name="TitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox" unique_id=562858677]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)
 theme_override_font_sizes/font_size = 25
 text = "BATTLE REVIEW"
 
-[node name="SubtitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox"]
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header/HeadingBox" unique_id=1856822507]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.70, 0.36, 1)
+theme_override_colors/font_color = Color(0.88, 0.7, 0.36, 1)
 theme_override_font_sizes/font_size = 12
 text = "BOSS TRIAL · NAME"
 
-[node name="OutcomeLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header"]
+[node name="OutcomeLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/Header" unique_id=151979632]
 custom_minimum_size = Vector2(285, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.79, 0.52, 1)
@@ -170,205 +170,203 @@ text = "BOSS DEFEATED"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HeaderSeparator" type="ColorRect" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="HeaderSeparator" type="ColorRect" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=731844780]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 color = Color(0.56, 0.42, 0.22, 1)
 
-[node name="StatsRow" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="StatsRow" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=372743583]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="AccuracyCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow"]
+[node name="AccuracyCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=2043710118]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StatCard")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard" unique_id=1929829905]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 6
 
-[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin"]
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin" unique_id=634253856]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack"]
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack" unique_id=1043244924]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 10
 text = "WORD-ORDER ACCURACY"
 
-[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack"]
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/AccuracyCard/Margin/Stack" unique_id=732807787]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)
 theme_override_font_sizes/font_size = 22
 text = "0%"
 
-[node name="WordsCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow"]
+[node name="WordsCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=253665683]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StatCard")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard" unique_id=801776256]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 6
 
-[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin"]
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin" unique_id=2007235655]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack"]
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack" unique_id=1919514495]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 10
 text = "WORDS IN PLACE"
 
-[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack"]
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/WordsCard/Margin/Stack" unique_id=1283608183]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)
 theme_override_font_sizes/font_size = 22
 text = "0 / 0"
 
-[node name="MistakesCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow"]
+[node name="MistakesCard" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow" unique_id=799842497]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StatCard")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard" unique_id=277763733]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 6
 
-[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin"]
+[node name="Stack" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin" unique_id=43574242]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack"]
+[node name="CaptionLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack" unique_id=1833260411]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 10
 text = "WORD PLACEMENT FIXES"
 
-[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack"]
+[node name="ValueLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/StatsRow/MistakesCard/Margin/Stack" unique_id=1639657749]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.48, 0.39, 1)
 theme_override_font_sizes/font_size = 22
 text = "0"
 
-[node name="ReviewHeader" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="ReviewHeader" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=687239419]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ReviewCounterLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewHeader"]
+[node name="ReviewCounterLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewHeader" unique_id=2057464523]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.88, 0.70, 0.36, 1)
+theme_override_colors/font_color = Color(0.88, 0.7, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "RESULT 01 / 01"
 
-[node name="ReviewStateLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewHeader"]
+[node name="ReviewStateLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewHeader" unique_id=418544579]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.48, 0.39, 1)
 theme_override_font_sizes/font_size = 12
 text = "LET'S FIX THIS"
 horizontal_alignment = 2
 
-[node name="ReviewProgress" type="ProgressBar" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="ReviewProgress" type="ProgressBar" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1628271128]
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 size_flags_horizontal = 3
-show_percentage = false
 max_value = 1.0
-value = 0.0
+show_percentage = false
 
-[node name="ReviewScroll" type="ScrollContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="ReviewScroll" type="ScrollContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1538166077]
 custom_minimum_size = Vector2(0, 276)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 
-[node name="ReviewPanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll"]
+[node name="ReviewPanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll" unique_id=1475165631]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("ReviewCard")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel" unique_id=990303707]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 15
 
-[node name="ReviewBody" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin"]
+[node name="ReviewBody" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin" unique_id=320211693]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="YourAnswerBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody"]
+[node name="YourAnswerBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody" unique_id=1253983998]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="YourAnswerCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/YourAnswerBlock"]
+[node name="YourAnswerCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/YourAnswerBlock" unique_id=354626073]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 10
 text = "YOUR ANSWER"
 
-[node name="YourAnswerLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/YourAnswerBlock"]
+[node name="YourAnswerLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/YourAnswerBlock" unique_id=1558872748]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.82, 0.83, 0.76, 1)
 theme_override_font_sizes/font_size = 17
 text = "Your sentence appears here."
 autowrap_mode = 3
 
-[node name="CorrectSentenceBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody"]
+[node name="CorrectSentenceBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody" unique_id=1633677147]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="CorrectSentenceCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/CorrectSentenceBlock"]
+[node name="CorrectSentenceCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/CorrectSentenceBlock" unique_id=291728916]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.79, 0.52, 1)
 theme_override_font_sizes/font_size = 10
 text = "CORRECT SENTENCE"
 
-[node name="CorrectSentenceLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/CorrectSentenceBlock"]
+[node name="CorrectSentenceLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/CorrectSentenceBlock" unique_id=724030047]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.70, 0.91, 0.67, 1)
+theme_override_colors/font_color = Color(0.7, 0.91, 0.67, 1)
 theme_override_font_sizes/font_size = 21
 text = "Correct sentence appears here."
 autowrap_mode = 3
 
-[node name="MeaningBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody"]
+[node name="MeaningBlock" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody" unique_id=607661208]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="MeaningCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/MeaningBlock"]
+[node name="MeaningCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/MeaningBlock" unique_id=712380474]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 10
 text = "WHAT IT MEANS"
 
-[node name="MeaningLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/MeaningBlock"]
+[node name="MeaningLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/MeaningBlock" unique_id=298329869]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.90, 0.89, 0.81, 1)
+theme_override_colors/font_color = Color(0.9, 0.89, 0.81, 1)
 theme_override_font_sizes/font_size = 15
 text = "English meaning appears here."
 autowrap_mode = 3
 
-[node name="ExtraMistakesLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody"]
+[node name="ExtraMistakesLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody" unique_id=269909760]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.64, 0.48, 1)
@@ -376,76 +374,76 @@ theme_override_font_sizes/font_size = 12
 text = "There are more word placements to check."
 autowrap_mode = 3
 
-[node name="LearningPanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody"]
+[node name="LearningPanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody" unique_id=1723169556]
 layout_mode = 2
 theme_override_styles/panel = SubResource("LearningCard")
 
-[node name="LearningMargin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel"]
+[node name="LearningMargin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel" unique_id=340874579]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 9
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 9
 
-[node name="LearningBody" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin"]
+[node name="LearningBody" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin" unique_id=1530409080]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="LessonCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin/LearningBody"]
+[node name="LessonCaption" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin/LearningBody" unique_id=1362782889]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.70, 0.36, 1)
+theme_override_colors/font_color = Color(0.88, 0.7, 0.36, 1)
 theme_override_font_sizes/font_size = 11
 text = "LEARN FROM THIS"
 
-[node name="LessonLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin/LearningBody"]
+[node name="LessonLabel" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/ReviewPanel/Margin/ReviewBody/LearningPanel/LearningMargin/LearningBody" unique_id=168441865]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.91, 0.83, 1)
 theme_override_font_sizes/font_size = 14
 text = "A short teaching point appears here."
 autowrap_mode = 3
 
-[node name="EmptyStatePanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll"]
+[node name="EmptyStatePanel" type="PanelContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll" unique_id=266258079]
 visible = false
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("EmptyCard")
 
-[node name="EmptyMargin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel"]
+[node name="EmptyMargin" type="MarginContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel" unique_id=587985059]
 layout_mode = 2
 theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 22
 theme_override_constants/margin_right = 22
 theme_override_constants/margin_bottom = 22
 
-[node name="EmptyVBox" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin"]
+[node name="EmptyVBox" type="VBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin" unique_id=762213677]
 layout_mode = 2
 size_flags_vertical = 3
-alignment = 1
 theme_override_constants/separation = 8
+alignment = 1
 
-[node name="EmptyTitle" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin/EmptyVBox"]
+[node name="EmptyTitle" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin/EmptyVBox" unique_id=1460296002]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.70, 0.36, 1)
+theme_override_colors/font_color = Color(0.88, 0.7, 0.36, 1)
 theme_override_font_sizes/font_size = 20
 text = "NO SENTENCES TO REVIEW"
 horizontal_alignment = 1
 
-[node name="EmptyMessage" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin/EmptyVBox"]
+[node name="EmptyMessage" type="Label" parent="CenterContainer/AssessmentPanel/Margin/Content/ReviewScroll/EmptyStatePanel/EmptyMargin/EmptyVBox" unique_id=1667825359]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.69, 0.72, 0.65, 1)
 theme_override_font_sizes/font_size = 14
 text = "No response was recorded for this trial. Keep encountering phrases and practising them in battle."
-autowrap_mode = 3
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="NavigationRow" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="NavigationRow" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=989689804]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PreviousButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow"]
+[node name="PreviousButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow" unique_id=378485464]
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.87, 0.85, 0.76, 1)
@@ -455,11 +453,11 @@ theme_override_styles/hover = SubResource("ButtonHover")
 theme_override_styles/disabled = SubResource("ButtonDisabled")
 text = "← PREVIOUS"
 
-[node name="NavigationSpacer" type="Control" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow"]
+[node name="NavigationSpacer" type="Control" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow" unique_id=589523226]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NextButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow"]
+[node name="NextButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/NavigationRow" unique_id=145161670]
 custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)
@@ -469,17 +467,17 @@ theme_override_styles/hover = SubResource("ButtonHover")
 theme_override_styles/disabled = SubResource("ButtonDisabled")
 text = "NEXT RESULT →"
 
-[node name="FooterSeparator" type="ColorRect" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="FooterSeparator" type="ColorRect" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=46967092]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 color = Color(0.28, 0.32, 0.23, 1)
 
-[node name="Footer" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content"]
+[node name="Footer" type="HBoxContainer" parent="CenterContainer/AssessmentPanel/Margin/Content" unique_id=1852412533]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 alignment = 2
 
-[node name="FinishButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/Footer"]
+[node name="FinishButton" type="Button" parent="CenterContainer/AssessmentPanel/Margin/Content/Footer" unique_id=2013506441]
 custom_minimum_size = Vector2(250, 42)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.84, 1)

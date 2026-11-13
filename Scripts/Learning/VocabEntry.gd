@@ -12,7 +12,7 @@ extends Resource
 @export_enum("greeting", "word", "particle", "phrase", "noun" , "adjective", "verb") var category: String = "word"
 @export_range(1, 5) var difficulty: int = 1
 @export var source_npc: String = ""
-
+@export var pronunciation_audio: AudioStream
 ## Optional progression metadata. The story can unlock a whole lesson group
 ## instead of learning hundreds of entries one by one.
 @export var lesson_group: String = ""
