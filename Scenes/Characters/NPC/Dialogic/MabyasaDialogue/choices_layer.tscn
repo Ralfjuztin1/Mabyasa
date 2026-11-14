@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.gd" id="1_layer"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Choice/node_button_sound.gd" id="2_sound"]
+[ext_resource type="AudioStream" path="res://addons/dialogic/Example Assets/sound-effects/typing1.wav" id="3_press"]
+[ext_resource type="AudioStream" path="res://addons/dialogic/Example Assets/sound-effects/typing4.wav" id="4_hover"]
+
+[node name="VN_ChoiceLayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_layer")
+font_size_use_global = false
+font_size_custom = 18
+text_color_use_global = false
+text_color_custom = Color(0.95, 0.96, 0.91, 1)
+text_color_pressed = Color(1, 0.95, 0.76, 1)
+text_color_hovered = Color(1, 0.94, 0.72, 1)
+text_color_disabled = Color(0.57, 0.65, 0.58, 1)
+text_color_focused = Color(1, 0.95, 0.76, 1)
+boxes_stylebox_normal = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/choice_normal.tres"
+boxes_stylebox_hovered = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/choice_hover.tres"
+boxes_stylebox_pressed = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/choice_pressed.tres"
+boxes_stylebox_disabled = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/choice_disabled.tres"
+boxes_stylebox_focused = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/choice_focus.tres"
+boxes_v_separation = 10
+boxes_fill_width = true
+boxes_min_size = Vector2(620, 48)
+maximum_choices = 10
+
+[node name="Choices" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -192.0
+offset_right = 336.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="DialogicNode_ButtonSound" type="AudioStreamPlayer" parent="Choices"]
+unique_name_in_owner = true
+volume_db = -15.0
+bus = &"UI_SFX"
+script = ExtResource("2_sound")
+sound_pressed = ExtResource("3_press")
+sound_hover = ExtResource("4_hover")

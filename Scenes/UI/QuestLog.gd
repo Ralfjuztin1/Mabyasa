@@ -9,12 +9,12 @@ var _tracking_hud: QuestMultiTrackHUD
 var _track_all_button: Button
 var _clear_tracks_button: Button
 
-@onready var close_button: Button = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/CloseButton
-@onready var subtitle_label: Label = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/Subtitle
+@onready var close_button: Button = $Center/QuestPanel/Margin/MainVBox/HeaderRow/CloseButton
+@onready var subtitle_label: Label = $Center/QuestPanel/Margin/MainVBox/HeaderRow/Subtitle
 
-@onready var all_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/AllButton
-@onready var active_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/ActiveButton
-@onready var completed_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/CompletedButton
+@onready var all_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox/AllButton
+@onready var active_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox/ActiveButton
+@onready var completed_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox/CompletedButton
 
 @onready var quest_list: VBoxContainer = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList
 @onready var quest_row_template: Button = $Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList/QuestRowTemplate
@@ -38,6 +38,7 @@ var _clear_tracks_button: Button
 @onready var gold_icon: TextureRect = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/GoldIcon
 @onready var gold_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow/GoldLabel
 @onready var empty_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/EmptyLabel
+@onready var detail_track_button: Button = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailTrackButton
 
 
 # Explicit chronology; never use alphabetical order to guide story progression.
@@ -104,6 +105,9 @@ func _ready() -> void:
 	all_button.pressed.connect(_set_filter_all)
 	active_button.pressed.connect(_set_filter_active)
 	completed_button.pressed.connect(_set_filter_completed)
+	detail_track_button.pressed.connect(_on_detail_track_pressed)
+	get_viewport().size_changed.connect(_fit_quest_panel)
+	call_deferred("_fit_quest_panel")
 
 	objective_template.visible = false
 	quest_row_template.visible = false
@@ -232,6 +236,16 @@ func _build_tracking_actions() -> void:
 	_clear_tracks_button.pressed.connect(_on_clear_tracks_pressed)
 	actions.add_child(_clear_tracks_button)
 
+	# Match tracking controls to the redesigned green quest list.
+	for action: Button in [_track_all_button, _clear_tracks_button]:
+		action.add_theme_color_override("font_color", Color(0.92, 0.94, 0.86))
+		action.add_theme_font_size_override("font_size", 11)
+		action.add_theme_stylebox_override("normal", all_button.get_theme_stylebox("normal"))
+		action.add_theme_stylebox_override("hover", all_button.get_theme_stylebox("hover"))
+		action.add_theme_stylebox_override("pressed", all_button.get_theme_stylebox("pressed"))
+		action.add_theme_color_override("font_hover_color", Color(1, 1, 1))
+		action.add_theme_color_override("font_pressed_color", Color(1, 1, 1))
+
 
 func _on_track_all_pressed() -> void:
 	if is_instance_valid(_tracking_hud):
@@ -353,9 +367,9 @@ func _update_filter_labels() -> void:
 			completed_count += 1
 			discovered_count += 1
 
-	all_button.text = "ALL  ·  %d" % discovered_count
-	active_button.text = "ACTIVE  ·  %d" % active_count
-	completed_button.text = "COMPLETED  ·  %d" % completed_count
+	all_button.text = "All Quests  %d" % discovered_count
+	active_button.text = "Active  %d" % active_count
+	completed_button.text = "Completed  %d" % completed_count
 
 	all_button.button_pressed = current_filter == QuestFilter.ALL
 	active_button.button_pressed = current_filter == QuestFilter.ACTIVE
@@ -363,7 +377,7 @@ func _update_filter_labels() -> void:
 
 	var tracked_count: int = _tracking_hud.get_tracked_count() if is_instance_valid(_tracking_hud) else 0
 	if subtitle_label != null:
-		subtitle_label.text = "%d discovered  ·  %d tracked  ·  Story order" % [discovered_count, tracked_count]
+		subtitle_label.text = "%d discovered   ·   %d tracked" % [discovered_count, tracked_count]
 	if is_instance_valid(_track_all_button):
 		_track_all_button.disabled = active_count == 0
 	if is_instance_valid(_clear_tracks_button):
@@ -428,8 +442,12 @@ func _add_quest_row(quest_id: String) -> void:
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.toggle_mode = true
 	row.text = _get_row_text(quest_id, quest_data)
+	# Keep titles to one line and show a proper ellipsis instead of hard clipping.
+	# Godot's Button supports the same TextServer overrun behavior as Label.
 	row.clip_text = true
-	row.tooltip_text = row.text
+	row.autowrap_mode = TextServer.AUTOWRAP_OFF
+	row.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	row.tooltip_text = _get_title(quest_id, quest_data)
 	row.button_pressed = quest_id == current_quest_id
 	if QuestManager.is_quest_active(quest_id):
 		row.add_theme_color_override("font_color", Color(0.82, 0.91, 0.77, 1.0))
@@ -449,6 +467,7 @@ func _add_quest_row(quest_id: String) -> void:
 	track_toggle.focus_mode = Control.FOCUS_ALL
 	track_toggle.tooltip_text = "Track this active quest on the HUD" if QuestManager.is_quest_active(quest_id) else "Only active quests can be tracked"
 	track_toggle.disabled = not QuestManager.is_quest_active(quest_id)
+	track_toggle.visible = QuestManager.is_quest_active(quest_id)
 	track_toggle.button_pressed = _tracking_hud.is_tracked(quest_id) if is_instance_valid(_tracking_hud) else false
 	track_toggle.toggled.connect(_on_track_toggled.bind(quest_id))
 	wrapper.add_child(track_toggle)
@@ -480,7 +499,7 @@ func _get_row_text(quest_id: String, quest_data: QuestData) -> String:
 		title = quest_id.replace("_", " ").capitalize()
 
 	var chapter_index: int = MAIN_STORY_ORDER.find(quest_id)
-	var chapter_prefix: String = ("%02d " % (chapter_index + 1)) if chapter_index >= 0 else "↳  "
+	var chapter_prefix: String = ("%02d  " % (chapter_index + 1)) if chapter_index >= 0 else "    "
 	return chapter_prefix + prefix + title
 
 
@@ -524,10 +543,10 @@ func _show_quest(quest_id: String) -> void:
 
 	if QuestManager.completed_quests.has(quest_id):
 		quest_status_label.text = "COMPLETED"
-		quest_status_label.modulate = Color(0.72, 0.72, 0.68, 1.0)
+		quest_status_label.modulate = Color(0.70, 0.83, 0.69, 1.0)
 	elif QuestManager.is_quest_active(quest_id):
 		quest_status_label.text = "ACTIVE"
-		quest_status_label.modulate = Color(0.42, 0.67, 0.49, 1.0)
+		quest_status_label.modulate = Color(0.58, 0.95, 0.63, 1.0)
 	else:
 		# Defensive guard: the quest list should never allow an undiscovered quest here.
 		_show_empty_state()
@@ -542,10 +561,12 @@ func _show_quest(quest_id: String) -> void:
 	_rebuild_objectives(quest_id, quest_data)
 	_update_rewards(quest_data)
 
+	_sync_detail_track_button()
 	quest_selected.emit(quest_id)
 
 
 func _show_empty_state() -> void:
+	detail_track_button.hide()
 	quest_type_row.hide()
 	quest_title.hide()
 	quest_description.hide()
@@ -744,3 +765,45 @@ func _update_rewards(quest_data: QuestData) -> void:
 	if has_gold:
 		gold_label.text = "+%d GOLD" % gold_amount
 
+
+
+# The details action is optional; multi-selection still works using row checkboxes.
+func _sync_detail_track_button() -> void:
+	if not is_instance_valid(detail_track_button):
+		return
+	var can_track: bool = (
+		current_quest_id != ""
+		and QuestManager.is_quest_active(current_quest_id)
+	)
+	detail_track_button.visible = can_track
+	if not can_track:
+		return
+	var tracked: bool = is_instance_valid(_tracking_hud) and _tracking_hud.is_tracked(current_quest_id)
+	detail_track_button.text = "✓ TRACKING" if tracked else "＋ TRACK QUEST"
+
+
+func _on_detail_track_pressed() -> void:
+	if not is_instance_valid(_tracking_hud):
+		return
+	if current_quest_id.is_empty() or not QuestManager.is_quest_active(current_quest_id):
+		return
+	_tracking_hud.set_tracked(current_quest_id, not _tracking_hud.is_tracked(current_quest_id))
+	_sync_detail_track_button()
+
+
+# Scale the full journal around its center for smaller desktop game windows.
+# The authored reference size remains 1180x650 for full-resolution displays.
+func _fit_quest_panel() -> void:
+	if not is_inside_tree():
+		return
+	var panel: PanelContainer = $Center/QuestPanel
+	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
+	var panel_size: Vector2 = panel.size
+	if panel_size.x <= 0.0 or panel_size.y <= 0.0:
+		return
+	var fit: float = minf(1.0, minf(
+		(viewport_size.x - 26.0) / panel_size.x,
+		(viewport_size.y - 26.0) / panel_size.y
+	))
+	panel.pivot_offset = panel_size * 0.5
+	panel.scale = Vector2.ONE * maxf(0.2, fit)

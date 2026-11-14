@@ -1,438 +1,604 @@
 [gd_scene format=3 uid="uid://dkipgb8hoaifn"]
 
 [ext_resource type="Script" uid="uid://cjq4487rhqksa" path="res://Scenes/UI/QuestLog.gd" id="1_quest_log"]
-[ext_resource type="Texture2D" uid="uid://3v7wi34mla20" path="res://Assets/UI/PauseMenu/panel_base_9slice.png" id="2_panel"]
-[ext_resource type="Texture2D" uid="uid://conxd0jhfiyga" path="res://Assets/UI/PauseMenu/button_normal.png" id="3_button_normal"]
-[ext_resource type="Texture2D" uid="uid://dtlvgc0k7dfj2" path="res://Assets/UI/PauseMenu/button_selected.png" id="4_button_selected"]
 [ext_resource type="Texture2D" uid="uid://chc6nct8eapk0" path="res://Assets/UI/PauseMenu/pause_icons_atlas.png" id="5_icon_atlas"]
 [ext_resource type="Texture2D" uid="uid://dyqe63mat08qg" path="res://Assets/UI/PauseMenu/exp_star.png" id="6_exp_star"]
+[ext_resource type="Texture2D" uid="uid://nl1d4ciu4xa6" path="res://Assets/Battle/Mabiyasa_panel_base_9slice.png" id="7_auth_panel"]
+[ext_resource type="Texture2D" uid="uid://de87piivyybn2" path="res://Assets/Battle/Mabiyasa_Button_Normal.png" id="8_auth_button_normal"]
+[ext_resource type="Texture2D" uid="uid://d1u0lfg8wby" path="res://Assets/Battle/Mabiyasa_Button_Selected.png" id="9_auth_button_selected"]
 
-[sub_resource type="StyleBoxTexture" id="Panel_9Slice"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-texture = ExtResource("2_panel")
-texture_margin_left = 26.0
-texture_margin_top = 24.0
-texture_margin_right = 26.0
-texture_margin_bottom = 24.0
+[sub_resource type="StyleBoxTexture" id="MainPanel"]
+texture = ExtResource("7_auth_panel")
+texture_margin_left = 34.0
+texture_margin_top = 34.0
+texture_margin_right = 34.0
+texture_margin_bottom = 34.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_separator"]
-bg_color = Color(0.72, 0.62, 0.36, 0.28)
+[sub_resource type="AtlasTexture" id="MabiyasaButtonNormalAtlas"]
+atlas = ExtResource("8_auth_button_normal")
+region = Rect2(0, 0, 553, 121)
+
+[sub_resource type="StyleBoxTexture" id="MabiyasaButtonNormal"]
+texture = SubResource("MabiyasaButtonNormalAtlas")
+
+[sub_resource type="AtlasTexture" id="MabiyasaButtonSelectedAtlas"]
+atlas = ExtResource("9_auth_button_selected")
+
+[sub_resource type="StyleBoxTexture" id="MabiyasaButtonSelected"]
+texture = SubResource("MabiyasaButtonSelectedAtlas")
+
+[sub_resource type="StyleBoxFlat" id="FilterPanel"]
+bg_color = Color(0.038, 0.082, 0.059, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.42, 0.31, 0.72)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="QuestListPanel"]
+bg_color = Color(0.060, 0.120, 0.087, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.42, 0.31, 0.72)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="DetailPanel"]
+bg_color = Color(0.032, 0.076, 0.052, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.42, 0.31, 0.72)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="FilterNormal"]
+bg_color = Color(0.043, 0.086, 0.062, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.14, 0.26, 0.19, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="FilterHover"]
+bg_color = Color(0.10, 0.185, 0.126, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.44, 0.58, 0.42, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="FilterSelected"]
+bg_color = Color(0.18, 0.30, 0.20, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.69, 0.74, 0.48, 0.95)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+bg_color = Color(0.10, 0.173, 0.121, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.42, 0.31, 0.72)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+bg_color = Color(0.15, 0.26, 0.17, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.61, 0.74, 0.50, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="RowNormal"]
+bg_color = Color(0.08, 0.17, 0.115, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.20, 0.30, 0.22, 0.7)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="RowHover"]
+bg_color = Color(0.13, 0.24, 0.165, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47, 0.61, 0.44, 0.85)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="RowSelected"]
+bg_color = Color(0.18, 0.30, 0.20, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.75, 0.45, 0.93)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="ObjectiveRow"]
+bg_color = Color(0.075, 0.155, 0.112, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19, 0.34, 0.24, 0.62)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="QuietSeparator"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.28, 0.40, 0.29, 0.55)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.28, 0.40, 0.29, 0.55)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+
+[sub_resource type="StyleBoxFlat" id="TypeBadge"]
+bg_color = Color(0.16, 0.255, 0.17, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.44, 0.29, 0.65)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
 
 [sub_resource type="AtlasTexture" id="Icon_QuestScroll"]
 atlas = ExtResource("5_icon_atlas")
 region = Rect2(256, 0, 128, 128)
 
-[sub_resource type="StyleBoxTexture" id="MenuButtonNormal"]
-content_margin_left = 14.0
-content_margin_top = 4.0
-content_margin_right = 14.0
-content_margin_bottom = 4.0
-texture = ExtResource("3_button_normal")
-
-[sub_resource type="StyleBoxTexture" id="MenuButtonPressed"]
-content_margin_left = 14.0
-content_margin_top = 4.0
-content_margin_right = 18.0
-content_margin_bottom = 4.0
-texture = ExtResource("4_button_selected")
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8hc20"]
-load_path = "res://.godot/imported/button_selected.png-01ced1cb598f024fbb21b4150fdc2a08.ctex"
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdh0q"]
-content_margin_left = 14.0
-content_margin_top = 4.0
-content_margin_right = 18.0
-content_margin_bottom = 4.0
-texture = SubResource("CompressedTexture2D_8hc20")
-expand_margin_right = 25.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidebar"]
-bg_color = Color(0.055, 0.065, 0.057, 0.82)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.72, 0.62, 0.36, 0.2)
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-corner_radius_bottom_right = 7
-corner_radius_bottom_left = 7
-
-[sub_resource type="StyleBoxTexture" id="QuestRowNormal"]
-content_margin_left = 12.0
-content_margin_top = 3.0
-content_margin_right = 18.0
-content_margin_bottom = 3.0
-texture = ExtResource("3_button_normal")
-texture_margin_left = 28.0
-texture_margin_top = 10.0
-texture_margin_right = 35.0
-texture_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxTexture" id="QuestRowPressed"]
-content_margin_left = 12.0
-content_margin_top = 3.0
-content_margin_right = 18.0
-content_margin_bottom = 3.0
-texture = ExtResource("4_button_selected")
-texture_margin_left = 30.0
-texture_margin_top = 10.0
-texture_margin_bottom = 10.0
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ms0y"]
-load_path = "res://.godot/imported/button_selected.png-01ced1cb598f024fbb21b4150fdc2a08.ctex"
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x7jed"]
-content_margin_left = 12.0
-content_margin_top = 3.0
-content_margin_right = 18.0
-content_margin_bottom = 3.0
-texture = SubResource("CompressedTexture2D_0ms0y")
-texture_margin_left = 30.0
-texture_margin_top = 10.0
-texture_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
-bg_color = Color(0.035, 0.055, 0.04, 0.94)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.72, 0.62, 0.36, 0.28)
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-corner_radius_bottom_right = 7
-corner_radius_bottom_left = 7
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_objective"]
-content_margin_left = 8.0
-content_margin_top = 7.0
-content_margin_right = 8.0
-content_margin_bottom = 7.0
-bg_color = Color(0.075, 0.095, 0.078, 0.78)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.72, 0.62, 0.36, 0.1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
 [sub_resource type="AtlasTexture" id="Icon_GoldCoin"]
 atlas = ExtResource("5_icon_atlas")
 region = Rect2(128, 128, 128, 128)
 
-[node name="QuestLog" type="CanvasLayer" unique_id=1036965498]
+[node name="QuestLog" type="CanvasLayer"]
 process_mode = 3
 layer = 60
 script = ExtResource("1_quest_log")
 
-[node name="BackgroundDim" type="ColorRect" parent="." unique_id=1415000166]
+[node name="BackgroundDim" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
-color = Color(0.008, 0.014, 0.01, 0.54)
+color = Color(0.025, 0.037, 0.031, 0.72)
 
-[node name="Center" type="CenterContainer" parent="." unique_id=127576161]
+[node name="Center" type="CenterContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="QuestPanel" type="PanelContainer" parent="Center" unique_id=904203263]
-texture_filter = 1
-custom_minimum_size = Vector2(980, 610)
+[node name="QuestPanel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(1260, 650)
 layout_mode = 2
 mouse_filter = 1
-theme_override_styles/panel = SubResource("Panel_9Slice")
+theme_override_styles/panel = SubResource("MainPanel")
 
-[node name="Margin" type="MarginContainer" parent="Center/QuestPanel" unique_id=391127022]
+[node name="Margin" type="MarginContainer" parent="Center/QuestPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 22
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 19
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 19
+theme_override_constants/margin_bottom = 18
 
-[node name="MainVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin" unique_id=1076519431]
+[node name="MainVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 13
 
-[node name="HeaderRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox" unique_id=90410036]
-custom_minimum_size = Vector2(0, 50)
+[node name="HeaderRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 11
 
-[node name="HeaderLineLeft" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow" unique_id=1441718292]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
-
-[node name="HeaderIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow" unique_id=968352390]
-custom_minimum_size = Vector2(32, 32)
+[node name="HeaderIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow"]
+custom_minimum_size = Vector2(29, 29)
 layout_mode = 2
 mouse_filter = 2
 texture = SubResource("Icon_QuestScroll")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HeaderLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow" unique_id=2124608696]
+[node name="HeaderLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
 theme_override_font_sizes/font_size = 26
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 text = "QUEST LOG"
-horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HeaderLineRight" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow" unique_id=1378164100]
+[node name="HeaderSpacer" type="Control" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 
-[node name="SubHeaderRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox" unique_id=117913314]
+[node name="Subtitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_colors/font_color = Color(0.71, 0.78, 0.72, 1)
+theme_override_font_sizes/font_size = 10
+text = "0 discovered  ·  0 tracked"
+vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/SubHeaderRow" unique_id=83685479]
+[node name="CloseButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/HeaderRow"]
+custom_minimum_size = Vector2(40, 38)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.78, 0.83, 0.77, 1)
-theme_override_font_sizes/font_size = 14
-text = "Records of quests discovered on your journey"
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("ButtonNormal")
+theme_override_styles/hover = SubResource("ButtonHover")
+theme_override_styles/pressed = SubResource("FilterSelected")
+text = "×"
+tooltip_text = "Close quest log"
 
-[node name="CloseButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/SubHeaderRow" unique_id=1396675278]
-custom_minimum_size = Vector2(90, 42)
+[node name="HeaderDivider" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
-text = "CLOSE"
+theme_override_styles/separator = SubResource("QuietSeparator")
 
-[node name="Body" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox" unique_id=1894370507]
+[node name="Body" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 
-[node name="Sidebar" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body" unique_id=1508143649]
-custom_minimum_size = Vector2(250, 0)
+[node name="JournalFilters" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body"]
+custom_minimum_size = Vector2(163, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
+theme_override_styles/panel = SubResource("FilterPanel")
 
-[node name="SidebarMargin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar" unique_id=1467179236]
+[node name="FilterMargin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 17
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="SidebarVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin" unique_id=1890764523]
+[node name="FilterVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="CategoryTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=1001967812]
+[node name="FilterTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 12
+text = "JOURNAL"
+
+[node name="FilterGap" type="Control" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox"]
+custom_minimum_size = Vector2(0, 13)
+layout_mode = 2
+
+[node name="AllButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+alignment = 0
+text = "All Quests"
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("FilterNormal")
+theme_override_styles/hover = SubResource("FilterHover")
+theme_override_styles/pressed = SubResource("MabiyasaButtonSelected")
+
+[node name="ActiveButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+alignment = 0
+text = "Active"
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("FilterNormal")
+theme_override_styles/hover = SubResource("FilterHover")
+theme_override_styles/pressed = SubResource("MabiyasaButtonSelected")
+
+[node name="CompletedButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/JournalFilters/FilterMargin/FilterVBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+alignment = 0
+text = "Completed"
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("FilterNormal")
+theme_override_styles/hover = SubResource("FilterHover")
+theme_override_styles/pressed = SubResource("MabiyasaButtonSelected")
+
+[node name="Sidebar" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body"]
+custom_minimum_size = Vector2(398, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("QuestListPanel")
+
+[node name="SidebarMargin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 14
+
+[node name="SidebarVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CategoryTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 14
 text = "QUEST LIST"
 
-[node name="AllButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=2021980714]
-texture_filter = 1
-custom_minimum_size = Vector2(0, 42)
+[node name="CategorySeparator" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.88, 0.79, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
-toggle_mode = true
-text = "ALL"
+theme_override_styles/separator = SubResource("QuietSeparator")
 
-[node name="ActiveButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=319681848]
-texture_filter = 1
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.42, 0.67, 0.49, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
-toggle_mode = true
-text = "ACTIVE"
-
-[node name="CompletedButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=335798603]
-texture_filter = 1
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.72, 0.68, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("MenuButtonNormal")
-theme_override_styles/pressed = SubResource("MenuButtonPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gdh0q")
-toggle_mode = true
-text = "COMPLETED"
-
-[node name="CategorySeparator" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=1954091576]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
-
-[node name="QuestListScroll" type="ScrollContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox" unique_id=512945218]
+[node name="QuestListScroll" type="ScrollContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="QuestList" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll" unique_id=775157568]
+[node name="QuestList" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
-[node name="QuestRowTemplate" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList" unique_id=424663041]
-custom_minimum_size = Vector2(0, 46)
+[node name="QuestRowTemplate" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/Sidebar/SidebarMargin/SidebarVBox/QuestListScroll/QuestList"]
+text_overrun_behavior = 3
+autowrap_mode = 0
+visible = false
+custom_minimum_size = Vector2(0, 49)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.91, 0.86, 0.71, 1)
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("QuestRowNormal")
-theme_override_styles/pressed = SubResource("QuestRowPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_x7jed")
 toggle_mode = true
-text = "◆ Quest"
+clip_text = true
+text = "Quest"
+alignment = 0
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("RowNormal")
+theme_override_styles/hover = SubResource("RowHover")
+theme_override_styles/pressed = SubResource("RowSelected")
 
-[node name="DetailPanel" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body" unique_id=1609924010]
+[node name="DetailPanel" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
+theme_override_styles/panel = SubResource("DetailPanel")
 
-[node name="DetailMargin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel" unique_id=2055463739]
+[node name="DetailMargin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 20
+theme_override_constants/margin_left = 22
 theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 16
 
-[node name="DetailVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin" unique_id=771333307]
+[node name="DetailVBox" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="QuestTypeRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1373934375]
+[node name="QuestTypeRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="QuestTypeLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow" unique_id=2013234138]
+[node name="QuestTypeLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "MAIN QUEST"
+vertical_alignment = 1
+
+[node name="TypeRowSpacer" type="Control" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
-theme_override_font_sizes/font_size = 11
-text = "SIDE QUEST"
 
-[node name="QuestStatusLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow" unique_id=1135997838]
+[node name="QuestStatusLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/QuestTypeRow"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.42, 0.67, 0.49, 1)
+theme_override_colors/font_color = Color(0.57, 0.84, 0.60, 1)
 theme_override_font_sizes/font_size = 11
 text = "ACTIVE"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="QuestTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1359044029]
+[node name="QuestTitle" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.94, 0.88, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 27
 text = "Quest Title"
 autowrap_mode = 2
 
-[node name="QuestDescription" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1269868488]
-custom_minimum_size = Vector2(0, 45)
+[node name="QuestDescription" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.68, 0.69, 0.65, 1)
+theme_override_colors/font_color = Color(0.71, 0.78, 0.72, 1)
 theme_override_font_sizes/font_size = 14
 text = "Quest description"
 autowrap_mode = 2
 
-[node name="ObjectiveHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1316780619]
+[node name="DetailsDivider" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_styles/separator = SubResource("QuietSeparator")
+
+[node name="ObjectiveHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 12
 text = "OBJECTIVES"
 
-[node name="ObjectivesScroll" type="ScrollContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=727842144]
-custom_minimum_size = Vector2(0, 120)
+[node name="ObjectivesScroll" type="ScrollContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="ObjectivesContainer" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll" unique_id=112564683]
+[node name="ObjectivesContainer" type="VBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="ObjectiveTemplate" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer" unique_id=1602255320]
-visible = false
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_objective")
-
-[node name="Margin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate" unique_id=163192511]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="Row" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin" unique_id=2120780099]
-layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="StateLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row" unique_id=890203218]
-custom_minimum_size = Vector2(26, 0)
+[node name="ObjectiveTemplate" type="PanelContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 47)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.42, 0.67, 0.49, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_styles/panel = SubResource("ObjectiveRow")
+
+[node name="Margin" type="MarginContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 7
+
+[node name="Row" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StateLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.84, 0.60, 1)
+theme_override_font_sizes/font_size = 19
 text = "✓"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ObjectiveLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row" unique_id=1168605089]
+[node name="ObjectiveLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.93, 0.92, 0.86, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 13
 text = "Objective"
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CountLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row" unique_id=244291982]
-custom_minimum_size = Vector2(68, 0)
+[node name="CountLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/ObjectivesScroll/ObjectivesContainer/ObjectiveTemplate/Margin/Row"]
+custom_minimum_size = Vector2(66, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.68, 0.68, 0.64, 1)
+theme_override_colors/font_color = Color(0.71, 0.78, 0.72, 1)
 theme_override_font_sizes/font_size = 13
 text = "0 / 1"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1459342057]
+[node name="Separator" type="HSeparator" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
+theme_override_styles/separator = SubResource("QuietSeparator")
 
-[node name="RewardsHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=292625184]
+[node name="RewardsHeader" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.62, 0.36, 1)
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 12
 text = "REWARDS"
 
-[node name="RewardsRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=1461410397]
+[node name="RewardsRow" type="HBoxContainer" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 
-[node name="ExpIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow" unique_id=631784316]
+[node name="ExpIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
@@ -440,15 +606,18 @@ texture = ExtResource("6_exp_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RewardsLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow" unique_id=1322342688]
-custom_minimum_size = Vector2(0, 22)
+[node name="RewardsLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 14
 text = "+178 EXP"
 vertical_alignment = 1
 
-[node name="GoldIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow" unique_id=1323527858]
+[node name="RewardSpace" type="Control" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow"]
+custom_minimum_size = Vector2(13, 0)
+layout_mode = 2
+
+[node name="GoldIcon" type="TextureRect" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
@@ -456,20 +625,37 @@ texture = SubResource("Icon_GoldCoin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="GoldLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow" unique_id=1021609114]
-custom_minimum_size = Vector2(0, 22)
+[node name="GoldLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/RewardsRow"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.82, 0.42, 1)
+theme_override_colors/font_color = Color(0.85, 0.75, 0.45, 1)
 theme_override_font_sizes/font_size = 14
 text = "+36 GOLD"
 vertical_alignment = 1
 
-[node name="EmptyLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox" unique_id=24419371]
+[node name="DetailsBottomSpacer" type="Control" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+
+[node name="DetailTrackButton" type="Button" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+visible = false
+custom_minimum_size = Vector2(206, 46)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "＋ TRACK QUEST"
+theme_override_colors/font_color = Color(0.96, 0.97, 0.93, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("MabiyasaButtonNormal")
+theme_override_styles/hover = SubResource("MabiyasaButtonSelected")
+theme_override_styles/pressed = SubResource("MabiyasaButtonSelected")
+
+[node name="EmptyLabel" type="Label" parent="Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.5, 0.52, 0.49, 1)
-theme_override_font_sizes/font_size = 18
-text = "Select a quest from the list."
+theme_override_colors/font_color = Color(0.71, 0.78, 0.72, 1)
+theme_override_font_sizes/font_size = 16
+text = "Select a quest from the list"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
+
