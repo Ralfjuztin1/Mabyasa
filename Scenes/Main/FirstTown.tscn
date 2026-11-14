@@ -5064,10 +5064,11 @@ npc_frames = SubResource("SpriteFrames_nax27")
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.3909292, 0.918553, -29.861753)
 npc_name = "Apu"
 npc_id = "apu"
-dialogue_id = "FirstTownSceneDialogues/meeting_apu"
+dialogue_id = "FirstTownSceneDialogues/apu_default.dtl"
 dialogue_entries = Array[ExtResource("17_ubr33")]([SubResource("Resource_8qoby")])
 interaction_cutscenes = [NodePath("../../Scene3")]
 cutscene_flags = Array[String](["scene_3_apu"])
+continue_to_dialogue_after_interaction_cutscene = true
 npc_frames = SubResource("SpriteFrames_ppes2")
 move_speed = 1.5
 wander_radius = 1.0
@@ -5821,7 +5822,6 @@ shape = SubResource("BoxShape3D_7xnph")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.399971, 0.39308286, 15.148155)
 script = ExtResource("35_87cgx")
 narrow_cutscene = NodePath("../../narrow_path_litik")
-required_flags = Array[String]([])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StoryTrigger/narrow" unique_id=1821063020]
 transform = Transform3D(0.9654153, 0, -0.26071686, 0, 1, 0, 0.26071686, 0, 0.9654153, -2.6116948, 0.68792725, 2.0697699)

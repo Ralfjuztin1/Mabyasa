@@ -1206,7 +1206,7 @@ metadata/_scatter_graph = SubResource("Resource_8ben8")
 
 [node name="marker" type="Node3D" parent="." unique_id=1490769122]
 
-[node name="toForestMarker" type="Marker3D" parent="marker" unique_id=1181898049]
+[node name="DefaultSpawn" type="Marker3D" parent="marker" unique_id=1181898049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.31886, 0, 10.061926)
 
 [node name="wellMarker" type="Marker3D" parent="marker" unique_id=268248684]

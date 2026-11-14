@@ -30,10 +30,10 @@ CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="uid://c55mj1lqw2mb2"
 TransitionManager="*uid://ddqj11m4lwktm"
 InventoryManager="*uid://cfaseglcs7qjr"
+UITutorialManager="*uid://sa1ir042t240"
 TutorialManager="*uid://bocr1ftvonao"
 SaveManager="*res://Scripts/Managers/SaveManagerTutorialFix.gd"
 GameManager="*uid://cw34lkfrjh6v7"
-UITutorialManager="*uid://sa1ir042t240"
 
 [dialogic]
 
@@ -54,6 +54,7 @@ directories/dch_directory={
 "chief": "res://Scenes/Characters/NPC/Dialogic/chief.dch"
 }
 directories/dtl_directory={
+"apu_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/apu_default.dtl",
 "bebang_basket_return": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_basket_return.dtl",
 "bebang_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/bebang_default.dtl",
 "blacksmith_gear_and_quiz": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/blacksmith_gear_and_quiz.dtl",
