@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cyrumle1wg7xs"
+path="res://.godot/imported/Wall_Prop_Windmill_1.obj-26c4e76de88373387a3239ae91e5fe40.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wall_Prop_Windmill_1.obj-26c4e76de88373387a3239ae91e5fe40.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Wall_Prop_Windmill_1.obj"
+dest_files=["res://.godot/imported/Wall_Prop_Windmill_1.obj-26c4e76de88373387a3239ae91e5fe40.mesh", "res://.godot/imported/Wall_Prop_Windmill_1.obj-26c4e76de88373387a3239ae91e5fe40.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

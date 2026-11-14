@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://hjwiui5xtcgf"
+path="res://.godot/imported/Stucco_Block.obj-18ef72fd350d6518ddaf42c4cb751084.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Stucco_Block.obj-18ef72fd350d6518ddaf42c4cb751084.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Stucco_Block.obj"
+dest_files=["res://.godot/imported/Stucco_Block.obj-18ef72fd350d6518ddaf42c4cb751084.mesh", "res://.godot/imported/Stucco_Block.obj-18ef72fd350d6518ddaf42c4cb751084.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

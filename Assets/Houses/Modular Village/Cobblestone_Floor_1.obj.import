@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dn8whbdhds8te"
+path="res://.godot/imported/Cobblestone_Floor_1.obj-8e63bf11c574c4844418b7c2556b361d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Cobblestone_Floor_1.obj-8e63bf11c574c4844418b7c2556b361d.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Cobblestone_Floor_1.obj"
+dest_files=["res://.godot/imported/Cobblestone_Floor_1.obj-8e63bf11c574c4844418b7c2556b361d.mesh", "res://.godot/imported/Cobblestone_Floor_1.obj-8e63bf11c574c4844418b7c2556b361d.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

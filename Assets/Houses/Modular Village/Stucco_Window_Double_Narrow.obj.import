@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c6d2mh5c6fjtk"
+path="res://.godot/imported/Stucco_Window_Double_Narrow.obj-09a0c4945af6b0febc8595cb3a69ab76.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Stucco_Window_Double_Narrow.obj-09a0c4945af6b0febc8595cb3a69ab76.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Stucco_Window_Double_Narrow.obj"
+dest_files=["res://.godot/imported/Stucco_Window_Double_Narrow.obj-09a0c4945af6b0febc8595cb3a69ab76.mesh", "res://.godot/imported/Stucco_Window_Double_Narrow.obj-09a0c4945af6b0febc8595cb3a69ab76.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

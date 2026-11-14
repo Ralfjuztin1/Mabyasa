@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cks1skgd40qwj"]
+
+[ext_resource type="PackedScene" uid="uid://bol8dikwlrfj6" path="res://Assets/Environment/stylized nature gltf/Flower_4_Group.gltf" id="1_j8ue2"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7xnph"]
+
+[node name="plant1" type="MeshInstance3D" unique_id=240454009]
+mesh = SubResource("ArrayMesh_7xnph")
+
+[node name="Flower_4_Group2" parent="." unique_id=482889440 instance=ExtResource("1_j8ue2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21476293, -2.3841858e-07, 1.6758571)

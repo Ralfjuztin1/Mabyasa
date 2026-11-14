@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bno3ati6k6o4k"
+path="res://.godot/imported/Prop_Cart_1_Hay.obj-ab4c95cf21c1a511c76841ff84fc4095.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Prop_Cart_1_Hay.obj-ab4c95cf21c1a511c76841ff84fc4095.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Prop_Cart_1_Hay.obj"
+dest_files=["res://.godot/imported/Prop_Cart_1_Hay.obj-ab4c95cf21c1a511c76841ff84fc4095.mesh", "res://.godot/imported/Prop_Cart_1_Hay.obj-ab4c95cf21c1a511c76841ff84fc4095.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

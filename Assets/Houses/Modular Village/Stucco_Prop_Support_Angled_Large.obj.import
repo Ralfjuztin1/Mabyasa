@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cvpvj7rw6ogyp"
+path="res://.godot/imported/Stucco_Prop_Support_Angled_Large.obj-80ce5771c89b7b51e4b57582e9ea3bff.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Stucco_Prop_Support_Angled_Large.obj-80ce5771c89b7b51e4b57582e9ea3bff.mesh"]
+
+source_file="res://Assets/Houses/Modular Village/Stucco_Prop_Support_Angled_Large.obj"
+dest_files=["res://.godot/imported/Stucco_Prop_Support_Angled_Large.obj-80ce5771c89b7b51e4b57582e9ea3bff.mesh", "res://.godot/imported/Stucco_Prop_Support_Angled_Large.obj-80ce5771c89b7b51e4b57582e9ea3bff.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

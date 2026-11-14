@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cx8xcv5xv3yca"]
+
+[ext_resource type="PackedScene" uid="uid://bltn6iuneyaci" path="res://Assets/Environment/stylized nature gltf/Bush_Common_Flowers.gltf" id="1_12ab2"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_grxcb"]
+
+[node name="plants" type="MeshInstance3D" unique_id=1652457500]
+mesh = SubResource("ArrayMesh_grxcb")
+
+[node name="Bush_Common_Flowers2" parent="." unique_id=706817449 instance=ExtResource("1_12ab2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1143895, 0, 0.9322791)

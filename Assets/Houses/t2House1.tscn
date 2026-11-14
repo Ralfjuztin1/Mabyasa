@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://bfh8r4m115v4f"]
+
+[ext_resource type="ArrayMesh" uid="uid://dia5g4gf5yga7" path="res://Assets/Houses/Modular Village/Stone_to_Stucco_Doorway_Wide_Tall_2.obj" id="1_3st7j"]
+[ext_resource type="ArrayMesh" uid="uid://hjwiui5xtcgf" path="res://Assets/Houses/Modular Village/Stucco_Block.obj" id="2_fr4r1"]
+[ext_resource type="ArrayMesh" uid="uid://ci1n2y4e4ppxv" path="res://Assets/Houses/Modular Village/Stone_Wall_5.obj" id="3_f3mdj"]
+[ext_resource type="ArrayMesh" uid="uid://cua8q3h8tj8j1" path="res://Assets/Houses/Modular Village/Stone_Wall_4.obj" id="4_aw5pc"]
+[ext_resource type="ArrayMesh" uid="uid://cyaa5ld7hnqwc" path="res://Assets/Houses/Modular Village/Stone_Wall_3.obj" id="5_kruqe"]
+[ext_resource type="ArrayMesh" uid="uid://dc3gt6m8w1chl" path="res://Assets/Houses/Modular Village/Wall_Prop_Door_Simple.obj" id="6_rvkfs"]
+[ext_resource type="ArrayMesh" uid="uid://dfksutahww5lb" path="res://Assets/Houses/Modular Village/Stucco_Window_Single_Narrow_Tall.obj" id="7_6qo81"]
+[ext_resource type="ArrayMesh" uid="uid://0pu2ael3msup" path="res://Assets/Houses/Modular Village/Stucco_Window_Single_Wide_Tall.obj" id="8_3k07x"]
+[ext_resource type="PackedScene" uid="uid://dy7awl7jdv6ax" path="res://Assets/Environment/medieval gltf/Roof_RoundTiles_4x4.gltf" id="9_lghbi"]
+[ext_resource type="PackedScene" uid="uid://cse8r2id777kb" path="res://Assets/Environment/medieval gltf/Roof_Front_Brick2.gltf" id="10_m4h5q"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7xnph"]
+
+[node name="t2House1" type="MeshInstance3D" unique_id=1723910822]
+mesh = SubResource("ArrayMesh_7xnph")
+
+[node name="StoneToStuccoDoorwayWideTall2" type="MeshInstance3D" parent="." unique_id=61387680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36137605, 0, -0.37024307)
+mesh = ExtResource("1_3st7j")
+
+[node name="StuccoBlock" type="MeshInstance3D" parent="." unique_id=1364269020]
+transform = Transform3D(3.8814692, 0, 0, 0, 2.0273633, 0, 0, 0, 3.9079375, -1.2656991, 0, 0.13347244)
+mesh = ExtResource("2_fr4r1")
+
+[node name="StoneWall5" type="MeshInstance3D" parent="." unique_id=120114391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.267899, 0, 1.612514)
+mesh = ExtResource("3_f3mdj")
+
+[node name="StoneWall6" type="MeshInstance3D" parent="." unique_id=440421278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.267899, 0, -1.3474269)
+mesh = ExtResource("3_f3mdj")
+
+[node name="StoneWall4" type="MeshInstance3D" parent="." unique_id=1238287620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.21833342, -5.9604645e-08, -2.3482542)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall8" type="MeshInstance3D" parent="." unique_id=734757953]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.7488563, -5.9604645e-08, -2.36091)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall3" type="MeshInstance3D" parent="." unique_id=209002473]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.7792525, 0, -2.3510222)
+mesh = ExtResource("5_kruqe")
+
+[node name="StoneWall7" type="MeshInstance3D" parent="." unique_id=1124689432]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.7521764, 0, -2.3546786)
+mesh = ExtResource("3_f3mdj")
+
+[node name="StoneWall9" type="MeshInstance3D" parent="." unique_id=155036930]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2.7214277, -5.9604645e-08, 2.6118994)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall10" type="MeshInstance3D" parent="." unique_id=1448382608]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.24576211, -5.9604645e-08, 2.6245556)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall11" type="MeshInstance3D" parent="." unique_id=920825094]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.7238417, 0, 2.6146677)
+mesh = ExtResource("5_kruqe")
+
+[node name="StoneWall12" type="MeshInstance3D" parent="." unique_id=1890887289]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.7509178, 0, 2.618324)
+mesh = ExtResource("3_f3mdj")
+
+[node name="StoneWall13" type="MeshInstance3D" parent="." unique_id=1065501091]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.7813714, -5.9604645e-08, -1.383595)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall14" type="MeshInstance3D" parent="." unique_id=2024730288]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.794028, -5.9604645e-08, 1.583595)
+mesh = ExtResource("4_aw5pc")
+
+[node name="StoneWall15" type="MeshInstance3D" parent="." unique_id=1620770179]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.7841399, 0, -0.38600868)
+mesh = ExtResource("5_kruqe")
+
+[node name="StoneWall16" type="MeshInstance3D" parent="." unique_id=226870671]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.7877963, 0, 0.5869151)
+mesh = ExtResource("3_f3mdj")
+
+[node name="WallPropDoorSimple" type="MeshInstance3D" parent="." unique_id=1704738389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46960092, -2.3841858e-07, 0.12045297)
+mesh = ExtResource("6_rvkfs")
+
+[node name="StuccoWindowSingleNarrowTall" type="MeshInstance3D" parent="." unique_id=805004672]
+transform = Transform3D(0.010113023, 0, -0.99994886, 0, 1, 0, 0.99994886, 0, 0.010113023, -1.3320477, 0, 1.6682222)
+mesh = ExtResource("7_6qo81")
+
+[node name="StuccoWindowSingleNarrowTall2" type="MeshInstance3D" parent="." unique_id=51263990]
+transform = Transform3D(-0.010113111, 0, 0.99994886, 0, 1, 0, -0.99994886, 0, -0.010113111, -1.3320477, 0, -1.3894641)
+mesh = ExtResource("7_6qo81")
+
+[node name="StuccoWindowSingleWideTall" type="MeshInstance3D" parent="." unique_id=1910341085]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -2.8361328, 0, 0.60795116)
+mesh = ExtResource("8_3k07x")
+
+[node name="Roof_RoundTiles_4x42" parent="." unique_id=280755128 instance=ExtResource("9_lghbi")]
+transform = Transform3D(-4.0236067e-08, 0, -0.8829954, 0, 0.3797408, 0, 0.92049396, 0, -3.8596955e-08, -1.2927198, 1.9087112, 0.17133331)
+
+[node name="Roof_Front_Brick22" parent="." unique_id=731544603 instance=ExtResource("10_m4h5q")]
+transform = Transform3D(-5.9926855e-08, 0, -1, 0, 0.5706412, 0, 1.3709666, 0, -4.371139e-08, 0.3114581, 2.0953496, 0.17738485)
+
+[node name="Roof_Front_Brick23" parent="." unique_id=605599556 instance=ExtResource("10_m4h5q")]
+transform = Transform3D(1.7978056e-07, 0, 1, 0, 0.5706412, 0, -1.3709666, 0, 1.3113416e-07, -3.0754783, 2.0953496, 0.17738485)

@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dvm7q7s3dpdx5"]
+
+[ext_resource type="PackedScene" uid="uid://dvssdkvoj03xn" path="res://Assets/Environment/medieval gltf/Prop_WoodenFence_Single.gltf" id="1_42dcu"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_7xnph"]
+
+[node name="fence" type="MeshInstance3D" unique_id=934767800]
+transform = Transform3D(1.0922196, 0, 0, 0, 1.1868423, 0, 0, 0, 1.1557436, 0, 0, 0)
+mesh = SubResource("ArrayMesh_7xnph")
+
+[node name="Prop_WoodenFence_Single2" parent="." unique_id=2119205612 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.9996593, -0.018858328, -0.018045336, 0.018986225, 0.9997957, 0.006943101, 0.017910723, -0.0072833262, 0.9998131, 0.0673852, 0, 1.4750364)
+
+[node name="Prop_WoodenFence_Single3" parent="." unique_id=369586867 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-1, 0, 0.00016221206, 0, 1, 0, -0.00016221206, 0, -1, 1.9960799, 0, 1.4750364)
+
+[node name="Prop_WoodenFence_Single4" parent="." unique_id=413197827 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.9996593, -0.018858328, -0.018045336, 0.018986225, 0.9997957, 0.006943101, 0.017910723, -0.0072833262, 0.9998131, 3.9457278, 0, 1.4750364)
+
+[node name="Prop_WoodenFence_Single5" parent="." unique_id=1930658283 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-1, 0, 0.00016221206, 0, 1, 0, -0.00016221206, 0, -1, 5.8744226, 0, 1.4750364)
+
+[node name="Prop_WoodenFence_Single6" parent="." unique_id=1677713198 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.7909196, -0.019267023, 0.6116165, 0.018986223, 0.9997956, 0.0069431006, -0.61162525, 0.0061208764, 0.7911238, 7.638405, 2.3841858e-07, 0.882267)
+
+[node name="Prop_WoodenFence_Single7" parent="." unique_id=488764837 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.78007823, 0, -0.62568194, 0, 1, 0, 0.62568194, 0, -0.78007823, 9.142741, 2.3841858e-07, -0.32472622)
+
+[node name="Prop_WoodenFence_Single8" parent="." unique_id=852786671 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.44474372, -0.014664793, 0.8955376, 0.018986223, 0.9997956, 0.0069431006, -0.8954564, 0.013914995, 0.44493127, 10.379896, 2.3841858e-07, -1.7951658)
+
+[node name="Prop_WoodenFence_Single9" parent="." unique_id=858492378 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.42885506, 0, -0.90337324, 0, 1, 0, 0.90337324, 0, -0.42885506, 11.206743, 2.3841858e-07, -3.5376306)
+
+[node name="Prop_WoodenFence_Single10" parent="." unique_id=989644477 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.04582256, -0.0060668997, 0.99893093, 0.018986225, 0.99979573, 0.0069431, -0.99876904, 0.019284088, -0.045698047, 11.612141, 2.3841858e-07, -5.3893943)
+
+[node name="Prop_WoodenFence_Single11" parent="." unique_id=1201309137 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.06355673, 0, -0.99797815, 0, 1, 0, 0.99797815, 0, 0.06355673, 11.489246, 2.3841858e-07, -7.314169)
+
+[node name="Prop_WoodenFence_Single12" parent="." unique_id=1176212374 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.6155453, 0.0062164767, 0.78807676, 0.018986227, 0.99979573, 0.0069431, -0.7878727, 0.019236391, -0.61553746, 10.918479, 2.3841858e-07, -9.05455)
+
+[node name="Prop_WoodenFence_Single13" parent="." unique_id=1064901529 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.6295479, 0, -0.77696157, 0, 1, 0, 0.77696157, 0, 0.6295479, 9.70403, 2.3841858e-07, -10.552875)
+
+[node name="Prop_WoodenFence_Single14" parent="." unique_id=336204844 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.9434438, 0.015616339, 0.33116403, 0.018986229, 0.99979573, 0.0069431006, -0.33098805, 0.012837964, -0.9435474, 8.239718, 2.3841858e-07, -11.630855)
+
+[node name="Prop_WoodenFence_Single15" parent="." unique_id=871783795 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.9493419, 0, -0.3142447, 0, 1, 0, 0.3142447, 0, 0.9493419, 6.4086294, 2.3841858e-07, -12.236639)
+
+[node name="Prop_WoodenFence_Single16" parent="." unique_id=1741927601 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.99771, 0.019396594, -0.06479475, 0.018986229, 0.99979585, 0.0069431015, 0.064916074, 0.0056969724, -0.9978744, 4.5233164, 2.3841858e-07, -12.595849)
+
+[node name="Prop_WoodenFence_Single17" parent="." unique_id=565243336 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.9397371, 0, 0.3418981, 0, 1, 0, -0.3418981, 0, 0.9397371, 2.6815035, 2.3841858e-07, -12.316998)
+
+[node name="Prop_WoodenFence_Single18" parent="." unique_id=655622389 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.9454877, 0.020212086, -0.32502973, 0.01898623, 0.999796, 0.0069431034, 0.32510355, 0.00039350754, -0.94567835, 0.8691273, 2.3841858e-07, -11.724164)
+
+[node name="Prop_WoodenFence_Single19" parent="." unique_id=1281903213 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.5640447, 0, 0.8257443, 0, 1, 0, -0.8257443, 0, 0.5640447, -0.5645977, 2.3841858e-07, -10.684542)
+
+[node name="Prop_WoodenFence_Single20" parent="." unique_id=1357181467 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.57850987, 0.01664924, -0.81550545, 0.01898623, 0.999796, 0.006943104, 0.81545424, -0.011466733, -0.5787078, -1.6912223, 2.3841858e-07, -9.146075)
+
+[node name="Prop_WoodenFence_Single21" parent="." unique_id=289012742 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.28063554, 0, 0.9598144, 0, 1, 0, -0.9598144, 0, 0.28063554, -2.5502264, 1.1920929e-06, -7.4292088)
+
+[node name="Prop_WoodenFence_Single22" parent="." unique_id=633529426 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.29757598, 0.012280351, -0.95461917, 0.01898623, 0.999796, 0.0069431034, 0.9545092, -0.016058523, -0.29774842, -3.1451013, 1.1920929e-06, -5.6175013)
+
+[node name="Prop_WoodenFence_Single23" parent="." unique_id=1275809116 instance=ExtResource("1_42dcu")]
+transform = Transform3D(-0.15282133, 0, 0.9882539, 0, 1, 0, -0.9882539, 0, -0.15282133, -3.2499828, 2.3841858e-07, -3.6890788)
+
+[node name="Prop_WoodenFence_Single24" parent="." unique_id=519596985 instance=ExtResource("1_42dcu")]
+transform = Transform3D(0.13522965, 0.0043126154, -0.9908049, 0.018986229, 0.999796, 0.0069431034, 0.9906322, -0.019750556, 0.1351201, -3.0205345, 2.3841858e-07, -1.7960618)
