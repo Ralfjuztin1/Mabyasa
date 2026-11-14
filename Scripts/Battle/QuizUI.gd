@@ -348,7 +348,7 @@ func _build_sentence(question: QuizQuestion) -> void:
 
 	token_ids.shuffle()
 	for token_id in token_ids:
-		var button := _make_choice_button(str(token_texts[token_id]))
+		var button := _make_choice_button(str(token_texts[token_id]).to_lower())
 		button.custom_minimum_size = Vector2(112.0, 44.0)
 		button.set_meta("token_id", token_id)
 		button.pressed.connect(_on_sentence_token_pressed.bind(button))

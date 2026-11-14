@@ -1,0 +1,173 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Character/node_portrait_container.gd" id="1_portrait"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_SpeakerPortraitTextbox/speaker_portrait_textbox_layer.gd" id="2_layer"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="3_name"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="4_text"]
+[ext_resource type="Script" path="res://addons/dialogic/Resources/flex_vector.gd" id="5_flex"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_type_sound.gd" id="6_sound"]
+
+[sub_resource type="StyleBoxFlat" id="PortraitFrame"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.075, 0.185, 0.130, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.67, 0.56, 0.32, 0.50)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxLine" id="NameDivider"]
+color = Color(0.72, 0.61, 0.36, 0.4)
+thickness = 1
+
+[sub_resource type="Resource" id="PortraitSize"]
+script = ExtResource("5_flex")
+x_value = 1.0
+y_value = 1.0
+
+[sub_resource type="Resource" id="PortraitPosition"]
+script = ExtResource("5_flex")
+x_value = 0.5
+y_value = 1.0
+
+[sub_resource type="Resource" id="PortraitOrigin"]
+script = ExtResource("5_flex")
+x_value = 0.5
+y_value = 1.0
+
+[node name="TextboxWithSpeakerPortrait" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_layer")
+text_use_global_size = false
+text_custom_size = 20
+text_use_global_color = false
+text_custom_color = Color(0.95, 0.96, 0.91, 1)
+name_label_color_mode = 2
+name_label_custom_color = Color(0.94, 0.79, 0.46, 1)
+name_label_use_global_size = false
+name_label_custom_size = 20
+box_panel = "res://Scenes/Characters/NPC/Dialogic/MabyasaDialogue/dialog_panel.tres"
+box_modulate_global_color = false
+box_modulate_custom_color = Color(1, 1, 1, 1)
+box_size = Vector2(820, 188)
+box_distance = 20
+portrait_stretch_factor = 0.30
+portrait_bg_modulate = Color(0.090, 0.220, 0.160, 0.22)
+
+[node name="Anchor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Anchor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -410.0
+offset_top = -208.0
+offset_right = 410.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="HBox" type="HBoxContainer" parent="Anchor/Panel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 17
+
+[node name="PortraitPanel" type="Panel" parent="Anchor/Panel/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("PortraitFrame")
+clip_contents = true
+
+[node name="PortraitBackgroundColor" type="ColorRect" parent="Anchor/Panel/HBox/PortraitPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.090, 0.220, 0.160, 0.22)
+
+[node name="DialogicNode_PortraitContainer" type="Control" parent="Anchor/Panel/HBox/PortraitPanel/PortraitBackgroundColor"]
+anchors_preset = 0
+offset_right = 155.0
+offset_bottom = 164.0
+mouse_filter = 2
+script = ExtResource("1_portrait")
+mode = 1
+container_ids = PackedStringArray("1")
+container_size = SubResource("PortraitSize")
+container_position = SubResource("PortraitPosition")
+container_origin = SubResource("PortraitOrigin")
+debug_character_portrait = "speaker"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Anchor/Panel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="DialogicNode_NameLabel" type="Label" parent="Anchor/Panel/HBox/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.79, 0.46, 1)
+theme_override_font_sizes/font_size = 20
+text = "Apu"
+vertical_alignment = 1
+script = ExtResource("3_name")
+
+[node name="NameDivider" type="HSeparator" parent="Anchor/Panel/HBox/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("NameDivider")
+
+[node name="DialogicNode_DialogText" type="RichTextLabel" parent="Anchor/Panel/HBox/VBoxContainer" node_paths=PackedStringArray("textbox_root")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.95, 0.96, 0.91, 1)
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+bbcode_enabled = true
+text = "I remember something like this happening to your Bapa."
+scroll_following = true
+visible_characters_behavior = 1
+script = ExtResource("4_text")
+textbox_root = NodePath("../../..")
+
+[node name="DialogicNode_TypeSounds" type="AudioStreamPlayer" parent="Anchor/Panel/HBox/VBoxContainer/DialogicNode_DialogText"]
+script = ExtResource("6_sound")

@@ -30,10 +30,10 @@ CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="uid://c55mj1lqw2mb2"
 TransitionManager="*uid://ddqj11m4lwktm"
 InventoryManager="*uid://cfaseglcs7qjr"
-UITutorialManager="*uid://sp0gb74jctsa"
 TutorialManager="*uid://bocr1ftvonao"
 SaveManager="*res://Scripts/Managers/SaveManagerTutorialFix.gd"
 GameManager="*uid://cw34lkfrjh6v7"
+UITutorialManager="*uid://sa1ir042t240"
 
 [dialogic]
 
