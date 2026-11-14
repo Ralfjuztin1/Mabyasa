@@ -408,6 +408,12 @@ func _record_boss_sentence_result(
 			]
 		)
 
+	# Valid alternate wording receives full credit and no fictitious
+	# word-placement mistakes on the guardian assessment.
+	if result.correct:
+		correct_positions = question.sentence_token_ids.size()
+		mistakes.clear()
+
 	var expected_count: int = maxi(
 		question.sentence_token_ids.size(),
 		1
@@ -446,7 +452,7 @@ func _record_boss_sentence_result(
 			if not submitted_words.is_empty()
 			else "(no words submitted)"
 		),
-		"correct_sentence": " ".join(correct_words),
+		"correct_sentence": " ".join(submitted_words) if result.correct else " ".join(correct_words),
 		"english_meaning": english_meaning,
 		"score_percent": score_percent,
 		"correct": result.correct,

@@ -158,6 +158,14 @@ func _evaluate_match(result: AnswerResult, raw_pairs: Variant, mistakes: int) ->
 
 func _evaluate_sentence(result: AnswerResult, raw_order: Variant) -> void:
 	var order: Array = raw_order if raw_order is Array else []
+	# Some story phrases allow another valid wording or word order.
+	if is_valid_sentence_order(order):
+		result.correct = not result.timed_out
+		result.score = 1.0 if result.correct else 0.0
+		if result.timed_out:
+			result.chosen_note = "Time ran out."
+		return
+
 	var expected := sentence_token_ids
 
 	var correct_positions := 0
@@ -173,6 +181,31 @@ func _evaluate_sentence(result: AnswerResult, raw_order: Variant) -> void:
 		result.chosen_note = "Correct order: %s" % " → ".join(sentence_token_texts)
 		if result.timed_out:
 			result.chosen_note = "Time ran out. " + result.chosen_note
+
+
+## Compare stable vocabulary IDs, not displayed capitalization.
+## The alternate variants are allowed ONLY for the named phrase IDs.
+func is_valid_sentence_order(raw_order: Variant) -> bool:
+	var selected: Array = raw_order if raw_order is Array else []
+	var accepted_orders: Array = [sentence_token_ids]
+	match vocab_id:
+		"makilabas_ku_pu":
+			accepted_orders.append(["makilabas", "ku"])
+		"dakal_a_salamat":
+			accepted_orders.append(["salamat", "a", "dakal"])
+
+	for target_variant: Variant in accepted_orders:
+		var target: Array = target_variant as Array
+		if selected.size() != target.size():
+			continue
+		var matches: bool = true
+		for index: int in range(target.size()):
+			if str(selected[index]) != str(target[index]):
+				matches = false
+				break
+		if matches:
+			return true
+	return false
 
 
 func _describe_choice(selected_index: int) -> String:

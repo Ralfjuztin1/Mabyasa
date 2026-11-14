@@ -368,7 +368,7 @@ func _play_sentence_fusion(payload: Dictionary) -> void:
 			selected_words.append((child as Button).text)
 	var assembled_phrase: String = " ".join(selected_words)
 	var expected_phrase: String = " ".join(current_question.sentence_token_texts)
-	var is_correct: bool = _sentence_order == current_question.sentence_token_ids
+	var is_correct: bool = current_question.is_valid_sentence_order(_sentence_order)
 
 	_sentence_check_button.disabled = true
 	_sentence_check_button.text = "FUSING WORDS..."
