@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://7mg2i4l38xuh"]
 
+[ext_resource type="AudioStream" uid="uid://c480rx57x7sn0" path="res://Assets/Audio/Words/Mayap a gatpanapun.wav" id="1_60u6i"]
 [ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
@@ -8,6 +9,7 @@ id = "mayap_a_gatpanapun"
 kapampangan = "Mayap a gatpanapun"
 english = "Good afternoon"
 category = "greeting"
+pronunciation_audio = ExtResource("1_60u6i")
 lesson_group = "common_greetings"
 source_section = "common_greetings"
 allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
@@ -38,4 +40,4 @@ Mayap ____ gatpanapun"
 "prompt": "Complete the greeting:
 Mayap a ____"
 }])
-sentence_distractors = PackedStringArray("abak", "bengi", "aldo", "man", "nanu", "salamat", "a")
+sentence_distractors = PackedStringArray("abak", "bengi", "pung", "salamat")

@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://brplkjfg23k16"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="AudioStream" uid="uid://c8k154a0skch5" path="res://Assets/Audio/Words/Bengi.wav" id="1_30g83"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
 id = "bengi"
 kapampangan = "bengi"
 english = "evening"
-category = "word"
-difficulty = 1
-source_npc = ""
-allowed_types = PackedStringArray("sentence_part")
+pronunciation_audio = ExtResource("1_30g83")
 lesson_group = "common_greetings"
 source_section = "common_greetings"
+allowed_types = PackedStringArray("sentence_part")
+parts = null
+sentence_distractors = null

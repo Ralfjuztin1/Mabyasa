@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://muxb6ldxwv8"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="AudioStream" uid="uid://c480rx57x7sn0" path="res://Assets/Audio/Words/Mayap a gatpanapun.wav" id="1_0eu7p"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
 id = "gatpanapun"
 kapampangan = "gatpanapun"
 english = "afternoon"
-category = "word"
-difficulty = 1
-source_npc = ""
-allowed_types = PackedStringArray("sentence_part")
+pronunciation_audio = ExtResource("1_0eu7p")
 lesson_group = "common_greetings"
 source_section = "common_greetings"
+allowed_types = PackedStringArray("sentence_part")
+parts = null
+sentence_distractors = null

@@ -1,20 +1,15 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://qh6hgb5y4huh"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="AudioStream" uid="uid://c70x3j5etyna7" path="res://Assets/Audio/Words/pu.wav" id="1_qdknm"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
 id = "pu"
 kapampangan = "pu"
-english = ""
-category = "word"
-difficulty = 1
-source_npc = ""
-lesson_group = ""
+pronunciation_audio = ExtResource("1_qdknm")
 source_section = "__internal_sentence_component__"
 allowed_types = PackedStringArray()
 hint = "Internal sentence component used to build a phrase."
-pronunciation = ""
 parts = PackedStringArray()
-fill_blank_variants = Array[Dictionary]([])
 sentence_distractors = PackedStringArray()

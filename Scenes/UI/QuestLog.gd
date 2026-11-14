@@ -3,6 +3,12 @@ extends CanvasLayer
 signal closed
 signal quest_selected(quest_id: String)
 
+# The tracking HUD is created from this menu and survives when the log closes.
+const MULTI_TRACK_HUD = preload("res://Scenes/UI/QuestMultiTrackHUD.gd")
+var _tracking_hud: QuestMultiTrackHUD
+var _track_all_button: Button
+var _clear_tracks_button: Button
+
 @onready var close_button: Button = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/CloseButton
 @onready var subtitle_label: Label = $Center/QuestPanel/Margin/MainVBox/SubHeaderRow/Subtitle
 
@@ -34,6 +40,51 @@ signal quest_selected(quest_id: String)
 @onready var empty_label: Label = $Center/QuestPanel/Margin/MainVBox/Body/DetailPanel/DetailMargin/DetailVBox/EmptyLabel
 
 
+# Explicit chronology; never use alphabetical order to guide story progression.
+# Optional/legacy quests sit near the main quest where they belong.
+const STORY_QUEST_ORDER = [
+	"walk_to_apu",
+	"pet_the_animal",
+	"deliver_bebang_basket",
+	"bebang_talk_to_rids",
+	"visit_chief_after_basket",
+	"talk_to_chief",
+	"get_training_gear",
+	"return_to_chief",
+	"first_training_battle",
+	"return_to_chief_after_training",
+	"return_home_to_ima",
+	"greet_ima",
+	"go_to_chief_final_training",
+	"talk_to_pacing",
+	"visit_ale_pacing",
+	"defeat_chief_final_training",
+	"reach_forest",
+	"get_mystic_ylang_ylang",
+	"follow_litik_to_second_town"
+]
+
+# Main chapters are numbered consistently across All/Active/Completed filters.
+# Some older resources are incorrectly labelled main, so use narrative IDs.
+const MAIN_STORY_ORDER = [
+	"walk_to_apu",
+	"deliver_bebang_basket",
+	"visit_chief_after_basket",
+	"get_training_gear",
+	"return_to_chief",
+	"first_training_battle",
+	"return_to_chief_after_training",
+	"return_home_to_ima",
+	"greet_ima",
+	"go_to_chief_final_training",
+	"visit_ale_pacing",
+	"defeat_chief_final_training",
+	"reach_forest",
+	"get_mystic_ylang_ylang",
+	"follow_litik_to_second_town"
+]
+
+
 enum QuestFilter {
 	ALL,
 	ACTIVE,
@@ -58,6 +109,8 @@ func _ready() -> void:
 	quest_row_template.visible = false
 
 	_connect_quest_signals()
+	_ensure_multi_tracker()
+	_build_tracking_actions()
 
 	_refresh()
 
@@ -81,6 +134,10 @@ func _connect_quest_signals() -> void:
 
 func _exit_tree() -> void:
 	_disconnect_quest_signals()
+	if is_instance_valid(_tracking_hud):
+		var update_callback: Callable = Callable(self, "_on_tracking_changed")
+		if _tracking_hud.tracking_changed.is_connected(update_callback):
+			_tracking_hud.tracking_changed.disconnect(update_callback)
 
 
 func _disconnect_quest_signals() -> void:
@@ -107,7 +164,10 @@ func _on_dialogue_flag_changed(_flag_id: String) -> void:
 
 func open() -> void:
 	visible = true
+	# Always start the menu at the current objective, not the oldest quest.
+	current_quest_id = ""
 	_refresh()
+	call_deferred("_focus_selected_quest")
 
 
 func close() -> void:
@@ -122,6 +182,75 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 		get_viewport().set_input_as_handled()
+
+
+# ============================================================
+# MULTI-QUEST TRACKING (DISPLAY ONLY)
+# ============================================================
+
+func _ensure_multi_tracker() -> void:
+	# GameManager is an autoload and remains alive after QuestLog closes.
+	# This avoids recreating the HUD every time the menu opens.
+	_tracking_hud = GameManager.get_node_or_null("QuestMultiTrackHUD") as QuestMultiTrackHUD
+	if not is_instance_valid(_tracking_hud):
+		_tracking_hud = MULTI_TRACK_HUD.new() as QuestMultiTrackHUD
+		_tracking_hud.name = "QuestMultiTrackHUD"
+		GameManager.add_child(_tracking_hud)
+	if not _tracking_hud.tracking_changed.is_connected(_on_tracking_changed):
+		_tracking_hud.tracking_changed.connect(_on_tracking_changed)
+
+
+func _build_tracking_actions() -> void:
+	var scroll: ScrollContainer = quest_list.get_parent() as ScrollContainer
+	if not is_instance_valid(scroll):
+		return
+	var sidebar: VBoxContainer = scroll.get_parent() as VBoxContainer
+	if not is_instance_valid(sidebar):
+		return
+
+	var actions: HBoxContainer = HBoxContainer.new()
+	actions.name = "TrackingActions"
+	actions.add_theme_constant_override("separation", 6)
+	sidebar.add_child(actions)
+	sidebar.move_child(actions, scroll.get_index())
+
+	_track_all_button = Button.new()
+	_track_all_button.text = "TRACK ALL"
+	_track_all_button.tooltip_text = "Track every currently active quest on the HUD"
+	_track_all_button.custom_minimum_size.y = 30.0
+	_track_all_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_track_all_button.add_theme_font_size_override("font_size", 11)
+	_track_all_button.pressed.connect(_on_track_all_pressed)
+	actions.add_child(_track_all_button)
+
+	_clear_tracks_button = Button.new()
+	_clear_tracks_button.text = "CLEAR"
+	_clear_tracks_button.tooltip_text = "Untrack all quests; does not affect quest progress"
+	_clear_tracks_button.custom_minimum_size.y = 30.0
+	_clear_tracks_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_clear_tracks_button.add_theme_font_size_override("font_size", 11)
+	_clear_tracks_button.pressed.connect(_on_clear_tracks_pressed)
+	actions.add_child(_clear_tracks_button)
+
+
+func _on_track_all_pressed() -> void:
+	if is_instance_valid(_tracking_hud):
+		_tracking_hud.track_all_active()
+
+
+func _on_clear_tracks_pressed() -> void:
+	if is_instance_valid(_tracking_hud):
+		_tracking_hud.clear_tracked()
+
+
+func _on_track_toggled(selected: bool, quest_id: String) -> void:
+	if is_instance_valid(_tracking_hud):
+		_tracking_hud.set_tracked(quest_id, selected)
+
+
+func _on_tracking_changed() -> void:
+	if is_inside_tree():
+		call_deferred("_refresh")
 
 
 # ============================================================
@@ -167,7 +296,16 @@ func _refresh() -> void:
 	if not current_quest_id.is_empty() and quest_ids.has(current_quest_id):
 		_show_quest(current_quest_id)
 	else:
-		_show_quest(quest_ids[0])
+		# All and Active: open the first active quest in story sequence.
+		# Completed: show the earliest completed quest.
+		var default_id: String = quest_ids[0]
+		for quest_id in quest_ids:
+			if QuestManager.is_quest_active(quest_id):
+				default_id = quest_id
+				break
+		_show_quest(default_id)
+
+	_update_selected_row_states()
 
 
 func _get_filtered_quest_ids() -> Array[String]:
@@ -223,26 +361,30 @@ func _update_filter_labels() -> void:
 	active_button.button_pressed = current_filter == QuestFilter.ACTIVE
 	completed_button.button_pressed = current_filter == QuestFilter.COMPLETED
 
+	var tracked_count: int = _tracking_hud.get_tracked_count() if is_instance_valid(_tracking_hud) else 0
 	if subtitle_label != null:
-		subtitle_label.text = "%d discovered quest%s" % [discovered_count, "" if discovered_count == 1 else "s"]
+		subtitle_label.text = "%d discovered  ·  %d tracked  ·  Story order" % [discovered_count, tracked_count]
+	if is_instance_valid(_track_all_button):
+		_track_all_button.disabled = active_count == 0
+	if is_instance_valid(_clear_tracks_button):
+		_clear_tracks_button.disabled = tracked_count == 0
 
 
 func _sort_quest_ids(a: String, b: String) -> bool:
-	var a_active: bool = QuestManager.is_quest_active(a)
-	var b_active: bool = QuestManager.is_quest_active(b)
+	# All, Active and Completed show the same chronological story order.
+	var a_index: int = STORY_QUEST_ORDER.find(a)
+	var b_index: int = STORY_QUEST_ORDER.find(b)
 
-	if a_active != b_active:
-		return a_active
+	if a_index >= 0 and b_index >= 0:
+		return a_index < b_index
+	if a_index >= 0:
+		return true
+	if b_index >= 0:
+		return false
 
-	var a_completed: bool = QuestManager.completed_quests.has(a)
-	var b_completed: bool = QuestManager.completed_quests.has(b)
-
-	if a_completed != b_completed:
-		return not a_completed
-
+	# Future quests absent from this list remain visible, after known chapters.
 	var a_data: QuestData = QuestManager.get_quest(a)
 	var b_data: QuestData = QuestManager.get_quest(b)
-
 	if a_data != null and b_data != null:
 		if a_data.is_main_quest != b_data.is_main_quest:
 			return a_data.is_main_quest
@@ -259,47 +401,67 @@ func _clear_quest_rows() -> void:
 		if child == quest_row_template:
 			continue
 
+		# Release its node name immediately; deferred freeing alone can leave
+		# a stale row with the same name during rapid quest updates.
+		quest_list.remove_child(child)
 		child.queue_free()
 
 
 func _add_quest_row(quest_id: String) -> void:
 	var quest_data: QuestData = QuestManager.get_quest(quest_id)
-
 	if quest_data == null:
 		return
 
+	# Two distinct actions: row title opens details, checkbox tracks it.
+	# The HBox keeps them aligned without nesting a button inside a button.
+	var wrapper: HBoxContainer = HBoxContainer.new()
+	wrapper.name = "Row_" + quest_id
+	wrapper.add_theme_constant_override("separation", 4)
+	quest_list.add_child(wrapper)
+
 	var row: Button = quest_row_template.duplicate() as Button
-
 	if row == null:
+		wrapper.queue_free()
 		return
-
 	row.visible = true
 	row.name = "Quest_" + quest_id
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.toggle_mode = true
 	row.text = _get_row_text(quest_id, quest_data)
+	row.clip_text = true
+	row.tooltip_text = row.text
 	row.button_pressed = quest_id == current_quest_id
-
 	if QuestManager.is_quest_active(quest_id):
 		row.add_theme_color_override("font_color", Color(0.82, 0.91, 0.77, 1.0))
 	elif QuestManager.completed_quests.has(quest_id):
 		row.add_theme_color_override("font_color", Color(0.82, 0.80, 0.70, 1.0))
+	wrapper.add_child(row)
 
-	var callable := func() -> void:
+	var open_details: Callable = func() -> void:
 		current_quest_id = quest_id
 		_show_quest(quest_id)
 		_update_selected_row_states()
+	row.pressed.connect(open_details)
 
-	row.pressed.connect(callable)
-	quest_list.add_child(row)
-
-	if quest_id == current_quest_id:
-		row.grab_focus()
+	var track_toggle: CheckBox = CheckBox.new()
+	track_toggle.name = "TrackToggle"
+	track_toggle.custom_minimum_size = Vector2(30.0, 42.0)
+	track_toggle.focus_mode = Control.FOCUS_ALL
+	track_toggle.tooltip_text = "Track this active quest on the HUD" if QuestManager.is_quest_active(quest_id) else "Only active quests can be tracked"
+	track_toggle.disabled = not QuestManager.is_quest_active(quest_id)
+	track_toggle.button_pressed = _tracking_hud.is_tracked(quest_id) if is_instance_valid(_tracking_hud) else false
+	track_toggle.toggled.connect(_on_track_toggled.bind(quest_id))
+	wrapper.add_child(track_toggle)
 
 
 func _update_selected_row_states() -> void:
-	for child in quest_list.get_children():
-		if child is Button and child != quest_row_template:
-			child.button_pressed = child.name == "Quest_" + current_quest_id
+	for wrapper: Node in quest_list.get_children():
+		if not wrapper is HBoxContainer:
+			continue
+		var detail_button: Button = wrapper.get_node_or_null("Quest_" + current_quest_id) as Button
+		for child: Node in wrapper.get_children():
+			if child is Button and child != wrapper.get_node_or_null("TrackToggle"):
+				(child as Button).button_pressed = child == detail_button
 
 
 func _get_row_text(quest_id: String, quest_data: QuestData) -> String:
@@ -317,7 +479,19 @@ func _get_row_text(quest_id: String, quest_data: QuestData) -> String:
 	if title.is_empty():
 		title = quest_id.replace("_", " ").capitalize()
 
-	return prefix + title
+	var chapter_index: int = MAIN_STORY_ORDER.find(quest_id)
+	var chapter_prefix: String = ("%02d " % (chapter_index + 1)) if chapter_index >= 0 else "↳  "
+	return chapter_prefix + prefix + title
+
+
+# Only focus when the player explicitly opens the log; avoid stealing focus
+# on background quest updates while reading another entry.
+func _focus_selected_quest() -> void:
+	if not visible or current_quest_id.is_empty():
+		return
+	var row: Button = quest_list.get_node_or_null("Row_" + current_quest_id + "/Quest_" + current_quest_id) as Button
+	if is_instance_valid(row):
+		row.grab_focus()
 
 
 # ============================================================
@@ -342,7 +516,11 @@ func _show_quest(quest_id: String) -> void:
 	rewards_header.show()
 	rewards_row.show()
 
-	quest_type_label.text = "MAIN QUEST" if quest_data.is_main_quest else "SIDE QUEST"
+	# Keep the visible chapter classification consistent with the story order.
+	# Several older/legacy resources have incorrect is_main_quest metadata.
+	var story_main: bool = MAIN_STORY_ORDER.has(quest_id)
+	var future_main: bool = (not STORY_QUEST_ORDER.has(quest_id)) and quest_data.is_main_quest
+	quest_type_label.text = "MAIN QUEST" if story_main or future_main else "OPTIONAL QUEST"
 
 	if QuestManager.completed_quests.has(quest_id):
 		quest_status_label.text = "COMPLETED"

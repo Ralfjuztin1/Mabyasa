@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b5lvtcga7tsrs"
+path="res://.godot/imported/mayap a gatpanapun kekayu ngan.wav-2d9f726aee70c640061b1fe02754c3a4.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Words/mayap a gatpanapun kekayu ngan.wav"
+dest_files=["res://.godot/imported/mayap a gatpanapun kekayu ngan.wav-2d9f726aee70c640061b1fe02754c3a4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

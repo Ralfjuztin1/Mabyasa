@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://dajesxs0ne10v"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="AudioStream" uid="uid://b6ucwkmqmh4fg" path="res://Assets/Audio/Words/Mayap a Bengi.wav" id="1_gw6wp"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -8,12 +9,35 @@ id = "mayap_a_bengi"
 kapampangan = "Mayap a bengi"
 english = "Good evening"
 category = "greeting"
-difficulty = 1
-source_npc = ""
+pronunciation_audio = ExtResource("1_gw6wp")
+lesson_group = "common_greetings"
+source_section = "common_greetings"
 allowed_types = PackedStringArray("multiple_choice", "translate", "match", "fill_blank", "sentence_build")
 hint = "Use this greeting for evening. The source gives: Good evening"
 parts = PackedStringArray("mayap", "a", "bengi")
-fill_blank_variants = Array[Dictionary]([{"prompt": "It is evening. Complete the greeting:\nMayap a ____", "answer_id": "bengi"}, {"prompt": "Complete the phrase:\n____ a bengi", "answer_id": "mayap"}, {"prompt": "Complete the phrase:\nMayap ____ bengi", "answer_id": "a"}, {"prompt": "Complete the greeting:\n____ a bengi", "answer_id": "mayap"}, {"prompt": "Complete the greeting:\nMayap ____ bengi", "answer_id": "a"}, {"prompt": "Complete the greeting:\nMayap a ____", "answer_id": "bengi"}])
-sentence_distractors = PackedStringArray("abak", "gatpanapun", "aldo")
-lesson_group = "common_greetings"
-source_section = "common_greetings"
+fill_blank_variants = Array[Dictionary]([{
+"answer_id": "bengi",
+"prompt": "It is evening. Complete the greeting:
+Mayap a ____"
+}, {
+"answer_id": "mayap",
+"prompt": "Complete the phrase:
+____ a bengi"
+}, {
+"answer_id": "a",
+"prompt": "Complete the phrase:
+Mayap ____ bengi"
+}, {
+"answer_id": "mayap",
+"prompt": "Complete the greeting:
+____ a bengi"
+}, {
+"answer_id": "a",
+"prompt": "Complete the greeting:
+Mayap ____ bengi"
+}, {
+"answer_id": "bengi",
+"prompt": "Complete the greeting:
+Mayap a ____"
+}])
+sentence_distractors = PackedStringArray("abak", "gatpanapun", "pung", "salamat")

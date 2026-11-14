@@ -1,0 +1,12 @@
+Litik: You did it! That's the Mystic Ylang-Ylang we came looking for.
+You: The Guardian wasn't going to let us take it easily.
+Litik: But you faced it, and now we have the flower. Chief's training really paid off.
+You: What should we do with it now?
+Litik: We should keep it safe. Our journey doesn't end in this forest.
+You: Where are we going next?
+Litik: There's another town beyond these woods. We should follow the path there and see who can help us.
+You: You're coming with me, right?
+Litik: Of course! Come on. I'll show you the way.
+[signal arg="start_follow_litik_to_second_town"]
+[signal arg="set_flag_litik_after_ylang_briefing_done"]
+[end_timeline]

@@ -26,4 +26,4 @@ Dakal ____ salamat"
 "prompt": "Complete the phrase:
 Dakal a ____"
 }])
-sentence_distractors = null
+sentence_distractors = PackedStringArray("mayap", "pung", "pu", "ala")

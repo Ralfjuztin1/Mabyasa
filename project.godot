@@ -72,6 +72,7 @@ directories/dtl_directory={
 "ima_default": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_default.dtl",
 "ima_evening_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_evening_greeting.dtl",
 "ima_morning_greeting": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/ima_morning_greeting.dtl",
+"litik_after_ylang": "res://Scenes/Characters/NPC/Dialogic/ForestSceneDialogues/litik_after_ylang.dtl",
 "litik_scn2": "res://Scenes/Characters/NPC/Dialogic/FirstTownSceneDialogues/litik_scn2.dtl",
 "litik_second_town_locked": "res://Scenes/Characters/NPC/Dialogic/ForestSceneDialogues/litik_second_town_locked.dtl",
 "litik_second_town_unavailable": "res://Scenes/Characters/NPC/Dialogic/ForestSceneDialogues/litik_second_town_unavailable.dtl",

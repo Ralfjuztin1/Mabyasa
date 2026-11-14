@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://c5h5bwbvn6bkb"]
 
-[ext_resource type="AudioStream" uid="uid://cu77qyqkhawgm" path="res://Assets/Audio/Words/mayap_a_abak.wav" id="1_rpmpu"]
+[ext_resource type="AudioStream" uid="uid://bhwscj58p144t" path="res://Assets/Audio/Words/Mayap a abak.wav" id="1_rpmpu"]
 [ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
@@ -40,4 +40,4 @@ Mayap ____ abak"
 "prompt": "Complete the greeting:
 Mayap a ____"
 }])
-sentence_distractors = PackedStringArray("bengi", "gatpanapun", "aldo", "ala", "nanu", "pung", "salamat")
+sentence_distractors = PackedStringArray("bengi", "gatpanapun", "pung", "salamat")

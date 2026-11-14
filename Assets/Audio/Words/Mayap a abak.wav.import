@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bhwscj58p144t"
+path="res://.godot/imported/Mayap a abak.wav-ca510e5990d838214f995b5b33ba899b.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Words/Mayap a abak.wav"
+dest_files=["res://.godot/imported/Mayap a abak.wav-ca510e5990d838214f995b5b33ba899b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

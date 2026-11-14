@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://bn52shfl1lldd"]
 
+[ext_resource type="AudioStream" uid="uid://2ln47bimu1fc" path="res://Assets/Audio/Words/makilabas ku pu.wav" id="1_0p78g"]
 [ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
@@ -8,6 +9,7 @@ id = "makilabas_ku_pu"
 kapampangan = "Makilabas ku pu"
 english = "Excuse me"
 category = "phrase"
+pronunciation_audio = ExtResource("1_0p78g")
 lesson_group = "common_greetings"
 source_section = "common_greetings"
 allowed_types = PackedStringArray("multiple_choice", "translate", "match", "sentence_build", "fill_blank")
@@ -26,4 +28,4 @@ Makilabas ____ pu"
 "prompt": "Complete the phrase:
 Makilabas ku ____"
 }])
-sentence_distractors = PackedStringArray()
+sentence_distractors = PackedStringArray("pung", "ala", "salamat", "mayap")

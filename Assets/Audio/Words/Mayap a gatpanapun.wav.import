@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c480rx57x7sn0"
+path="res://.godot/imported/Mayap a gatpanapun.wav-8a462368fff633b0420a3b660df5e6fc.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Words/Mayap a gatpanapun.wav"
+dest_files=["res://.godot/imported/Mayap a gatpanapun.wav-8a462368fff633b0420a3b660df5e6fc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

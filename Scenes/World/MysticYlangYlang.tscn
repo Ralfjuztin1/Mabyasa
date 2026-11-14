@@ -1,79 +1,152 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://fruitx1htixx"]
 
-[ext_resource type="Script" path="res://Scripts/World/MysticYlangYlang.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://tidhkfam8dp7" path="res://Scripts/World/MysticYlangYlang.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://djfyiiancin8q" path="res://Assets/World/Plants/Mystic Ylang-Ylang Sprite Animation Sheet.png" id="2_sheet"]
 
 [sub_resource type="SphereShape3D" id="FlowerTrigger"]
 radius = 1.25
 
-[sub_resource type="CylinderMesh" id="StemMesh"]
-top_radius = 0.045
-bottom_radius = 0.075
-height = 1.15
-radial_segments = 8
+[sub_resource type="AtlasTexture" id="FlowerFrame00"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 0, 272, 362)
 
-[sub_resource type="SphereMesh" id="PetalMesh"]
-radius = 0.32
-height = 0.2
-radial_segments = 12
-rings = 6
+[sub_resource type="AtlasTexture" id="FlowerFrame01"]
+atlas = ExtResource("2_sheet")
+region = Rect2(272, 0, 271, 362)
 
-[sub_resource type="SphereMesh" id="CenterMesh"]
-radius = 0.2
-height = 0.28
-radial_segments = 12
-rings = 6
+[sub_resource type="AtlasTexture" id="FlowerFrame02"]
+atlas = ExtResource("2_sheet")
+region = Rect2(543, 0, 271, 362)
 
-[sub_resource type="StandardMaterial3D" id="StemMaterial"]
-albedo_color = Color(0.15, 0.42, 0.16, 1)
-roughness = 0.8
+[sub_resource type="AtlasTexture" id="FlowerFrame03"]
+atlas = ExtResource("2_sheet")
+region = Rect2(814, 0, 272, 362)
 
-[sub_resource type="StandardMaterial3D" id="PetalMaterial"]
-albedo_color = Color(1, 0.78, 0.12, 1)
-emission_enabled = true
-emission = Color(0.9, 0.48, 0.025, 1)
-roughness = 0.45
+[sub_resource type="AtlasTexture" id="FlowerFrame04"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1086, 0, 272, 362)
 
-[sub_resource type="StandardMaterial3D" id="CenterMaterial"]
-albedo_color = Color(1, 0.95, 0.52, 1)
-emission_enabled = true
-emission = Color(1, 0.75, 0.12, 1)
+[sub_resource type="AtlasTexture" id="FlowerFrame05"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1358, 0, 271, 362)
 
-[node name="MysticYlangYlang" type="Area3D"]
+[sub_resource type="AtlasTexture" id="FlowerFrame06"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1629, 0, 271, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame07"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1900, 0, 272, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame08"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 362, 272, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame09"]
+atlas = ExtResource("2_sheet")
+region = Rect2(272, 362, 271, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame10"]
+atlas = ExtResource("2_sheet")
+region = Rect2(543, 362, 271, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame11"]
+atlas = ExtResource("2_sheet")
+region = Rect2(814, 362, 272, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame12"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1086, 362, 272, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame13"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1358, 362, 271, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame14"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1629, 362, 271, 362)
+
+[sub_resource type="AtlasTexture" id="FlowerFrame15"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1900, 362, 272, 362)
+
+[sub_resource type="SpriteFrames" id="FlowerAnimations"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("FlowerFrame00")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame01")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame02")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame03")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame04")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame05")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame06")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame07")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame08")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame09")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame10")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame11")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame12")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame13")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame14")
+}, {
+"duration": 1.0,
+"texture": SubResource("FlowerFrame15")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="MysticYlangYlang" type="Area3D" unique_id=1765451723]
 collision_layer = 0
-collision_mask = 1
-monitoring = true
 script = ExtResource("1_script")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2141878987]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 shape = SubResource("FlowerTrigger")
 
-[node name="Stem" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
-mesh = SubResource("StemMesh")
-surface_material_override/0 = SubResource("StemMaterial")
+[node name="YlangYlangSprite" type="AnimatedSprite3D" parent="." unique_id=83344161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+pixel_size = 0.012
+billboard = 2
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("FlowerAnimations")
+animation = &"idle"
+autoplay = "idle"
 
-[node name="PetalFront" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.9, 0, 0, 0, 0.45, 0, 0, 0, 1.15, 0, 1.28, -0.27)
-mesh = SubResource("PetalMesh")
-surface_material_override/0 = SubResource("PetalMaterial")
-
-[node name="PetalBack" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.9, 0, 0, 0, 0.45, 0, 0, 0, 1.15, 0, 1.28, 0.27)
-mesh = SubResource("PetalMesh")
-surface_material_override/0 = SubResource("PetalMaterial")
-
-[node name="PetalLeft" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.15, 0, 0, 0, 0.45, 0, 0, 0, 0.9, -0.27, 1.28, 0)
-mesh = SubResource("PetalMesh")
-surface_material_override/0 = SubResource("PetalMaterial")
-
-[node name="PetalRight" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.15, 0, 0, 0, 0.45, 0, 0, 0, 0.9, 0.27, 1.28, 0)
-mesh = SubResource("PetalMesh")
-surface_material_override/0 = SubResource("PetalMaterial")
-
-[node name="FlowerCenter" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-mesh = SubResource("CenterMesh")
-surface_material_override/0 = SubResource("CenterMaterial")
+[node name="MysticGlow" type="OmniLight3D" parent="." unique_id=1595201918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0.05)
+light_color = Color(1, 0.78, 0.34, 1)
+light_energy = 0.38
+omni_range = 3.5

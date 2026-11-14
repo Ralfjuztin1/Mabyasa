@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="VocabEntry" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VocabEntry" format=3 uid="uid://boe18dah4rnwe"]
 
-[ext_resource type="Script" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
+[ext_resource type="AudioStream" uid="uid://dygfu7iwssabm" path="res://Assets/Audio/Words/a.wav" id="1_m44oc"]
+[ext_resource type="Script" uid="uid://b81xkxnd8pv8v" path="res://Scripts/Learning/VocabEntry.gd" id="1_vocab"]
 
 [resource]
 script = ExtResource("1_vocab")
@@ -8,8 +9,9 @@ id = "a"
 kapampangan = "a"
 english = "linking particle"
 category = "particle"
-difficulty = 1
-source_npc = ""
-allowed_types = PackedStringArray("sentence_part")
+pronunciation_audio = ExtResource("1_m44oc")
 lesson_group = "common_greetings"
 source_section = "common_greetings"
+allowed_types = PackedStringArray("sentence_part")
+parts = null
+sentence_distractors = null

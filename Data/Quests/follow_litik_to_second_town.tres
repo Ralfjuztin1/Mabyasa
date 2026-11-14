@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestStep.gd" id="3_step"]
+
+[sub_resource type="Resource" id="RewardFollowLitik"]
+script = ExtResource("2_reward")
+exp = 60
+gold = 20
+
+[sub_resource type="Resource" id="FindNextTownRoad"]
+script = ExtResource("3_step")
+type = "reach_location"
+target = "forest_second_town_path"
+required_count = 1
+
+[sub_resource type="Resource" id="ArriveAtNextTown"]
+script = ExtResource("3_step")
+type = "reach_location"
+target = "second_town"
+required_count = 1
+
+[resource]
+script = ExtResource("1_quest")
+quest_id = "follow_litik_to_second_town"
+title = "Follow Litik to the Next Town"
+description = "We recovered the Mystic Ylang-Ylang. Litik says our journey continues beyond the Forest. Reach the passage ahead, then enter the next town together."
+rewards = SubResource("RewardFollowLitik")
+steps = Array[ExtResource("3_step")]([SubResource("FindNextTownRoad"), SubResource("ArriveAtNextTown")])
+quest_giver_id = "Litik"
+quest_turn_in_id = ""
+is_main_quest = true
