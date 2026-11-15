@@ -15,7 +15,6 @@
 [ext_resource type="ArrayMesh" uid="uid://kcwv4kor6t1h" path="res://Assets/Houses/Modular Village/Prop_Cart_1.obj" id="13_s0iyy"]
 [ext_resource type="ArrayMesh" uid="uid://bnqo7ht3wr8tb" path="res://Assets/Houses/Modular Village/Prop_Barrel_1_Open.obj" id="14_8dtcg"]
 [ext_resource type="PackedScene" uid="uid://dvm7q7s3dpdx5" path="res://Assets/Environment/fence.tscn" id="15_208cv"]
-[ext_resource type="ArrayMesh" uid="uid://rhmgv25gkvxt" path="res://Assets/Houses/Modular Village/Prop_Well_1.obj" id="15_qwewq"]
 [ext_resource type="ArrayMesh" uid="uid://npf0afhh3cgd" path="res://Assets/Environment/stylized nature gltf/CommonTree1.tres" id="16_iedkk"]
 [ext_resource type="ArrayMesh" uid="uid://cncq21mgoa70m" path="res://Assets/Houses/Modular Village/Prop_Hay_1.obj" id="17_18pqw"]
 [ext_resource type="Script" uid="uid://dy5xdenyow6vo" path="res://addons/scatter/core/graph/scatter_connection.gd" id="17_208cv"]
@@ -39,11 +38,13 @@
 [ext_resource type="Texture2D" uid="uid://dykmwpuqoxpyc" path="res://Assets/Characters/NPC_anims/Merchant/idle.png" id="38_qb2ep"]
 [ext_resource type="Script" uid="uid://bpaxw4it7xyq4" path="res://Scripts/SecondTown/SecondTownQuestController.gd" id="39_8gg83"]
 [ext_resource type="Texture2D" uid="uid://bvmsdtqt4w5ak" path="res://Assets/Characters/NPC_anims/Farmer/idle.png" id="40_il27q"]
-[ext_resource type="Script" uid="uid://damoiwgbiulyk" path="res://Scripts/SecondTown/SecondTownWellInteraction.gd" id="40_qb2ep"]
 [ext_resource type="Texture2D" uid="uid://cg6haewdxinda" path="res://Assets/Characters/NPC_anims/elder/idle.png" id="40_xllqt"]
 [ext_resource type="PackedScene" path="res://Scenes/SecondTown/FarmerFieldQuest.tscn" id="43_5a2po"]
 [ext_resource type="Texture2D" uid="uid://biygpf4h52ani" path="res://Assets/Characters/NPC_anims/nena/idle.png" id="43_865vg"]
-[ext_resource type="Script" uid="uid://ko7qi4kc6cv4" path="res://Scripts/SecondTown/FarmerFieldQuest.gd" id="44_rq0ei"]
+[ext_resource type="PackedScene" path="res://Scenes/SecondTown/SecondTownNumberGuardian.tscn" id="43_rq0ei"]
+[ext_resource type="PackedScene" path="res://Scenes/SecondTown/SecondTownSecondYlangYlang.tscn" id="46_u88yd"]
+[ext_resource type="Script" uid="uid://cxvvctvjqbowi" path="res://Scripts/SecondTown/SecondTownBossQuestHandoff.gd" id="48_y4r63"]
+[ext_resource type="PackedScene" path="res://Scenes/SecondTown/ElderWellLesson.tscn" id="52_apgw8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wu6po"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -965,9 +966,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_rq0ei"]
-radius = 2.0
-
 [node name="SecondTown" type="Node3D" unique_id=576767226]
 
 [node name="MarchingSquaresTerrain" type="Node3D" parent="." unique_id=673302101]
@@ -1403,10 +1401,6 @@ mesh = ExtResource("13_s0iyy")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 14.807375, -4.7683716e-07, 1.0163536)
 mesh = ExtResource("14_8dtcg")
 
-[node name="PropWell1" type="MeshInstance3D" parent="Houses" unique_id=1296872703]
-transform = Transform3D(3, 0, 0, 0, 2.2798166, 0, 0, 0, 3, 1.1326561, 2.3841858e-07, 1.9729474)
-mesh = ExtResource("15_qwewq")
-
 [node name="fence" parent="Houses" unique_id=934767800 instance=ExtResource("15_208cv")]
 transform = Transform3D(-0.4235257, 0, 1.1547892, 0, 1.5344973, 0, -2.40808, 0, -0.20310053, -46.52288, -9.536743e-07, 24.418545)
 
@@ -1795,29 +1789,20 @@ outline_size = 8
 [node name="SecondTownQuests" type="Node" parent="." unique_id=1504503506]
 script = ExtResource("39_8gg83")
 
-[node name="WellInspection" type="Area3D" parent="." unique_id=389294443]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 1.8)
-collision_layer = 0
-script = ExtResource("40_qb2ep")
+[node name="FarmerFieldQuest" parent="." unique_id=233911395 instance=ExtResource("43_5a2po")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WellInspection" unique_id=503015513]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("SphereShape3D_rq0ei")
+[node name="ElderWellLesson" parent="." unique_id=494820004 instance=ExtResource("52_apgw8")]
 
-[node name="Prompt" type="Label3D" parent="WellInspection" unique_id=787489285]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-visible = false
-billboard = 2
-no_depth_test = true
-text = "[E] Inspect Well"
-font_size = 28
+[node name="@Node3D@28922" parent="." unique_id=119732539 instance=ExtResource("52_apgw8")]
 
-[node name="Clue" type="Label3D" parent="WellInspection" unique_id=528516481]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
-visible = false
-billboard = 2
-no_depth_test = true
-font_size = 26
+[node name="ElderWellAnchor" type="Marker3D" parent="." unique_id=632975569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1326561, 2.3841858e-07, 1.9729474)
 
-[node name="FarmerFieldQuest" type="Node3D" parent="." unique_id=233911395 instance=ExtResource("43_5a2po")]
-script = ExtResource("44_rq0ei")
+[node name="SecondTownNumberGuardian" parent="." unique_id=1747640804 instance=ExtResource("43_rq0ei")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.486217, 1.3601613, 7.7593727)
+
+[node name="SecondTownYlangYlang" parent="." unique_id=1293528953 instance=ExtResource("46_u88yd")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -57.132404, 0, 2.9623976)
+
+[node name="SecondTownBossQuestHandoff" type="Node" parent="." unique_id=1731326107]
+script = ExtResource("48_y4r63")

@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Characters/NPC/Enemy/BoarBoss.tscn" id="1_boss"]
+[ext_resource type="Script" path="res://Scripts/SecondTown/SecondTownNumberGuardian.gd" id="2_script"]
+[ext_resource type="SpriteFrames" path="res://Assets/Characters/EnemySpritesCoke/ForestBoarFrames.tres" id="3_frames"]
+
+[node name="SecondTownNumberGuardian" instance=ExtResource("1_boss")]
+script = ExtResource("2_script")
+enemy_id = "second_town_number_guardian"
+enemy_name = "Second Town Number Guardian"
+is_boss = true
+enemy_max_hp = 75
+enemy_max_barrier = 15
+enemy_atk = 11
+enemy_exp_reward = 250
+enemy_gold_reward = 100
+world_sprite_frames = ExtResource("3_frames")
+battle_sprite_frames = ExtResource("3_frames")
+battle_sprite_animation = &"idle_front"
+battle_attack_animation = &"attack_right"
+battle_hit_animation = &""
+battle_attack_duration = 0.65
+detection_radius = 1.6
+
+[node name="AnimatedSprite3D" parent="." index="1"]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0.9, 0)
+modulate = Color(0.72, 0.89, 1, 1)
+
+[node name="GuardianTitle" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+billboard = 1
+no_depth_test = true
+text = "NUMBER GUARDIAN"
+font_size = 30
+outline_size = 9
+modulate = Color(0.76, 0.93, 1, 1)

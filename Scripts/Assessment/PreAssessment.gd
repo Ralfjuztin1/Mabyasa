@@ -14,7 +14,9 @@ const PRE_ASSESSMENT_VOCAB_IDS: Array[String] = [
 	"makilabas_ku_pu"
 ]
 
-const TOTAL_QUESTIONS: int = 10
+# MABIYASA_NUMBER_BASELINE_V1
+const NUMBER_BANK: GDScript = preload("res://Scripts/Assessment/NumberPreAssessmentBank.gd")
+const TOTAL_QUESTIONS: int = 20
 
 # Questions 1-6: one plain translation for EACH story-supported phrase.
 # Questions 7-10: different situations to practise four of those same phrases.
@@ -197,8 +199,13 @@ func _build_assessment_questions() -> Array[Dictionary]:
 
 		questions.append(_make_question_metadata(question, _topic_key(target)))
 
+	var number_questions: Array[Dictionary] = NUMBER_BANK.build_questions()
+	if number_questions.size() != 10:
+		push_error("[PRE-ASSESSMENT] Number bank incomplete (expected 10).")
+		return []
+	questions.append_array(number_questions)
 	if questions.size() != TOTAL_QUESTIONS:
-		push_error("[PRE-ASSESSMENT] Expected six translations and four situations (10 total).")
+		push_error("[PRE-ASSESSMENT] Expected ten greeting and ten number questions.")
 		return []
 	return questions
 
@@ -215,9 +222,9 @@ func _show_intro() -> void:
 	_body.add_child(_make_baseline_message_card(
 		"PURPOSE",
 		"Your starting assessment",
-		"This assessment records your familiarity with six Kapampangan "
-		+ "expressions. Your responses provide a baseline for the Guardian "
-		+ "learning comparison.",
+		"This assessment records your starting knowledge of Kapampangan "
+		+ "greetings and numbers (1-10). Your responses provide a baseline for the "
+		+ "two Guardian assessments.",
 		true
 	))
 
@@ -238,11 +245,15 @@ func _show_intro() -> void:
 		"02", "SITUATIONAL USE", "4 QUESTIONS",
 		"Choose the appropriate expression for everyday situations."
 	))
+	structure_content.add_child(_make_baseline_stage_row(
+		"03", "NUMBERS 1-10", "10 QUESTIONS",
+		"Recognize and translate the ten cardinal numbers."
+	))
 
 	_body.add_child(_make_baseline_message_card(
 		"INSTRUCTIONS",
 		"Choose one answer per question",
-		"Complete all ten questions. Your answers are recorded privately, "
+		"Complete all twenty questions. Your answers are recorded privately, "
 		+ "and correct answers will not be shown during this assessment."
 	))
 
@@ -375,10 +386,11 @@ func _finish_assessment() -> void:
 	_current_question = null
 	_report = _build_report()
 	_report["assessment_type"] = "pre"
-	_report["assessment_format"] = "story_translation_then_situational_choices"
-	_report["assessment_version"] = 3
+	_report["assessment_format"] = "greetings_translation_situations_plus_numbers"
+	_report["assessment_version"] = 4
 	_report["unique_phrase_count"] = PRE_ASSESSMENT_VOCAB_IDS.size()
 	_report["assessment_vocab_ids"] = PRE_ASSESSMENT_VOCAB_IDS.duplicate()
+	_report["assessment_number_vocab_ids"] = NUMBER_BANK.get_number_ids()
 
 	var items: Array[Dictionary] = []
 	for row: Dictionary in _responses:
@@ -393,6 +405,9 @@ func _finish_assessment() -> void:
 			"timed_out": bool(row.get("timed_out", false))
 		})
 	_report["assessment_items"] = items
+	# Send question prompts and submitted answers to the researcher; omit
+	# the answer key so the blind pre-test stays blind to players.
+	_report["question_results"] = NUMBER_BANK.blind_email_question_rows(_responses)
 
 	if SaveManager.save_pre_assessment_report(_report):
 		_saved_successfully = true
@@ -401,7 +416,7 @@ func _finish_assessment() -> void:
 		_report["mistakes"] = []
 		_report["vocabulary"] = []
 		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
-		_report["recommendations"] = ["Continue through the lessons, then try the Guardian's sentence-building challenge."]
+		_report["recommendations"] = ["Continue the greeting and number lessons before facing the Guardians."]
 		await _send_email_report()
 		if is_instance_valid(_pre_continue_button):
 			_pre_continue_button.disabled = false
@@ -434,7 +449,7 @@ func _retry_baseline_save() -> void:
 		_report["mistakes"] = []
 		_report["vocabulary"] = []
 		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
-		_report["recommendations"] = ["Continue through the lessons, then try the Guardian's sentence-building challenge."]
+		_report["recommendations"] = ["Continue the greeting and number lessons before facing the Guardians."]
 		await _send_email_report()
 		if is_instance_valid(_pre_continue_button):
 			_pre_continue_button.disabled = false
@@ -451,7 +466,7 @@ func _show_pre_completion() -> void:
 	_body.add_child(_make_baseline_message_card(
 		"BASELINE RECORDED",
 		"Your starting results are saved",
-		"All ten responses have been recorded. You can continue to First Town and begin the learning adventure.",
+		"All twenty responses have been recorded. You can continue to First Town and begin the learning adventure.",
 		true
 	))
 
@@ -468,11 +483,11 @@ func _show_pre_completion() -> void:
 		22, Color(0.96, 0.93, 0.84, 1.0)
 	))
 	summary_content.add_child(_make_label(
-		"6 unique phrases assessed · 6 translations and 4 situational questions.",
+		"6 greeting targets and 10 numbers · 20 questions total.",
 		14, Color(0.76, 0.81, 0.75, 1.0)
 	))
 	summary_content.add_child(_make_label(
-		"Your first response for each phrase will be compared with its first construction during the Guardian battle. No answers are revealed here.",
+		"Greeting results support Boss 1 comparison; number results support Boss 2 comparison. No answers are revealed here.",
 		13, Color(0.69, 0.75, 0.69, 1.0)
 	))
 

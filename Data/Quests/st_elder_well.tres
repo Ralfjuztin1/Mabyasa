@@ -9,29 +9,37 @@ script = ExtResource("2_reward")
 exp = 50
 gold = 20
 
-[sub_resource type="Resource" id="Objective1"]
+[sub_resource type="Resource" id="TalkToElder"]
+script = ExtResource("3_step")
+type = "talk_npc"
+target = "Elder"
+required_count = 1
+validation_type = "solve_puzzle"
+validation_target = "st_elder_numbers_learned"
+
+[sub_resource type="Resource" id="RestoreWell"]
 script = ExtResource("3_step")
 type = "solve_puzzle"
-target = "st_elder_records_read"
+target = "st_elder_well_restored"
 required_count = 1
 validation_type = "none"
 validation_target = ""
 
-[sub_resource type="Resource" id="Objective2"]
+[sub_resource type="Resource" id="ReturnToElder"]
 script = ExtResource("3_step")
-type = "interact_object"
-target = "st_ancient_well_inspected"
+type = "talk_npc"
+target = "Elder"
 required_count = 1
-validation_type = "none"
-validation_target = ""
+validation_type = "solve_puzzle"
+validation_target = "st_elder_report_done"
 
 [resource]
 script = ExtResource("1_quest")
 quest_id = "st_elder_well"
-title = "Investigate the Ancient Well"
-description = "Learn numbers 7–10, interpret the well records, then inspect the old carvings on the village well."
+title = "Restore the Village Well"
+description = "Talk to Elder first so the quest can track her. Learn pitu, walo, siyam, and apulu from the top-view stone lesson, restore the well, then return to Elder."
 rewards = SubResource("Reward")
-steps = Array[ExtResource("3_step")]([SubResource("Objective1"), SubResource("Objective2")])
-quest_giver_id = "second_town_elder"
-quest_turn_in_id = ""
+steps = Array[ExtResource("3_step")]([SubResource("TalkToElder"), SubResource("RestoreWell"), SubResource("ReturnToElder")])
+quest_giver_id = "Elder"
+quest_turn_in_id = "Elder"
 is_main_quest = true

@@ -1,9 +1,7 @@
-Elder: I heard you helped the market and the fields. Dakal a salamat.
-You: We're searching for a Mystic Ylang-Ylang. The farmer said you might know where a guardian lives.
-Elder: Our elders spoke of a guardian near the ruins. Since the well went quiet, an old set of numbers has appeared on its stones.
-Elder: I need to read the water records before I can tell you which path the markings describe.
-You: How can I help?
-Elder: I'll teach you the numbers seven through ten: pito, walo, siyam, and apulo.
-Elder: Help me compare the records. Then inspect the well itself.
-[signal arg="secondtown_open_elder"]
+Elder: The merchant shared the baskets, and the farmer saved the fields. Dakal a salamat.
+Elder: Now the village well needs help. Before we draw from it again, we use our old counting stones.
+You: You will teach us the next numbers there?
+Elder: Awa. I will teach you pitu, walo, siyam, and apulu.
+Elder: Stand by the well. I will show the stones from above so you can see them light one by one.
+Elder: Press E to continue, R to review, and F when you're ready to leave the lesson.
 [end_timeline]

@@ -25,7 +25,7 @@ TimeManager="*uid://bldwd52t0h1o3"
 QuestManager="*uid://d2akdm0u3p2n3"
 DialogueManager="*uid://cwbawur3d386e"
 Dialogic="*uid://ds2q0uclmolvu"
-BattleManager="*res://Scripts/Assessment/PairedBattleManager.gd"
+BattleManager="*res://Scripts/Battle/SecondTownNumberBattleManager.gd"
 CheckpointManager="*uid://bqfus1a3ow3ks"
 BossAssessmentOverlay="uid://c55mj1lqw2mb2"
 TransitionManager="*uid://ddqj11m4lwktm"
@@ -78,6 +78,7 @@ directories/dtl_directory={
 "elder_inspect": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/elder_inspect.dtl",
 "elder_intro": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/elder_intro.dtl",
 "elder_locked": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/elder_locked.dtl",
+"elder_progress": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/elder_progress.dtl",
 "elder_quest": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/elder_quest.dtl",
 "farmer_done": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/farmer_done.dtl",
 "farmer_intro": "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/farmer_intro.dtl",

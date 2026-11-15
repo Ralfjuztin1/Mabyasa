@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestStep.gd" id="3_step"]
+
+[sub_resource type="Resource" id="GuardianReward"]
+script = ExtResource("2_reward")
+exp = 80
+gold = 40
+
+[sub_resource type="Resource" id="DefeatNumberGuardian"]
+script = ExtResource("3_step")
+type = "enemy_killed"
+target = "second_town_number_guardian"
+required_count = 1
+
+[resource]
+script = ExtResource("1_quest")
+quest_id = "st_second_town_guardian"
+title = "Face the Second Town Guardian"
+description = "The Elder's well is restored. Travel to the Ylang-Ylang clearing and defeat its Guardian by using Kapampangan numbers 1–10."
+rewards = SubResource("GuardianReward")
+steps = Array[ExtResource("3_step")]([SubResource("DefeatNumberGuardian")])
+is_main_quest = true
