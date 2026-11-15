@@ -1,0 +1,5 @@
+Berto: Ah, you must be the merchant's helper.
+You: I brought a delivery for the fields.
+Berto: I asked the merchant for metung basket. Can you give me the right amount?
+[signal arg="st_merchant_delivery_berto"]
+[end_timeline]

@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.71, 0.60, 0.79, 1),
+&"custom_info": {"prefix": "", "sound_mood_default": "", "sound_moods": {}, "style": "", "suffix": ""},
+&"default_portrait": "",
+&"description": "Second Town villager",
+&"display_name": "Nena",
+&"mirror": false,
+&"nicknames": [],
+&"offset": Vector2(0, 0),
+&"portraits": {},
+&"scale": 1.0
+}

@@ -1,0 +1,8 @@
+Farmer: You helped sort the water deliveries? Good! We badly need those buckets.
+You: We're looking for a Mystic Ylang-Ylang. The merchant said you noticed something strange.
+Farmer: The well began running dry after I saw a faint glow near the old ruins.
+Farmer: The Elder knows the old stories, but I need to finish sharing supplies before I can bring her my records.
+You: I'll help you get them sorted.
+Farmer: Let's learn apat, lima, and anam. Then we'll work out what each field still needs.
+[signal arg="secondtown_open_farmer"]
+[end_timeline]

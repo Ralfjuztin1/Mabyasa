@@ -1,0 +1,9 @@
+Merchant: You're back! Did everyone receive the right baskets?
+You: Yes. Metung for Berto, adwa for Mila, and atlu for Nena.
+Merchant: Dakal a salamat! The town needs people who can be counted on.
+You: Did you hear anything else about the second Mystic Ylang-Ylang?
+Merchant: Berto said the fields are drying, and Nena has heard noises from the old well.
+Merchant: Our farmer knows the surrounding paths. Speak to him next; he may lead you to the Elder.
+Litik: Helping them gave us our first lead. Let's keep asking around.
+[signal arg="st_merchant_delivery_report"]
+[end_timeline]

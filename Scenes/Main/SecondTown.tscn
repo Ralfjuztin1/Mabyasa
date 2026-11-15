@@ -35,6 +35,11 @@
 [ext_resource type="Script" uid="uid://bitupconrfvlx" path="res://addons/scatter/core/graph/scatter_graph.gd" id="24_yi2f3"]
 [ext_resource type="ArrayMesh" uid="uid://ub5p53xabogh" path="res://Assets/Environment/stylized nature gltf/CommonTree2.tres" id="25_208cv"]
 [ext_resource type="PackedScene" uid="uid://dvkmtcbvgs8l5" path="res://Assets/Environment/FarmLite_FBX/WateringCan_01.fbx" id="34_8gg83"]
+[ext_resource type="PackedScene" uid="uid://dv4lkp2m3o45m" path="res://Scenes/Characters/NPC/BaseNPC.tscn" id="36_6n7ha"]
+[ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://Scenes/Characters/NPC/BaseNPC.gd" id="37_r6oyh"]
+[ext_resource type="Script" uid="uid://1deekn7chlxt" path="res://Scripts/SecondTown/NPCSpritePlaceholder.gd" id="38_8gg83"]
+[ext_resource type="Script" uid="uid://bpaxw4it7xyq4" path="res://Scripts/SecondTown/SecondTownQuestController.gd" id="39_8gg83"]
+[ext_resource type="Script" uid="uid://damoiwgbiulyk" path="res://Scripts/SecondTown/SecondTownWellInteraction.gd" id="40_qb2ep"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wu6po"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -492,6 +497,180 @@ seed = -312430714
 nodes = Array[ExtResource("18_5f13d")]([SubResource("Resource_xutrm"), SubResource("Resource_0c0rt"), SubResource("Resource_0g0j7"), SubResource("Resource_06c4m"), SubResource("Resource_ib3n3")])
 connections = Array[ExtResource("17_208cv")]([SubResource("Resource_ld2da"), SubResource("Resource_6it5t"), SubResource("Resource_xgmr4"), SubResource("Resource_q3vv3")])
 next_node_id = 6
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_il27q"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_il27q"]
+albedo_color = Color(0.13, 0.33, 0.24, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xllqt"]
+radius = 0.095
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5a2po"]
+albedo_color = Color(0.77, 0.58, 0.38, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rq0ei"]
+radius = 0.105
+height = 0.21
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xllqt"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_865vg"]
+albedo_color = Color(0.41, 0.3, 0.16, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u88yd"]
+radius = 0.095
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktegr"]
+albedo_color = Color(0.66, 0.44, 0.27, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_y4r63"]
+radius = 0.105
+height = 0.21
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5a2po"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5easd"]
+albedo_color = Color(0.35, 0.24, 0.43, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_anhg4"]
+radius = 0.095
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ad3ud"]
+albedo_color = Color(0.72, 0.52, 0.34, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_trult"]
+radius = 0.105
+height = 0.21
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rq0ei"]
+radius = 2.0
 
 [node name="SecondTown" type="Node3D" unique_id=576767226]
 
@@ -1217,3 +1396,95 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.132404, 0, 2.9623976)
 
 [node name="secondTownGuardian" type="Marker3D" parent="marker" unique_id=1806202017]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.97242, 0, 6.833124)
+
+[node name="npc" type="Node3D" parent="." unique_id=466318764]
+
+[node name="merchant" type="CharacterBody3D" parent="npc" unique_id=1266467026 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -52.5, 0.15353835, 25.5)
+script = ExtResource("37_r6oyh")
+npc_name = "Merchant"
+npc_id = "second_town_merchant"
+dialogue_id = "SecondTownSceneDialogues/merchant_quest"
+npc_frames = SubResource("SpriteFrames_il27q")
+
+[node name="VisualPlaceholder" type="Node3D" parent="npc/merchant" unique_id=1660944943]
+script = ExtResource("38_8gg83")
+
+[node name="Body" type="MeshInstance3D" parent="npc/merchant/VisualPlaceholder" unique_id=61530604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_il27q")
+mesh = SubResource("CapsuleMesh_xllqt")
+
+[node name="Head" type="MeshInstance3D" parent="npc/merchant/VisualPlaceholder" unique_id=1459547499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_5a2po")
+mesh = SubResource("SphereMesh_rq0ei")
+
+[node name="farmer" type="CharacterBody3D" parent="npc" unique_id=187067716 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -44, 0.75, 17.5)
+script = ExtResource("37_r6oyh")
+npc_name = "Farmer"
+npc_id = "second_town_farmer"
+dialogue_id = "SecondTownSceneDialogues/farmer_locked"
+npc_frames = SubResource("SpriteFrames_xllqt")
+
+[node name="VisualPlaceholder" type="Node3D" parent="npc/farmer" unique_id=496390182]
+script = ExtResource("38_8gg83")
+
+[node name="Body" type="MeshInstance3D" parent="npc/farmer/VisualPlaceholder" unique_id=1551418429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_865vg")
+mesh = SubResource("CapsuleMesh_u88yd")
+
+[node name="Head" type="MeshInstance3D" parent="npc/farmer/VisualPlaceholder" unique_id=1568172145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_ktegr")
+mesh = SubResource("SphereMesh_y4r63")
+
+[node name="elder" type="CharacterBody3D" parent="npc" unique_id=161593618 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6.1, 0.75, 3.8)
+script = ExtResource("37_r6oyh")
+npc_name = "Elder"
+npc_id = "second_town_elder"
+dialogue_id = "SecondTownSceneDialogues/elder_locked"
+npc_frames = SubResource("SpriteFrames_5a2po")
+
+[node name="VisualPlaceholder" type="Node3D" parent="npc/elder" unique_id=731789145]
+script = ExtResource("38_8gg83")
+
+[node name="Body" type="MeshInstance3D" parent="npc/elder/VisualPlaceholder" unique_id=617415460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_5easd")
+mesh = SubResource("CapsuleMesh_anhg4")
+
+[node name="Head" type="MeshInstance3D" parent="npc/elder/VisualPlaceholder" unique_id=1754094051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_ad3ud")
+mesh = SubResource("SphereMesh_trult")
+
+[node name="SecondTownQuests" type="Node" parent="." unique_id=1504503506]
+script = ExtResource("39_8gg83")
+
+[node name="WellInspection" type="Area3D" parent="." unique_id=389294443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 1.8)
+collision_layer = 0
+script = ExtResource("40_qb2ep")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WellInspection" unique_id=503015513]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("SphereShape3D_rq0ei")
+
+[node name="Prompt" type="Label3D" parent="WellInspection" unique_id=787489285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+visible = false
+billboard = 2
+no_depth_test = true
+text = "[E] Inspect Well"
+font_size = 28
+
+[node name="Clue" type="Label3D" parent="WellInspection" unique_id=528516481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+visible = false
+billboard = 2
+no_depth_test = true
+font_size = 26

@@ -573,7 +573,7 @@ func _make_choice_button(label_text: String) -> Button:
 	var button := _choice_button_template.duplicate() as Button
 	button.visible = true
 	button.disabled = false
-	button.text = label_text
+	button.text = label_text.to_lower()
 	button.modulate = Color.WHITE
 	button.focus_mode = Control.FOCUS_ALL
 	button.mouse_filter = Control.MOUSE_FILTER_STOP

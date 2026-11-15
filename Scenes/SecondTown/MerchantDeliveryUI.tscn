@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/SecondTown/MerchantDeliveryUI.gd" id="1_ui"]
+
+[node name="MerchantDeliveryUI" type="CanvasLayer"]
+script = ExtResource("1_ui")
+layer = 85

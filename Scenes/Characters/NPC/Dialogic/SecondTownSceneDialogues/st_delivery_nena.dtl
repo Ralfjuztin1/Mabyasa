@@ -1,0 +1,5 @@
+Nena: Ah, you finally made it to the village pantry!
+You: I have the supplies the merchant promised.
+Nena: We need atlu baskets. Will you count them for me?
+[signal arg="st_merchant_delivery_nena"]
+[end_timeline]

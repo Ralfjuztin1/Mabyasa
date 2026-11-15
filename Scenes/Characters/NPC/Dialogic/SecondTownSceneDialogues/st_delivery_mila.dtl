@@ -1,0 +1,5 @@
+Mila: Hello, traveler! Is that the merchant's delivery?
+You: Yes. He asked me to bring it here.
+Mila: I ordered adwa baskets. Can you check the amount before handing them over?
+[signal arg="st_merchant_delivery_mila"]
+[end_timeline]

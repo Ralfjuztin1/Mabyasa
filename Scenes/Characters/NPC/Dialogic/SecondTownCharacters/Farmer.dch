@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.88, 0.72, 0.42, 1),
+&"custom_info": {"prefix": "", "sound_mood_default": "", "sound_moods": {}, "style": "", "suffix": ""},
+&"default_portrait": "",
+&"description": "Local farmer; planned lesson 4–6",
+&"display_name": "Farmer",
+&"mirror": false,
+&"nicknames": [],
+&"offset": Vector2(0, 0),
+&"portraits": {},
+&"scale": 1.0
+}

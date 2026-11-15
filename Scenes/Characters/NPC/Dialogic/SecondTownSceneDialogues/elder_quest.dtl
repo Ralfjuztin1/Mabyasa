@@ -1,0 +1,9 @@
+Elder: I heard you helped the market and the fields. Dakal a salamat.
+You: We're searching for a Mystic Ylang-Ylang. The farmer said you might know where a guardian lives.
+Elder: Our elders spoke of a guardian near the ruins. Since the well went quiet, an old set of numbers has appeared on its stones.
+Elder: I need to read the water records before I can tell you which path the markings describe.
+You: How can I help?
+Elder: I'll teach you the numbers seven through ten: pito, walo, siyam, and apulo.
+Elder: Help me compare the records. Then inspect the well itself.
+[signal arg="secondtown_open_elder"]
+[end_timeline]

@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Quest/QuestData.gd" id="1_quest"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestReward.gd" id="2_reward"]
+[ext_resource type="Script" path="res://Scripts/Quest/QuestStep.gd" id="3_step"]
+
+[sub_resource type="Resource" id="Reward"]
+script = ExtResource("2_reward")
+exp = 25
+gold = 10
+
+[sub_resource type="Resource" id="Step1"]
+script = ExtResource("3_step")
+type = "solve_puzzle"
+target = "merchant counting lesson"
+required_count = 1
+
+[sub_resource type="Resource" id="Step2"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "Berto"
+required_count = 1
+
+[sub_resource type="Resource" id="Step3"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "Mila"
+required_count = 1
+
+[sub_resource type="Resource" id="Step4"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "Nena"
+required_count = 1
+
+[sub_resource type="Resource" id="Step5"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "Merchant"
+required_count = 1
+
+[resource]
+script = ExtResource("1_quest")
+quest_id = "st_merchant_orders"
+title = "Deliver the Merchant's Baskets"
+description = "Learn metung, adwa, and atlu. Deliver 1 basket to Berto, 2 to Mila, and 3 to Nena. Return to the merchant for your first clue about the second Mystic Ylang-Ylang."
+rewards = SubResource("Reward")
+steps = Array[ExtResource("3_step")]([SubResource("Step1"), SubResource("Step2"), SubResource("Step3"), SubResource("Step4"), SubResource("Step5")])
+quest_giver_id = "second_town_merchant"
+quest_turn_in_id = "second_town_merchant"
+is_main_quest = true
