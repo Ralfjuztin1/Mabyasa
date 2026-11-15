@@ -1,10 +1,10 @@
 extends Node
 
-## Second Town storyline and number lessons, using the existing BaseNPC,
-## QuestManager, Dialogic and CutsceneController systems.
-## Place this as SecondTown/SecondTownQuests (as in the previous quest pack).
+## Second Town storyline and number lessons. The merchant delivery chapter
+## is exclusively handled by MerchantDeliveryController.
 
 const LESSON_UI: PackedScene = preload("res://Scenes/SecondTown/SecondTownQuestUI.tscn")
+const MERCHANT_CONTROLLER: Script = preload("res://Scripts/SecondTown/MerchantDeliveryController.gd")
 const INTRO_TIMELINE: String = "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/litik_arrival.dtl"
 const WELL_TIMELINE: String = "res://Scenes/Characters/NPC/Dialogic/SecondTownSceneDialogues/litik_well_discovery.dtl"
 const INTRO_FLAG: String = "st_litik_arrival_seen"
@@ -16,17 +16,14 @@ const QUEST_FARMER: String = "st_farmer_supplies"
 const QUEST_ELDER: String = "st_elder_well"
 
 const QUESTS: Dictionary = {
-	"merchant": "st_merchant_orders",
 	"farmer": "st_farmer_supplies",
 	"elder": "st_elder_well"
 }
 const PUZZLE_IDS: Dictionary = {
-	"merchant": "st_merchant_orders_sorted",
 	"farmer": "st_farmer_supplies_prepared",
 	"elder": "st_elder_records_read"
 }
 const VOCAB_IDS: Dictionary = {
-	"merchant": "metung+adwa+atlo_or_atlu",
 	"farmer": "apat+lima+anam",
 	"elder": "pito_or_pitu+walo_or_walu+siyam+apulo_or_apulu"
 }
@@ -42,6 +39,9 @@ var _story_busy: bool = false
 
 
 func _ready() -> void:
+	# SecondTown.tscn does not currently contain MerchantDelivery. Attach it
+	# without rewriting or resaving the enormous map scene.
+	_ensure_merchant_controller()
 	Dialogic.signal_event.connect(_on_dialogic_signal)
 	Dialogic.timeline_ended.connect(_on_dialogue_ended)
 	QuestManager.quest_started.connect(_on_quest_changed)
@@ -50,18 +50,38 @@ func _ready() -> void:
 	QuestManager.dialogue_flag_changed.connect(_on_dialogue_flag_changed)
 	_refresh_dialogues()
 
-	# Main emits this after the world and the player's spawn are both ready.
 	var main: Node = get_tree().current_scene
 	if is_instance_valid(main) and main.has_signal("loading_completed"):
 		main.connect("loading_completed", Callable(self, "_on_second_town_loaded"))
 	else:
-		# Also works when SecondTown.tscn is run directly for debugging.
 		call_deferred("_on_second_town_loaded")
 
+
+func _ensure_merchant_controller() -> void:
+	var town: Node = get_parent()
+	if town == null:
+		push_error("[MERCHANT] Second Town quest controller has no town parent")
+		return
+
+	# An old editor-installed MerchantDelivery node may exist without the
+	# correct script. Replace that plain controller node if necessary.
+	var merchant_controller: Node = town.get_node_or_null("MerchantDelivery")
+	if is_instance_valid(merchant_controller):
+		if merchant_controller.get_script() == MERCHANT_CONTROLLER:
+			return
+		town.remove_child(merchant_controller)
+		merchant_controller.queue_free()
+
+	merchant_controller = Node.new()
+	merchant_controller.name = "MerchantDelivery"
+	merchant_controller.set_script(MERCHANT_CONTROLLER)
+	town.add_child(merchant_controller)
+	print("[SECOND TOWN] Attached merchant-delivery controller")
 
 func _on_second_town_loaded() -> void:
 	if not is_inside_tree():
 		return
+	_ensure_merchant_controller()
 	var main: Node = get_tree().current_scene
 	if is_instance_valid(main) and main.has_signal("loading_completed"):
 		if GameManager.current_level_path != TOWN_PATH:
@@ -116,7 +136,6 @@ func _play_well_discovery() -> void:
 	if _story_busy or QuestManager.has_dialogue_flag(WELL_FLAG):
 		return
 	_story_busy = true
-	# Wait for the well's interaction event to finish updating the quest.
 	await get_tree().process_frame
 	if not is_inside_tree():
 		return
@@ -172,9 +191,7 @@ func _refresh_dialogues() -> void:
 	var npc_root: Node = get_parent().get_node_or_null("npc")
 	if not is_instance_valid(npc_root):
 		return
-	_set_npc_dialogue(npc_root, "merchant",
-		"merchant_done" if QuestManager.is_quest_completed(QUEST_MERCHANT) else "merchant_quest")
-
+	# Merchant dialogue is managed exclusively by MerchantDeliveryController.
 	var farmer_state: String = "farmer_locked"
 	if QuestManager.is_quest_completed(QUEST_FARMER):
 		farmer_state = "farmer_done"
@@ -218,7 +235,6 @@ func _on_dialogue_ended() -> void:
 
 
 func _launch_pending_lesson() -> void:
-	# Dialogic's timeline_ended fires before all of DialogueManager's cleanup.
 	for _i: int in range(8):
 		await get_tree().process_frame
 		if not DialogueManager.is_dialogue_active:

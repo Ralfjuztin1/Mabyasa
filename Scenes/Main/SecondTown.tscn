@@ -38,6 +38,7 @@
 [ext_resource type="PackedScene" uid="uid://dv4lkp2m3o45m" path="res://Scenes/Characters/NPC/BaseNPC.tscn" id="36_6n7ha"]
 [ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://Scenes/Characters/NPC/BaseNPC.gd" id="37_r6oyh"]
 [ext_resource type="Script" uid="uid://1deekn7chlxt" path="res://Scripts/SecondTown/NPCSpritePlaceholder.gd" id="38_8gg83"]
+[ext_resource type="Texture2D" uid="uid://dykmwpuqoxpyc" path="res://Assets/Characters/NPC_anims/Merchant/idle.png" id="38_qb2ep"]
 [ext_resource type="Script" uid="uid://bpaxw4it7xyq4" path="res://Scripts/SecondTown/SecondTownQuestController.gd" id="39_8gg83"]
 [ext_resource type="Script" uid="uid://damoiwgbiulyk" path="res://Scripts/SecondTown/SecondTownWellInteraction.gd" id="40_qb2ep"]
 
@@ -498,24 +499,80 @@ nodes = Array[ExtResource("18_5f13d")]([SubResource("Resource_xutrm"), SubResour
 connections = Array[ExtResource("17_208cv")]([SubResource("Resource_ld2da"), SubResource("Resource_6it5t"), SubResource("Resource_xgmr4"), SubResource("Resource_q3vv3")])
 next_node_id = 6
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_il27q"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xllqt"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5a2po"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq0ei"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekq23"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_865vg"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u88yd"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktegr"]
+atlas = ExtResource("38_qb2ep")
+region = Rect2(64, 192, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_il27q"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_il27q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xllqt")
+}],
 "loop": 1,
 "name": &"idle_back",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5a2po")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq0ei")
+}],
 "loop": 1,
 "name": &"idle_front",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ekq23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_865vg")
+}],
 "loop": 1,
 "name": &"idle_left",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u88yd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktegr")
+}],
 "loop": 1,
 "name": &"idle_right",
 "speed": 5.0
@@ -668,6 +725,87 @@ albedo_color = Color(0.72, 0.52, 0.34, 1)
 [sub_resource type="SphereMesh" id="SphereMesh_trult"]
 radius = 0.105
 height = 0.21
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gg83"]
+albedo_color = Color(0.35, 0.4, 0.18, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qb2ep"]
+radius = 0.17
+height = 0.52
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xllqt"]
+albedo_color = Color(0.79, 0.57, 0.39, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_5a2po"]
+radius = 0.17
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rq0ei"]
+albedo_color = Color(0.13, 0.1, 0.09, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ekq23"]
+radius = 0.176
+height = 0.19
+
+[sub_resource type="BoxMesh" id="BoxMesh_865vg"]
+size = Vector3(0.13, 0.28, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u88yd"]
+size = Vector3(0.13, 0.28, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4r63"]
+albedo_color = Color(0.44, 0.24, 0.43, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o13q3"]
+radius = 0.17
+height = 0.52
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anhg4"]
+albedo_color = Color(0.79, 0.57, 0.39, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ad3ud"]
+radius = 0.17
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trult"]
+albedo_color = Color(0.13, 0.1, 0.09, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_2eft7"]
+radius = 0.176
+height = 0.19
+
+[sub_resource type="BoxMesh" id="BoxMesh_f3oki"]
+size = Vector3(0.13, 0.28, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i8rnw"]
+size = Vector3(0.13, 0.28, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnu6o"]
+albedo_color = Color(0.26, 0.35, 0.52, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_apgw8"]
+radius = 0.17
+height = 0.52
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_irxe3"]
+albedo_color = Color(0.79, 0.57, 0.39, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bey7h"]
+radius = 0.17
+height = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vwip7"]
+albedo_color = Color(0.13, 0.1, 0.09, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_p3gf1"]
+radius = 0.176
+height = 0.19
+
+[sub_resource type="BoxMesh" id="BoxMesh_v1y73"]
+size = Vector3(0.13, 0.28, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_n427g"]
+size = Vector3(0.13, 0.28, 0.15)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rq0ei"]
 radius = 2.0
@@ -1400,7 +1538,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.97242, 0, 6.833124)
 [node name="npc" type="Node3D" parent="." unique_id=466318764]
 
 [node name="merchant" type="CharacterBody3D" parent="npc" unique_id=1266467026 instance=ExtResource("36_6n7ha")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -52.5, 0.15353835, 25.5)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -41.739265, 0.15000927, 25.5)
 script = ExtResource("37_r6oyh")
 npc_name = "Merchant"
 npc_id = "second_town_merchant"
@@ -1408,6 +1546,7 @@ dialogue_id = "SecondTownSceneDialogues/merchant_quest"
 npc_frames = SubResource("SpriteFrames_il27q")
 
 [node name="VisualPlaceholder" type="Node3D" parent="npc/merchant" unique_id=1660944943]
+visible = false
 script = ExtResource("38_8gg83")
 
 [node name="Body" type="MeshInstance3D" parent="npc/merchant/VisualPlaceholder" unique_id=61530604]
@@ -1461,6 +1600,162 @@ mesh = SubResource("CapsuleMesh_anhg4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 material_override = SubResource("StandardMaterial3D_ad3ud")
 mesh = SubResource("SphereMesh_trult")
+
+[node name="berto" type="CharacterBody3D" parent="npc" unique_id=196090584 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -44.652756, 0.6, 14.8829365)
+script = ExtResource("37_r6oyh")
+npc_name = "Berto"
+npc_id = "Berto"
+dialogue_id = "SecondTownSceneDialogues/st_delivery_berto_wait"
+
+[node name="DeliveryActorVisual" type="Node3D" parent="npc/berto" unique_id=2075930040]
+
+[node name="Torso" type="MeshInstance3D" parent="npc/berto/DeliveryActorVisual" unique_id=40714216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+material_override = SubResource("StandardMaterial3D_8gg83")
+mesh = SubResource("CapsuleMesh_qb2ep")
+
+[node name="Head" type="MeshInstance3D" parent="npc/berto/DeliveryActorVisual" unique_id=1704656435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_xllqt")
+mesh = SubResource("SphereMesh_5a2po")
+
+[node name="Hair" type="MeshInstance3D" parent="npc/berto/DeliveryActorVisual" unique_id=1506495496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61, 0)
+material_override = SubResource("StandardMaterial3D_rq0ei")
+mesh = SubResource("SphereMesh_ekq23")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="npc/berto/DeliveryActorVisual" unique_id=86734621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_8gg83")
+mesh = SubResource("BoxMesh_865vg")
+
+[node name="RightLeg" type="MeshInstance3D" parent="npc/berto/DeliveryActorVisual" unique_id=860622611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_8gg83")
+mesh = SubResource("BoxMesh_u88yd")
+
+[node name="DeliveryPointLabel" type="Label3D" parent="npc/berto" unique_id=1279956259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
+billboard = 1
+no_depth_test = true
+text = "Bertoa"
+font_size = 30
+outline_size = 10
+
+[node name="DeliveryCountLabel" type="Label3D" parent="npc/berto" unique_id=1383331153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+modulate = Color(0.91, 0.93, 0.78, 1)
+text = "1 BASKET"
+font_size = 23
+outline_size = 8
+
+[node name="mila" type="CharacterBody3D" parent="npc" unique_id=594832523 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -26, 0.6, 12)
+script = ExtResource("37_r6oyh")
+npc_name = "Mila"
+npc_id = "Mila"
+dialogue_id = "SecondTownSceneDialogues/st_delivery_mila_wait"
+
+[node name="DeliveryActorVisual" type="Node3D" parent="npc/mila" unique_id=303326275]
+
+[node name="Torso" type="MeshInstance3D" parent="npc/mila/DeliveryActorVisual" unique_id=1631970019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+material_override = SubResource("StandardMaterial3D_y4r63")
+mesh = SubResource("CapsuleMesh_o13q3")
+
+[node name="Head" type="MeshInstance3D" parent="npc/mila/DeliveryActorVisual" unique_id=1238578612]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_anhg4")
+mesh = SubResource("SphereMesh_ad3ud")
+
+[node name="Hair" type="MeshInstance3D" parent="npc/mila/DeliveryActorVisual" unique_id=196094510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61, 0)
+material_override = SubResource("StandardMaterial3D_trult")
+mesh = SubResource("SphereMesh_2eft7")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="npc/mila/DeliveryActorVisual" unique_id=841232229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_y4r63")
+mesh = SubResource("BoxMesh_f3oki")
+
+[node name="RightLeg" type="MeshInstance3D" parent="npc/mila/DeliveryActorVisual" unique_id=1814841983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_y4r63")
+mesh = SubResource("BoxMesh_i8rnw")
+
+[node name="DeliveryPointLabel" type="Label3D" parent="npc/mila" unique_id=1712126469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
+billboard = 1
+no_depth_test = true
+modulate = Color(0.99, 0.79, 0.4, 1)
+text = "DELIVERY / MILA"
+font_size = 30
+outline_size = 10
+
+[node name="DeliveryCountLabel" type="Label3D" parent="npc/mila" unique_id=284957770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+billboard = 1
+no_depth_test = true
+modulate = Color(0.91, 0.93, 0.78, 1)
+text = "2 BASKETS"
+font_size = 23
+outline_size = 8
+
+[node name="nena" type="CharacterBody3D" parent="npc" unique_id=1514739184 instance=ExtResource("36_6n7ha")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6, 0.6, 12)
+script = ExtResource("37_r6oyh")
+npc_name = "Nena"
+npc_id = "Nena"
+dialogue_id = "SecondTownSceneDialogues/st_delivery_nena_wait"
+
+[node name="DeliveryActorVisual" type="Node3D" parent="npc/nena" unique_id=741566849]
+
+[node name="Torso" type="MeshInstance3D" parent="npc/nena/DeliveryActorVisual" unique_id=756781430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+material_override = SubResource("StandardMaterial3D_rnu6o")
+mesh = SubResource("CapsuleMesh_apgw8")
+
+[node name="Head" type="MeshInstance3D" parent="npc/nena/DeliveryActorVisual" unique_id=1768786848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_irxe3")
+mesh = SubResource("SphereMesh_bey7h")
+
+[node name="Hair" type="MeshInstance3D" parent="npc/nena/DeliveryActorVisual" unique_id=42378147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61, 0)
+material_override = SubResource("StandardMaterial3D_vwip7")
+mesh = SubResource("SphereMesh_p3gf1")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="npc/nena/DeliveryActorVisual" unique_id=1501075524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_rnu6o")
+mesh = SubResource("BoxMesh_v1y73")
+
+[node name="RightLeg" type="MeshInstance3D" parent="npc/nena/DeliveryActorVisual" unique_id=1855655520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.18, 0)
+material_override = SubResource("StandardMaterial3D_rnu6o")
+mesh = SubResource("BoxMesh_n427g")
+
+[node name="DeliveryPointLabel" type="Label3D" parent="npc/nena" unique_id=324843624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
+billboard = 1
+no_depth_test = true
+modulate = Color(0.99, 0.79, 0.4, 1)
+text = "DELIVERY / NENA"
+font_size = 30
+outline_size = 10
+
+[node name="DeliveryCountLabel" type="Label3D" parent="npc/nena" unique_id=343767280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+billboard = 1
+no_depth_test = true
+modulate = Color(0.91, 0.93, 0.78, 1)
+text = "3 BASKETS"
+font_size = 23
+outline_size = 8
 
 [node name="SecondTownQuests" type="Node" parent="." unique_id=1504503506]
 script = ExtResource("39_8gg83")

@@ -1,51 +1,32 @@
-MABYASA — F10 QUEST CHECKPOINT DEBUG
-Based on current GitHub quest IDs and the Litik Forest continuation.
+MABIYASA SECOND TOWN — MERCHANT LESSON HANDOFF FIX
+===================================================
+DIRECT REPLACEMENT FILES. No Python command is required.
 
-COPY THIS NEW SCRIPT INTO YOUR PROJECT:
-  res://Scripts/Debug/QuestCheckpointDebug.gd
+1. Make a backup/commit of your project.
+2. Extract the ZIP contents into your project folder (where project.godot is).
+3. Replace matching files, then restart Godot.
+4. Play the merchant conversation until its dialogue box closes.
 
-ONE-TIME GODOT ACTIVATION:
-  Project > Project Settings > Globals (Autoload)
-  Select res://Scripts/Debug/QuestCheckpointDebug.gd
-  Name: QuestCheckpointDebug
-  Click Add. Keep it enabled.
-  (No existing script or project.godot replacement needed.)
+After the final conversation line, the visual counting lesson should open:
+METUNG -> 1 basket; ADWA -> 2 baskets; ATLU -> 3 baskets.
+Player can go back to review the numbers or proceed with deliveries.
+Then Berto (1), Mila (2), Nena (3), and finally merchant turn-in.
 
-OPTIONAL QUEST FILE:
-  Data/Quests/follow_litik_to_second_town.tres
-  Copy it only if you did not already install the Litik continuation pack.
-  The Litik portal/dialogue also require the rest of that previous pack.
+WHAT WAS CHANGED
+The merchant controller now listens to the GameEvents.npc_talked event
+emitted by DialogueManager after an NPC conversation finishes. This gives
+it a reliable fallback instead of depending only on a Dialogic [signal].
+It retains a queued request until dialogue and exploration state are ready.
+SecondTownQuestController also confirms the merchant controller is attached.
 
-HOW TO USE:
-  Run game from Godot (debug build).
-  In gameplay press F10. Pick a checkpoint. Click Jump, then Confirm.
-  The system resets *main story* progress to the selected quest.
-  Earlier main quests show completed in the Quest Log.
-  Unrelated side quests and dialogue flags are kept where possible.
-  The appropriate story flags and known learned language entries are applied.
-  Game loads FirstTown or Forest and spawns near the objective.
+IF IT STILL DOESN'T DISPLAY
+Open Godot > Debugger > Errors / Output and check for these lines:
+[SECOND TOWN] Attached merchant-delivery controller
+[MERCHANT] Delivery controller ready; listening for NPC conversations
+[MERCHANT] Finished talking to Merchant; opening action: lesson
+[MERCHANT] Launching visual panel: lesson
+Send any related red errors or missing lines so we can pinpoint the block.
 
-EXAMPLES:
-  - Get Mystic Ylang-Ylang: Guardian still alive.
-  - Mystic Ylang-Ylang — Guardian already defeated: skip boss and collect flower.
-  - Follow Litik to the Next Town: flower/Guardian already finished; route quest active.
-  - Reach Forest: earlier Chief final battle finished and gate unlocked.
-  - Ask Ale: Chief travel quest remains active, so Ale cutscene can fire.
-
-IMPORTANT SAFETY:
-  * DEBUG BUILDS ONLY. Menu does not work in release builds.
-  * DEBUG JUMPS CHANGE GAME STATE AND CAN AUTOSAVE TO THE CURRENT ACCOUNT,
-    INCLUDING SUPABASE. USE A THROWAWAY TEST ACCOUNT.
-  * This fast-forward marks quests complete; it does not retroactively award
-    skipped quest gold/EXP or undo previously learned words / equipment.
-  * FirstTown and Forest spawning use verified project nodes and forest
-    coordinates. If terrain has changed, adjust the three Forest positions
-    at the bottom of QuestCheckpointDebug.gd.
-  * The new Litik second-town quest cannot load the next map yet because
-    SecondTown.tscn is not in the repository.
-  * Existing map teleport shortcuts are unchanged.
-
-VALIDATION: checked against currently pushed QuestManager, GameManager,
-TimeManager, LanguageProgress, Main.gd and quest resources. Static checks only:
-Godot runtime compiler not available here. Test F10 -> After Guardian ->
-flower collection -> Litik, then F10 -> Follow Litik -> portal.
+NOTE
+These files were checked against the previous replacement package; Godot
+runtime was not available, so the in-game result is not yet verified.

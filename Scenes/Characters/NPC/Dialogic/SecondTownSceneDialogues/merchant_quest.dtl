@@ -3,7 +3,7 @@ You: We're looking for the second Mystic Ylang-Ylang. Do you know where it grows
 Merchant: Not exactly. But people have been talking about strange changes around the old well.
 Merchant: I promised to deliver supplies to three neighbors, but I can't leave my stall.
 You: We can help with the deliveries.
-Merchant: Thank you! I'll teach you how to count in Kapampangan first.
-Merchant: Metung is one, adwa is two, and atlu or atlo is three.
+Merchant: Dakal a salamat! First, I'll show you how to count the baskets in Kapampangan.
+Merchant: Watch carefully. We'll learn the numbers one at a time, then you can decide when you're ready to deliver.
 [signal arg="st_merchant_delivery_lesson"]
 [end_timeline]
