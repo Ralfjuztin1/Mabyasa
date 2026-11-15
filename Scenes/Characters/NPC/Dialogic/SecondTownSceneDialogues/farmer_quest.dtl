@@ -1,8 +1,10 @@
-Farmer: You helped sort the water deliveries? Good! We badly need those buckets.
-You: We're looking for a Mystic Ylang-Ylang. The merchant said you noticed something strange.
-Farmer: The well began running dry after I saw a faint glow near the old ruins.
-Farmer: The Elder knows the old stories, but I need to finish sharing supplies before I can bring her my records.
-You: I'll help you get them sorted.
-Farmer: Let's learn apat, lima, and anam. Then we'll work out what each field still needs.
-[signal arg="secondtown_open_farmer"]
+Farmer: You helped our merchant with the basket deliveries? Dakal a salamat!
+You: We're looking for the second Mystic Ylang-Ylang. Have you heard about it?
+Farmer: I saw a strange glow near the old ruins, and now our well is running dry.
+Farmer: Before I can show you the records, my fields need more seedlings.
+You: I can help plant them.
+Farmer: First, look at the teaching garden beside me. Apat means four, lima means five, and anam means six.
+Farmer: Watch the seedlings grow in the soil. Walk to the garden and press E to count the next group. Press R to go back.
+Farmer: Each field has nine planting spots. Choose any of the nine fields first, then plant the correct number.
+Farmer: Use E to plant, R to remove, and F to check. If you're unsure, come back to the teaching garden.
 [end_timeline]

@@ -36,13 +36,14 @@
 [ext_resource type="ArrayMesh" uid="uid://ub5p53xabogh" path="res://Assets/Environment/stylized nature gltf/CommonTree2.tres" id="25_208cv"]
 [ext_resource type="PackedScene" uid="uid://dvkmtcbvgs8l5" path="res://Assets/Environment/FarmLite_FBX/WateringCan_01.fbx" id="34_8gg83"]
 [ext_resource type="PackedScene" uid="uid://dv4lkp2m3o45m" path="res://Scenes/Characters/NPC/BaseNPC.tscn" id="36_6n7ha"]
-[ext_resource type="Script" uid="uid://bvsc7bhxacrn7" path="res://Scenes/Characters/NPC/BaseNPC.gd" id="37_r6oyh"]
 [ext_resource type="Texture2D" uid="uid://dykmwpuqoxpyc" path="res://Assets/Characters/NPC_anims/Merchant/idle.png" id="38_qb2ep"]
 [ext_resource type="Script" uid="uid://bpaxw4it7xyq4" path="res://Scripts/SecondTown/SecondTownQuestController.gd" id="39_8gg83"]
 [ext_resource type="Texture2D" uid="uid://bvmsdtqt4w5ak" path="res://Assets/Characters/NPC_anims/Farmer/idle.png" id="40_il27q"]
 [ext_resource type="Script" uid="uid://damoiwgbiulyk" path="res://Scripts/SecondTown/SecondTownWellInteraction.gd" id="40_qb2ep"]
 [ext_resource type="Texture2D" uid="uid://cg6haewdxinda" path="res://Assets/Characters/NPC_anims/elder/idle.png" id="40_xllqt"]
+[ext_resource type="PackedScene" path="res://Scenes/SecondTown/FarmerFieldQuest.tscn" id="43_5a2po"]
 [ext_resource type="Texture2D" uid="uid://biygpf4h52ani" path="res://Assets/Characters/NPC_anims/nena/idle.png" id="43_865vg"]
+[ext_resource type="Script" uid="uid://ko7qi4kc6cv4" path="res://Scripts/SecondTown/FarmerFieldQuest.gd" id="44_rq0ei"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wu6po"]
 sky_top_color = Color(0.361877, 0.48927486, 0.60502595, 1)
@@ -976,7 +977,9 @@ polygon_texture_resolution = 12
 _storage_initialized = true
 cell_size = Vector2(1, 1)
 tex2_has_grass = false
+tex3_has_grass = false
 texture_albedo_2 = Color(0.6953125, 0.65393496, 0.49160767, 1)
+texture_albedo_3 = Color(0.39215687, 0.47058824, 0.31764707, 1)
 texture_scale_3 = 0.9
 texture_scale_6 = 0.7999999999999999
 metadata/_custom_type_script = "uid://cddg1xr5hye1d"
@@ -1684,7 +1687,7 @@ metadata/_scatter_graph = SubResource("Resource_8ben8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.31886, 0, 10.061926)
 
 [node name="wellMarker" type="Marker3D" parent="marker" unique_id=268248684]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9783554, 0, 2.1377773)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3035159, 0, 2.1377773)
 
 [node name="secondTownYlangYlang" type="Marker3D" parent="marker" unique_id=2060095456]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.132404, 0, 2.9623976)
@@ -1694,17 +1697,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.97242, 0, 6.833124)
 
 [node name="npc" type="Node3D" parent="." unique_id=466318764]
 
-[node name="merchant" type="CharacterBody3D" parent="npc" unique_id=1266467026 instance=ExtResource("36_6n7ha")]
+[node name="merchant" parent="npc" unique_id=1266467026 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -41.739, 1.0385762, 28.081)
-script = ExtResource("37_r6oyh")
 npc_name = "Merchant"
 npc_id = "second_town_merchant"
 dialogue_id = "SecondTownSceneDialogues/merchant_quest"
 npc_frames = SubResource("SpriteFrames_ktegr")
 
-[node name="farmer" type="CharacterBody3D" parent="npc" unique_id=187067716 instance=ExtResource("36_6n7ha")]
+[node name="farmer" parent="npc" unique_id=187067716 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -44, 0.6901376, 17.5)
-script = ExtResource("37_r6oyh")
 npc_name = "Farmer"
 npc_id = "second_town_farmer"
 dialogue_id = "SecondTownSceneDialogues/farmer_locked"
@@ -1728,24 +1729,21 @@ text = "1 BASKET"
 font_size = 23
 outline_size = 8
 
-[node name="elder" type="CharacterBody3D" parent="npc" unique_id=161593618 instance=ExtResource("36_6n7ha")]
+[node name="elder" parent="npc" unique_id=161593618 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6.1, 0.74839103, 3.8)
-script = ExtResource("37_r6oyh")
 npc_name = "Elder"
 npc_id = "second_town_elder"
 dialogue_id = "SecondTownSceneDialogues/elder_locked"
 npc_frames = SubResource("SpriteFrames_v1y73")
 
-[node name="berto" type="CharacterBody3D" parent="npc" unique_id=196090584 instance=ExtResource("36_6n7ha")]
+[node name="berto" parent="npc" unique_id=196090584 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -44.652756, 0.8805134, 14.8829365)
-script = ExtResource("37_r6oyh")
 npc_name = "Berto"
 npc_id = "Berto"
 dialogue_id = "SecondTownSceneDialogues/st_delivery_berto_wait"
 
-[node name="mila" type="CharacterBody3D" parent="npc" unique_id=594832523 instance=ExtResource("36_6n7ha")]
+[node name="mila" parent="npc" unique_id=594832523 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -7.3053985, 0.6, -10.243549)
-script = ExtResource("37_r6oyh")
 npc_name = "Mila"
 npc_id = "Mila"
 dialogue_id = "SecondTownSceneDialogues/st_delivery_mila_wait"
@@ -1769,9 +1767,8 @@ text = "2 BASKETS"
 font_size = 23
 outline_size = 8
 
-[node name="nena" type="CharacterBody3D" parent="npc" unique_id=1514739184 instance=ExtResource("36_6n7ha")]
+[node name="nena" parent="npc" unique_id=1514739184 instance=ExtResource("36_6n7ha")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6, 0.7247734, 12)
-script = ExtResource("37_r6oyh")
 npc_name = "Nena"
 npc_id = "Nena"
 dialogue_id = "SecondTownSceneDialogues/st_delivery_nena_wait"
@@ -1821,3 +1818,6 @@ visible = false
 billboard = 2
 no_depth_test = true
 font_size = 26
+
+[node name="FarmerFieldQuest" type="Node3D" parent="." unique_id=233911395 instance=ExtResource("43_5a2po")]
+script = ExtResource("44_rq0ei")

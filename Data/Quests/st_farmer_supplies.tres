@@ -9,21 +9,37 @@ script = ExtResource("2_reward")
 exp = 35
 gold = 15
 
-[sub_resource type="Resource" id="Objective1"]
+[sub_resource type="Resource" id="Demo"]
 script = ExtResource("3_step")
-type = "solve_puzzle"
-target = "st_farmer_supplies_prepared"
+type = "talk_npc"
+target = "Farmer"
 required_count = 1
+validation_type = "solve_puzzle"
+validation_target = "st_farmer_world_numbers_learned"
+
+[sub_resource type="Resource" id="PlantNine"]
+script = ExtResource("3_step")
+type = "interact_object"
+target = "st_farmer_field_completed"
+required_count = 9
 validation_type = "none"
 validation_target = ""
+
+[sub_resource type="Resource" id="Turnin"]
+script = ExtResource("3_step")
+type = "talk_npc"
+target = "Farmer"
+required_count = 1
+validation_type = "solve_puzzle"
+validation_target = "st_farmer_world_report_done"
 
 [resource]
 script = ExtResource("1_quest")
 quest_id = "st_farmer_supplies"
-title = "Prepare the Crop Deliveries"
-description = "Learn numbers 4–6 and calculate missing supplies for the farmer. Review the earlier numbers, too."
+title = "Plant the Farmer's Fields"
+description = "Talk to Farmer, learn apat/lima/anam in the real garden, then plant nine fields in any order. Each field has nine planting spots. Return to Farmer when every field is finished."
 rewards = SubResource("Reward")
-steps = Array[ExtResource("3_step")]([SubResource("Objective1")])
-quest_giver_id = "second_town_farmer"
-quest_turn_in_id = ""
+steps = Array[ExtResource("3_step")]([SubResource("Demo"), SubResource("PlantNine"), SubResource("Turnin")])
+quest_giver_id = "Farmer"
+quest_turn_in_id = "Farmer"
 is_main_quest = true
