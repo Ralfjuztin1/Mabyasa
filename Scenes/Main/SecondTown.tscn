@@ -1332,7 +1332,7 @@ mesh = SubResource("PlaneMesh_74py4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=726585846]
 transform = Transform3D(-0.4450412, 0.5249053, -0.725543, -0.16829216, 0.74674183, 0.6434707, 0.8795547, 0.40847418, -0.24399357, 0, 0, 0)
-light_color = Color(1, 0.9137255, 0.7137255, 1)
+light_color = Color(1, 0.8781964, 0.59201497, 1)
 shadow_enabled = true
 
 [node name="Houses" type="Node3D" parent="." unique_id=429302944]
@@ -1806,3 +1806,5 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -57.132404, 0, 2.962397
 
 [node name="SecondTownBossQuestHandoff" type="Node" parent="." unique_id=1731326107]
 script = ExtResource("48_y4r63")
+
+[node name="@Node3D@27729" parent="." unique_id=1045452453 instance=ExtResource("52_apgw8")]

@@ -86,7 +86,9 @@ var _request_index: int = 0
 var _selected_count: int = 0
 var _well_cleared: bool = false
 var _last_active: bool = false
+var _last_complete: bool = false
 var _last_step: int = -9
+var _finished_visual_cleanup: bool = false
 var _time_passed: float = 0.0
 
 var _player_was_physics: bool = true
@@ -852,53 +854,102 @@ func _horizontal_distance_squared(a: Node3D, b: Node3D) -> float:
 
 
 func _sync_dialogue_and_visibility(force: bool) -> void:
-	if not is_instance_valid(_elder):
+	# Physical well and stones belong to the town at all times. Only the
+	# lesson's floating text and two teaching plaques belong to the Elder quest.
+	if not is_instance_valid(_elder) or not is_instance_valid(_well_root):
 		return
 	var active: bool = QuestManager.is_quest_active(QUEST_ID)
 	var complete: bool = QuestManager.is_quest_completed(QUEST_ID)
 	var step: int = QuestManager.get_current_step(QUEST_ID) if active else -1
-	if not force and active == _last_active and step == _last_step:
-		return
+	var changed: bool = (
+		force or active != _last_active
+		or complete != _last_complete or step != _last_step
+	)
 	_last_active = active
+	_last_complete = complete
 	_last_step = step
 
-	var show_world: bool = active and not complete
-	_well_root.visible = show_world or complete
-	_stone_root.visible = show_world
+	# Never hide or delete the actual well/stone scenery after the quest.
+	_well_root.visible = true
+	if is_instance_valid(_stone_root):
+		_stone_root.visible = true
 	if is_instance_valid(_well_collider):
-		_well_collider.collision_layer = 1 if show_world or complete else 0
+		_well_collider.collision_layer = 1
 	for stone: Dictionary in _stones:
 		var body: StaticBody3D = stone["collider"]
-		body.collision_layer = 1 if show_world else 0
-	_instruction_label.visible = show_world and _mode == "idle"
-	_status_label.visible = show_world and _mode != "lesson"
-	_teaching_plaque.visible = show_world
+		body.collision_layer = 1 if active and not complete else 0
+
+	# Apply visibility on EVERY update, including mode changes between idle,
+	# teaching and ritual. Do not rely only on quest-start/step signals.
+	var show_text: bool = active and not complete
+	if is_instance_valid(_instruction_label):
+		_instruction_label.visible = show_text and _mode == "idle"
+	if is_instance_valid(_status_label):
+		_status_label.visible = show_text and _mode != "lesson"
+	if is_instance_valid(_teaching_plaque):
+		_teaching_plaque.visible = show_text
 	if is_instance_valid(_control_plaque):
-		_control_plaque.visible = show_world and (_mode == "lesson" or _mode == "ritual")
-	if complete:
-		_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_done")
+		_control_plaque.visible = show_text and (_mode == "lesson" or _mode == "ritual")
+
+	if not show_text:
+		# Clear the old labels rather than leaving a hidden "RESTORED",
+		# number, or E/R/F text that might show up again on scene reload.
+		_clear_quest_text()
+		if complete and not _finished_visual_cleanup:
+			_finished_visual_cleanup = true
+			_ritual_active = false
+			if _guided_hint_delay != null and _guided_hint_delay.is_running():
+				_guided_hint_delay.kill()
+			if _lesson_tween != null and _lesson_tween.is_running():
+				_lesson_tween.kill()
+			_stop_stone_flights()
+			_stop_all_stone_effects()
+			if _mode == "lesson":
+				_freeze_player(false)
+				if is_instance_valid(_old_camera):
+					_old_camera.current = true
+				elif is_instance_valid(_lesson_camera):
+					_lesson_camera.current = false
+			_mode = "idle"
+			_reset_all_stones()
+			# Keep the restored water visible, even on a loaded completed save.
+			if is_instance_valid(_water):
+				_water.position.y = _water_base_y + water_step_height * float(guided_rounds.size() + practice_rounds.size())
+		if changed and complete:
+			_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_done")
+		return
+
+	if not changed:
+		return
+
+	match step:
+		0:
+			_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_quest")
+			if not QuestManager.has_dialogue_flag(LESSON_STARTED_FLAG):
+				_replace_plaque_word("7 - 10")
+				_instruction_label.text = "Talk to the Elder"
+				_status_label.text = "Watch the stone lesson"
+		1:
+			_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_progress")
+			if not _ritual_active and not _well_cleared:
+				_begin_ritual()
+		2:
+			_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_progress")
+			_instruction_label.text = "Return to the Elder"
+			_status_label.text = "The water is restored"
+			_replace_plaque_word("RESTORED")
+
+
+func _clear_quest_text() -> void:
+	if is_instance_valid(_instruction_label):
 		_instruction_label.text = ""
+	if is_instance_valid(_status_label):
 		_status_label.text = ""
-	elif active:
-		match step:
-			0:
-				_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_quest")
-				if not QuestManager.has_dialogue_flag(LESSON_STARTED_FLAG):
-					_replace_plaque_word("7 - 10")
-					_instruction_label.text = "Talk to the Elder"
-					_status_label.text = "Watch the stone lesson"
-			1:
-				_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_progress")
-				if not _ritual_active and not _well_cleared:
-					_begin_ritual()
-			2:
-				_elder.set("dialogue_id", "SecondTownSceneDialogues/elder_progress")
-				_instruction_label.text = "Return to the Elder"
-				_status_label.text = "The water is restored"
-				_replace_plaque_word("RESTORED")
-	else:
-		_instruction_label.text = ""
-		_status_label.text = ""
+	if not _current_plaque_word.is_empty():
+		_replace_plaque_word("")
+	for key: Label3D in _control_keys:
+		if is_instance_valid(key):
+			key.text = ""
 
 
 func _freeze_player(should_freeze: bool) -> void:
