@@ -1,9 +1,7 @@
 extends "res://Scripts/Assessment/PostAssessment.gd"
 
-## One-time baseline after the controls tutorial.
-## Six simple translation questions followed by four situational questions.
-## Repeated targets use a new situation, and answers are not revealed.
-## Six unique phrase IDs are shared with the Guardian boss.
+## Five quick baseline challenges with seven scored vocabulary checks.
+## Three time greetings, two expressions and two numbers.
 
 const PRE_ASSESSMENT_VOCAB_IDS: Array[String] = [
 	"mayap_a_abak",
@@ -16,75 +14,26 @@ const PRE_ASSESSMENT_VOCAB_IDS: Array[String] = [
 
 # MABIYASA_NUMBER_BASELINE_V1
 const NUMBER_BANK: GDScript = preload("res://Scripts/Assessment/NumberPreAssessmentBank.gd")
-const TOTAL_QUESTIONS: int = 20
-
-# Questions 1-6: one plain translation for EACH story-supported phrase.
-# Questions 7-10: different situations to practise four of those same phrases.
-# Keeping the first exposure of every ID in the first six is important:
-# AssessmentComparison compares the first pre response per phrase ID with
-# the first Guardian sentence-building response for that same ID.
-# "english": display English meanings; "kapampangan": display phrases.
-# Both formats use existing four-option answer buttons, never sentence-build.
-const STORY_QUESTION_SPECS: Array[Dictionary] = [
-	{
-		"id": "mayap_a_abak",
-		"prompt": "What does \"Mayap a abak\" mean?",
-		"show": "english",
-		"options": ["mayap_a_abak", "mayap_a_gatpanapun", "mayap_a_bengi", "ala_pung_nanu_man"]
-	},
-	{
-		"id": "mayap_a_gatpanapun",
-		"prompt": "How do you say \"Good afternoon\" in Kapampangan?",
-		"show": "kapampangan",
-		"options": ["mayap_a_gatpanapun", "mayap_a_abak", "mayap_a_bengi", "dakal_a_salamat"]
-	},
-	{
-		"id": "mayap_a_bengi",
-		"prompt": "What does \"Mayap a bengi\" mean?",
-		"show": "english",
-		"options": ["mayap_a_bengi", "mayap_a_abak", "mayap_a_gatpanapun", "makilabas_ku_pu"]
-	},
+const TOTAL_QUESTIONS: int = 5
+# MABIYASA_FIVE_CHALLENGE_PRE_V2
+const TIME_GREETING_IDS: Array[String] = [
+	"mayap_a_abak", "mayap_a_gatpanapun", "mayap_a_bengi"
+]
+const ASSESSED_STORY_IDS: Array[String] = [
+	"mayap_a_abak", "mayap_a_gatpanapun", "mayap_a_bengi",
+	"dakal_a_salamat", "makilabas_ku_pu"
+]
+const ASSESSED_NUMBER_IDS: Array[String] = ["atlo_or_atlu", "walo_or_walu"]
+const EXPRESSION_QUESTION_SPECS: Array[Dictionary] = [
 	{
 		"id": "dakal_a_salamat",
-		"prompt": "How do you say \"Thank you very much\" in Kapampangan?",
-		"show": "kapampangan",
-		"options": ["dakal_a_salamat", "ala_pung_nanu_man", "makilabas_ku_pu", "mayap_a_abak"]
-	},
-	{
-		"id": "ala_pung_nanu_man",
-		"prompt": "What does \"Ala pung nanu man\" mean?",
-		"show": "english",
-		"options": ["ala_pung_nanu_man", "dakal_a_salamat", "makilabas_ku_pu", "mayap_a_bengi"]
-	},
-	{
-		"id": "makilabas_ku_pu",
-		"prompt": "How do you say \"Excuse me\" politely in Kapampangan?",
-		"show": "kapampangan",
-		"options": ["makilabas_ku_pu", "ala_pung_nanu_man", "dakal_a_salamat", "mayap_a_gatpanapun"]
-	},
-	{
-		"id": "mayap_a_abak",
-		"prompt": "You run into Ima early in the morning. Which Kapampangan greeting fits?",
-		"show": "kapampangan",
-		"options": ["mayap_a_abak", "mayap_a_gatpanapun", "mayap_a_bengi", "makilabas_ku_pu"]
-	},
-	{
-		"id": "mayap_a_gatpanapun",
-		"prompt": "You meet Chief at the training yard after lunch. Which greeting is appropriate?",
-		"show": "kapampangan",
-		"options": ["mayap_a_gatpanapun", "mayap_a_abak", "mayap_a_bengi", "ala_pung_nanu_man"]
-	},
-	{
-		"id": "dakal_a_salamat",
-		"prompt": "The blacksmith has prepared your equipment. You want to express strong gratitude. What do you say?",
-		"show": "kapampangan",
+		"prompt": "A friend gives you a helpful gift. How do you thank them warmly?",
 		"options": ["dakal_a_salamat", "ala_pung_nanu_man", "makilabas_ku_pu", "mayap_a_bengi"]
 	},
 	{
 		"id": "makilabas_ku_pu",
-		"prompt": "Ale Pacing is blocking the narrow path. What can you say politely to pass?",
-		"show": "kapampangan",
-		"options": ["makilabas_ku_pu", "ala_pung_nanu_man", "dakal_a_salamat", "mayap_a_abak"]
+		"prompt": "Someone is standing in your way. What can you say politely to pass?",
+		"options": ["makilabas_ku_pu", "dakal_a_salamat", "ala_pung_nanu_man", "mayap_a_abak"]
 	}
 ]
 
@@ -140,72 +89,93 @@ func _create_quiz_ui() -> void:
 
 
 func _build_assessment_questions() -> Array[Dictionary]:
-	# Verify the six targets and all their boss sentence components first.
-	for phrase_id: String in PRE_ASSESSMENT_VOCAB_IDS:
+	# Every baseline phrase must already exist in the Guardian's data bank.
+	for phrase_id: String in ASSESSED_STORY_IDS:
 		var entry: VocabEntry = LanguageProgress.get_entry(phrase_id)
 		if entry == null or entry.parts.size() < 2 or not entry.allowed_types.has("sentence_build"):
-			push_error("[PRE-ASSESSMENT] Missing or unsupported story phrase: " + phrase_id)
+			push_error("[PRE-ASSESSMENT] Missing Guardian phrase: " + phrase_id)
 			return []
 		if entry.kapampangan.strip_edges().is_empty() or entry.english.strip_edges().is_empty():
 			push_error("[PRE-ASSESSMENT] Missing translation for: " + phrase_id)
 			return []
 		for part_id: String in entry.parts:
 			if LanguageProgress.get_entry(part_id) == null:
-				push_error("[PRE-ASSESSMENT] Missing boss phrase component: " + part_id)
+				push_error("[PRE-ASSESSMENT] Missing phrase component: " + part_id)
 				return []
 
 	var questions: Array[Dictionary] = []
-	for spec: Dictionary in STORY_QUESTION_SPECS:
-		var target_id: String = str(spec.get("id", ""))
-		if not PRE_ASSESSMENT_VOCAB_IDS.has(target_id):
-			push_error("[PRE-ASSESSMENT] Question target is not in the story phrase list: " + target_id)
-			return []
+
+	# Challenge 1 contains THREE independently recorded greeting matches.
+	# QuizQuestion's MATCH score tracks each vocab ID via per_vocab_results.
+	var greeting_match: QuizQuestion = QuizQuestion.new()
+	greeting_match.quiz_type = QuizQuestion.QuizType.MATCH
+	greeting_match.vocab_id = TIME_GREETING_IDS[0]
+	greeting_match.prompt = "Match each time of day with its Kapampangan greeting."
+	greeting_match.time_limit = 65.0
+	greeting_match.hint = ""
+	greeting_match.answer_line = "" # Never reveal baseline answers.
+	var situations: Array[String] = ["7 AM - Morning", "2 PM - Afternoon", "7 PM - Evening"]
+	for i: int in range(TIME_GREETING_IDS.size()):
+		var phrase_id: String = TIME_GREETING_IDS[i]
+		var entry: VocabEntry = LanguageProgress.get_entry(phrase_id)
+		greeting_match.match_left_ids.append(phrase_id)
+		greeting_match.match_left_texts.append(situations[i])
+		greeting_match.match_right_ids.append(phrase_id)
+		greeting_match.match_right_texts.append(entry.kapampangan)
+		greeting_match.tested_vocab_ids.append(phrase_id)
+	questions.append({
+		"question": greeting_match,
+		"topic_key": "time_greetings",
+		"topic_name": "Time Greetings"
+	})
+
+	# Challenges 2-3 test gratitude and polite requests in context.
+	for spec: Dictionary in EXPRESSION_QUESTION_SPECS:
+		var target_id: String = str(spec["id"])
 		var target: VocabEntry = LanguageProgress.get_entry(target_id)
-		var option_values: Variant = spec.get("options", [])
-		if not (option_values is Array):
+		if target == null:
 			return []
 		var option_ids: Array[String] = []
-		for raw_id: Variant in option_values:
+		for raw_id: Variant in spec["options"]:
 			var option_id: String = str(raw_id)
 			if not PRE_ASSESSMENT_VOCAB_IDS.has(option_id) or option_ids.has(option_id):
-				push_error("[PRE-ASSESSMENT] Duplicate or unsupported answer option: " + option_id)
+				push_error("[PRE-ASSESSMENT] Invalid expression choice: " + option_id)
 				return []
 			option_ids.append(option_id)
 		if option_ids.size() != 4 or not option_ids.has(target_id):
-			push_error("[PRE-ASSESSMENT] Expected four choices including " + target_id)
+			push_error("[PRE-ASSESSMENT] Expression must offer four valid answers.")
 			return []
 		option_ids.shuffle()
-
-		var show_english: bool = str(spec.get("show", "")) == "english"
-		var question: QuizQuestion = QuizQuestion.new()
-		question.quiz_type = QuizQuestion.QuizType.MULTIPLE_CHOICE if show_english else QuizQuestion.QuizType.TRANSLATE
-		question.prompt = str(spec.get("prompt", ""))
-		question.vocab_id = target.id
-		question.tested_vocab_ids = [target.id]
-		question.time_limit = 35.0
-		question.hint = "" # No hints or correct-answer feedback in the baseline.
-		question.pronunciation = ""
-		question.answer_line = "%s = %s" % [target.kapampangan, target.english]
-
+		var expression: QuizQuestion = QuizQuestion.new()
+		expression.quiz_type = QuizQuestion.QuizType.TRANSLATE
+		expression.prompt = str(spec["prompt"])
+		expression.vocab_id = target.id
+		expression.tested_vocab_ids = [target.id]
+		expression.time_limit = 35.0
+		expression.hint = ""
+		expression.answer_line = ""
 		for option_id: String in option_ids:
 			var option_entry: VocabEntry = LanguageProgress.get_entry(option_id)
 			if option_entry == null:
-				push_error("[PRE-ASSESSMENT] Missing option: " + option_id)
+				push_error("[PRE-ASSESSMENT] Missing option entry: " + option_id)
 				return []
-			question.choices.append(option_entry.english if show_english else option_entry.kapampangan)
-			question.choice_vocab_ids.append(option_id)
+			expression.choices.append(option_entry.kapampangan)
+			expression.choice_vocab_ids.append(option_id)
 			if option_id == target_id:
-				question.correct_index = question.choices.size() - 1
+				expression.correct_index = expression.choices.size() - 1
+		questions.append(_make_question_metadata(expression, _topic_key(target)))
 
-		questions.append(_make_question_metadata(question, _topic_key(target)))
-
+	# Challenges 4-5 sample the low and high ends of the number lessons.
+	# Reuse the existing verified number bank; other ten-number content stays intact.
 	var number_questions: Array[Dictionary] = NUMBER_BANK.build_questions()
 	if number_questions.size() != 10:
-		push_error("[PRE-ASSESSMENT] Number bank incomplete (expected 10).")
+		push_error("[PRE-ASSESSMENT] Number bank incomplete (10 source items required).")
 		return []
-	questions.append_array(number_questions)
+	for number_index: int in [2, 7]: # Three and eight.
+		questions.append(number_questions[number_index])
+
 	if questions.size() != TOTAL_QUESTIONS:
-		push_error("[PRE-ASSESSMENT] Expected ten greeting and ten number questions.")
+		push_error("[PRE-ASSESSMENT] Expected five challenges: 1 match + 2 expressions + 2 numbers.")
 		return []
 	return questions
 
@@ -217,48 +187,44 @@ func _show_intro() -> void:
 	_title_label.text = "PRE-ASSESSMENT"
 	_clear_body()
 
-	# Keep the layout single-column. A previous two-card HBox compressed
-	# the headings to a few pixels, causing one letter per line.
 	_body.add_child(_make_baseline_message_card(
-		"PURPOSE",
-		"Your starting assessment",
-		"This assessment records your starting knowledge of Kapampangan "
-		+ "greetings and numbers (1-10). Your responses provide a baseline for the "
-		+ "two Guardian assessments.",
+		"BEFORE YOUR ADVENTURE",
+		"Five quick challenges",
+		"Check what you already know about Kapampangan greetings, polite expressions, "
+		+ "and numbers. Your starting results are saved for comparison with the Guardians.",
 		true
 	))
 
-	_body.add_child(_make_baseline_section_heading("ASSESSMENT STRUCTURE"))
-	var structure_parts: Dictionary = _make_baseline_box()
-	var structure_panel: PanelContainer = structure_parts["panel"] as PanelContainer
-	var structure_content: VBoxContainer = structure_parts["content"] as VBoxContainer
-	_body.add_child(structure_panel)
-
-	structure_content.add_child(_make_baseline_stage_row(
-		"01", "TRANSLATION", "6 QUESTIONS",
-		"Identify meanings and translate six expressions."
+	_body.add_child(_make_baseline_section_heading("WHAT YOU'LL DO"))
+	var parts: Dictionary = _make_baseline_box()
+	var panel: PanelContainer = parts["panel"] as PanelContainer
+	var content: VBoxContainer = parts["content"] as VBoxContainer
+	_body.add_child(panel)
+	content.add_child(_make_baseline_stage_row(
+		"01", "TIME GREETINGS", "1 MATCHING CHALLENGE",
+		"Connect morning, afternoon and evening with their greetings."
 	))
-	var separator: HSeparator = HSeparator.new()
-	separator.modulate = Color(0.40, 0.48, 0.38, 0.65)
-	structure_content.add_child(separator)
-	structure_content.add_child(_make_baseline_stage_row(
-		"02", "SITUATIONAL USE", "4 QUESTIONS",
-		"Choose the appropriate expression for everyday situations."
+	var divider: HSeparator = HSeparator.new()
+	divider.modulate = Color(0.40, 0.48, 0.38, 0.65)
+	content.add_child(divider)
+	content.add_child(_make_baseline_stage_row(
+		"02", "POLITE EXPRESSIONS", "2 QUESTIONS",
+		"Choose what to say when thanking someone or asking to pass."
 	))
-	structure_content.add_child(_make_baseline_stage_row(
-		"03", "NUMBERS 1-10", "10 QUESTIONS",
-		"Recognize and translate the ten cardinal numbers."
+	content.add_child(_make_baseline_stage_row(
+		"03", "NUMBERS 1-10", "2 QUESTIONS",
+		"Recognize one lower and one higher number."
 	))
 
 	_body.add_child(_make_baseline_message_card(
 		"INSTRUCTIONS",
-		"Choose one answer per question",
-		"Complete all twenty questions. Your answers are recorded privately, "
-		+ "and correct answers will not be shown during this assessment."
+		"Finish five short challenges",
+		"In the matching challenge, choose a time on the left, then a greeting on the right. "
+		+ "Your matches are final. No correct answers are revealed during the pre-test."
 	))
 
 	var ready: Label = _make_label(
-		"%d / %d QUESTIONS READY" % [_questions.size(), TOTAL_QUESTIONS],
+		"%d / %d CHALLENGES READY" % [_questions.size(), TOTAL_QUESTIONS],
 		12,
 		Color(0.67, 0.83, 0.66, 1.0) if _questions.size() == TOTAL_QUESTIONS
 		else Color(0.94, 0.69, 0.44, 1.0)
@@ -268,18 +234,15 @@ func _show_intro() -> void:
 
 	if _questions.size() != TOTAL_QUESTIONS:
 		_body.add_child(_make_label(
-			"Assessment content is incomplete. Check the Godot Output for missing vocabulary resources.",
+			"Assessment content is incomplete. Check the Godot Output for missing vocabulary.",
 			13, Color(0.94, 0.69, 0.44, 1.0)
 		))
 
-	# Mandatory baseline; the footer remains visible outside the scroll area.
 	var begin_button: Button = _make_button(
 		"START PRE-ASSESSMENT", _begin_assessment, 248.0
 	)
 	begin_button.custom_minimum_size.y = 50.0
 	begin_button.disabled = _questions.size() != TOTAL_QUESTIONS
-
-	# The panel is reused after other screens; always begin at the top.
 	call_deferred("_reset_baseline_scroll")
 
 
@@ -386,40 +349,53 @@ func _finish_assessment() -> void:
 	_current_question = null
 	_report = _build_report()
 	_report["assessment_type"] = "pre"
-	_report["assessment_format"] = "greetings_translation_situations_plus_numbers"
-	_report["assessment_version"] = 4
-	_report["unique_phrase_count"] = PRE_ASSESSMENT_VOCAB_IDS.size()
-	_report["assessment_vocab_ids"] = PRE_ASSESSMENT_VOCAB_IDS.duplicate()
-	_report["assessment_number_vocab_ids"] = NUMBER_BANK.get_number_ids()
+	_report["assessment_format"] = "five_challenges_three_greeting_matches_two_expressions_two_numbers"
+	_report["assessment_version"] = 6
+	_report["challenge_count"] = TOTAL_QUESTIONS
+	_report["individual_check_count"] = 7
+	_report["unique_phrase_count"] = ASSESSED_STORY_IDS.size()
+	_report["assessment_vocab_ids"] = ASSESSED_STORY_IDS.duplicate()
+	_report["assessment_number_vocab_ids"] = ASSESSED_NUMBER_IDS.duplicate()
 
+	# The first screen has three separate evidence points. Expand its MATCH
+	# per-vocab results so AssessmentComparison can join each greeting to Boss 1.
+	# All five challenges still count as five screens in the general report.
 	var items: Array[Dictionary] = []
 	for row: Dictionary in _responses:
-		items.append({
-			"vocab_id": str(row.get("vocab_id", "")),
-			"topic_key": str(row.get("topic_key", "uncategorized")),
-			"topic_name": str(row.get("topic_name", "Other Vocabulary")),
-			"meaning": str(row.get("meaning", "")),
-			"question_type": str(row.get("question_type", "multiple_choice")),
-			"correct": bool(row.get("correct", false)),
-			"score": clampf(float(row.get("score", 0.0)), 0.0, 1.0),
-			"timed_out": bool(row.get("timed_out", false))
-		})
+		var row_type: String = str(row.get("question_type", ""))
+		var raw_results: Variant = row.get("vocabulary_results", {})
+		if row_type == "match" and raw_results is Dictionary:
+			var per_vocab: Dictionary = raw_results
+			for phrase_id: String in TIME_GREETING_IDS:
+				var entry: VocabEntry = LanguageProgress.get_entry(phrase_id)
+				var correct: bool = bool(per_vocab.get(phrase_id, false))
+				items.append({
+					"vocab_id": phrase_id,
+					"topic_key": _topic_key(entry),
+					"topic_name": _display_topic(_topic_key(entry)),
+					"meaning": entry.english if entry != null else "",
+					"question_type": "match",
+					"correct": correct,
+					"score": 1.0 if correct else 0.0,
+					"timed_out": bool(row.get("timed_out", false))
+				})
+		else:
+			items.append({
+				"vocab_id": str(row.get("vocab_id", "")),
+				"topic_key": str(row.get("topic_key", "uncategorized")),
+				"topic_name": str(row.get("topic_name", "Other Vocabulary")),
+				"meaning": str(row.get("meaning", "")),
+				"question_type": row_type,
+				"correct": bool(row.get("correct", false)),
+				"score": clampf(float(row.get("score", 0.0)), 0.0, 1.0),
+				"timed_out": bool(row.get("timed_out", false))
+			})
 	_report["assessment_items"] = items
-	# Send question prompts and submitted answers to the researcher; omit
-	# the answer key so the blind pre-test stays blind to players.
 	_report["question_results"] = NUMBER_BANK.blind_email_question_rows(_responses)
 
 	if SaveManager.save_pre_assessment_report(_report):
 		_saved_successfully = true
 		_show_pre_completion()
-		# Don't send answers or word-order solutions in the pre-game email.
-		_report["mistakes"] = []
-		_report["vocabulary"] = []
-		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
-		_report["recommendations"] = ["Continue the greeting and number lessons before facing the Guardians."]
-		await _send_email_report()
-		if is_instance_valid(_pre_continue_button):
-			_pre_continue_button.disabled = false
 	else:
 		_show_save_error()
 
@@ -446,13 +422,6 @@ func _retry_baseline_save() -> void:
 	if SaveManager.save_pre_assessment_report(_report):
 		_saved_successfully = true
 		_show_pre_completion()
-		_report["mistakes"] = []
-		_report["vocabulary"] = []
-		_report["assessment_items"] = [] # Never email vocab IDs paired with meanings.
-		_report["recommendations"] = ["Continue the greeting and number lessons before facing the Guardians."]
-		await _send_email_report()
-		if is_instance_valid(_pre_continue_button):
-			_pre_continue_button.disabled = false
 	else:
 		_show_save_error()
 
@@ -466,44 +435,45 @@ func _show_pre_completion() -> void:
 	_body.add_child(_make_baseline_message_card(
 		"BASELINE RECORDED",
 		"Your starting results are saved",
-		"All twenty responses have been recorded. You can continue to First Town and begin the learning adventure.",
+		"Five quick challenges completed. You can now continue to First Town.",
 		true
 	))
 
-	var summary_parts: Dictionary = _make_baseline_box()
-	var summary_panel: PanelContainer = summary_parts["panel"] as PanelContainer
-	var summary_content: VBoxContainer = summary_parts["content"] as VBoxContainer
-	_body.add_child(summary_panel)
-	summary_content.add_child(_make_baseline_section_heading("ASSESSMENT SUMMARY"))
-	summary_content.add_child(_make_label(
-		"%d / %d correct responses" % [
-			int(_report.get("fully_correct_questions", 0)),
-			int(_report.get("total_questions", 0))
-		],
+	var parts: Dictionary = _make_baseline_box()
+	var panel: PanelContainer = parts["panel"] as PanelContainer
+	var content: VBoxContainer = parts["content"] as VBoxContainer
+	_body.add_child(panel)
+	content.add_child(_make_baseline_section_heading("ASSESSMENT SUMMARY"))
+	var correct_checks: int = 0
+	var raw_items: Variant = _report.get("assessment_items", [])
+	if raw_items is Array:
+		for raw_item: Variant in raw_items:
+			if raw_item is Dictionary:
+				var check_item: Dictionary = raw_item
+				if bool(check_item.get("correct", false)):
+					correct_checks += 1
+	content.add_child(_make_label(
+		"%d / 7 individual checks correct" % correct_checks,
 		22, Color(0.96, 0.93, 0.84, 1.0)
 	))
-	summary_content.add_child(_make_label(
-		"6 greeting targets and 10 numbers · 20 questions total.",
+	content.add_child(_make_label(
+		"3 time greetings + 2 polite expressions + 2 numbers · 5 challenge screens.",
 		14, Color(0.76, 0.81, 0.75, 1.0)
 	))
-	summary_content.add_child(_make_label(
-		"Greeting results support Boss 1 comparison; number results support Boss 2 comparison. No answers are revealed here.",
+	content.add_child(_make_label(
+		"This quick baseline samples prior knowledge; it does not prove mastery. "
+		+ "Correct answers are not shown.",
 		13, Color(0.69, 0.75, 0.69, 1.0)
 	))
 
-	var email_parts: Dictionary = _make_baseline_box()
-	var email_panel: PanelContainer = email_parts["panel"] as PanelContainer
-	var email_content: VBoxContainer = email_parts["content"] as VBoxContainer
-	_body.add_child(email_panel)
-	email_content.add_child(_make_baseline_section_heading("EMAIL DELIVERY"))
-	_email_status_label = _make_label("Sending your initial assessment report...", 14, Color(0.76, 0.81, 0.75, 1.0))
-	email_content.add_child(_email_status_label)
-
-	_retry_email_button = _make_button("RETRY EMAIL", _send_email_report, 150.0)
-	_retry_email_button.visible = false
 	_pre_continue_button = _make_button("CONTINUE TO FIRST TOWN", close, 240.0)
-	_pre_continue_button.disabled = true # Enabled after an email attempt, including failure.
+	_pre_continue_button.disabled = false
 	call_deferred("_reset_baseline_scroll")
+
+
+# Explicitly disable inherited email sending on the pre-assessment only.
+func _send_email_report() -> void:
+	return
 
 
 func close() -> void:
