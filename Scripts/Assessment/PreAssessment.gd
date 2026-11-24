@@ -432,18 +432,6 @@ func _show_pre_completion() -> void:
 	_title_label.text = "PRE-ASSESSMENT COMPLETE"
 	_clear_body()
 
-	_body.add_child(_make_baseline_message_card(
-		"BASELINE RECORDED",
-		"Your starting results are saved",
-		"Five quick challenges completed. You can now continue to First Town.",
-		true
-	))
-
-	var parts: Dictionary = _make_baseline_box()
-	var panel: PanelContainer = parts["panel"] as PanelContainer
-	var content: VBoxContainer = parts["content"] as VBoxContainer
-	_body.add_child(panel)
-	content.add_child(_make_baseline_section_heading("ASSESSMENT SUMMARY"))
 	var correct_checks: int = 0
 	var raw_items: Variant = _report.get("assessment_items", [])
 	if raw_items is Array:
@@ -452,23 +440,120 @@ func _show_pre_completion() -> void:
 				var check_item: Dictionary = raw_item
 				if bool(check_item.get("correct", false)):
 					correct_checks += 1
+
+	# Each greeting match, expression and number is a separately scored check.
+	# These labels describe only an initial indication, not language mastery.
+	var level_title: String = "BEGINNER"
+	var level_feedback: String = (
+		"You demonstrate limited familiarity with basic Kapampangan. "
+		+ "Further learning will help you build a stronger foundation."
+	)
+	if correct_checks >= 6:
+		level_title = "PROFICIENT"
+		level_feedback = (
+			"You demonstrate a solid understanding of basic Kapampangan. "
+			+ "You are well-prepared to expand your vocabulary and improve your language skills."
+		)
+	elif correct_checks >= 3:
+		level_title = "DEVELOPING"
+		level_feedback = (
+			"You demonstrate a fair understanding of basic Kapampangan. "
+			+ "With continued practice, you can strengthen your knowledge and skills."
+		)
+
+	# Show the player's proficiency first, as the visual focal point.
+	_body.add_child(_make_pre_result_card(level_title, level_feedback, correct_checks))
+
+	# Keep the factual summary deliberately smaller and visually secondary.
+	var parts: Dictionary = _make_baseline_box()
+	var panel: PanelContainer = parts["panel"] as PanelContainer
+	var content: VBoxContainer = parts["content"] as VBoxContainer
+	_body.add_child(panel)
+	content.add_child(_make_baseline_section_heading("ASSESSMENT RECORDED"))
 	content.add_child(_make_label(
-		"%d / 7 individual checks correct" % correct_checks,
-		22, Color(0.96, 0.93, 0.84, 1.0)
+		"%d of 7 checks correct across 5 challenges." % correct_checks,
+		15, Color(0.94, 0.92, 0.84, 1.0)
 	))
 	content.add_child(_make_label(
-		"3 time greetings + 2 polite expressions + 2 numbers · 5 challenge screens.",
-		14, Color(0.76, 0.81, 0.75, 1.0)
+		"3 time greetings  ·  2 polite expressions  ·  2 numbers",
+		12, Color(0.70, 0.77, 0.70, 1.0)
 	))
 	content.add_child(_make_label(
-		"This quick baseline samples prior knowledge; it does not prove mastery. "
-		+ "Correct answers are not shown.",
-		13, Color(0.69, 0.75, 0.69, 1.0)
+		"Your starting results are saved. This brief assessment does not establish mastery.",
+		12, Color(0.66, 0.73, 0.66, 1.0)
 	))
 
 	_pre_continue_button = _make_button("CONTINUE TO FIRST TOWN", close, 240.0)
 	_pre_continue_button.disabled = false
 	call_deferred("_reset_baseline_scroll")
+
+
+func _make_pre_result_card(
+	level_title: String,
+	level_feedback: String,
+	correct_checks: int
+) -> PanelContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style: StyleBoxFlat = _make_card_style()
+	style.bg_color = Color(0.115, 0.165, 0.12, 1.0)
+	style.border_color = Color(0.78, 0.59, 0.27, 1.0)
+	style.border_width_left = 2
+	style.border_width_right = 2
+	style.border_width_top = 2
+	style.border_width_bottom = 2
+	style.shadow_color = Color(0.0, 0.0, 0.0, 0.4)
+	style.shadow_size = 9
+	panel.add_theme_stylebox_override("panel", style)
+
+	var margin: MarginContainer = MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 26)
+	margin.add_theme_constant_override("margin_right", 26)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 22)
+	panel.add_child(margin)
+
+	var column: VBoxContainer = VBoxContainer.new()
+	column.add_theme_constant_override("separation", 11)
+	margin.add_child(column)
+
+	column.add_child(_make_label(
+		"YOUR INITIAL KAPAMPANGAN LEVEL",
+		13, Color(0.88, 0.72, 0.41, 1.0)
+	))
+
+	var level: Label = _make_label(level_title, 36, Color(1.0, 0.85, 0.50, 1.0))
+	level.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_child(level)
+
+	var divider: HSeparator = HSeparator.new()
+	divider.modulate = Color(0.60, 0.48, 0.29, 0.8)
+	column.add_child(divider)
+
+	var feedback: Label = _make_label(
+		level_feedback, 17, Color(0.96, 0.95, 0.87, 1.0)
+	)
+	feedback.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_child(feedback)
+
+	# Seven small markers communicate the score without competing with the level.
+	var markers: HBoxContainer = HBoxContainer.new()
+	markers.add_theme_constant_override("separation", 7)
+	column.add_child(markers)
+	for i: int in range(7):
+		var segment: Panel = Panel.new()
+		segment.custom_minimum_size = Vector2(0.0, 7.0)
+		segment.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var segment_style: StyleBoxFlat = StyleBoxFlat.new()
+		segment_style.bg_color = (
+			Color(0.91, 0.71, 0.35, 1.0) if i < correct_checks
+			else Color(0.28, 0.36, 0.28, 1.0)
+		)
+		segment_style.set_corner_radius_all(3)
+		segment.add_theme_stylebox_override("panel", segment_style)
+		markers.add_child(segment)
+
+	return panel
 
 
 # Explicitly disable inherited email sending on the pre-assessment only.
